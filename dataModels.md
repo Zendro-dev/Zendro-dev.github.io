@@ -105,7 +105,9 @@ EXAMPLES OF VALID JSON FILE:
             "targetKey" : "person_id",
             "sourceKey" : "book_id",
             "keysIn" : "person_to_book",
-            "targetStorageType" : "sql"
+            "targetStorageType" : "sql",
+            "label": "name",
+            "sublabel": "lastname"
         }
     }
 }
