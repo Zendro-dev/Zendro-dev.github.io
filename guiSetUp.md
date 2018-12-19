@@ -3,9 +3,8 @@ Once we have our models defined and our graphql server running. We can generate 
 In order to install we need to run the following lines:
 ### Install GUI skeleton
 ```
-$ git clone https://github.com/ScienceDb/ScienceDbGui.git gui-skeleton
+$ git clone https://github.com/ScienceDb/single-page-app.git gui-skeleton
 $ cd gui-skeleton
-$ git checkout enciclovida
 $ npm install
 ```
 From now on we will assume that your gui skeleton is stored in `/your-path/gui-skeleton`
@@ -13,9 +12,8 @@ From now on we will assume that your gui skeleton is stored in `/your-path/gui-s
 ### Install GUI generator
 
 ```
-$ git clone https://github.com/ScienceDb/admin_gui_gen.git gui-generator
+$ git clone https://github.com/ScienceDb/single-page-app-codegen.git gui-generator
 $ cd gui-generator
-$ git checkout Features
 $ npm install -g
 ```
 

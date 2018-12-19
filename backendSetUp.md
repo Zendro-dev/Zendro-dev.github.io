@@ -1,20 +1,20 @@
 # Set up backend
 
 ### Install backend skeleton
-For installing the backend skeleton we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/server-graphql-sequelize), installed locally. For this purpose we should run the following lines:
+For installing the backend skeleton we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/graphql-server), installed locally. For this purpose we should run the following lines:
 
 ```
-$ git clone https://github.com/ScienceDb/server-graphql-sequelize.git backend-skeleton
+$ git clone https://github.com/ScienceDb/graphql-server.git backend-skeleton
 $ cd backend-skeleton
 $ npm install  
 ```
 From now on, in this document, we will assume that your backend-skeleton is installed in `/your-path/backend-skeleton`.
 
 ### Install backend generator
-For installing the backend generator we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/express_graphql_model_gen), installed.
+For installing the backend generator we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/graphql-server-model-codegen), installed.
 For this purpose we should run the following lines:
 ```
-$ git clone https://github.com/ScienceDb/express_graphql_model_gen.git backend-generator
+$ git clone https://github.com/ScienceDb/graphql-server-model-codegen.git backend-generator
 $ cd backend-generator
 $ npm install -g
 ```
