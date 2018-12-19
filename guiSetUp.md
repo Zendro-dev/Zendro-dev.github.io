@@ -19,7 +19,7 @@ $ npm install -g
 
 ### Generate GUI
 ```
- $ admin_gui_gen [options] <directory>
+ $ gui-generator [options] <directory>
 
   <directory> path where GUI components will be rendered
   Options:
@@ -28,7 +28,7 @@ $ npm install -g
 ```
 Example:
 ```
-$ admin_gui_gen --jsonFile /your-path/json-files /your-path/gui-skeleton
+$ gui-generator --jsonFile /your-path/json-files /your-path/gui-skeleton
 ```
 ### Check global variables
 Expected environmental variables are
