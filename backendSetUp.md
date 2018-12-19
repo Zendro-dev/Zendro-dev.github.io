@@ -47,4 +47,4 @@ $ node server.js
 `$ node_modules/.bin/sequelize db:migrate` command will create the tables specified in the migrations folder. With credential as in config/config.json file.
 
 ## NOTE
-A data base should be already configured locally as in config/config.json
+A data base should be already configured locally as in config/config.json file, which is part of the project. If you followed the instruction as in here, this file should be in the `/your-path/backend-skeleton/config/config.json`
