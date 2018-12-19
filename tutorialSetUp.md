@@ -10,17 +10,17 @@ Also, given the set of data models you will be able to generate a GUI which will
 When creating a project from scratch make sure you fill each one of the steps from the following list.
 Go to each section for more details about the steps.
 
-_**Data models**_ ( [more details]() )
+_**Data models**_ ( [more details](dataModels.md) )
 - [ ] Data models definition
 
-_**Set up backend**_ ( [more details]() )
+_**Set up backend**_ ( [more details](backendSetUp.md) )
 - [ ] Install backend skeleton
 - [ ] Install backend generator
 - [ ] Generate backend
 - [ ] Check and set global variables
 - [ ] Run server
 
-_**Set up GUI**_ ( [more details]() )
+_**Set up GUI**_ ( [more details](guiSetUp.md) )
 - [ ] Install GUI skeleton
 - [ ] Install GUI generator
 - [ ] Generate GUI
