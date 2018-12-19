@@ -19,7 +19,7 @@ $ cd backend-generator
 $ npm install -g
 ```
 If you only want to install it locally, then you should run
-`$ npm install` instead.  
+`$ npm install` instead and then adapt each command accordingly.  
 
 ### Generate backend
 After installed the backend-generator and as long as we have our data models defined, then we can generate the code for the graphql server. For this purpose we should run the following lines:
@@ -41,5 +41,10 @@ $ code-generator /your-path/json-files /your-path/backend-skeleton
 ### Run graphql server
 ```
 $ cd /your-path/backend-skeleton
+$ node_modules/.bin/sequelize db:migrate
 $ node server.js
 ```
+`$ node_modules/.bin/sequelize db:migrate` command will create the tables specified in the migrations folder. With credential as in config/config.json file.
+
+## NOTE
+A data base should be already configured locally as in config/config.json
