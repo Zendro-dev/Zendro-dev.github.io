@@ -5,6 +5,10 @@ In this section will learn how to use the set of repositories to get a full Scie
 Given a set of data models, ScienceDB will allow you to create a graphql server. This server will, by default, have the functionality of basic CRUD operations for each data model specified in the input.
 Also, given the set of data models you will be able to generate a GUI which will allow you to connect with the graphql server in a more intuitive way.
 
+## Requirements
+* nodejs ([Official site](https://nodejs.org/en/))
+* npm ([Official site](https://www.npmjs.com/get-npm))
+* vue cli ([Official site](https://cli.vuejs.org/))
 
 ## Steps for creating a project from scratch
 When creating a project from scratch make sure you fill each one of the steps from the following list.
