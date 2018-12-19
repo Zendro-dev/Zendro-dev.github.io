@@ -1,6 +1,6 @@
 # ScienceDB 
 
-ScienceDb is a set of modular projects which objective is to provide tools for a creation of a standarized platform which will allow the user to store, to magane and to retrieve data in a easy way. For this purpose data models belonging to a same cocept should be first defined and this data models will be used as input for ScienceDb tools. 
+ScienceDb is a set of modular projects which objective is to provide tools for creation of a standarized platform which will allow the user to store, to manage and to retrieve data in a easy way. For this purpose, as the first step, data models  should be defined ([see more details here](dataModels.md)) to structure the user information, later this data models will be used as input for ScienceDb tools. 
 
 ScienceDB tools are mainly code generators which can be used with data models in a flexible way, meaning that each time the data model change then the code generator can re-generate the code accordingly.  
 
