@@ -1,7 +1,7 @@
 # TUTORIALS:
 
 * [How to set up a full project](tutorialSetUp.md)
-
+( [more details](dataModels.md) )
 
 # REPOSITORIES:
 
