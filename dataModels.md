@@ -59,6 +59,11 @@ name | Type | Description
 *sourceKey* | String | Key to identify the source id
 *keysIn* | String | Name of the cross table
 
+## NOTE: 
+THE SAME DATA MODELS DESCRIPTION(.json files) WILL BE USEFUL FOR GENERATING BOTH, THE [BACKEND](backendSetUp.md) AND [FRONTEND OR GUI](guiSetUp.md) 
+
+Fields *`label`* and *`sublabel`* in the specification are only needed by the GUI generator, but backend generator will only read required information, therefore extra fields such as *`label`* and *`sublabel`* will be ignored by the backend generator.
+
 EXAMPLES OF VALID JSON FILE:
 ```
 //dog.json
