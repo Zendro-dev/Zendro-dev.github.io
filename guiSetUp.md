@@ -28,7 +28,7 @@ $ npm install -g
 ```
 Example:
 ```
-$ gui-generator --jsonFile /your-path/json-files /your-path/gui-skeleton
+$ gui-generator --jsonFiles /your-path/json-files /your-path/gui-skeleton
 ```
 ### Check global variables
 Expected environmental variables are
