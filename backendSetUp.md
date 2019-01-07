@@ -35,7 +35,7 @@ INPUT:
 
 Example:
 ```
-$ code-generator /your-path/json-files /your-path/backend-skeleton
+$ code-generator generate /your-path/json-files /your-path/backend-skeleton
 ```
 
 ### Run graphql server
