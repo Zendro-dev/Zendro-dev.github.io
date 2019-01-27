@@ -2,7 +2,7 @@
 
 Given a data model described within [this specifications and format](dataModels.md), the ScienceDb backend generator will
 provide a default CRUD API which can be accessed through the graphql query language.
-For more information about queries and mutations in graphql go to this [documentation](https://graphql.org/learn/queries/)
+For more information about queries and mutations in graphql go to this [documentation](https://graphql.org/learn/queries/).
 
 
 The name of the queries and mutations that will be created depends on the name of the data model. From now on let's assume our data model is called `Record` and it is described as follows:
@@ -20,9 +20,7 @@ The name of the queries and mutations that will be created depends on the name o
 Then the correspondant CRUD operations and its retuning values that are automatically created are:
 
 ### Queries
-* `records(search, order, pagination) : [Records]` - Check user authorization and return certain number, specified in pagination argument, of records that holds the condition of search argument, all of them sorted as specified by the order argument. For more information about `search`, `order` and `pagination` argument see this [section below](#general-filter-arguments).
-
-Example:
+* `records(search, order, pagination) : [Records]` - Check user authorization and return certain number, specified in pagination argument, of records that holds the condition of search argument, all of them sorted as specified by the order argument. For more information about `search`, `order` and `pagination` argument see this [section below](#general-filter-arguments). Example:
 ```
 query{
   records(searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like}, order: [{field: name, order: ASC}]){
@@ -32,7 +30,7 @@ query{
 }
 ```
 
-* `readOneRecord(id): Record` - Check user authorization and return one record with the specified id in the id argument.
+* `readOneRecord(id): Record` - Check user authorization and return one record with the specified id in the id argument. Example:
 ```
 query {
   readOneRecord(id: 23){
@@ -42,14 +40,15 @@ query {
 }
 ```
 
-* `countRecords(search): Integer` - Count number of records that holds the conditions specified in the search argument
+* `countRecords(search): Integer` - Count number of records that holds the conditions specified in the search argument. Example:
 ```
 query{
   countRecords( searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like} )
 }
 ```
 
-* `vueTableRecord: vueTableRecord`  - Return table of records as needed for displaying a vuejs table
+* `vueTableRecord: vueTableRecord`  - Return table of records as needed for displaying a vuejs table. Example:
+```
 query{
   vueTableRecord{
     data{
@@ -58,10 +57,10 @@ query{
     }
   }
 }
-
+```
 ### Mutations
 
-* `addRecord(record): Record` - Check user authorization and creates a new record with data specified in the record argument
+* `addRecord(record): Record` - Check user authorization and creates a new record with data specified in the record argument. Example:
 ```
   mutation{
     addRecord(name: "testRecord", description: "testing record" ){
@@ -71,14 +70,14 @@ query{
   }
 ```
 
-* `deleteRecord(id): String` - Check user authorization and delete a record with the specified id in the id argument.
+* `deleteRecord(id): String` - Check user authorization and delete a record with the specified id in the id argument. Example:
 ```
 mutation{
   deleteRecord(id: 23)
 }
 ```
 
-* `updateRecord(record): Record` - Check user authorization and update the record specified in the input argument
+* `updateRecord(record): Record` - Check user authorization and update the record specified in the input argument. Example:
 ```
 mutation{
   updateRecord(id: 23 name: "updated name"){
@@ -118,7 +117,7 @@ query {
 }
 
 ```
-#### Order
+#### Order argument
 The order argument name also depends on the data model name. With our data model `Record` the order argument will be called `orderRecordInput` and it is an object  which contains the name of the attribute to sort and the order that will be used, order can be ascendent `ASC` or descendant `DESC`.
 When retrieving a set of records the user pass an array or order arguments, one for each attribute that will be sorted.
 
@@ -132,7 +131,7 @@ query{
 }
 ```
 
-#### Pagination
+#### Pagination argument
 The pagination argument is generic for all data model and the purpose of this argument is to control the maximum number of records that can be retrieved. The name for the argument is `painationInput` and it is an object which contains the number of records to retrieve and the offset from where to start counting the records.
 
 attribute | Type  | Description
@@ -143,7 +142,85 @@ offset | Integer | Starting point for retrieving records
 EXAMPLE: Considering the `Record` data model for retrievin the second 10 records, the proper query to perfrom this action would be:
 ```
 query{
-  records( paginatioInput: {offset: 11, limit: 10}){
+  records( paginationInput: {offset: 11, limit: 10}){
+    name
+    description
+  }
+}
+```
+
+## Extendend API with associations
+
+When a data model is related with one or more data models, extra queries are added to the default API.
+Following with our example, let's consider another data model `Item`:
+And we will describe the associations between the models `Record` and `Item`.
+
+```
+//item.json
+{
+    "model" : "Item",
+    "storageType": "sql",
+    "attributes": {
+      "name": String,
+      "length": Int
+    },
+    "associations":{
+      "record":{
+        "type": "sql_belongsTo",
+        "target": "Record",
+        "targetKey": "recordId",
+        "targetStorageType": "sql",
+      }
+    }
+}
+```
+
+```
+//Record.json
+{
+...
+  "associations":{
+    "items": {
+      "type": "sql_hasMany",
+      "target": "Item",
+      "targetKey": "itemId",
+      "targetStorageType": "sql"
+    }
+  }
+}
+
+```
+
+### The extra query fields for the `Record` model would be:
+
+* `itemsFilter(search, order, pagination): [Items]` - Given one record, the user will be able to filter all the items associated with the current record.
+
+* `countFilteredItems(search): Int` - Return the number of associated items which holds the search argument coditions.
+
+ Example:
+```
+query{
+  records(searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like}){
+    name
+    description
+    countFilteredItems(searchItemInput: {field: name, value:{ value: "%test%"}, operator: like})
+    itemsFilter(paginationInput:{offset: 5, limit: 10}){
+      length
+    }
+  }
+}
+```
+
+### The extra query fields for the `Item` model would be:
+
+* `record : Record` -  Given one item, the user will be able to access the data of the record associated with the current item.
+
+ Example:
+```
+readOneItem(id: 23){
+  name
+  length
+  record{
     name
     description
   }
