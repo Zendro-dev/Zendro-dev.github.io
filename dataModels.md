@@ -112,3 +112,50 @@ EXAMPLES OF VALID JSON FILE:
     }
 }
 ```
+
+### About the associations type
+
+In ScienceDB, association relationships are based on the [sequelize ORM terminology](http://docs.sequelizejs.com/manual/tutorial/associations.html). As usually, in any association type the foreign-key shall be placed inside one of the two associated tables. However here both table models need to be notified about that link. This association information shall be placed in each model definition JSON files. Below we consider the models for two tables A and B, that are defined in the files A.json and B.json correspondingly.
+
+Within the body of any model JSON file, the model that is described in this file is considered as a source model, and any other model is considered as target. Therefore, within the JSON source it is required to specify how current model is associated with all it's targets.
+
+To refer association link within source model JSON file, the next keywords can be used:
+
+* sql_belongsTo
+* sql_hasOne
+* sql_hasMany
+* sql_belongsToMany
+* cross_hasOne
+* cross_hasMany
+
+The meaning of these keywords and their valid combinations are discussed from the point of view of the standard association relationships: __* : 1__ (many-to-one), __* : *__ (many-to-many) and __1:1__ (one-to-one).
+
+1. __Many-to-One__
+
+This case happens when more than one element of the table A can reference the same element of table B. In this case, the foreign-key has to be created in the table A.
+
+Example: Table A contains a list of employees and each of them can work in a single department only (catalog B).
+
+A.json: sql_belongsTo B;
+B.json: sql_hasMany A;
+(table A keeps a not unique foreignkey_B)
+
+2. __Many-to-Many__
+
+Based on the previous example, this type of relationship underlines the fact, that an employee can belong to more than one department as well as the department can incorporate more than one employee. In this case, a new relation table has to be created that would hold the foreign-key pairs that define employee-to-department associations.
+
+Example:
+A.json belongsToMany B;
+B.json belongsToMany A;
+(AB relation table with foreignkey_A and foreignkey_B is created automatically)
+
+3. __One-to-One__
+
+This relation type contains restriction: an absence of the possibility to relate more than one pair of the elements. In this case it is a subject of intuition which table shell hold the foreign-key. However, the foreign-keys can't repeat and shall be unique.
+
+For example, the A table is a catalog of well studied species that have strict registration number, whereas table B contains all discovered species, some of which are not cataloged yet.
+
+A.json: sql_hasOne B;
+B.json: sql_belongsTo A;
+(table B keeps a unique foreignkey_A)
+
