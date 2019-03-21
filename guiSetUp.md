@@ -30,17 +30,11 @@ Example:
 ```
 $ gui-generator --jsonFiles /your-path/json-files /your-path/gui-skeleton
 ```
-### Check global variables
-Expected environmental variables are
-```
-AUTH0_DOMAIN
-AUTH0_CLIENT_ID
-YOUR_CALLBACK_URL
-MY_SERVER_URL
-```
-First three variables will be the ones provided by your auth0 configuration. For more details on how to cofigure your app with auth0 see [HERE](https://auth0.com/docs/quickstart/spa/vuejs#configure-auth0)
+### Environment variables
 
-`MY_SERVER_URL` is the url where your backend server will be running
+* `MY_SERVER_URL` - url where your backend server will be running, default value is `http://localhost:3000/graphql`
+* `MY_LOGIN_URL` - url where your backend will check authentication, default value is `http://localhost:3000/login`.
+* `MAX_UPLOAD_SIZE`- maximum size(in MB) of a file intended to be uploaded, default value is `500`, which means that user can not upload a file larger than 500MB.
 
 ### Run GUI
 ```
