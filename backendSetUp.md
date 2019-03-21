@@ -51,6 +51,7 @@ You can also specify some environment variables:
 
 * `PORT` - The port where the app is listening, default value is `3000`
 * `ALLOW_ORIGIN` - In development mode we need to specify the header `Access-Control-Allow-Origin` so the SPA application can communicate with the server, default value `http://localhost:8080`.
+* `LIMIT_RECORDS` - Maximum number of records that each request can return, default value is 10000.
 
 Example:
 ```
