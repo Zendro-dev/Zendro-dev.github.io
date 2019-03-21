@@ -46,5 +46,17 @@ $ node server.js
 ```
 `$ node_modules/.bin/sequelize db:migrate` command will create the tables specified in the migrations folder. With credential as in config/config.json file.
 
+### Environment variables
+You can also specify some environment variables:
+
+* `PORT` - The port where the app is listening, default value is `3000`
+* `ALLOW_ORIGIN` - In development mode we need to specify the header `Access-Control-Allow-Origin` so the SPA application can communicate with the server, default value `http://localhost:8080`.
+
+Example:
+```
+$ PORT=7000 node server.js
+```
+Now your server will be listening on PORT 7000.
+
 ### * NOTE
 For the command `$ node_modules/.bin/sequelize db:migrate` a data base should be already configured locally as in `config/config.json` file, which is part of the project. If you followed the instruction as in here, this file should be in  `/your-path/backend-skeleton/config/config.json`
