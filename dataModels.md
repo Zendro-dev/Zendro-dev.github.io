@@ -30,16 +30,11 @@ Boolean |
 
 ### Associations Spec
 
-We will consider six possible type of associations depending on the Storage:
-1. sql_belongsTo
-2. sql_hasOne
-3. sql_hasMany
-4. sql_belongsToMany
-5. cross_hasOne
-6. cross_hasMany
-
-First four type of associations explain them selves and they are intended to be used when both, source and target models, are stored in SQL databases.
-Last two type of associations are intended to be used when at least one of the models involved is stored in a WebService.
+We will consider four possible types of associations:
+1. belongsTo
+2. hasOne
+3. hasMany
+4. belongsToMany
 
 For all type of association, except for association  of type 4 (sql_belongsToMany), the necessary arguments would be:
 
@@ -59,8 +54,35 @@ name | Type | Description
 *sourceKey* | String | Key to identify the source id
 *keysIn* | String | Name of the cross table
 
-## NOTE: 
-THE SAME DATA MODELS DESCRIPTION(.json files) WILL BE USEFUL FOR GENERATING BOTH, THE [BACKEND](backendSetUp.md) AND [FRONTEND OR GUI](guiSetUp.md) 
+## NOTE:
+ It's important to notice that when an association includes at least one model which storage type is not `sql` then foreign keys should be explicitly written in the attributes field.
+ For now when BOTH models have `sql` storageType foreigns keys should NOT be explicitly written in the attributes field, because the generator will authomatically add them.
+
+Example:
+```
+{
+  "model" : "Book",
+  "storageType" : "sql",
+  "attributes" : {
+    "title" : "String",
+    "genre" : "String",
+    "publisher_id": "Int"
+  },
+  "associations":{
+
+      "publisher" : {
+        "type" : "belongsTo",
+        "target" : "Publisher",
+        "targetKey" : "publisher_id",
+        "targetStorageType" : webservice",
+        "label" : "name"
+        }
+  }
+}
+```
+
+## NOTE:
+THE SAME DATA MODELS DESCRIPTION(.json files) WILL BE USEFUL FOR GENERATING BOTH, THE [BACKEND](backendSetUp.md) AND [FRONTEND OR GUI](guiSetUp.md)
 
 Fields *`label`* and *`sublabel`* in the specification are only needed by the GUI generator, but backend generator will only read required information, therefore extra fields such as *`label`* and *`sublabel`* will be ignored by the backend generator.
 
@@ -77,7 +99,7 @@ EXAMPLES OF VALID JSON FILE:
 
   "associations" : {
     "person" : {
-      "type" : "sql_belongsTo",
+      "type" : "belongsTo",
       "target" : "Person",
       "targetKey" : "personId",
       "targetStorageType" : "sql",
@@ -100,7 +122,7 @@ EXAMPLES OF VALID JSON FILE:
     },
  "associations" : {
         "authors" : {
-            "type" : "sql_belongsToMany",
+            "type" : "belongsToMany",
             "target" : "Person",
             "targetKey" : "person_id",
             "sourceKey" : "book_id",
@@ -121,12 +143,11 @@ Within the body of any model JSON file, the model that is described in this file
 
 To refer association link within source model JSON file, the next keywords can be used:
 
-* sql_belongsTo
-* sql_hasOne
-* sql_hasMany
-* sql_belongsToMany
-* cross_hasOne
-* cross_hasMany
+* belongsTo
+* hasOne
+* hasMany
+* belongsToMany
+
 
 The meaning of these keywords and their valid combinations are discussed from the point of view of the standard association relationships: __* : 1__ (many-to-one), __* : *__ (many-to-many) and __1:1__ (one-to-one).
 
@@ -158,4 +179,3 @@ For example, the A table is a catalog of well studied species that have strict r
 A.json: sql_hasOne B;
 B.json: sql_belongsTo A;
 (table B keeps a unique foreignkey_A)
-

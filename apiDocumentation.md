@@ -166,7 +166,7 @@ And we will describe the associations between the models `Record` and `Item`.
     },
     "associations":{
       "record":{
-        "type": "sql_belongsTo",
+        "type": "belongsTo",
         "target": "Record",
         "targetKey": "recordId",
         "targetStorageType": "sql",
@@ -181,7 +181,7 @@ And we will describe the associations between the models `Record` and `Item`.
 ...
   "associations":{
     "items": {
-      "type": "sql_hasMany",
+      "type": "hasMany",
       "target": "Item",
       "targetKey": "itemId",
       "targetStorageType": "sql"
