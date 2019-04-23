@@ -36,7 +36,7 @@ We will consider four possible types of associations:
 3. hasMany
 4. belongsToMany
 
-For all type of association, except for association  of type 4 (sql_belongsToMany), the necessary arguments would be:
+For all type of association, except for association  of type 4 (belongsToMany), the necessary arguments would be:
 
 name | Type | Description
 ------- | ------- | --------------
@@ -157,8 +157,8 @@ This case happens when more than one element of the table A can reference the sa
 
 Example: Table A contains a list of employees and each of them can work in a single department only (catalog B).
 
-A.json: sql_belongsTo B;
-B.json: sql_hasMany A;
+A.json: belongsTo B;
+B.json: hasMany A;
 (table A keeps a not unique foreignkey_B)
 
 2. __Many-to-Many__
@@ -176,6 +176,6 @@ This relation type contains restriction: an absence of the possibility to relate
 
 For example, the A table is a catalog of well studied species that have strict registration number, whereas table B contains all discovered species, some of which are not cataloged yet.
 
-A.json: sql_hasOne B;
-B.json: sql_belongsTo A;
+A.json: hasOne B;
+B.json: belongsTo A;
 (table B keeps a unique foreignkey_A)
