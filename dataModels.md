@@ -1,23 +1,22 @@
 # Data Models
 
-For each one of the projects that you want to include in the project you will need to describe the model as well as its possibles relations with any other model. The description should be in a json file following the [json specs](#json-specs) for this purpose.
-You will need to store all these json files in a single folder. From now on, in this document, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
+For each one of the projects that you want to include in the project you will need to describe the model as well as its possible relations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of it's type. From now on, in this document, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
 
 ### JSON Specs
 
-Each json file describes one and only one model. (i.e if an association involves two models, this association needs to be specified in both json files, corresponding to each model).
+Each json file describes one and only one model. However, one model can reference to another model using association mechanism described above. Withing `associations` block it is required to specify model names from another json files.
 
 For each model we need to specify the following fields in the json file:
 
 Name | Type | Description
 ------- | ------- | --------------
-*name* | String | Name of the model (it is recommended uppercase for the initial character).
-*storageType* | String | Type of storage where the model is stored. So far can be one of __sql__ or __Webservice__
-*attributes* | Object | The key of each entry is the name of the attribute and the value should be the a string indicating the type of the attribute. See [table](#types-spec) below for allowed types. Example: ```{ "attribute1" : "String", "attribute2: "Int" }```
-*associations* | Object | The key of each entry is the name of the association and the value should be an object describing the associations. See [Associations Spec](#associations-spec) section below for the specifications of the associations.
+*name* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API).
+*storageType* | String | Type of storage where the model is stored. So far can be one of __sql__(for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. ) or __Webservice__ for any database that your project would remotely connect to. 
+*attributes* | Object | The key of each entry is the name of the attribute and the value should be the a string indicating the type of the attribute. See the [table](#types-spec) below for allowed types. Example: ```{ "attribute1" : "String", "attribute2: "Int" }```
+*associations* | Object | The key of each entry is the name of the association and the value should be an object describing corresponding association. See [Associations Spec](#associations-spec) section below for details.
 
-### Types Spec
-The following types are allowed for the attributes field
+### Supported Data Types
+The following types are allowed for the attributes field.
 
  Type |
 ------- |
@@ -36,18 +35,18 @@ We will consider four possible types of associations:
 3. hasMany
 4. belongsToMany
 
-For all type of association, except for association  of type 4 (belongsToMany), the necessary arguments would be:
+For all type of association, except for association of type 4 (belongsToMany), the necessary arguments would be:
 
 name | Type | Description
 ------- | ------- | --------------
-*type* | String | Type of association (one of the six described above).
-*target* | String | Name of model to which the current model will be associated with
-*targetKey* | String | Key to identify the field in the target
-*targetStorageType* | String | Type of storage where the target model is stored. So far can be one of __sql__ or __Webservice__
-*label* | String | Name of the column in the target model to be used as a display name in the GUI
-*sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI
+*type* | String | Type of association (like belongsTo, etc.)
+*target* | String | Name of model to which the current model will be associated with.
+*targetKey* | String | A unique identifier of the association for the case where there appear more than one association with the same model. 
+*targetStorageType* | String | Type of storage where the target model is stored. So far can be one of __sql__ or __Webservice__.
+*label* | String | Name of the column in the target model to be used as a display name in the GUI.
+*sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI.
 
-When the association is of the type 4, it's necessary to describe a couple of two extra arguments given that the association is made with a cross table. The extra two arguments will be:
+When association is of type 4, it's necessary to describe two extra arguments given that the association is made with a cross table. These arguments are:
 
 name | Type | Description
 ------- | ------- | --------------
@@ -55,85 +54,34 @@ name | Type | Description
 *keysIn* | String | Name of the cross table
 
 ## NOTE:
- It's important to notice that when an association includes at least one model which storage type is not `sql` then foreign keys should be explicitly written in the attributes field.
- For now when BOTH models have `sql` storageType foreigns keys should NOT be explicitly written in the attributes field, because the generator will authomatically add them.
+ It's important to notice that when association involves an external web service then foreign key that refers remote elements should be explicitly written into the attributes field of the given local model.
+ 
+ 
+ When BOTH models have `sql` storageType foreign keys should NOT be explicitly written and will be added automatically by our code generator.
 
 Example:
 ```
 {
-  "model" : "Book",
+  "model" : "book",
   "storageType" : "sql",
   "attributes" : {
-    "title" : "String",
-    "genre" : "String",
-    "publisher_id": "Int"
+    "title" : "String"
   },
   "associations":{
-
       "publisher" : {
-        "type" : "belongsTo",
-        "target" : "Publisher",
-        "targetKey" : "publisher_id",
-        "targetStorageType" : webservice",
-        "label" : "name"
+        "type" : "belongsTo", // FK to publisher will be stored in the Book model
+        "target" : "publisher", // Model's name is `publisher`
+        "targetKey" : "publisher_id", // Local alias for this association
+        "targetStorageType" : Webservice", //  It's a remote database
+        "label" : "name" // Show in GUI the name of the publisher taken from external DB
         }
   }
 }
 ```
 
 ## NOTE:
-THE SAME DATA MODELS DESCRIPTION(.json files) WILL BE USEFUL FOR GENERATING BOTH, THE [BACKEND](backendSetUp.md) AND [FRONTEND OR GUI](guiSetUp.md)
 
-Fields *`label`* and *`sublabel`* in the specification are only needed by the GUI generator, but backend generator will only read required information, therefore extra fields such as *`label`* and *`sublabel`* will be ignored by the backend generator.
-
-EXAMPLES OF VALID JSON FILE:
-```
-//dog.json
-{
-  "model" : "Dog",
-  "storageType" : "Sql",
-  "attributes" : {
-    "name" : "String",
-    "breed" : "String"
-  },
-
-  "associations" : {
-    "person" : {
-      "type" : "belongsTo",
-      "target" : "Person",
-      "targetKey" : "personId",
-      "targetStorageType" : "sql",
-      "label": "firstName"
-    }
-  }
-}
-
-```
-
-```
-//book.json
-{
- "model" : "Book",
- "storageType" : "SQL",
- "attributes" : {
-        "id" : Int,
-        "title": String,
-        "ISBN": Int
-    },
- "associations" : {
-        "authors" : {
-            "type" : "belongsToMany",
-            "target" : "Person",
-            "targetKey" : "person_id",
-            "sourceKey" : "book_id",
-            "keysIn" : "person_to_book",
-            "targetStorageType" : "sql",
-            "label": "name",
-            "sublabel": "lastname"
-        }
-    }
-}
-```
+The same data model description files (.json) can be used for generating both, the [BACKEND](backendSetUp.md) and [FRONTEND OR GUI](guiSetUp.md). Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
 
 ### About the associations type
 
