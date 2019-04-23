@@ -39,4 +39,4 @@ As in the case of the GraphQL server it will be required to generate a data sche
  Some basic extensions are suggested to be introduced directly into the GraphQL server. These are the access permissions, data validation logic and custom GraphQL queries and mutations. The ['Advance code customizing'](projectCustomizing.md) section will guide you through the suggested steps, however as long as you entering now into the coding process - everything is possible.
 
 
-Unfortunately ScienceDB can support just one scheme per GraphQL server. It means that if you would need to create a multi-scheme project or to implement any strong business logic it is definitely that a new Web GUI server will be needed that could unite a more than one GraphQL server into the single user interface.
+Unfortunately ScienceDB can support just one scheme per GraphQL server. It means that if you would need to create a multi-scheme project or to implement any strong business logic it is definitely that a new Web GUI server will be needed.
