@@ -27,14 +27,14 @@ The GraphQL server by default provides basic create, read, update and delete (CR
  
  
 <br/><br/>
-* _**Step 3 (optional): Setup Web Interface application**_ ( [more details](guiSetUp.md) )
+* _**Step 3 (optional): Setup Web Interface application**_
 
 At least for the first time is is recommended to install the generic WebBased GUI server to manage your data in a simple user-friendly web interface. Here we purpose the Single Page Application approach where all HTML views are constructed on the client side using VueJS framework. An application would communicate with the GraphQL server using corresponding POST requests. All operations that are accessible from the GUI are also supported on the GraphQL server console directly.
 
 As in the case of the GraphQL server it will be required to generate a data scheme dependent code into the web server folder, and than it will be possible run the server. By default the server page will be accessible on the `http://<your_host>:8080/`. See the ['Web GUI Setup'](guiSetUp.md) section for more details.
 
 <br/><br/>
-* _**Step 4 (optional): Customizing the project**_ ( [more details](guiSetUp.md) )
+* _**Step 4 (optional): Customizing the project**_ 
 
  Some basic extensions are suggested to be introduced directly into the GraphQL server. These are the access permissions, data validation logic and custom GraphQL queries and mutations. The ['Advance code customizing'](projectCustomizing.md) section will guide you through the suggested steps, however as long as you entering now into the coding process - everything is possible.
 
