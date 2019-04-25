@@ -7,7 +7,7 @@ ScienceDB consists of four source-code projects: __graphql-server-model-codegen_
  __Project Requirements:__
  * [nodejs](https://nodejs.org/en/)
  * [npm](https://www.npmjs.com/get-npm)
- * [vue cli](https://cli.vuejs.org/)
+ * [vue CLI](https://cli.vuejs.org/)
  
  <br/><br/>
 
