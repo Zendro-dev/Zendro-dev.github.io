@@ -40,6 +40,6 @@ _**Data exporting**_
 
 Unfortunately current NodeJS GraphQL implementation used in ScienceDB does not support batch download in a fully optimal way because of lack of the non-blocking response data steaming. If it is required to join selected fields of the related data models and get it as a separate file stream it is possible to use the *export* service. 
 
-This service helps when a full database cut is required for subsequent automated manipulations. For example: to create dynamically updated graphical reports or to append project specific table *views* (tables that unite more that on data model).
+This service helps when a full database cut is required for subsequent automated manipulations. For example: to create dynamically updated graphical reports or to append project specific table *views* (tables that unite more than one data model).
 
 [ > Data Export](DataExport.md)
