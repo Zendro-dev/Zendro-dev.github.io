@@ -1,228 +1,45 @@
-## CRUD API documentation
+[ &larr; back](README.md)
+<br/>
+### ScienceDB API Documentation
 
-Given a data model described within [this specifications and format](dataModels.md), the ScienceDb backend generator will
-provide a default CRUD API which can be accessed through the graphql query language.
-For more information about queries and mutations in graphql go to this [documentation](https://graphql.org/learn/queries/).
+Given a data model described using [this specifications and format](dataModels.md), the ScienceDb backend generator will implement default CRUD API that can be accessed through a well-known GraphQL query language or an *export service*. To get more information about GraphQL queries and mutations you can read it's [official documentation](https://graphql.org/learn/queries/). When your server is up, the regular GraphQL service is accessible at `http://<back_srv>/graphql`. The service supported aimed for exporting massive joined database slices has another URL: `http://<back_srv>/export`. Both services accept regular POST requests with authentication information in it's header. In the case of GraphQL, request body should follow the GraphQL standard. The data export module accepts custom request format that is to be passed as JSON string.  
 
+ScienceDB back-end server implementation follow with the GraphQL convention to refer a request that does not produce any data change as *query* and a request that cause a data change as *mutation*. The export service would never modify any data, so all it's requests can be referred as queries.
 
-The name of the queries and mutations that will be created depends on the name of the data model. From now on let's assume our data model is called `Record` and it is described as follows:
+ScienceDB API documentation consists of three parts:
+<br/><br/>
+
+_**Access Permissions**_
+
+The back-end server can work in two modes: *development* and *private*, depending on the presence of `acl` argument in the command line that runs the server. The development mode will cause all user permissions to be ignored so that it is possible to omit authentication header in the requests and start to explore server's API without configuring any permissions. However it is highly recommended to open remote access to the server running in private mode for obvious reasons.
+
+[ > ACL](projectCustomizing.md)
+<br/><br/>
+_**GraphQL API**_
+ 
+Classical REST services suppose all requests to be of strictly predefined form, and usually is URL driven. Each atomic resource is considered as an *endpoint* and would accept a quite restricted requests, for example:
 ```
-  //Record.json
+GET /books/:id/comments
+POST /books/:id/comments
+```  
+It is obvious the possibility to parametrize such requests inserting some logic into them, however it is more likely an anti-pattern because in this case each different service would have it's own "programming" interface, and style of these interfaces can strongly differ from one project to another. However, the basic CRUD operations are so common in the WWW world that a lots of efforts was made by different groups to standardize request parameters. The standard chosen in ScienceDB is a GraphQL. This standard introduce a set of request body constructs to manage the response data in terms of CRUD operations that can vary strongly. As an example you can consider a GraphQL query that restricts a data fields in the server response for an element with a given ID:
+
+```
 {
-  "model": "Record",
-  "storageType": "Sql",
-  "attributes": {
-    name: String,
-    description: String
-  }
-}
-```
-Then the correspondant CRUD operations and its retuning values that are automatically created are:
-
-### Queries
-* `records(search, order, pagination) : [Records]` - Check user authorization and return certain number, specified in pagination argument, of records that holds the condition of search argument, all of them sorted as specified by the order argument. For more information about `search`, `order` and `pagination` argument see this [section below](#general-filter-arguments). Example:
-```
-query{
-  records(searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like}, order: [{field: name, order: ASC}]){
+  book(id: "1000") {
     name
-    description
   }
 }
 ```
 
-* `readOneRecord(id): Record` - Check user authorization and return one record with the specified id in the id argument. Example:
-```
-query {
-  readOneRecord(id: 23){
-    name
-    description
-  }
-}
-```
+In this project it is automatically generated a set of GraphQL queries and mutations that, from our point of view, would cover the most of the needs of ScienceDB end users.
 
-* `countRecords(search): Integer` - Count number of records that holds the conditions specified in the search argument. Example:
-```
-query{
-  countRecords( searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like} )
-}
-```
+[ > GraphQL queries and mutations](GrapgQLAPI.md)
+<br/><br/>
+_**Data exporting**_
 
-* `vueTableRecord: vueTableRecord`  - Return table of records as needed for displaying a vuejs table. Example:
-```
-query{
-  vueTableRecord{
-    data{
-      name
-      description
-    }
-  }
-}
-```
-### Mutations
+Unfortunately current NodeJS GraphQL implementation used in ScienceDB does not support batch download in a fully optimal way because of lack of the non-blocking response data steaming. If it is required to join selected fields of the related data models and get it as a separate file stream it is possible to use our additional *export* service. 
 
-* `addRecord(record): Record` - Check user authorization and creates a new record with data specified in the record argument. Example:
-```
-  mutation{
-    addRecord(name: "testRecord", description: "testing record" ){
-      name
-      description
-    }
-  }
-```
+This service can be used when a full database cut is required for subsequent automated manipulations, for example to create dynamically updated graphical reports, or to append project specific table *views* (tables that unite more that on data model).
 
-* `deleteRecord(id): String` - Check user authorization and delete a record with the specified id in the id argument. Example:
-```
-mutation{
-  deleteRecord(id: 23)
-}
-```
-
-* `updateRecord(record): Record` - Check user authorization and update the record specified in the input argument. Example:
-```
-mutation{
-  updateRecord(id: 23 name: "updated name"){
-    name
-    description
-  }
-}
-```
-
-* `bulkAddRecordCsv: String` - Load csv file of records
-In this mutation the csv file should be attached in the request.
-
-
-### General Filter Arguments
-When retrieving a set of records of any data model, there is specific arguments that can help to select only
-certain records. Two of the general arguments that the user can specify as input are pagination and order. The description about how to use these arguments is as follows:
-
-#### Search argument
-This argument name depends also on the data model name. Assuming our data model is calle `Record` then the search arguments is called
-`searchRecordInput` and it is an object which contains the next fields:
-
-name | Type | Description
-------- | ------- | --------------
-*field* | String | Can be any record's attribute name. Can be also understood as the column by which the records will be filtered.
-*value* | Object | Value used to filter the records, can be type `String` or type `Array` (default type is String) and the actual value should be also specified. Example: `value:{ type: String, value: "%string_to_filter%"}`
-*operator* | String | Operator used to filter the records. Example: `eq`, `like` ...
-*search* | [searchRecordInput] | Recursively the user can spefify another search argument.
-
-EXAMPLE : Let's say we want to filter all the records which name has the substring *'test'*. The proper query to perform this action would be:
-
-```
-query {
-  records(searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like}){
-    name
-    description
-  }
-}
-
-```
-#### Order argument
-The order argument name also depends on the data model name. With our data model `Record` the order argument will be called `orderRecordInput` and it is an object  which contains the name of the attribute to sort and the order that will be used, order can be ascendent `ASC` or descendant `DESC`.
-When retrieving a set of records the user pass an array or order arguments, one for each attribute that will be sorted.
-
-EXAMPLE: Let's say we want to sort all records alphabetically by the name column. The proper query to perform this action would be:
-```
-query{
-  records(order: [{field: name, order: ASC}]){
-    name
-    description
-  }
-}
-```
-
-#### Pagination argument
-The pagination argument is generic for all data model and the purpose of this argument is to control the maximum number of records that can be retrieved. The name for the argument is `painationInput` and it is an object which contains the number of records to retrieve and the offset from where to start counting the records.
-
-attribute | Type  | Description
------- | ------- | --------
-limit | Integer | Number of records to retrieve
-offset | Integer | Starting point for retrieving records
-
-EXAMPLE: Considering the `Record` data model for retrievin the second 10 records, the proper query to perfrom this action would be:
-```
-query{
-  records( paginationInput: {offset: 11, limit: 10}){
-    name
-    description
-  }
-}
-```
-
-## Extendend API with associations
-
-When a data model is related with one or more data models, extra queries are added to the default API.
-Following with our example, let's consider another data model `Item`:
-And we will describe the associations between the models `Record` and `Item`.
-
-```
-//item.json
-{
-    "model" : "Item",
-    "storageType": "sql",
-    "attributes": {
-      "name": String,
-      "length": Int
-    },
-    "associations":{
-      "record":{
-        "type": "belongsTo",
-        "target": "Record",
-        "targetKey": "recordId",
-        "targetStorageType": "sql",
-      }
-    }
-}
-```
-
-```
-//Record.json
-{
-...
-  "associations":{
-    "items": {
-      "type": "hasMany",
-      "target": "Item",
-      "targetKey": "itemId",
-      "targetStorageType": "sql"
-    }
-  }
-}
-
-```
-
-### The extra query fields for the `Record` model would be:
-
-* `itemsFilter(search, order, pagination): [Items]` - Given one record, the user will be able to filter all the items associated with the current record.
-
-* `countFilteredItems(search): Int` - Return the number of associated items which holds the search argument coditions.
-
- Example:
-```
-query{
-  records(searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like}){
-    name
-    description
-    countFilteredItems(searchItemInput: {field: name, value:{ value: "%test%"}, operator: like})
-    itemsFilter(paginationInput:{offset: 5, limit: 10}){
-      length
-    }
-  }
-}
-```
-
-### The extra query fields for the `Item` model would be:
-
-* `record : Record` -  Given one item, the user will be able to access the data of the record associated with the current item.
-
- Example:
-```
-readOneItem(id: 23){
-  name
-  length
-  record{
-    name
-    description
-  }
-}
-```
+[ > Data export](DataExport.md)
