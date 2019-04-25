@@ -32,7 +32,7 @@ There exist a possibility to parametrize such requests inserting some logic into
 }
 ```
 
-In this project it is automatically generated a set of GraphQL queries and mutations that, from our point of view, would cover the most of the needs of ScienceDB end users.
+In this project it is automatically generated a set of GraphQL queries and mutations that, from our point of view, would cover most of the needs of ScienceDB end users.
 
 [ > GraphQL queries and mutations](GrapgQLAPI.md)
 <br/><br/>
