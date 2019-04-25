@@ -22,7 +22,7 @@ To generate a model-dependent code that is initially missing within the servers 
 <br/><br/>
 * _**Step 2 (required): Setup backend GraphQL server**_
 
-The GraphQL server by default provides basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step. To start up with this server first it is needed to generate scheme-dependent code into the server root folder. Afterwards you can start the server and access it's console from your web browser at `http://<your_host>:3000/graphql/`. 
+The GraphQL server by default provides basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step. To run this server first it is needed to generate scheme-dependent code into the server root folder. Afterwards you can start the server and access it's console from your web browser at `http://<your_host>:3000/graphql/`. 
 <br/>
 
 [ > Backend Setup](backendSetUp.md)
