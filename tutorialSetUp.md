@@ -1,6 +1,6 @@
 # A new ScienceDB project from scratch
 
-ScienceDB consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app-codegen__ and a __single-page-app__. The first pair is responsible for the back-end GraphQL service that can be accessed on the default port 3000. The second pair of projects act as a client of the GraphQL server and create a simple generic web-based GUI for this server on the 8080 port. As it can be derived from the names of these projects, the *codegen* suffix means that to pull up a corresponding server it is required to generate some code first. Code generation step is required to separate data scheme definition from the routinary ORM programming.
+ScienceDB consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app-codegen__ and a __single-page-app__. The first pair is responsible for the back-end GraphQL service that can be accessed on the default port 3000. The second pair of projects act as a client of the GraphQL server and create a simple generic web-based GUI for this server on the 8080 port. As it can be derived from the names of these projects, the *codegen* suffix means that to pull up corresponding server it is required to generate some code first. Code generation step is required to separate data scheme definition from the routinary ORM programming.
 
  <br/>
  
