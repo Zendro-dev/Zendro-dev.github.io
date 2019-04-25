@@ -34,7 +34,7 @@ There exist a possibility to parametrize such requests inserting some logic into
 
 In this project it is automatically generated a set of GraphQL queries and mutations that, from our point of view, would cover most of the needs of ScienceDB end users.
 
-[ > GraphQL queries and mutations](GrapgQLAPI.md)
+[ > GraphQL Queries and Mutations](GrapgQLAPI.md)
 <br/><br/>
 _**Data exporting**_
 
@@ -42,4 +42,4 @@ Unfortunately current NodeJS GraphQL implementation used in ScienceDB does not s
 
 This service helps when a full database cut is required for subsequent automated manipulations. For example: to create dynamically updated graphical reports or to append project specific table *views* (tables that unite more that on data model).
 
-[ > Data export](DataExport.md)
+[ > Data Export](DataExport.md)
