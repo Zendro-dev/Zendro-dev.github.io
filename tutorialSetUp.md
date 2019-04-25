@@ -27,7 +27,7 @@ The GraphQL server by default provides basic create, read, update and delete (CR
 <br/><br/>
 * _**Step 3 (optional): Setup Web Interface application**_
 
-At least for the first time is is recommended to install generic WebBased GUI server that permits to manage your data in a simple user-friendly web interface. Here we purpose the Single Page Application (SPA) approach where all HTML views are constructed on the client side using VueJS framework. An application would communicate with GraphQL server using regular POST requests. As a rule, all operations that are accessible from GUI are also supported on the GraphQL server console directly.
+At least for the first time it is recommended to install generic WebBased GUI server that permits to manage your data in a simple user-friendly web interface. Here we purpose the Single Page Application (SPA) approach where all HTML views are constructed on the client side using VueJS framework. An application would communicate with GraphQL server using regular POST requests. As a rule, all operations that are accessible from GUI are also supported on the GraphQL server console directly.
 
 Likewise as in the GraphQL server it will be required to generate a data scheme dependent code into the web server folder, and run the server afterwards. By default web server page is accessible at `http://<your_host>:8080/`. 
 <br/>
