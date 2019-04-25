@@ -15,7 +15,7 @@ ScienceDB consists of four source-code projects: __graphql-server-model-codegen_
 <br/><br/>
 * _**Step 1 (required): Data scheme definition**_
 
-Code generation step is required before you can start any of the ScienceDB servers. To generate a model-dependent code that is initially missing within the servers it is necessary to define your data scheme first. The data scheme can be defined through a set of data models (tables). Code generation step is required before you can start any of the ScienceDB servers. To generate a model-dependent code that is initially missing within the servers it is necessary to define your data scheme first. The data scheme can be defined through a set of data models (tables). 
+Code generation step is required before you can start any of the ScienceDB servers. To generate a model-dependent code that is initially missing within the servers it is necessary to define your data scheme first. The data scheme can be defined through a set of data models (tables). 
  <br/>
  
  [ > Data Models](dataModels.md)
