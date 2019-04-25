@@ -25,7 +25,7 @@ Code generation step is required before you can start any of the ScienceDB serve
 The GraphQL server by default provides basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step. To start up with this server first it is needed to generate scheme-dependent code into the server root folder. Afterwards you can start the server and access it's console from your web browser at `http://<your_host>:3000/graphql/`. 
 <br/>
 
-[ > Backend setup](backendSetUp.md)
+[ > Backend Setup](backendSetUp.md)
 <br/><br/>
 * _**Step 3 (optional): Setup Web Interface application**_
 
