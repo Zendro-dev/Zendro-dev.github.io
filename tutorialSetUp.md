@@ -38,7 +38,7 @@ Likewise as in the GraphQL server it will be required to generate a data scheme 
 <br/><br/>
 * _**Step 4 (optional): Customizing your project**_ 
 
- A couple of basic extensions are suggested to be introduced directly into the GraphQL server. These are: *access permissions*, *data validation logic* and *custom GraphQL queries/mutations*. To introduce the logic of these extensions it is suggested some programming, however this step is well confined and described.
+ A couple of basic extensions are suggested to be introduced directly into the GraphQL server code. These are: *access permissions*, *data validation logic* and *custom GraphQL queries/mutations*. To introduce the logic of these extensions it is suggested some programming, however this step is well confined and described.
  <br/>
  
  [ > Advance code customizing](projectCustomizing.md)
