@@ -1,3 +1,5 @@
+[ &larr; back](tutorialSetUp.md)
+<br/>
 # Set up GUI
 Once we have our models defined and our graphql server running. We can generate and run a graphic user interface.
 In order to install we need to run the following lines:

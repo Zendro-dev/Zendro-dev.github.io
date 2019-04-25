@@ -1,3 +1,5 @@
+[ &larr; back](tutorialSetUp.md)
+<br/>
 # Data Models
 
 For each one of the projects that you want to include in the project you will need to describe the model as well as its possible relations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of it's type. From now on, in this document, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
