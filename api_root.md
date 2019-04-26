@@ -17,7 +17,7 @@ Back-end server can work in two modes: *development* and *production*, depending
 <br/><br/>
 ### GraphQL API
  
-Classical REST service suppose all requests to have a predefined form, and usually is URL driven. Here each atomic resource is considered as an *endpoint* and can be referred by a quite restricted request, for example:
+Classical REST service suppose that all it's requests have a predefined form, and usually are URL driven. Here each atomic resource is considered as an *endpoint* and can be referred by a quite restricted query or mutation, for example:
 ```
 <GET>
 /books/:1000/name
