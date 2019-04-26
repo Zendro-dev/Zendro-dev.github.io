@@ -7,12 +7,12 @@ ScienceDB tools are mainly code generators which can be used with data models in
 ScienceDb is conformed of two main components, backend and frontend. The backend component has its [base project](https://github.com/ScienceDb/graphql-server) and a [code generator](https://github.com/ScienceDb/graphql-server-model-codegen). The frontend of SPA(Single Page Application) also has its [base project](https://github.com/ScienceDb/single-page-app) and a [code generator](https://github.com/ScienceDb/single-page-app-codegen).
 About how to use ScienceDB tools see tutorials below.
 
-# TUTORIALS:
+### TUTORIALS:
 
 * [How to set up a full project](setup_root.md)
 * [API documentation](api_root.md)
 
-# REPOSITORIES:
+### REPOSITORIES:
 
 * [GraphQL server](https://github.com/ScienceDb/graphql-server)
 * [GraphQL server model generator](https://github.com/ScienceDb/graphql-server-model-codegen)
