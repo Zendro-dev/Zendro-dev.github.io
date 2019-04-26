@@ -1,4 +1,4 @@
-[ &larr; back](tutorialSetUp.md)
+[ &larr; back](setup_root.md)
 <br/>
 # Data Models
 
@@ -83,7 +83,7 @@ Example:
 
 ## NOTE:
 
-The same data model description files (.json) can be used for generating both, the [BACKEND](backendSetUp.md) and [FRONTEND OR GUI](guiSetUp.md). Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
+The same data model description files (.json) can be used for generating both, the [BACKEND](setup_backend.md) and [FRONTEND OR GUI](setup_gui.md). Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
 
 ### About the associations type
 

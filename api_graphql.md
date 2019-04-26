@@ -1,4 +1,4 @@
-[ &larr; back](apiDocumentation.md)
+[ &larr; back](api_root.md)
 <br/>
 Concrete requests that can be sent to backend server are model dependent, therefore from now on let's assume that our first data model is called `record` and is described as follows:
 

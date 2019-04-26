@@ -2,7 +2,7 @@
 <br/>
 ### ScienceDB API Documentation
 
-Given a data model described using [this specifications and format](dataModels.md), the ScienceDb backend generator will implement default CRUD API that can be accessed through a well-known GraphQL query language or through an *export service*. To get more information about GraphQL queries and mutations you can read it's [official documentation](https://graphql.org/learn/queries/). When your server is up, the regular GraphQL service is accessible at `http://<back_srv>/graphql`. The service aimed for exporting massive joined database slices has another URL: `http://<back_srv>/export`. Both services accept POST requests with authentication information in it's header. In the case of GraphQL, request body should follow the GraphQL standard. Data export service accept custom request format that should be specified within JSON string.  
+Given a data model described using [this specifications and format](setup_data_scheme.md), the ScienceDb backend generator will implement default CRUD API that can be accessed through a well-known GraphQL query language or through an *export service*. To get more information about GraphQL queries and mutations you can read it's [official documentation](https://graphql.org/learn/queries/). When your server is up, the regular GraphQL service is accessible at `http://<back_srv>/graphql`. The service aimed for exporting massive joined database slices has another URL: `http://<back_srv>/export`. Both services accept POST requests with authentication information in it's header. In the case of GraphQL, request body should follow the GraphQL standard. Data export service accept custom request format that should be specified within JSON string.  
 
 ScienceDB back-end server implementation follow with the GraphQL convention to refer a request that does not produce any data change as *query* and a request that modify data as *mutation*. The export service would never modify data, so all it's requests can be referred as queries.
 
@@ -13,7 +13,7 @@ _**Access Permissions**_
 
 Back-end server can work in two modes: *development* and *production*, depending on the presence of `acl` argument in the command line that runs server. The development mode will cause all user permissions to be ignored. In this mode it is possible to omit authentication header in the requests and start to explore server's API without configuring any permissions. However it is highly recommended to open remote access to the server running in production mode for obvious reasons.
 
-[ > ACL](projectCustomizing.md)
+[ > ACL](api_acl.md)
 <br/><br/>
 _**GraphQL API**_
  

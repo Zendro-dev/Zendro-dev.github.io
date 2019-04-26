@@ -1,4 +1,4 @@
-[ &larr; back](tutorialSetUp.md)
+[ &larr; back](setup_root.md)
 <br/>
 # Set up GUI
 Once we have our models defined and our graphql server running. We can generate and run a graphic user interface.
