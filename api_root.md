@@ -39,7 +39,7 @@ In this project it is automatically generated a set of GraphQL queries and mutat
 
 [ > GraphQL Queries and Mutations](api_graphql.md)
 <br/><br/>
-### Data exporting
+### Batch Data Exporting
 
 Unfortunately current NodeJS GraphQL implementation used in ScienceDB does not support batch download in a fully optimal way because of lack of the non-blocking response data steaming (see [this](https://github.com/graphql/graphql-js/issues/1537) discussion). When it is required to join selected fields of the related data models and get it as a separate file stream use of the *export* service would be the correct solution. 
 
