@@ -25,7 +25,7 @@ To generate model-dependent code that is initially missing within both servers i
 The GraphQL server by default provides basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step. To run this server first it is needed to generate scheme-dependent code into the server root folder. Afterwards you can start the server and access it's console from your web browser at `http://<your_host>:3000/graphql/`. 
 <br/>
 
-[ > Backend Setup](setup_backend.md)
+[ > Back-end Server Setup](setup_backend.md)
 <br/><br/>
 * _**Step 3 (optional): Setup Web Interface application**_
 
@@ -34,7 +34,7 @@ At least for the first time it is recommended to install generic WebBased GUI se
 Likewise as in the GraphQL server it will be required to generate a data scheme dependent code into the web server folder and run the server afterwards. By default web server page is accessible at `http://<your_host>:8080/`. 
 <br/>
 
-[ > Web GUI Setup](setup_gui.md)
+[ > Web GUI Server Setup](setup_gui.md)
 <br/><br/>
 * _**Step 4 (optional): Customizing your project**_ 
 

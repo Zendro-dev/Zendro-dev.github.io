@@ -1,8 +1,10 @@
 [ &larr; back](setup_root.md)
 <br/>
-# Set up backend
+# Back-end Server Setup
 
-### Install backend skeleton
+<br/><br/>
+_**Server "skeleton"**_
+
 For installing the backend skeleton we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/graphql-server), installed locally. For this purpose we should run the following lines:
 
 ```
@@ -12,7 +14,9 @@ $ npm install
 ```
 From now on, in this document, we will assume that your backend-skeleton is installed in `/your-path/backend-skeleton`.
 
-### Install backend generator
+<br/><br/>
+_**Install backend code generator**_
+
 For installing the backend generator we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/graphql-server-model-codegen), installed.
 For this purpose we should run the following lines:
 ```
@@ -23,7 +27,9 @@ $ npm install -g
 If you only want to install it locally, then you should run
 `$ npm install` instead and then adapt each command accordingly.  
 
-### Generate backend
+<br/><br/>
+_**Generate the code**_
+
 After installed the backend-generator and as long as we have our data models defined, then we can generate the code for the graphql server. For this purpose we should run the following lines:
 
 ```
@@ -40,7 +46,9 @@ Example:
 $ code-generator generate /your-path/json-files /your-path/backend-skeleton
 ```
 
-### Run graphql server
+<br/><br/>
+_**Run GraphQL server**_
+
 ```
 $ cd /your-path/backend-skeleton
 $ node_modules/.bin/sequelize db:migrate
@@ -48,18 +56,19 @@ $ node server.js
 ```
 `$ node_modules/.bin/sequelize db:migrate` command will create the tables specified in the migrations folder. With credential as in config/config.json file.
 
-### Environment variables
+*Note:* For the command `$ node_modules/.bin/sequelize db:migrate` a data base should be already configured locally as in `config/config.json` file, which is part of the project. If you followed all the instructions, this file should be in  `/your-path/backend-skeleton/config/config.json`
+
+<br/><br/>
+_**Setup environment variables**_
+
 You can also specify some environment variables:
 
 * `PORT` - The port where the app is listening, default value is `3000`
-* `ALLOW_ORIGIN` - In development mode we need to specify the header `Access-Control-Allow-Origin` so the SPA application can communicate with the server, default value `http://localhost:8080`.
+* `ALLOW_ORIGIN` - In development mode we need to specify the header `Access-Control-Allow-Origin` so the SPA application can communicate with the server, default value is `http://localhost:8080`.
 * `LIMIT_RECORDS` - Maximum number of records that each request can return, default value is 10000.
 
 Example:
 ```
-$ PORT=7000 node server.js
+$ PORT = 7000 && node server.js
 ```
 Now your server will be listening on PORT 7000.
-
-### * NOTE
-For the command `$ node_modules/.bin/sequelize db:migrate` a data base should be already configured locally as in `config/config.json` file, which is part of the project. If you followed the instruction as in here, this file should be in  `/your-path/backend-skeleton/config/config.json`
