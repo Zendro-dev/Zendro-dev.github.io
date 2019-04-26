@@ -1,6 +1,6 @@
 [ &larr; back](README.md)
 <br/>
-### ScienceDB API Documentation
+# ScienceDB API Documentation
 
 Given a data scheme described using our [custom format](setup_data_scheme.md), the ScienceDb backend generator will implement default CRUD API that can be accessed through a well-known GraphQL query language or through an *export service*. To get more information about GraphQL queries and mutations you can read it's [official documentation](https://graphql.org/learn/queries/). When back-end server is up, the regular GraphQL service is accessible at `http://<back_srv>/graphql`. The service aimed for exporting massive joined database slices has another URL: `http://<back_srv>/export`. Both services accept POST requests with authentication information in it's header. In the case of GraphQL, request body should follow the GraphQL standard. Data export service accept it's own request parameters.
 
@@ -9,13 +9,13 @@ ScienceDB back-end server implementation follow the GraphQL convention to refer 
 ScienceDB API documentation consists of three parts:
 <br/><br/>
 
-_**Access Permissions**_
+### Access Permissions
 
 Back-end server can work in two modes: *development* and *production*, depending on the presence of `acl` argument in the command line that runs back-end server. The development mode will cause all user permissions to be ignored. In this mode it is possible to omit authentication header in the requests and start to explore server's API without configuring any permissions. However, for obvious reasons, it is highly recommended to open remote access to the server running in production mode (with `acl` switched-*on*).
 
 [ > ACL](api_acl.md)
 <br/><br/>
-_**GraphQL API**_
+### GraphQL API
  
 Classical REST service suppose all requests to have a predefined form, and usually is URL driven. Here each atomic resource is considered as an *endpoint* and can be referred by a quite restricted request, for example:
 ```
@@ -39,7 +39,7 @@ In this project it is automatically generated a set of GraphQL queries and mutat
 
 [ > GraphQL Queries and Mutations](api_graphql.md)
 <br/><br/>
-_**Data exporting**_
+### Data exporting
 
 Unfortunately current NodeJS GraphQL implementation used in ScienceDB does not support batch download in a fully optimal way because of lack of the non-blocking response data steaming (see [this](https://github.com/graphql/graphql-js/issues/1537) discussion). When it is required to join selected fields of the related data models and get it as a separate file stream use of the *export* service would be the correct solution. 
 
