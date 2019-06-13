@@ -33,17 +33,17 @@ _**Generate the code**_
 After installed the backend-generator and as long as we have our data models defined, then we can generate the code for the graphql server. For this purpose we should run the following lines:
 
 ```
-$ code-generator generate <input-json-files> <output-directory>
+$ code-generator -f <input-json-files> -o <output-directory>
 ```
 ```
 INPUT:
-<input-json-files> - directory where json models are stored
-<output-directory> - directory where the generated code will be written
+<input-json-files> - directory where json models are stored, indicated by the flag -f
+<output-directory> - directory where the generated code will be written, indicated by the flag -o 
 ```
 
 Example:
 ```
-$ code-generator generate /your-path/json-files /your-path/backend-skeleton
+$ code-generator -f /your-path/json-files -o /your-path/backend-skeleton
 ```
 
 <br/><br/>

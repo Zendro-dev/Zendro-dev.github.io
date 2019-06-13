@@ -21,16 +21,20 @@ $ npm install -g
 
 ### Generate GUI
 ```
- $ gui-generator [options] <directory>
+gui-generator -h
 
-  <directory> path where GUI components will be rendered
-  Options:
-    --jsonFiles <files-directory>      Directory containing one json file for each model.
-    -h, --help                         Output usage information
-```
+ Usage: gui-generator [options]
+
+ Code generator for SPA
+
+ Options:
+   -f, --jsonFiles <filesFolder>      Folder containing one json file for each model
+   -o, --outputDirectory <directory>  Directory where generated code will be written
+   -h, --help                         output usage information
+   ```
 Example:
 ```
-$ gui-generator --jsonFiles /your-path/json-files /your-path/gui-skeleton
+$ gui-generator -f /your-path/json-files -o /your-path/gui-skeleton
 ```
 ### Environment variables
 
