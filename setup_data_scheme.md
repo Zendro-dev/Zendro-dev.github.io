@@ -56,18 +56,16 @@ name | Type | Description
 *keysIn* | String | Name of the cross table
 
 ## NOTE:
- It's important to notice that when association involves an external web service then foreign key that refers remote elements should be explicitly written into the attributes field of the given local model.
+ It's important to notice that when a model involves a _belongsTo_ association then foreign key that refers remote elements should be explicitly written into the attributes field of the given local model.
  
- 
- When BOTH models have `sql` storageType foreign keys should NOT be explicitly written and will be added automatically by our code generator.
-
 Example:
 ```
 {
   "model" : "book",
   "storageType" : "sql",
   "attributes" : {
-    "title" : "String"
+    "title" : "String",
+    "publisher_id": "Int"
   },
   "associations":{
       "publisher" : {
