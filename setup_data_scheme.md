@@ -12,8 +12,8 @@ For each model we need to specify the following fields in the json file:
 
 Name | Type | Description
 ------- | ------- | --------------
-*name* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API).
-*storageType* | String | Type of storage where the model is stored. So far can be one of __sql__(for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. ) or __Webservice__ for any database that your project would remotely connect to. 
+*model* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API).
+*storageType* | String | Type of storage where the model is stored. So far can be one of __sql__(for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. ) or __Webservice__ for any database that your project would remotely connect to.
 *attributes* | Object | The key of each entry is the name of the attribute and the value should be the a string indicating the type of the attribute. See the [table](#types-spec) below for allowed types. Example: ```{ "attribute1" : "String", "attribute2: "Int" }```
 *associations* | Object | The key of each entry is the name of the association and the value should be an object describing corresponding association. See [Associations Spec](#associations-spec) section below for details.
 
@@ -43,7 +43,7 @@ name | Type | Description
 ------- | ------- | --------------
 *type* | String | Type of association (like belongsTo, etc.)
 *target* | String | Name of model to which the current model will be associated with.
-*targetKey* | String | A unique identifier of the association for the case where there appear more than one association with the same model. 
+*targetKey* | String | A unique identifier of the association for the case where there appear more than one association with the same model.
 *targetStorageType* | String | Type of storage where the target model is stored. So far can be one of __sql__ or __Webservice__.
 *label* | String | Name of the column in the target model to be used as a display name in the GUI.
 *sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI.
@@ -57,7 +57,7 @@ name | Type | Description
 
 ## NOTE:
  It's important to notice that when a model involves a _belongsTo_ association then foreign key that refers remote elements should be explicitly written into the attributes field of the given local model.
- 
+
 Example:
 ```
 {
