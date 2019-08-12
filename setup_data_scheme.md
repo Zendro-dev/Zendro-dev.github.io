@@ -26,7 +26,16 @@ String |
 Int |
 Float |
 Boolean |
+Date |
+Time |
+DateTime |
 
+For more info about `Date`, `Time`, and `DateTime` types, please see this [info](https://github.com/excitement-engineer/graphql-iso-date/blob/HEAD/rfc3339.txt).
+
+Example:
+* Date: A date string, such as `2007-12-03`.
+* Time: A time string at UTC, such as `10:15:30Z`.
+* DateTime: A date-time string at UTC, such as `2007-12-03T10:15:30Z`
 
 
 ### Associations Spec
