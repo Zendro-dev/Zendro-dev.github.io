@@ -14,7 +14,7 @@ Name | Type | Description
 ------- | ------- | --------------
 *model* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API).
 *storageType* | String | Type of storage where the model is stored. So far can be one of __sql__(for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. ) or __Webservice__ for any database that your project would remotely connect to.
-*attributes* | Object | The key of each entry is the name of the attribute and the value should be the a string indicating the type of the attribute. See the [table](#types-spec) below for allowed types. Example: ```{ "attribute1" : "String", "attribute2: "Int" }```
+*attributes* | Object |  The key of each entry is the name of the attribute and theres two options for the value . Either can be a string indicating the type of the attribute or an object where the user can indicates the type of the attribute(in the _type_ field) but also can indicates an attribute's description (in the _description_ field). See the [table](#types-spec) below for allowed types. Example of option one: ```{ "attribute1" : "String", "attribute2: "Int" }``` Example of option two: ``` { "attribute1" : {"type" :"String", "description": "Some description"}, "attribute2: "Int ```
 *associations* | Object | The key of each entry is the name of the association and the value should be an object describing corresponding association. See [Associations Spec](#associations-spec) section below for details.
 
 ### Supported Data Types
@@ -65,6 +65,69 @@ name | Type | Description
 *keysIn* | String | Name of the cross table
 
 ## NOTE:
+Be aware that in the case of an association _belongsToMany_ the user is required to describe the cross table used in the field _keysIn_ as a model in its own. For example, if we have a model `User` and a model `Role` and they are associated in a _manytomany_ way, then we also need to describe the `role_to_user` model:
+
+```
+//User model
+{
+  "model" : "User",
+  "storageType" : "SQL",
+  "attributes" : {
+    "email" : "String",
+    "password" : "String"
+  },
+  "associations" :{
+    "roles" : {
+      "type" : "belongsToMany",
+      "target" : "Role",
+      "targetKey" : "role_Id",
+      "sourceKey" : "user_Id",
+      "keysIn" : "role_to_user",
+      "targetStorageType" : "sql",
+      "label": "name"
+    }
+  }
+
+}
+```
+
+```
+//Role model
+{
+  "model" : "Role",
+  "storageType" : "SQL",
+  "attributes" : {
+    "name" : "String",
+    "description" : "String"
+  },
+  "associations" : {
+    "users" : {
+      "type" : "belongsToMany",
+      "target" : "User",
+      "targetKey" : "user_Id",
+      "sourceKey" : "role_Id",
+      "keysIn" : "role_to_user",
+      "targetStorageType" : "sql",
+      "label": "email"
+    }
+  }
+}
+```
+
+```
+//role_to_user model
+{
+  "model" : "role_to_user",
+  "storageType" : "SQL",
+  "attributes" : {
+    "user_Id" : "Int",
+    "role_Id" : "Int"
+  }
+}
+
+```
+
+## NOTE:
  It's important to notice that when a model involves a _belongsTo_ association then foreign key that refers remote elements should be explicitly written into the attributes field of the given local model.
 
 Example:
@@ -73,7 +136,7 @@ Example:
   "model" : "book",
   "storageType" : "sql",
   "attributes" : {
-    "title" : "String",
+    "title" : {"type":"String", "description": "The book's title"},
     "publisher_id": "Int"
   },
   "associations":{
