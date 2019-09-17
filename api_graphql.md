@@ -12,13 +12,13 @@ Concrete requests that can be sent to backend server are model dependent, theref
     description: String
   }
 }
-``` 
+```
 
 ### GraphQL Queries
 * `records(search, order, pagination) : [Records]` - Check user authorization and return certain number, specified in pagination argument, of records that holds the condition of search argument, all of them sorted as specified by the order argument. For more information about `search`, `order` and `pagination` argument see this [section below](#general-filter-arguments). Example:
 ```
 query{
-  records(searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like}, order: [{field: name, order: ASC}]){
+  records(search: {field: name, value:{ value: "%test%"}, operator: like}, order: [{field: name, order: ASC}]){
     name
     description
   }
@@ -38,7 +38,7 @@ query {
 * `countRecords(search): Integer` - Count number of records that holds the conditions specified in the search argument. Example:
 ```
 query{
-  countRecords( searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like} )
+  countRecords( search: {field: name, value:{ value: "%test%"}, operator: like} )
 }
 ```
 
@@ -91,7 +91,7 @@ When retrieving a set of records of any data model, there is specific arguments 
 certain records. Two of the general arguments that the user can specify as input are pagination and order. The description about how to use these arguments is as follows:
 
 #### Search argument
-This argument name depends also on the data model name. Assuming our data model is calle `Record` then the search arguments is called
+This argument type depends on the data model name. Assuming our data model is calle `Record` then the graphql type of this argument is called
 `searchRecordInput` and it is an object which contains the next fields:
 
 name | Type | Description
@@ -101,11 +101,13 @@ name | Type | Description
 *operator* | String | Operator used to filter the records. Example: `eq`, `like` ...
 *search* | [searchRecordInput] | Recursively the user can spefify another search argument.
 
+Although the search argument type depends on the data model name, the argument name will be always the same, _search_.
+
 EXAMPLE : Let's say we want to filter all the records which name has the substring *'test'*. The proper query to perform this action would be:
 
 ```
 query {
-  records(searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like}){
+  records(search: {field: name, value:{ value: "%test%"}, operator: like}){
     name
     description
   }
@@ -113,8 +115,9 @@ query {
 
 ```
 #### Order argument
-The order argument name also depends on the data model name. With our data model `Record` the order argument will be called `orderRecordInput` and it is an object  which contains the name of the attribute to sort and the order that will be used, order can be ascendent `ASC` or descendant `DESC`.
+The order argument type also depends on the data model name. With our data model `Record` the order argument will be called `orderRecordInput` and it is an object  which contains the name of the attribute to sort and the order that will be used, order can be ascendent `ASC` or descendant `DESC`.
 When retrieving a set of records the user pass an array or order arguments, one for each attribute that will be sorted.
+Although the order argument type depends on the data model name, the argument name will be always the same, _order_.
 
 EXAMPLE: Let's say we want to sort all records alphabetically by the name column. The proper query to perform this action would be:
 ```
@@ -127,7 +130,7 @@ query{
 ```
 
 #### Pagination argument
-The pagination argument is generic for all data model and the purpose of this argument is to control the maximum number of records that can be retrieved. The name for the argument is `painationInput` and it is an object which contains the number of records to retrieve and the offset from where to start counting the records.
+The pagination argument is generic for all data model and the purpose of this argument is to control the maximum number of records that can be retrieved. The name for the argument is `pagination` and it is an object which contains the number of records to retrieve and the offset from where to start counting the records.
 
 attribute | Type  | Description
 ------ | ------- | --------
@@ -137,7 +140,7 @@ offset | Integer | Starting point for retrieving records
 EXAMPLE: Considering the `Record` data model for retrievin the second 10 records, the proper query to perfrom this action would be:
 ```
 query{
-  records( paginationInput: {offset: 11, limit: 10}){
+  records( pagination: {offset: 11, limit: 10}){
     name
     description
   }
@@ -195,11 +198,11 @@ And we will describe the associations between the models `Record` and `Item`.
  Example:
 ```
 query{
-  records(searchRecordInput: {field: name, value:{ value: "%test%"}, operator: like}){
+  records(search: {field: name, value:{ value: "%test%"}, operator: like}){
     name
     description
-    countFilteredItems(searchItemInput: {field: name, value:{ value: "%test%"}, operator: like})
-    itemsFilter(paginationInput:{offset: 5, limit: 10}){
+    countFilteredItems(search: {field: name, value:{ value: "%test%"}, operator: like})
+    itemsFilter(pagination:{offset: 5, limit: 10}){
       length
     }
   }
