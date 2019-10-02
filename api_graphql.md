@@ -160,11 +160,12 @@ And we will describe the associations between the models `Record` and `Item`.
     "storageType": "sql",
     "attributes": {
       "name": String,
-      "length": Int
+      "length": Int,
+      "recordId":Int
     },
     "associations":{
       "record":{
-        "type": "belongsTo",
+        "type": "to_one",
         "target": "Record",
         "targetKey": "recordId",
         "targetStorageType": "sql",
@@ -179,7 +180,7 @@ And we will describe the associations between the models `Record` and `Item`.
 ...
   "associations":{
     "items": {
-      "type": "hasMany",
+      "type": "to_one",
       "target": "Item",
       "targetKey": "itemId",
       "targetStorageType": "sql"

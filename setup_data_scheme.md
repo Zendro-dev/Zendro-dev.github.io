@@ -40,11 +40,10 @@ Example:
 
 ### Associations Spec
 
-We will consider four possible types of associations:
-1. belongsTo
-2. hasOne
-3. hasMany
-4. belongsToMany
+We will consider two types of associations accordingly to the number of records
+that can posibly be associated:
+1. to_one
+2. to_many
 
 For all type of association, except for association of type 4 (belongsToMany), the necessary arguments would be:
 
@@ -57,7 +56,7 @@ name | Type | Description
 *label* | String | Name of the column in the target model to be used as a display name in the GUI.
 *sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI.
 
-When association is of type 4, it's necessary to describe two extra arguments given that the association is made with a cross table. These arguments are:
+When the association is of type *to_many* and it referes to a more particular type of association *many_to_many*  it's necessary to describe two extra arguments given that the association is made with a cross table. These arguments are:
 
 name | Type | Description
 ------- | ------- | --------------
@@ -65,7 +64,7 @@ name | Type | Description
 *keysIn* | String | Name of the cross table
 
 ## NOTE:
-Be aware that in the case of an association _belongsToMany_ the user is required to describe the cross table used in the field _keysIn_ as a model in its own. For example, if we have a model `User` and a model `Role` and they are associated in a _manytomany_ way, then we also need to describe the `role_to_user` model:
+Be aware that in the case of this type of association the user is required to describe the cross table used in the field _keysIn_ as a model in its own. For example, if we have a model `User` and a model `Role` and they are associated in a _manytomany_ way, then we also need to describe the `role_to_user` model:
 
 ```
 //User model
@@ -78,7 +77,7 @@ Be aware that in the case of an association _belongsToMany_ the user is required
   },
   "associations" :{
     "roles" : {
-      "type" : "belongsToMany",
+      "type" : "to_many",
       "target" : "Role",
       "targetKey" : "role_Id",
       "sourceKey" : "user_Id",
@@ -102,7 +101,7 @@ Be aware that in the case of an association _belongsToMany_ the user is required
   },
   "associations" : {
     "users" : {
-      "type" : "belongsToMany",
+      "type" : "to_many",
       "target" : "User",
       "targetKey" : "user_Id",
       "sourceKey" : "role_Id",
@@ -128,7 +127,8 @@ Be aware that in the case of an association _belongsToMany_ the user is required
 ```
 
 ## NOTE:
- It's important to notice that when a model involves a _belongsTo_ association then foreign key that refers remote elements should be explicitly written into the attributes field of the given local model.
+It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model.
+
 
 Example:
 ```
@@ -141,7 +141,7 @@ Example:
   },
   "associations":{
       "publisher" : {
-        "type" : "belongsTo", // FK to publisher will be stored in the Book model
+        "type" : "to_one", // FK to publisher will be stored in the Book model
         "target" : "publisher", // Model's name is `publisher`
         "targetKey" : "publisher_id", // Local alias for this association
         "targetStorageType" : Webservice", //  It's a remote database
