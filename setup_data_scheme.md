@@ -45,13 +45,14 @@ that can posibly be associated:
 1. to_one
 2. to_many
 
-For all type of association, except for association of type 4 (belongsToMany), the necessary arguments would be:
+For both type of association, the necessary arguments would be:
 
 name | Type | Description
 ------- | ------- | --------------
 *type* | String | Type of association (like belongsTo, etc.)
 *target* | String | Name of model to which the current model will be associated with.
 *targetKey* | String | A unique identifier of the association for the case where there appear more than one association with the same model.
+*keyIn* | String | Name of the model where the targetKey is stored.
 *targetStorageType* | String | Type of storage where the target model is stored. So far can be one of __sql__ or __Webservice__.
 *label* | String | Name of the column in the target model to be used as a display name in the GUI.
 *sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI.
@@ -141,9 +142,10 @@ Example:
   },
   "associations":{
       "publisher" : {
-        "type" : "to_one", // FK to publisher will be stored in the Book model
+        "type" : "to_one", // association type
         "target" : "publisher", // Model's name is `publisher`
         "targetKey" : "publisher_id", // Local alias for this association
+        "keyIn": "book", // FK to publisher will be stored in the Book model
         "targetStorageType" : Webservice", //  It's a remote database
         "label" : "name" // Show in GUI the name of the publisher taken from external DB
         }

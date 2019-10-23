@@ -168,6 +168,7 @@ And we will describe the associations between the models `Record` and `Item`.
         "type": "to_one",
         "target": "Record",
         "targetKey": "recordId",
+        "keyIn": "Item",
         "targetStorageType": "sql",
       }
     }
@@ -180,9 +181,10 @@ And we will describe the associations between the models `Record` and `Item`.
 ...
   "associations":{
     "items": {
-      "type": "to_one",
+      "type": "to_many",
       "target": "Item",
-      "targetKey": "itemId",
+      "targetKey": "recordId",
+      "keyIn": "Item",
       "targetStorageType": "sql"
     }
   }
