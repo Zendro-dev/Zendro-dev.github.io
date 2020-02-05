@@ -191,8 +191,9 @@ And we will describe the associations between the models `Record` and `Item`.
 }
 
 ```
+### Extra query fields to fetch associations
 
-### The extra query fields for the `Record` model would be:
+##### The extra query fields for the `Record` model would be:
 
 * `itemsFilter(search, order, pagination): [Items]` - Given one record, the user will be able to filter all the items associated with the current record.
 
@@ -212,7 +213,7 @@ query{
 }
 ```
 
-### The extra query fields for the `Item` model would be:
+##### The extra query fields for the `Item` model would be:
 
 * `record : Record` -  Given one item, the user will be able to access the data of the record associated with the current item.
 
@@ -224,6 +225,70 @@ readOneItem(id: 23){
   record{
     name
     description
+  }
+}
+```
+
+### Extra mutation fields to update/create associations.
+
+In order to manipulate associations, a couple of fields in create and update mutations will be added: `addName_of_association` and `removeName_of association`
+
+In the case of `to-one` association the parameters expect to receive only and `ID`, representing the associated item to be added or removed,  or `null` value(to remove association).
+
+Continuing with our example of Items-Record, the sample mutations would be:
+
+```
+//create
+mutation{
+  addItem(name: "testItem" addRecord: 14){
+    name
+    record{
+      name
+      description
+    }
+  }
+}
+```
+
+```
+//update
+mutation{
+  updateItem(id: 2 removeRecord: 14){
+    name
+    record{
+      name
+      description
+    }
+  }
+}
+```
+
+In the case of `to-many` association the parameters expect to receive an array of `IDs` representing the associated items to be added or removed.
+
+From the side of the `Record` model from our example, the sample mutations would be:
+
+```
+//create
+mutation{
+  addRecord( name: "testRecord" addItems: [3, 5, 7] ){
+    name
+    itemsFilter{
+      name
+      length
+    }
+  }
+}
+```
+
+```
+//update
+mutation{
+  updateRecord( id: 1 addItems:[2,4] removeItems: [5,7]){
+    name
+    itemsFilter{
+      name
+      length
+    }
   }
 }
 ```
