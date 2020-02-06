@@ -229,7 +229,7 @@ readOneItem(id: 23){
 }
 ```
 
-### Extra mutation fields to update/create associations.
+### Extra mutation fields to update or create associations.
 
 In order to manipulate associations, a couple of fields in create and update mutations will be added: `addName_of_association` and `removeName_of association`
 
