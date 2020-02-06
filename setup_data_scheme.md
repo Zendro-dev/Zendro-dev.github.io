@@ -15,7 +15,7 @@ Name | Type | Description
 *model* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API).
 *storageType* | String | Type of storage where the model is stored. So far can be one of __sql__(for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. ) or __Webservice__ for any database that your project would remotely connect to or __cenz\_server__ for models stored in any other instance created with cenz-tools.
 *url* | String | This field is only mandatory for __cenz\_server__ stored models. Indicates the url where the cenz server storing the model is runnning.
-*attributes* | Object |  The key of each entry is the name of the attribute and theres two options for the value . Either can be a string indicating the type of the attribute or an object where the user can indicates the type of the attribute(in the _type_ field) but also can indicates an attribute's description (in the _description_ field). See the [table](#types-spec) below for allowed types. Example of option one: ```{ "attribute1" : "String", "attribute2: "Int" }``` Example of option two: ``` { "attribute1" : {"type" :"String", "description": "Some description"}, "attribute2: "Int ```
+*attributes* | Object |  The key of each entry is the name of the attribute and theres two options for the value . Either can be a string indicating the type of the attribute or an object where the user can indicates the type of the attribute(in the _type_ field) but also can indicates an attribute's description (in the _description_ field). See the [table](#supported-data-types) below for allowed types. Example of option one: ```{ "attribute1" : "String", "attribute2: "Int" }``` Example of option two: ``` { "attribute1" : {"type" :"String", "description": "Some description"}, "attribute2: "Int ```
 *associations* | Object | The key of each entry is the name of the association and the value should be an object describing corresponding association. See [Associations Spec](#associations-spec) section below for details.
 
 ### Supported Data Types
@@ -129,7 +129,7 @@ Be aware that in the case of this type of association the user is required to de
 ```
 
 ## NOTE:
-It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model.
+It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update/create-associations) section for more info.
 
 
 Example:
