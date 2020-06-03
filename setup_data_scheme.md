@@ -132,7 +132,7 @@ Be aware that in the case of this type of association the user is required to de
 
 ```
 
-#### NOTE - Foreign keys
+#### Foreign keys
 
 It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
 
@@ -159,7 +159,7 @@ Example:
 }
 ```
 
-#### NOTE - Differences between backend and Frontend (GUI)
+#### Differences between backend and Frontend (GUI)
 
 The same data model description files (.json) can be used for generating both, the [BACKEND](setup_backend.md) and [FRONTEND OR GUI](setup_gui.md). Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
 
@@ -206,64 +206,125 @@ The meaning of these keywords and their valid combinations are discussed from th
     B.json: belongsTo A;
     (table B keeps a unique foreignkey_A)
 
-#### The code generator at work (WIP)
+#### The code generator at work
 
 The code generator receives the specification as described [above](#json-specs) and generates resolvers and models from it. In this section we take a look at the code that is generated from the different attributes that can be given by the JSON specification.
 
-The model contains a constant named `definition` that contains the full JSON specification. The following placeholders will be used from now on:
+The model contains a constant named `definition` that contains the full JSON specification. The following placeholders will be used from now on (references to the JSON file included):
 
-* `<record>`: The respective main record type
-* `<assoc>`: The name of the associated record (with capitalization and plural forms properly applied)
-* `<assocID>`: The association ID
-* `<ModelIDAttribute>`: The name of the ID attribute
-* `<assocIDValue>`: The actual value of the associated ID
-* `<CrossTable>`: The name of the SQL cross table
+* `<model>`: The respective main record type (`model`)
+* `<models>`: The pluralized version of `<model>`
+* `<NAME>`: The name of the association as given in the JSON file (respective key in the object `associations`)
+* `<assoc>`: The name of the associated record (`<NAME>` with capitalization and plural forms properly applied)
+* `<assocID>`: The association ID (`associations -> <NAME> -> targetKey`)
+* `<ModelIDAttribute>`: The name of the ID attribute (`internalId` if present, otherwise "`id`")
+* `<assocIDValue>`: The actual value of `<assocID>`
+* `<CrossTable>`: The name of the SQL cross table (`associations -> <NAME> -> keysIn`)
 
-##### Case *to_many* association
+The only storage type that is examined here is `sql` (`storageType` for the main record, `associations -> <NAME> -> targetStorageType` for the association).
+
+##### The model itself
+
+First we observe the methods that are created for handling the model itself with no regard yet to the associations.
+
+The following methods are created in the resolver:
+
+* The methods `errorMessageForRecordsLimit(query)`, `async function checkCountAndReduceRecordsLimit(search, context, query)` and `checkCountForOneAndReduceRecordsLimit(context)`, which handle the checking of the records limit (see below)
+* The method `async function validForDeletion(id, context)`, which checks if a given record can be deleted
+* A root resolver method `<models>({search, order, pagination}, context)`, which performs a search of the model entries with limit-offset based pagination after checking for authorization (*SEARCH_LO_ROOT*)
+* A root resolver method `<models>Connection({search, order, pagination}, context)`, which performs a search of the model entries with cursor based pagination after checking for authorization (*SEARCH_CURSOR_ROOT*)
+* A root resolver method `readOne<model>({<ModelIDAttribute>}, context)`, which returns a single record which matches the given ID after checking for authorization (*SINGLE_ROOT*)
+* A root resolver method `count<models>: async function({search}, context)`, which returns the number of records which match the given search term after checking for authorization (*COUNT_ROOT*).
+* *A (deprecated) root resolver method `vueTable<model>(_, context)`, which returns a table of records as needed for displaying a vuejs table after checking for authorization*
+* A root resolver method `add<model>(input, context)`, which adds a record for the model after checking for authorization (*ADDING_ROOT*)
+* A root resolver method `bulkAdd<model>Csv(_, context)`, which loads a csv file containing records and adds them to the model after checking for authorization (*ADDING_IN_BULK_ROOT*)
+* A root resolver method `delete<model>({<ModelIDAttribute>}, context)`, which deletes the record given by the ID value after checking for authorization (*DELETING_ROOT*)
+* A root resolver method `update<model>: async function(input, context)`, which updates a record which is given by the input argument with new values and/or associations as given by the input argument after checking for authorization (*UPDATING_ROOT*)
+* A root resolver method `csvTableTemplate<model>(_, context)`, which returns the table's template after checking for authorization (*TEMPLATE*)
+
+The following methods are created in the model:
+
+* A method `static init(sequelize, DataTypes)`, which initializes the model
+* *SINGLE_ROOT:* A root resolver implementation method `static async readById(id)`, which returns a single record given by the ID
+* *COUNT_ROOT:* A root resolver implementation method `static async countRecords(search)`, which counts the records given by the search term
+* *SEARCH_LO_ROOT:* A method `static readAll(search, order, pagination)`, which returns the records given by the search term with limit-offset based pagination
+* *SEARCH_CURSOR_ROOT:* A method `static readAllCursor(search, order, pagination)`, which returns the records given by the search term with cursor based pagination
+* *ADDING_ROOT:* A method `static addOne(input)`, which adds a record
+* *DELETING_ROOT:* A method `static deleteOne(id)`, which deletes a record
+* *UPDATING_ROOT:* A method `static updateOne(input)`, which updates a record
+* *ADDING_IN_BULK_ROOT:* A method `bulkAddCsv(context)`, which adds several records from a csv file
+* *TEMPLATE:* A method `csvTableTemplate()`, which returns the template of a table
+* A method `static idAttribute()`, which returns the name of the ID attribute
+* A method `static idAttributeType()`, which returns the type of the ID attribute
+* A method `getIdValue()`, which returns the value of the ID attribute
+* A getter for the model class `static get definition()` which returns the `definition` constant.
+* A method `static base64Decode(cursor)`, to decode a base 64 representation of a given cursor into a UTF-8 string
+* A method `base64Encode()`, which encodes the current cursor into a base 64 string
+* A method `stripAssociations()`, which returns only the attributes of the current record
+* A method `externalIdsArray()`, which returns `definition.externalIds` if present, otherwise `[]`.
+* A method `externalIdsObject()`, which returns an object containing only the attributes with external IDs as keys, or an empty object.
+
+##### For all associations
+
+In the resolver the following entries are created:
+
+* a constant named `associationsArgsDef` is created which is an object, containing for each association the name of the "add" method as key and the name of the association as value.
+* a method named `<model>.prototype.handleAssociation = async function(input, context)`, which handles the execution of all "add"/"remove" statements as promises.
+* *a method named `async function countAllAssociatedRecords(id, context)` which counts all existing associations of a record, so that it can be made sure that no records are associated to one if this record is to be deleted.*
+
+In the model a method `static associate(models)` is created, which is filled for each association type as outlined below.
+
+##### Association type *to_many*
 
 For this association the following methods are created in the resolver:
 
-* Two methods to return the associated records via a search, with an order and a pagination (limit-offset-based or cursor-based) possibly added (named `<record>.prototype.<assoc>Filter({search, order, pagination}, context)` for the limit-offset-based case and `<record>.prototype.<assoc>Connection({search, order, pagination}, context)` for the cursor-based case)
-* A method to count the associated records: `<record>.prototype.countFiltered<assoc>({search}, context)`
-* A method for adding records in a loop that sets the associated ID in the *associated record* to the ID of the main record: `<record>.prototype.add_<assoc>(input)`
-* A method for removing records in a loop that removes the associated ID in the *associated record*: `<record>.prototype.remove_<assoc>(input)`
+* Two methods to return the associated records via a search, with an order and a pagination (limit-offset-based or cursor-based) possibly added (named `<model>.prototype.<assoc>Filter({search, order, pagination}, context)` for the limit-offset-based case and `<model>.prototype.<assoc>Connection({search, order, pagination}, context)` for the cursor-based case), in both cases by calling the root resolver of the respective associated records
+* A method to count the associated records: `<model>.prototype.countFiltered<assoc>({search}, context)` by calling the root resolver of the associated records
+* A field resolver method for adding records in a loop that sets the associated ID in the *associated record* to the ID of the main record: `<model>.prototype.add_<assoc> = async function(input)` by calling the model field resolver implementation adding method of the associated record (*ADDING_TO1*)
+* A field resolver method for removing records in a loop that removes the associated ID in the *associated record*: `<model>.prototype.remove_<assoc> = async function(input)` by calling the model field resolver implementation deleting method of the associated record (*REMOVING_TO1*)
 
-In the model file, an entry is added to the method `associate(models)` in  the form `<record>.hasMany(models.<assoc>, {as: <assoc>, foreignKey: <assocID>})`. The model methods that are called from the resolver are in the associated model (which holds the association key).
+In the model file, an entry is added to the method `associate(models)` in  the form `<model>.hasMany(models.<assoc>, {as: <assoc>, foreignKey: <assocID>})`. The model methods that are called from the resolver are in the associated model (which holds the association key).
 
-##### Case *to_one* association
+##### Association type *to_one*
 
 For this association the following methods are created in the resolver:
 
-* A method to return the associated record via a search for the given record ID: `<record>.prototype.<assoc>({search}, context)`
-* A method for adding a record that calls the respective model method (see below): `<record>.prototype.add_<assoc>(input)`
-* A method for removing a record that calls the respective model method (see below): `<record>.prototype.remove_<assoc>(input)`
+* A method to return the associated record via a search for the given record ID: `<model>.prototype.<assoc> = async function({search}, context)` by calling the root resolver of the associated record for searching with limit-offset based pagination (*SEARCH_LO_ROOT*)
+* A field resolver method for adding a record that calls the respective model method (see below): `<model>.prototype.add_<assoc> = async function(input)` (*ADDING_TO1*)
+* A field resolver method for removing a record that calls the respective model method (see below): `<model>.prototype.remove_<assoc> = async function(input)` (*REMOVING_TO1*)
 
 In the model the following entries are created:
 
-* An entry to the method `associate(models)` in the form `<record>.belongsTo(models.<assoc>, {as: <assoc>, foreignKey: <assocID>})`
-* A method to add an entry by setting the associated ID in the *main record* to the ID of the associated record: `static async add_<assocID>(<ModelIDAttribute>, <assocIDValue>)`
-* A method for removing a record that removes the associated ID in the *main record*: `static async remove_<assocID>(<ModelIDAttribute>, <assocIDValue>)`
+* An entry to the method `associate(models)` in the form `<model>.belongsTo(models.<assoc>, {as: <assoc>, foreignKey: <assocID>})`
+* *ADDING_TO1:* A field resolver implementation method to add an entry by setting the associated ID in the *main record* to the ID of the associated record: `static async add_<assocID>(<ModelIDAttribute>, <assocIDValue>)`
+* *REMOVING_TO1:* A field resolver implementation method for removing a record that removes the associated ID in the *main record*: `static async remove_<assocID>(<ModelIDAttribute>, <assocIDValue>)`
 
-##### Case *to_many_through_sql_cross_table*
+##### Association type *to_many_through_sql_cross_table*
 
 In this case an additional record type is introduced that contains the SQL cross table, so there are 3 models and 3 resolvers to consider. Unlike the former two cases, this one is fully symmetric. *Both* records involved define this type of connection with the name of the cross table as `keysIn`. The source key for both types is the ID of the own record, and the target key is the ID of the other record. Because of the symmetry, only 4 files must be considered.
 
 ###### Record Resolver
 
-* Two methods to return the associated records via a search for both types of pagination. In this case, special "`impl`" functions of the models are called (see below). Names: `<record>.prototype.<assoc>Filter({search, order, pagination}, context)` for the limit-offset based pagination and `<record>.prototype.<assoc>Connection({search, order, pagination}, context)` for the cursor based pagination
-* A method for counting the associated records, calling a special "`impl`" function of the model (see below): `<record>.prototype.countFiltered<assoc>({search}, context)`
-* A method for adding an associated record, calling the respective model method (see below): `<record>.prototype.add_<assoc>(input)`
-* A method for removing an associated record, calling the respective model method (see below): `<record>.prototype.remove_<assoc>(input)`
+* Two methods to return the associated records via a search for both types of pagination. In this case, special "`impl`" functions of the models are called (see below). Names: `<model>.prototype.<assoc>Filter({search, order, pagination}, context)` for the limit-offset based pagination (*SEARCH_LO_TMTSCT*) and `<model>.prototype.<assoc>Connection({search, order, pagination}, context)` for the cursor based pagination (*SEARCH_CURSOR_TMTSCT*) after checking for authorization
+* A method for counting the associated records, calling a special "`impl`" function of the model (see below - *COUNT_TMTSCT* ): `<model>.prototype.countFiltered<assoc>({search}, context)` after checking for authorization
+* A field resolver method for adding an associated record, calling the respective model method (see below): `<model>.prototype.add_<assoc> = async function(input)` (*ADDING_TMTSCT*)
+* A field resolver method for removing an associated record, calling the respective model method (see below): `<model>.prototype.remove_<assoc> = async function(input)` (*REMOVING_TMTSCT*)
 
 ###### Record Model
 
-* An entry to the method `associate(models)` in the form `<record>.belongsToMany(models.<assoc>, {as: <assoc>, foreignKey: <assocID>, through: <CrossTable>, onDelete: 'CASCADE'})`
-* An implementation function for the search with limit-offset based pagination: `<assoc>FilterImpl({search, order, pagination})`
-* An implementation function for the search with cursor based pagination: `<assoc>ConnectionImpl({search, order, pagination})`
-* An implementation function for the counting: `countFiltered<assoc>Impl({search})`
-* A method for adding a record: `static async add_<assocID>(record, add<assoc>)`
-* A method for removing a record: `static async remove_<assocID>(record, remove<assoc>)`
+* An entry to the method `associate(models)` in the form `<model>.belongsToMany(models.<assoc>, {as: <assoc>, foreignKey: <assocID>, through: <CrossTable>, onDelete: 'CASCADE'})`
+* *SEARCH_LO_TMTSCT:* An implementation function for the search with limit-offset based pagination: `<assoc>FilterImpl({search, order, pagination})`
+* *SEARCH_CURSOR_TMTSCT:* An implementation function for the search with cursor based pagination: `<assoc>ConnectionImpl({search, order, pagination})`
+* *COUNT_TMTSCT:* An implementation function for the counting: `countFiltered<assoc>Impl({search})`
+* *ADDING_TMTSCT:* A field resolver implementation method for adding a record: `static async add_<assocID>(record, add<assoc>)`
+* *REMOVING_TMTSCT:* A field resolver implementation method for removing a record: `static async remove_<assocID>(record, remove<assoc>)`
 
-###### Cross Table functions
+###### Cross Table Resolver / Model
 
 Normal resolver / model files are created, where the respective model type has no associations of its own.
+
+## Authorization-checks and record limits
+
+Not every access to Cenzontle is permitted. In many cases (see above), the user must be authorized to perform a certain action. Possible authorizations for a given table include `read`, `create`, `delete`, `update`. These authorizations with respect to tables are connected to roles that users can have and are stored within the database.
+
+Additionally, reading actions are refused if they access too many records. GraphQL is a very powerful data query and manipulation language that gives the user the control about what to query the server, but this makes it possible (by accident or malice) to make such a large query that the server cannot handle it. To  prevent this, the server has a set limit of records that can be accessed by a single query.
