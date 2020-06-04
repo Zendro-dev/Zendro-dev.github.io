@@ -328,3 +328,11 @@ Normal resolver / model files are created, where the respective model type has n
 Not every access to Cenzontle is permitted. In many cases (see above), the user must be authorized to perform a certain action. Possible authorizations for a given table include `read`, `create`, `delete`, `update`. These authorizations with respect to tables are connected to roles that users can have and are stored within the database.
 
 Additionally, reading actions are refused if they access too many records. GraphQL is a very powerful data query and manipulation language that gives the user the control about what to query the server, but this makes it possible (by accident or malice) to make such a large query that the server cannot handle it. To  prevent this, the server has a set limit of records that can be accessed by a single query.
+
+## Pagination types
+
+As seen above, Cenzontle provides two different types of pagination: Limit-offset based and cursor based. Limit-offset based pagination is the better known one, where the user provides an offset (how many entries to skip) and a limit (how many entries to display on one page).
+
+Limit-offset based pagination is not possible for distributed data models, i.e. models where records of a single table are spread over different servers. This is because the client (how makes the request) does not know how the entries are distributed, so the offset for the different servers cannot be provided. Since this data model is especially useful for Big Data, it is not feasible to request the entire table and paginate the data on the client side.
+
+Instead, a different model has to be used. If the different servers are told which was the last entry "above" the requested page (a cursor), they can deliver the content that would follow up tp it and the client can now get the received data in order. This type of pagination works for any kind of data, although it is more complex (the entries for the table are found under `edges[] -> node`).
