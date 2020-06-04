@@ -46,3 +46,10 @@ Unfortunately current NodeJS GraphQL implementation used in ScienceDB does not s
 This service comes into play when a database cut is required for subsequent automated manipulations. For example: to create dynamically updated reports (diagrams, calculations) or to append project specific table *views* (tables that unite more than one data model).
 
 [ > Data Export](api_export.md)
+### SQL Statements in the Data model
+
+One of the supported storage types (and the standard storage type for completely local databases) is SQL. If this storage type is used, all database access commands are ultimately transformed into SQL.
+
+A list of basic GraphQL statements and their transformation into SQL can be seen here.
+
+[ > SQL Statements](api_sql.md)
