@@ -206,6 +206,10 @@ The meaning of these keywords and their valid combinations are discussed from th
     B.json: belongsTo A;
     (table B keeps a unique foreignkey_A)
 
+#### The Resolver Layer and the Model Layer
+
+The Cenzontle server uses two different layers below the GraphQL schema (which defines the functions that the GraphQL server understands) to process data, the resolver layer and the model layer. The main reason for this is that Cenzontle supports a growing number of storage types, and the more abstract layer (the resolver) is supposed to be storage type agnostic. There is one exception to this (in the case of distributed data models, one resolver function cannot be supported, see [below](#pagination-types)), but otherwise, it holds true. So the resolver layer provides an interface that the GraphQL schema can use, and (on the other side) an interface that a new storage type model has to fulfill.
+
 #### The code generator at work
 
 The code generator receives the specification as described [above](#json-specs) and generates resolvers and models from it. In this section we take a look at the code that is generated from the different attributes that can be given by the JSON specification.
@@ -236,15 +240,15 @@ async function checkCountAndReduceRecordsLimit(search, context, query) | Checks 
 checkCountForOneAndReduceRecordsLimit(context) | Checks the record limit for a single entry - if kept, reduce it by the count of the entries, otherwise throw `Error` |
 async function validForDeletion(id, context) | Checks if a record can be deleted (i.e. if this record has no associations) |
 `<models>`({search, order, pagination}, context) | Performs a search of the model entries with limit-offset based pagination after checking for authorization | SEARCH_LO_ROOT
-`<models>`Connection({search, order, pagination}, context) | __Root Resolver__ -  Performs a search of the model entries with cursor based pagination after checking for authorization | SEARCH_CURSOR_ROOT
-readOne`<model>`({`<ModelIDAttribute>`}, context) | __Root Resolver__ -  Returns a single record which matches the given ID after checking for authorization | SINGLE_ROOT
-count`<models>`: async function({search}, context) | __Root Resolver__ -  Returns the number of records which match the given search term after checking for authorization | COUNT_ROOT
-vueTable`<model>`(_, context) | __Root Resolver__ -  Returns a table of records as needed for displaying a vuejs table after checking for authorization (__deprecated__) |
-add`<model>`(input, context) | __Root Resolver__ -  Adds a record for the model after checking for authorization | ADDING_ROOT
-bulkAdd`<model>`Csv(_, context) | __Root Resolver__ -  Loads a csv file containing records and adds them to the model after checking for authorization | ADDING_IN_BULK_ROOT
-delete`<model>`({`<ModelIDAttribute>`}, context) | __Root Resolver__ -  Deletes the record given by the ID value after checking for authorization | DELETING_ROOT
-update`<model>`: async function(input, context) | __Root Resolver__ -  Updates a record which is given by the input argument with new values and/or associations as given by the input argument after checking for authorization | UPDATING_ROOT
-csvTableTemplate`<model>`(_, context) |  __Root Resolver__ -  Returns the table's template after checking for authorization | TEMPLATE
+`<models>`Connection({search, order, pagination}, context) | __Root Resolver:__  Performs a search of the model entries with cursor based pagination after checking for authorization | SEARCH_CURSOR_ROOT
+readOne`<model>`({`<ModelIDAttribute>`}, context) | __Root Resolver:__  Returns a single record which matches the given ID after checking for authorization | SINGLE_ROOT
+count`<models>`: async function({search}, context) | __Root Resolver:__  Returns the number of records which match the given search term after checking for authorization | COUNT_ROOT
+vueTable`<model>`(_, context) | __Root Resolver:__  Returns a table of records as needed for displaying a vuejs table after checking for authorization (__deprecated__) |
+add`<model>`(input, context) | __Root Mutation:__  Adds a record for the model after checking for authorization | ADDING_ROOT
+bulkAdd`<model>`Csv(_, context) | __Root Mutation:__  Loads a csv file containing records and adds them to the model after checking for authorization | ADDING_IN_BULK_ROOT
+delete`<model>`({`<ModelIDAttribute>`}, context) | __Root Mutation:__  Deletes the record given by the ID value after checking for authorization | DELETING_ROOT
+update`<model>`: async function(input, context) | __Root Mutation:__  Updates a record which is given by the input argument with new values and/or associations as given by the input argument after checking for authorization | UPDATING_ROOT
+csvTableTemplate`<model>`(_, context) |  __Root Resolver:__  Returns the table's template after checking for authorization | TEMPLATE
 
 The following methods are created in the model:
 
@@ -288,11 +292,11 @@ For this association the following methods are created in the resolver:
 
 Signature | Use | Link to resolver function (optional)
 -----|-----|-----
-`<model>.prototype.<assoc>Filter({search, order, pagination}, context)` | Returns the associated records via a search with limit-offset based pagination by calling the root resolver of the respective associated records |
-`<model>.prototype.<assoc>Connection({search, order, pagination}, context)` | Returns the associated records via a search with cursor based pagination by calling the root resolver of the respective associated records |
-`<model>`.prototype.countFiltered`<assoc>`({search}, context) | Counts the associated records by calling the root resolver of the associated records
-`<model>`.prototype.add_`<assoc>` = async function(input) | __Field resolver:__ Adds records in a loop that sets the associated ID in the *associated record* to the ID of the main record by calling the model field resolver implementation adding method of the associated record | ADDING_TO1
-`<model>`.prototype.remove_`<assoc>` = async function(input) | __Field resolver:__ Removes records in a loop that removes the associated ID in the *associated record* by calling the model field resolver implementation deleting method of the associated record | REMOVING_TO1
+`<model>.prototype.<assoc>Filter({search, order, pagination}, context)` | __Field Resolver:__  Returns the associated records via a search with limit-offset based pagination by calling the root resolver of the respective associated records |
+`<model>.prototype.<assoc>Connection({search, order, pagination}, context)` | __Field Resolver:__ Returns the associated records via a search with cursor based pagination by calling the root resolver of the respective associated records |
+`<model>`.prototype.countFiltered`<assoc>`({search}, context) | __Field Resolver:__ Counts the associated records by calling the root resolver of the associated records
+`<model>`.prototype.add_`<assoc>` = async function(input) | __Field Mutation:__ Adds records in a loop that sets the associated ID in the *associated record* to the ID of the main record by calling the model field resolver implementation adding method of the associated record | ADDING_TO1
+`<model>`.prototype.remove_`<assoc>` = async function(input) | __Field Mutation:__ Removes records in a loop that removes the associated ID in the *associated record* by calling the model field resolver implementation deleting method of the associated record | REMOVING_TO1
 
 In the model file, an entry is added to the method `associate(models)` in  the form `<model>.hasMany(models.<assoc>, {as: <assoc>, foreignKey: <assocID>})`. The model methods that are called from the resolver are in the associated model (which holds the association key).
 
@@ -302,9 +306,9 @@ For this association the following methods are created in the resolver:
 
 Signature | Use | Link to resolver function (optional)
 -----|-----|-----
-`<model>`.prototype.`<assoc>` = async function({search}, context) | Returns the associated record via a search for the given record ID by calling the root resolver of the associated record for searching with limit-offset based pagination | SEARCH_LO_ROOT
-`<model>`.prototype.add_`<assoc>` = async function(input) | __Field resolver:__ Adds a record | ADDING_TO1
-`<model>`.prototype.remove_`<assoc>` = async function(input) | __Field resolver:__ Removes a record | REMOVING_TO1
+`<model>`.prototype.`<assoc>` = async function({search}, context) | __Field Resolver:__ Returns the associated record via a search for the given record ID by calling the root resolver of the associated record for searching with limit-offset based pagination | SEARCH_LO_ROOT
+`<model>`.prototype.add_`<assoc>` = async function(input) | __Field Mutation:__ Adds a record | ADDING_TO1
+`<model>`.prototype.remove_`<assoc>` = async function(input) | __Field Mutation:__ Removes a record | REMOVING_TO1
 
 In the model the following entries are created:
 
@@ -322,11 +326,11 @@ In each record resolver, the following entries are created:
 
 Signature | Use | Link to model function (optional)
 -----|------|-----
-`<model>`.prototype.`<assoc>`Filter({search, order, pagination}, context) | Returns the associated records via a search with limit-offset based pagination after checking for authorization | SEARCH_LO_TMTSCT
-`<model>`.prototype.`<assoc>`Connection({search, order, pagination}, context) | Returns the associated records via a search with cursor based pagination after checking for authorization | SEARCH_CURSOR_TMTSCT
-`<model>`.prototype.countFiltered`<assoc>`({search}, context) | Counts the associated records after checking for authorization | COUNT_TMTSCT
-`<model>`.prototype.add_`<assoc>` = async function(input) | __Field Resolver__ -  Adds an associated record | ADDING_TMTSCT
-`<model>`.prototype.remove_`<assoc>` = async function(input) | __Field Resolver__ -  Removes an associated record | REMOVING_TMTSCT
+`<model>`.prototype.`<assoc>`Filter({search, order, pagination}, context) | __Field Resolver:__ Returns the associated records via a search with limit-offset based pagination after checking for authorization | SEARCH_LO_TMTSCT
+`<model>`.prototype.`<assoc>`Connection({search, order, pagination}, context) | __Field Resolver:__ Returns the associated records via a search with cursor based pagination after checking for authorization | SEARCH_CURSOR_TMTSCT
+`<model>`.prototype.countFiltered`<assoc>`({search}, context) | __Field Resolver:__ Counts the associated records after checking for authorization | COUNT_TMTSCT
+`<model>`.prototype.add_`<assoc>` = async function(input) | __Field Mutation:__  Adds an associated record | ADDING_TMTSCT
+`<model>`.prototype.remove_`<assoc>` = async function(input) | __Field Mutation:__  Removes an associated record | REMOVING_TMTSCT
 
 In each record model, the following entries are created:
 
