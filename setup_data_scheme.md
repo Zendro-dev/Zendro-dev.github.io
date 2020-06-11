@@ -2,18 +2,18 @@
 <br/>
 # Data Models
 
-For each one of the projects that you want to include in the project you will need to describe the model as well as its possible relations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of it's type. From now on, in this document, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
+For each one of the data sets that you want to include in the project you will need to describe the  data model, this description should include its relations or associations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of it's type. From now on, in this document, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
 
 ### JSON Specs
 
-Each json file describes one and only one model. However, one model can reference to another model using association mechanism described above. Withing `associations` block it is required to specify model names from another json files.
+Each json file describes one and only one model. However, one model can reference to another model using associations mechanism described below.
 
-For each model we need to specify the following fields in the json file:
+For a complete descriptio of each model we need to specify the following fields in the json file:
 
 Name | Type | Description
 ------- | ------- | --------------
-*model* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API).
-*storageType* | String | Type of storage where the model is stored. So far can be one of __sql__(for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. ) or __Webservice__ for any database that your project would remotely connect to or __cenz\_server__ for models stored in any other instance created with cenz-tools.
+*model* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API). The string here can not contain spaces.
+*storageType* | String | Type of storage where the model is stored. So far can be one of: <ul> <li>  __sql__ for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. </li>  <li>__generic__ for any database that your project would remotely connect.</li>  <li>__cenz\_server__ for models stored in any other instance created with cenz-tools.</li></ul>
 *url* | String | This field is only mandatory for __cenz\_server__ stored models. Indicates the url where the cenz server storing the model is runnning.
 *attributes* | Object |  The key of each entry is the name of the attribute and theres two options for the value . Either can be a string indicating the type of the attribute or an object where the user can indicates the type of the attribute(in the _type_ field) but also can indicates an attribute's description (in the _description_ field). See the [table](#supported-data-types) below for allowed types. Example of option one: ```{ "attribute1" : "String", "attribute2: "Int" }``` Example of option two: ``` { "attribute1" : {"type" :"String", "description": "Some description"}, "attribute2: "Int ```
 *associations* | Object | The key of each entry is the name of the association and the value should be an object describing corresponding association. See [Associations Spec](#associations-spec) section below for details.
@@ -50,13 +50,13 @@ For both type of association, the necessary arguments would be:
 
 name | Type | Description
 ------- | ------- | --------------
-*type* | String | Type of association (like belongsTo, etc.)
+*type* | String | Type of association either `to_one` or `to_many`.
 *target* | String | Name of model to which the current model will be associated with.
-*targetKey* | String | A unique identifier of the association for the case where there appear more than one association with the same model.
+*targetKey* | String | A unique identifier of the association stored in any of the two models involved in the association.
 *keyIn* | String | Name of the model where the targetKey is stored.
-*targetStorageType* | String | Type of storage where the target model is stored. So far can be one of __sql__ or __Webservice__.
-*label* | String | Name of the column in the target model to be used as a display name in the GUI.
-*sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI.
+*targetStorageType* | String | Type of storage where the target model is stored.
+*label* | String | Name of the column in the target model to be used as a display name in the GUI. This will be useful as a preview of the association.
+*sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI. Also used for a more explicit preview of the association.
 
 When the association is of type *to_many* and it referes to a more particular type of association *many_to_many*  it's necessary to describe two extra arguments given that the association is made with a cross table. These arguments are:
 
@@ -160,11 +160,11 @@ The same data model description files (.json) can be used for generating both, t
 
 ### About the associations type
 
-In ScienceDB, association relationships are based on the [sequelize ORM terminology](http://docs.sequelizejs.com/manual/tutorial/associations.html). As usually, in any association type the foreign-key shall be placed inside one of the two associated tables. However here both table models need to be notified about that link. This association information shall be placed in each model definition JSON files. Below we consider the models for two tables A and B, that are defined in the files A.json and B.json correspondingly.
+In Cenzontle tools, association are based on the [sequelize ORM terminology](http://docs.sequelizejs.com/manual/tutorial/associations.html). As usually, in any association type the foreign-key shall be placed inside one of the two associated tables. However here both table models need to be notified about that link. This association information shall be placed in each model definition JSON files. Below we consider the models for two tables A and B, that are defined in the files A.json and B.json correspondingly.
 
 Within the body of any model JSON file, the model that is described in this file is considered as a source model, and any other model is considered as target. Therefore, within the JSON source it is required to specify how current model is associated with all it's targets.
 
-To refer association link within source model JSON file, the next keywords can be used:
+The four types of association provided by Sequelize can be taken as a guide for understanding where the `targeKey`, responsible of the association between two tables, is stored.
 
 * belongsTo
 * hasOne
