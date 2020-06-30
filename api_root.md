@@ -1,6 +1,6 @@
 [ &larr; back](README.md)
 <br/>
-# Cenzontle API Documentation
+# Vocen API Documentation
 
 Given a data scheme described using our [custom format](setup_data_scheme.md), the ScienceDb backend generator will implement default CRUD API that can be accessed through a well-known GraphQL query language or through an *export service*. To get more information about GraphQL queries and mutations you can read it's [official documentation](https://graphql.org/learn/queries/). When back-end server is up, the regular GraphQL service is accessible at `http://<back_srv>/graphql`. The service aimed for exporting massive joined database slices has another URL: `http://<back_srv>/export`. Both services accept POST requests with authentication information in it's header. In the case of GraphQL, request body should follow the GraphQL standard. Data export service accept it's own request parameters.
 
