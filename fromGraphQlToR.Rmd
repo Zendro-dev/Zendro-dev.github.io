@@ -1,0 +1,62 @@
+---
+title: "Zendro from R"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+This is an breve documentation about how to use Zendro API from R. 
+We will explain with examples how to fetch and use data stored in a Zendro server. 
+The process we will follow goes from fetching data to getting that data in a table form. 
+
+## REQUIREMENTS
+In order to be able to comunicate with the server we need an R package that allow us to work with HTTP verbs (GET(), POST(), etc).
+For this purpose we will use `httr` package.
+We will also need other libraries for manipulating json data and tables. 
+NOTE: Be aware that you might need to install the correspondant packages.
+
+```{r}
+library(httr)         # for http request
+library(jsonlite)     # for manipulating json data
+library(data.table)   # for table manipulation
+library(rlist)        # for table manipulation
+library(dplyr)        # for table manipulation
+```
+
+
+## QUERIES EXAMPLES
+
+It's possible to perform any graphql query or mutation by using a POST request. 
+Let's start with the most simple example where we will be fetching all `accession_id` and `collectors_name` attributes from `accessions` from a given zendro server served in the url `http://localhost:3001/graphql`.
+
+
+```{r}
+url <- "http://localhost:3001/graphql"                                 # set the zendro server url  
+accessions_query <- ' 
+{
+  accessions{
+		accession_id
+		collectors_name
+  }
+}
+'                                                                     # write the query as a string
+result <- POST(url, body = list(query=accessions_query))              # fetch data
+```
+
+The `result` that we are getting is the `http` response. We still need to extract the data in order to be able to manipulate it. 
+If everything went well, the `http` response will contain an attribute `data` which will itself contain an attribute named as the query, in this case `accessions`.
+
+```{r}
+jsonResult <- content(result, as = "text") 
+readableText <- fromJSON(jsonResult)
+readableText$data$accessions
+```
+
+With the above code we were able to visualize the data fetched from zendro server.
+Next we will put this data in a table form in order to be able to manipulate the data.
+
+```{r}
+dataTable <- lapply(readableText[[1]], as.data.table) 
+dataTable$accessions
+```
