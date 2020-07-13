@@ -30,7 +30,7 @@ If you only want to install it locally, then you should run
 <br/><br/>
 _**Generate the code**_
 
-After installed the backend-generator and as long as we have our data models defined, then we can generate the code for the graphql server. For this purpose we should run the following lines:
+After installing the backend-generator and if we have our data models defined, then we can generate the code for the graphql server. For this purpose we should run the following lines:
 
 ```
 $ code-generator -f <input-json-files> -o <output-directory>

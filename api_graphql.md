@@ -1,6 +1,6 @@
 [ &larr; back](api_root.md)
 <br/>
-Concrete requests that can be sent to backend server are model dependent, therefore from now on let's assume that our first data model is called `record` and is described as follows:
+Concrete requests that can be send to the backend server are model dependent. Therefore from now on let's assume that our first data model is called `record` and is described as follows:
 
 ```
 //Record.json
@@ -15,7 +15,7 @@ Concrete requests that can be sent to backend server are model dependent, theref
 ```
 
 ### GraphQL Queries
-* `records(search, order, pagination) : [Records]` - Check user authorization and return certain number, specified in pagination argument, of records that holds the condition of search argument, all of them sorted as specified by the order argument. For more information about `search`, `order` and `pagination` argument see this [section below](#general-filter-arguments). Example:
+* `records(search, order, pagination) : [Records]` - Check user authorization and return certain number of records, specified in pagination argument, that holds the condition of search argument, all of them sorted as specified by the order argument. For more information about `search`, `order` and `pagination` argument see this [section below](#general-filter-arguments). Example:
 ```
 query{
   records(search: {field: name, value:{ value: "%test%"}, operator: like}, order: [{field: name, order: ASC}]){
@@ -55,7 +55,7 @@ query{
 ```
 ### Mutations
 
-* `addRecord(record): Record` - Check user authorization and creates a new record with data specified in the record argument. Example:
+* `addRecord(record): Record` - Checks user authorization and creates a new record with data specified in the record argument. Example:
 ```
   mutation{
     addRecord(name: "testRecord", description: "testing record" ){
@@ -82,21 +82,20 @@ mutation{
 }
 ```
 
-* `bulkAddRecordCsv: String` - Load csv file of records
+* `bulkAddRecordCsv: String` - Load csv file of records. 
 In this mutation the csv file should be attached in the request.
 
 
 ### General Filter Arguments
-When retrieving a set of records of any data model, there is specific arguments that can help to select only
-certain records. Two of the general arguments that the user can specify as input are pagination and order. The description about how to use these arguments is as follows:
+When retrieving a set of records of any data model, there are specific arguments that can help to select only certain records. Two of the general arguments that the user can specify as input are pagination and order. The description about how to use these arguments is as follows:
 
 #### Search argument
-This argument type depends on the data model name. Assuming our data model is calle `Record` then the graphql type of this argument is called
+This argument type depends on the data model name. Assuming our data model is called `Record` then the graphql type of this argument is called
 `searchRecordInput` and it is an object which contains the next fields:
 
 name | Type | Description
 ------- | ------- | --------------
-*field* | String | Can be any record's attribute name. Can be also understood as the column by which the records will be filtered.
+*field* | String | Can be any record's attributes name. Can be also understood as the column by which the records will be filtered.
 *value* | Object | Value used to filter the records, can be type `String` or type `Array` (default type is String) and the actual value should be also specified. Example: `value:{ type: String, value: "%string_to_filter%"}`
 *operator* | String | Operator used to filter the records. Example: `eq`, `like` ...
 *search* | [searchRecordInput] | Recursively the user can spefify another search argument.
@@ -116,7 +115,7 @@ query {
 ```
 #### Order argument
 The order argument type also depends on the data model name. With our data model `Record` the order argument will be called `orderRecordInput` and it is an object  which contains the name of the attribute to sort and the order that will be used, order can be ascendent `ASC` or descendant `DESC`.
-When retrieving a set of records the user pass an array or order arguments, one for each attribute that will be sorted.
+When retrieving a set of records the user passes an array or order arguments, one for each attribute that will be sorted.
 Although the order argument type depends on the data model name, the argument name will be always the same, _order_.
 
 EXAMPLE: Let's say we want to sort all records alphabetically by the name column. The proper query to perform this action would be:
@@ -137,7 +136,7 @@ attribute | Type  | Description
 limit | Integer | Number of records to retrieve
 offset | Integer | Starting point for retrieving records
 
-EXAMPLE: Considering the `Record` data model for retrievin the second 10 records, the proper query to perfrom this action would be:
+EXAMPLE: Considering the `Record` data model for retrieving the second 10 records, the proper query to perform this action would be:
 ```
 query{
   records( pagination: {offset: 11, limit: 10}){
@@ -197,7 +196,7 @@ And we will describe the associations between the models `Record` and `Item`.
 
 * `itemsFilter(search, order, pagination): [Items]` - Given one record, the user will be able to filter all the items associated with the current record.
 
-* `countFilteredItems(search): Int` - Return the number of associated items which holds the search argument coditions.
+* `countFilteredItems(search): Int` - Return the number of associated items which hold the search argument conditions.
 
  Example:
 ```
@@ -231,9 +230,9 @@ readOneItem(id: 23){
 
 ### Extra mutation fields to update or create associations.
 
-In order to manipulate associations, a couple of fields in create and update mutations will be added: `addName_of_association` and `removeName_of association`
+In order to manipulate associations, a couple of fields to create and update mutations will be added: `addName_of_association` and `removeName_of association`
 
-In the case of `to-one` association the parameters expect to receive only and `ID`, representing the associated item to be added or removed,  or `null` value(to remove association).
+In the case of `to-one` association, the parameters expect to receive only an `ID`, representing the associated item to be added or removed,  or `null` value(to remove association).
 
 Continuing with our example of Items-Record, the sample mutations would be:
 
