@@ -1,16 +1,17 @@
 # Zendro
 
-Zendro is a set of modular projects which objective is to provide tools for creation of a standarized platform which will allow the user to store, to manage and to retrieve data in a easy way. For this purpose, as the first step, data models  should be defined ([see more details here](setup_data_scheme.md)) to structure the user information, later this data models will be used as input for Zendro tools.
+Zendro is a software tool to quickly create a data warehouse tailored to your specifications. You tell Zendro what the structure of your data is, in the form of models, and where the data is or shall be stored. Zendro will then automatically create two standardized interfaces for your data models. Both interfaces provide access to the standard CRUD, create, read, update, and delete functions, available for each of the defined data models. One of the two interfaces is an intuitive graphical browser based single page application implemented in Google's standard material design. The other is an exhaustive application programming interface built with Facebook's efficient GraphQL framework, enabling a connection to your data warehouse from any programming language or data analysis pipeline with utmost ease, simply by sending HTTP requests to your GraphQL server. Data can be distributed over several databases and servers without losing the relationships between your data records, even if they are not stored in the same place.
 
-Zendro tools are mainly code generators which can be used with data models in a flexible way, meaning that each time the data model change then the code generator can re-generate the code accordingly.  
+Zendro consists of two main components, backend and frontend. The backend component has its [base project](https://github.com/ScienceDb/graphql-server) and a [code generator](https://github.com/ScienceDb/graphql-server-model-codegen). The frontend of SPA (Single Page Application) also has its [base project](https://github.com/ScienceDb/single-page-app) and a [code generator](https://github.com/ScienceDb/single-page-app-codegen).
+See the guides below on how to use Zendro.
 
-Zendro is conformed of two main components, backend and frontend. The backend component has its [base project](https://github.com/ScienceDb/graphql-server) and a [code generator](https://github.com/ScienceDb/graphql-server-model-codegen). The frontend of SPA(Single Page Application) also has its [base project](https://github.com/ScienceDb/single-page-app) and a [code generator](https://github.com/ScienceDb/single-page-app-codegen).
-About how to use Zendro tools see tutorials below.
+### HOW-TO GUIDES:
 
-### TUTORIALS:
-
-* [How to set up a full project](setup_root.md)
-* [API documentation](api_root.md)
+* [How to set up a Zendro instance](setup_root.md). A step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
+* [How to define data models: for developers](setup_data_scheme.md). Detailed technical specifications on how to define data models for Zendro, aimed at software developers and system administrators.
+* [How to define data models: for non-developers](non-developer_documentation.md). An illustrated guide of data model specifications, data formatting and data uploading options, aimed at data modelers or managers to facilitate collaboration with developers.
+* [How to query and extract data](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists. 
+* [API documentation](api_root.md). 
 
 ### REPOSITORIES:
 
