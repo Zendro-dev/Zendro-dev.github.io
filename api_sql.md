@@ -5,13 +5,13 @@
 
 This document describes the SQL statements that are used for implementing CRUD functionality for models that are based on the `sql` storage type.
 
-Cenzontle uses the promise-based ORM [Sequelize](https://sequelize.org/) to make the needed database calls. Sequelize provides a class [Model](https://sequelize.org/master/class/lib/model.js~Model.html) to represent tables in a database, with the instances of this class being single rows in this table. In Cenzontle, the model classes are extended from this class.
+Zendro uses the promise-based ORM [Sequelize](https://sequelize.org/) to make the needed database calls. Sequelize provides a class [Model](https://sequelize.org/master/class/lib/model.js~Model.html) to represent tables in a database, with the instances of this class being single rows in this table. In Zendro, the model classes are extended from this class.
 
-We will use the model `event` from the [Breeding API](https://github.com/usadellab/EMPHASIS-Layer/tree/master/data_model_definitions) to see how the various Cenzontle commands are translated into SQL.
+We will use the model `event` from the [Breeding API](https://github.com/usadellab/EMPHASIS-Layer/tree/master/data_model_definitions) to see how the various Zendro commands are translated into SQL.
 
 ## Case 'Create'
 
-The following GraphQL command is given to Cenzontle:
+The following GraphQL command is given to Zendro:
 
 ```graphql
 mutation{addEvent(eventType:"Test Event") {eventType}}
@@ -27,7 +27,7 @@ COMMIT;
 
 ## Case 'Read'
 
-The following GraphQL command is given to Cenzontle:
+The following GraphQL command is given to Zendro:
 
 ```graphql
 {events{eventType}}
@@ -43,7 +43,7 @@ SELECT "eventType", "eventDbId", "eventDescription", "eventTypeDbId", "studyDbId
 
 ## Case 'Update'
 
-The following GraphQL command is given to Cenzontle:
+The following GraphQL command is given to Zendro:
 
 ```graphql
 mutation{updateEvent(eventType:"Test Event", eventDbId:"1") {eventType eventDbId}}
@@ -60,7 +60,7 @@ COMMIT;
 
 ## Case 'Delete'
 
-The following GraphQL command is given to Cenzontle:
+The following GraphQL command is given to Zendro:
 
 ```graphql
 mutation{deleteEvent(eventType:"Test Event")}
