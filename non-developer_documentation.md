@@ -4,17 +4,17 @@ This guide is aimed at data modelers, data managers and other data users to faci
 
 ## Data models
 
-Zendro takes as input a set of data models described in JSON files, from which it automatically generates both the backend and the GUI of a custom data warehouse. To get started, you need a conceptual model or schema of your database, including entities, attributes and their relationships. Each *data model*, that is, each entity with its corresponding attributes and associations to other entities, must be defined as a JSON object in a separate file according to the specifications below. Zendro supports the standard associations One-to-One, One-to-Many, and Many-to-Many, between data models stored either locally or remotely, which we'll also describe in detail. But first, let's introduce an example that will help illustrate model requierements throughout the guide. 
+Zendro takes as input a set of data models described in JSON files, from which it automatically generates both the backend and the GUI of a custom data warehouse. To get started, you need a conceptual model or schema of your database, including entities, attributes and their relationships. Each *data model*, that is, each entity with its corresponding attributes and associations to other entities, must be defined as a JSON object in a separate file according to the specifications below. Zendro supports the standard associations One-to-One, One-to-Many, and Many-to-Many, between data models stored either locally or remotely, which we'll also describe in detail. But first, let's introduce an example that will help illustrate model requierements throughout the guide.
 
 ### An example
 
-Let's assume we want to create a small database for a herbarium of medicinal plants. We need data models for specimens, taxonomic information, collection information, and uses (Figure 1). In our case, the taxonomic information is specific to each plant, so there is a One-to-One association between specimen and taxon. Each plant can have many uses, just like there are many plants that can serve the same function, so the association between specimen and uses is Many-to-Many. Finally, a specimen belongs to one collection only, but a collection may store multiple specimens, so there is a One-to-Many association between these models (Figure 1). 
+Let's assume we want to create a small database for a herbarium of medicinal plants. We need data models for specimens, taxonomic information, collection information, and uses (Figure 1). In our case, the taxonomic information is specific to each plant, so there is a One-to-One association between specimen and taxon. Each plant can have many uses, just like there are many plants that can serve the same function, so the association between specimen and uses is Many-to-Many. Finally, a specimen belongs to one collection only, but a collection may store multiple specimens, so there is a One-to-Many association between these models (Figure 1).
 
 ![Figure 1](figures/figure1.png)
 
-In this example, information about specimens, taxonomic data and uses is stored in a local server. But we will assume that the information about collections is in a remote database, perhaps one that holds other types of plants, and we would connect to that database to access only the attributes we are interested in. 
+In this example, information about specimens, taxonomic data and uses is stored in a local server. But we will assume that the information about collections is in a remote database, perhaps one that holds other types of plants, and we would connect to that database to access only the attributes we are interested in.
 
-Next, we need to list the attributes of each model and their data types (Figure 2). Allowed data types are: String, Int, Float, Boolean, [Date, Time and DateTime](https://github.com/excitement-engineer/graphql-iso-date/blob/HEAD/rfc3339.txt). Each model also requires an attribute that serves as the *primary key* or unique identifier of each record. 
+Next, we need to list the attributes of each model and their data types (Figure 2). Allowed data types are: String, Int, Float, Boolean, [Date, Time and DateTime](https://github.com/excitement-engineer/graphql-iso-date/blob/HEAD/rfc3339.txt). Each model also requires an attribute that serves as the *primary key* or unique identifier of each record.
 
 ![Figure 2](figures/figure2.png)
 
@@ -41,7 +41,7 @@ Every association of the source model to other models must be described in the `
 
 Field name | Type | Description
 ---- | ---- | ----
-*type* | String | Type of association, either `to_one` or `to_many`. The standard associations are defined through combining these types in the source and target models. For example, a One-to-One association results from assigning `"type": "to_one"` in both the source and target models. 
+*type* | String | Type of association, either `to_one` or `to_many`. The standard associations are defined through combining these types in the source and target models. For example, a One-to-One association results from assigning `"type": "to_one"` in both the source and target models.
 *target* | String | Name of the target model to which the current one will be associated with.
 *targetKey* | String | Attribute that serves as a unique identifier for the association. It can be stored in either of the two models involved in the association.
 *keyIn* | String | Name of the model where the *targetKey* is stored.
@@ -59,7 +59,7 @@ Now we can translate the conceptual diagram into JSON, following the previous sp
 // Taxon Model
 {
     "model": "taxon",
-    
+
     "storageType": "sql",
 
     "attributes": {
@@ -87,7 +87,7 @@ Now we can translate the conceptual diagram into JSON, following the previous sp
 // Collection Model
 {
     "model": "collection",
-    
+
     "storageType": "generic",
 
     "attributes": {
@@ -125,14 +125,14 @@ Data to populate each model in your schema must be in a separate csv file, follo
 
 ### GUI
 
-To upload the csv file through the GUI, go to the model on the left-side panel and use the import button. It will ask you to select a file from your computer and automatically fill the table. 
+To upload the csv file through the GUI, go to the model on the left-side panel and use the import button. It will ask you to select a file from your computer and automatically fill the table.
 
 ### API
 
 To upload the csv file through the API, you can make a request from the terminal to:
 
-`curl -XPOST [URL] -H 'Content-Type: mulipart/form-data' -F 'query=mutation{ bulkAdd[Model name]Csv{[Primary key] } }' -F csv_file=@[file path]`
+`curl -XPOST [URL] -H 'Content-Type: mulipart/form-data' -F 'query=mutation{ bulkAdd[Model name]Csv }' -F csv_file=@[file path]`
 
 For example:
 
-`curl -XPOST http:/ Zendrodev.conabio.gob.mx:3000/graphql -H 'Content-Type: mulipart/form-data' -F 'query=mutation{ bulkAddSpecimenCsv{specimen_id } }' -F csv_file=@specimen.csv`
+`curl -XPOST http:/ Zendrodev.conabio.gob.mx:3000/graphql -H 'Content-Type: mulipart/form-data' -F 'query=mutation{ bulkAddSpecimenCsv }' -F csv_file=@specimen.csv`
