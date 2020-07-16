@@ -149,7 +149,7 @@ Example:
         "target" : "publisher", // Model's name is `publisher`
         "targetKey" : "publisher_id", // Local alias for this association
         "keyIn": "book", // FK to publisher will be stored in the Book model
-        "targetStorageType" : Webservice", //  It's a remote database
+        "targetStorageType" : "generic", //  It's a remote database
         "label" : "name" // Show in GUI the name of the publisher taken from external DB
         }
   }
