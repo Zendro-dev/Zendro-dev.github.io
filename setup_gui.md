@@ -5,7 +5,7 @@ Once we have our models defined and our graphql server running, we can generate 
 To install it, we need to run the following lines:
 ### Install GUI skeleton
 ```
-$ git clone https://github.com/ScienceDb/single-page-app.git gui-skeleton
+$ git clone https://github.com/Zendro/single-page-app.git gui-skeleton
 $ cd gui-skeleton
 $ npm install
 ```
@@ -14,7 +14,7 @@ From now on we will assume that your gui skeleton is stored in `/your-path/gui-s
 ### Install GUI generator
 
 ```
-$ git clone https://github.com/ScienceDb/single-page-app-codegen.git gui-generator
+$ git clone https://github.com/Zendro/single-page-app-codegen.git gui-generator
 $ cd gui-generator
 $ npm install -g
 ```

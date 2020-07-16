@@ -5,7 +5,7 @@
 
 Zendro is a software tool to quickly create a data warehouse tailored to your specifications. You tell Zendro what the structure of your data is, in the form of models, and where the data is or shall be stored. Zendro will then automatically create two standardized interfaces for your data models. Both interfaces provide access to the standard CRUD, create, read, update, and delete functions, available for each of the defined data models. One of the two interfaces is an intuitive graphical browser based single page application implemented in Google's standard material design. The other is an exhaustive application programming interface built with Facebook's efficient GraphQL framework, enabling a connection to your data warehouse from any programming language or data analysis pipeline with utmost ease, simply by sending HTTP requests to your GraphQL server. Data can be distributed over several databases and servers without losing the relationships between your data records, even if they are not stored in the same place.
 
-Zendro consists of two main components, backend and frontend. The backend component has its [base project](https://github.com/ScienceDb/graphql-server) and a [code generator](https://github.com/ScienceDb/graphql-server-model-codegen). The frontend of SPA (Single Page Application) also has its [base project](https://github.com/ScienceDb/single-page-app) and a [code generator](https://github.com/ScienceDb/single-page-app-codegen).
+Zendro consists of two main components, backend and frontend. The backend component has its [base project](https://github.com/Zendro/graphql-server) and a [code generator](https://github.com/Zendro/graphql-server-model-codegen). The frontend of SPA (Single Page Application) also has its [base project](https://github.com/Zendro/single-page-app) and a [code generator](https://github.com/Zendro/single-page-app-codegen).
 See the guides below on how to use Zendro.
 
 ### HOW-TO GUIDES:
@@ -18,7 +18,7 @@ See the guides below on how to use Zendro.
 
 ### REPOSITORIES:
 
-* [GraphQL server](https://github.com/ScienceDb/graphql-server)
-* [GraphQL server model generator](https://github.com/ScienceDb/graphql-server-model-codegen)
-* [Single page application](https://github.com/ScienceDb/single-page-app)
-* [Single page application model generator](https://github.com/ScienceDb/single-page-app-codegen)
+* [GraphQL server](https://github.com/Zendro/graphql-server)
+* [GraphQL server model generator](https://github.com/Zendro/graphql-server-model-codegen)
+* [Single page application](https://github.com/Zendro/single-page-app)
+* [Single page application model generator](https://github.com/Zendro/single-page-app-codegen)

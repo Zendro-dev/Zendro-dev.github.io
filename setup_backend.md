@@ -5,10 +5,10 @@
 <br/><br/>
 _**Server "skeleton"**_
 
-For installing the backend skeleton we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/graphql-server), installed locally. For this purpose we should run the following lines:
+For installing the backend skeleton we will need a copy of the repository, found in [this link](https://github.com/Zendro/graphql-server), installed locally. For this purpose we should run the following lines:
 
 ```
-$ git clone https://github.com/ScienceDb/graphql-server.git backend-skeleton
+$ git clone https://github.com/Zendro/graphql-server.git backend-skeleton
 $ cd backend-skeleton
 $ npm install  
 ```
@@ -17,10 +17,10 @@ From now on, in this document, we will assume that your backend-skeleton is inst
 <br/><br/>
 _**Install backend code generator**_
 
-For installing the backend generator we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/graphql-server-model-codegen), installed.
+For installing the backend generator we will need a copy of the repository, found in [this link](https://github.com/Zendro/graphql-server-model-codegen), installed.
 For this purpose we should run the following lines:
 ```
-$ git clone https://github.com/ScienceDb/graphql-server-model-codegen.git backend-generator
+$ git clone https://github.com/Zendro/graphql-server-model-codegen.git backend-generator
 $ cd backend-generator
 $ npm install -g
 ```
