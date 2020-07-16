@@ -6,6 +6,7 @@ Given a data scheme described using our [custom format](setup_data_scheme.md), t
 
 Zendro back-end server implementation follows the GraphQL convention to refer to a request that does not cause any data change as *query* and a request that modifies data as *mutation*. The export service would never modify data, so all its requests can be referred as queries identically.
 
+
 Zendro API documentation consists of three parts:
 <br/><br/>
 
@@ -18,12 +19,14 @@ Back-end server can work in two modes: *development* and *production*, depending
 ### GraphQL API
 
 Classical REST services suppose that all its requests have a predefined form, and are usually URL driven. Here each atomic resource is considered as an *endpoint* and can be referred by a quite restricted query or mutation, for example:
+
 ```
 <GET>
 /books/:1000/name
 /books/:1000/author
 ```  
-There exists a possibility to parametrize such requests inserting some logic into them, however it is more likely an *anti-pattern* because in this case each different service would have its own "programming" interface, and the style of these interfaces can strongly differ from one project to another. However, basic CRUD operations are common in the WWW world and many efforts were made by different groups to parametrize and standardize corresponding requests. The standard chosen in Zendro is GraphQL. This standard introduces a set of request body constructs aimed mainly to manipulate the response data in terms of CRUD operations. As an example you can consider GraphQL query that restricts server response to only two fields called "name" and "author" for the "book" model record with a given ID:
+It exists a possibility to parametrize such requests inserting some logic into them, however it is more likely an *anti-pattern* because in this case each different service would have its own "programming" interface, and the style of these interfaces can strongly differ from one project to another. However, basic CRUD operations are common in the WWW world and many efforts were made by different groups to parametrize and standardize corresponding requests. The standard chosen in Zendro is GraphQL. This standard introduces a set of request body constructs aimed mainly to manipulate the response data in terms of CRUD operations. As an example you can consider GraphQL query that restricts server response to only two fields called "name" and "author" for the "book" model record with a given ID:
+
 
 ```
 <POST>
@@ -41,8 +44,17 @@ In this project it is automatically generated a set of GraphQL queries and mutat
 <br/><br/>
 ### Batch Data Exporting
 
-Unfortunately the current NodeJS GraphQL implementation used in Zendro does not support batch download in a fully optimal way because of lack of the non-blocking response data streaming (see [this](https://github.com/graphql/graphql-js/issues/1537) discussion). When it is required to join selected fields of the related data models and get it as a separate file stream, using the *export* service would be the correct solution.
+Unfortunately current NodeJS GraphQL implementation used in Zendro does not support batch download in a fully optimal way because of lack of the non-blocking response data streaming (see [this](https://github.com/graphql/graphql-js/issues/1537) discussion). When it is required to join selected fields of the related data models and get it as a separate file stream, using the *export* service would be the correct solution.
+
 
 This service comes into play when a database cut is required for subsequent automated manipulations. For example: to create dynamically updated reports (diagrams, calculations) or to append project specific table *views* (tables that unite more than one data model).
 
 [ > Data Export](api_export.md)
+
+### SQL Statements in the Data model
+
+One of the supported storage types (and the standard storage type for completely local databases) is SQL. If this storage type is used, all database access commands are ultimately transformed into SQL.
+
+A list of basic GraphQL statements and their transformation into SQL can be seen here.
+
+[ > SQL Statements](api_sql.md)

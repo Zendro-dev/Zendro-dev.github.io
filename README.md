@@ -13,8 +13,8 @@ See the guides below on how to use Zendro.
 * [How to set up a Zendro instance](setup_root.md). A step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
 * [How to define data models: for developers](setup_data_scheme.md). Detailed technical specifications on how to define data models for Zendro, aimed at software developers and system administrators.
 * [How to define data models: for non-developers](non-developer_documentation.md). A brief, illustrated guide of data model specifications, data formatting and data uploading options, aimed at data modelers or managers to facilitate collaboration with developers.
-* [How to query and extract data](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists. 
-* [API documentation](api_root.md). 
+* [How to query and extract data](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists.
+* [API documentation](api_root.md).
 
 ### REPOSITORIES:
 
