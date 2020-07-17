@@ -8,6 +8,8 @@ Zendro is a software tool to quickly create a data warehouse tailored to your sp
 Zendro consists of two main components, backend and frontend. The backend component has its [base project](https://github.com/ScienceDb/graphql-server) and a [code generator](https://github.com/ScienceDb/graphql-server-model-codegen). The frontend of SPA (Single Page Application) also has its [base project](https://github.com/ScienceDb/single-page-app) and a [code generator](https://github.com/ScienceDb/single-page-app-codegen).
 See the guides below on how to use Zendro.
 
+Also find Zendro-dev on [github](https://github.com/Zendro-dev).
+
 ### HOW-TO GUIDES:
 
 * [How to set up a Zendro instance](setup_root.md). A step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
