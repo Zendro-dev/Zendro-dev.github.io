@@ -306,6 +306,8 @@ Signature | Use | Link to resolver function (optional)
 `<model>`.prototype.`<assoc>` = async function({search}, context) | __Field Resolver:__ Returns the associated record via a search for the given record ID by calling the root resolver of the associated record for searching with limit-offset based pagination | SEARCH_LO_ROOT
 `<model>`.prototype.add_`<assoc>` = async function(input) | __Field Mutation:__ Adds a record | ADDING_TO1
 `<model>`.prototype.remove_`<assoc>` = async function(input) | __Field Mutation:__ Removes a record | REMOVING_TO1
+bulkAssociate`<model>`With`<assoc_targetKey>` = async function([bulkAssociationInput](https://zendro-dev.github.io/api_graphql.html), context) | __Root Mutation__: Associates multiple records of the related models. Returns message on success |
+bulkDisAssociate`<model>`With`<assoc_targetKey>` = async function(bulkAssociationInput, context)| __Root Mutation__: disassociates multiple records of the related models. Returns message on success |
 
 
 In the model the following entries are created:
@@ -315,6 +317,8 @@ Signature | Use | Link to model function (optional)
 `<model>`.belongsTo(models.`<assoc>`, {as: `<assoc>`, foreignKey: `<assocID>`}) | In __associate(models):__ Creates a to-one-association to the targeted model via Sequelize |
 static async add_`<assocID>`(`<ModelIDAttribute>`, `<assocIDValue>`) | Adds an entry by setting the associated ID in the *main record* to the ID of the associated record | ADDING_TO1
 static async remove_`<assocID>`(`<ModelIDAttribute>`, `<assocIDValue>`) | Removes the associated ID of an associated record in the *main record* | REMOVING_TO1
+bulkAssociate`<model>`With`<assoc_targetKey>`(bulkAssociationInput) | Adds associations between records by setting the associated ID in the *main records* to the given IDs |
+bulkDisAssociate`<model>`With`<assoc_targetKey>`(bulkAssociationInput]) | Removes associations by removing the associated ID in the *main records* |
 
 ##### Association type *to_many_through_sql_cross_table*
 

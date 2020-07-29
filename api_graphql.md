@@ -291,3 +291,18 @@ mutation{
   }
 }
 ```
+
+#### Associate existing records with bulkAssociation  
+To associate multiple records of two related models in one GraphQl mutation a bulkAssociation root resolver can be used. The bulkAssociation - and disassociation - can be accessed from the model that holds the foreign key. Consider the following example:  
+A _Dog_ is associated with a _Person_. The _Dog_ model is the _to_one_ end of the association and holds the foreign key, the _Person_ can be associated to many dogs and is thus the _to_many_ end of the association.  
+The following mutations to update / add or remove associations between records are available to the user: 
+
+
+```
+bulkAssociateDogWith<person foreign key in dog>(bulkAssociationInput)
+bulkDisAssociateDogWith<person foreign key in dog>(bulkAssociationInput)
+```
+The bulkAssociationInput required will be an array of edges between to be (dis)associated records of the schema
+```
+[{dog_id: 1, person_id: 1}, {dog_id: 2, person_id: 1}, {dog_id: 3, person_id: 2}, ...]
+```
