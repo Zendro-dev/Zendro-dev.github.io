@@ -13,7 +13,7 @@ Name | Type | Description
 *internalId* | String | This string corresponds to the name of the attribute that uniquely identifies a record. If this field is not specified, an _id_, default attribute, will be added.
 
 
-### Adapters
+## ADAPTERS
 
  An adapter in Zendro is a json file which describes how and which data can be accessed from a _distributed data model_ instance of Zendro.
  The user needs one adapter for each server and for each model that the _distributed data model_ instance will integrate. The adapter's json file also follows the description for data models (insert link), with some extra fields marked in bold in the following table.
@@ -29,9 +29,210 @@ Name | Type | Description
  *associations* | Object | The key of each entry is the name of the association and the value should be an object describing the corresponding association. See [Associations Spec](#associations-spec) section below for details.
  *internalId* | String | This string corresponds to the name of the attribute that uniquely identifies a record. If this field is not specified, an _id_, default attribute, will be added.
 
+
+## EXAMPLE
+
+In this example we will assume that there are three research groups(A, B and C), they work with the same data models and share their data, but each one of them has its own server set with Zendro tools and definitions. Because they share their data, the right zendro approach to model this situation is to use __distributed data models__.
+
+The models are _sample_ and _individual_ , a sample belongs to one individual and one individual can have many samples. Each one of the groups need to define their models and adapters. Without loss of generality, let's assume that we are setting the server for research group A.
+
+![Figure 2](figures/figure_ddm.png)
+
+#### MODELS
+
+```json
+{
+  "model": "sample",
+  "storageType": "distributed-data-model",
+  "registry": ["SERVER_A","SERVER_B","SERVER_C"],
+  "attributes":{
+    "id": "String",
+    "name": "String",
+    "material": "String",
+    "life_cycle_phase": "String",
+    "description": "String",
+    "individual_id": "Int"
+  },
+  "associations":{
+    "individual":{
+      "type" : "to_one",
+      "target" : "individual",
+      "targetKey" : "individual_id",
+      "keyIn": "sample",
+      "targetStorageType" : "distributed-data-model",
+      "label" : "name"
+    }
+  },
+  "internalId": "id"
+}
+```
+
+```json
+{
+  "model": "individual",
+  "storageType": "distributed-data-model",
+  "registry": ["SERVER_A","SERVER_B","SERVER_C"],
+  "attributes":{
+    "id": "String",
+    "name": "String",
+    "description": "String"
+  },
+  "associations":{
+    "sample":{
+      "type" : "to_many",
+      "target" : "sample",
+      "targetKey" : "individual_id",
+      "keyIn": "sample",
+      "targetStorageType" : "distributed-data-model",
+      "label" : "name"
+    }
+  },
+  "internalId": "id"
+}
+```
+The points to notice from this example definitions are:
+* The array __registry__ contains the names of the adapters that are describe below.
+* ID, whichever it is its name, should be of type String because all ids stored locally need to match a certain regular expression that also well be specified in the adapter definition.
+
+#### ADAPTERS
+
+For each model and for each server that will be connected, an adapter needs to be defined.
+In our example we would need three adapters for model _sample_ and three adapters for model _individual_. Be aware that a local adapter is needed for local data.  
+For simplicity we will only define the three adapters for model _sample_.
+
+```json
+{
+  "model": "sample",
+  "storageType": "sql-adapter",
+  "adapterName": "SERVER_A",
+  "regex": "server_a",
+  "attributes":{
+    "id": "String",
+    "name": "String",
+    "material": "String",
+    "life_cycle_phase": "String",
+    "description": "String",
+    "individual_id": "Int"
+  },
+  "associations":{
+    "individual":{
+      "type" : "to_one",
+      "target" : "individual",
+      "targetKey" : "individual_id",
+      "keyIn": "sample",
+      "targetStorageType" : "distributed-data-model",
+      "label" : "name"
+    }
+  },
+  "internalId": "id"
+}
+```
+
+```json
+{
+  "model": "sample",
+  "storageType": "ddm-adapter",
+  "adapterName": "SERVER_B",
+  "regex": "server_b",
+  "url": "http://server_from_group_B.com/graphql",
+  "attributes":{
+    "id": "String",
+    "name": "String",
+    "material": "String",
+    "life_cycle_phase": "String",
+    "description": "String",
+    "individual_id": "Int"
+  },
+  "associations":{
+    "individual":{
+      "type" : "to_one",
+      "target" : "individual",
+      "targetKey" : "individual_id",
+      "keyIn": "sample",
+      #"targetStorageType" : "distributed-data-model",
+      "label" : "name"
+    }
+  },
+  "internalId": "id"
+}
+```
+
+```json
+{
+  "model": "sample",
+  "storageType": "ddm-adapter",
+  "adapterName": "SERVER_C",
+  "regex": "server_c",
+  "url": "http://server_from_group_C.com/graphql",
+  "attributes":{
+    "id": "String",
+    "name": "String",
+    "material": "String",
+    "life_cycle_phase": "String",
+    "description": "String",
+    "individual_id": "Int"
+  },
+  "associations":{
+    "individual":{
+      "type" : "to_one",
+      "target" : "individual",
+      "targetKey" : "individual_id",
+      "keyIn": "sample",
+      #"targetStorageType" : "distributed-data-model",
+      "label" : "name"
+    }
+  },
+  "internalId": "id"
+}
+```
+
+
+
+#### NOTES
+
+* Id field should be type _String_.
+* It's assumed that all ids from one server match the regular expression specified in the adapters.
+* Is it mandatory url in sql-adapter?
+* Is it mandatory targetStorageType in associations in adapters?.
+
+
+## API QUERY EXAMPLES
+
+```
+{
+  readOneSample(id: "server_b_id_1"){
+    name
+    description
+  }
+}
+```
+If we perform this query from __server A__ , the distributed data models approach allow the server to redirect the query to __server B__ because the id matches the regular expression that is used in the ids from __server B__, and this regular expression is the one specified in the correspondat adapter.
+
+```
+sampleConnections(pagination:{first: 10}){
+  edges{
+    node{
+      name
+      description
+    }
+  }
+  pageInfo{
+    cursor
+    hasNextPage
+  }
+}
+```
+Internally this query will fetch the 10 first samples from each server, then it will sort them and return the first 10 along with the cursor information.  
+
+
+## PAGINATION IN DISTRIBUTED DATA MODELS
+
+In Zendro we manage two types of pagination, offset and cursor based pagination, nevertheless in distributed data models only cursor based pagination is allowed. 
+
+
 ## TO DO
  - [ ] Mention that only cursor based pagination works in this case
  - [ ] _Read all_ is not implemented, only via "Connections"
- - [ ] Add description of an example with a image representing the topology of the example
- - [ ] Add json description of the above
+ - [x] Add description of an example with a image representing the topology of the example
+ - [x] Add json description of the above
  - [ ] API examples
