@@ -227,12 +227,47 @@ Internally this query will fetch the 10 first samples from each server, then it 
 
 ## PAGINATION IN DISTRIBUTED DATA MODELS
 
-In Zendro we manage two types of pagination, offset and cursor based pagination, nevertheless in distributed data models only cursor based pagination is allowed. 
+In Zendro we manage two types of pagination, offset and cursor based pagination, nevertheless in distributed data models only cursor based pagination works and only connections queries approach work for fetching data. For more information about connections approach, please go [here](https://relay.dev/graphql/connections.htm).
+
+###  Pagination problem in distributed storage
+
+Assume a distributed network comprising two remote data warehouses France (Fr) and Germany (Ge). Both host records of the data model Book. Note that in this example we represent the book records with letters A to Z. A central layer (CL) aims at integrating data obtained from each of the two remote data-warehouses.
+Suppose that remote server Fr stores books A, C and E, and remote server Ge stores books B, D and F.
+
+The central layer server integrates data from the remote Fr and Ge data-warehouses, by requesting subsets (pages) from each of them respectively, sorting the results locally and finally by applying the limit-offeset pagination methodology on the joined data fetched from each remote warehouse.
+
+With the next queries examples fetching books from the central server we will expose why limit-offeset based pagination is not an efficient solution for distributed storage.
+
+1. Fetch from central server batch one with parameters _limit: 2_ and _offset:0_.
+
+    * Remote server Fr will return books: A and C.
+    * Remote server Ge will return books: B and D.
+    * Finally the central server will process both outputs and will return A and B, being these both books the first two in the total order (A, B, C, D).
+
+  Until here it seems that the limit-offeset pagination is not a problem for distributed storage, but let's see what happens when fetching the next batch from central server.
+
+2. Fetch from central server batch two with parameters _limit:2_ and _offset:2_
+
+    * Remote server Fr will return book: E.
+    * Remote server Ge will return book: F.
+    * Finally the central server will process both outputs and will return E and F, being these both books the first two in the total order of the joined data (E, F).
+
+As we can see the correct answer should be books: C and D, from the total order of all books in both servers:  A, B, C, D, E, F.
+Distributed limit-offset based pagination only works when sorting the union of *all* remote datasets locally and then applying limit-offeset pagination methodology, this approach is clearly inneficient.
+
+nevertheless with cursor based pagination this problem is solved because with the partial results from each server, the central response can be created. See example below assuming same configuration with servers Fr, Ge and central.
+
+  1. Fetch from central server batch one with parameters _cursor:B_ and _limit: 2_.
+    * Remote server Fr will return book: C, E.
+    * Remote server Ge will return book: D, F.
+    * Finally centrar server will sort the outputs and return C, D which is the expected result.
+
+Cursor based pagination works in distributed storage without the requirement of fetching all records from the remote servers.
 
 
 ## TO DO
- - [ ] Mention that only cursor based pagination works in this case
- - [ ] _Read all_ is not implemented, only via "Connections"
+ - [x] Mention that only cursor based pagination works in this case
+ - [x] _Read all_ is not implemented, only via "Connections"
  - [x] Add description of an example with a image representing the topology of the example
  - [x] Add json description of the above
- - [ ] API examples
+ - [x] API examples
