@@ -5,33 +5,34 @@
 <br/><br/>
 _**Server "skeleton"**_
 
-For installing the backend skeleton we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/graphql-server), installed locally. For this purpose we should run the following lines:
+For installing the backend skeleton we will need a copy of the repository, found in [this link](https://github.com/Zendro-dev/graphql-server), installed locally. For this purpose we should run the following lines:
 
 ```
-$ git clone https://github.com/ScienceDb/graphql-server.git backend-skeleton
+$ git clone https://github.com/Zendro-dev/graphql-server.git backend-skeleton
 $ cd backend-skeleton
-$ npm install  
+$ npm install
 ```
 From now on, in this document, we will assume that your backend-skeleton is installed in `/your-path/backend-skeleton`.
 
 <br/><br/>
 _**Install backend code generator**_
 
-For installing the backend generator we will need a copy of the repository, found in [this link](https://github.com/ScienceDb/graphql-server-model-codegen), installed.
+For installing the backend generator we will need a copy of the repository, found in [this link](https://github.com/Zendro-dev/graphql-server-model-codegen), installed.
 For this purpose we should run the following lines:
+
 ```
-$ git clone https://github.com/ScienceDb/graphql-server-model-codegen.git backend-generator
+$ git clone https://github.com/Zendro-dev/graphql-server-model-codegen.git backend-generator
 $ cd backend-generator
 $ npm install -g
 ```
+
 If you only want to install it locally, then you should run
-`$ npm install` instead and then adapt each command accordingly.  
+`$ npm install` instead and then adapt each command accordingly.
 
 <br/><br/>
 _**Generate the code**_
 
 After installing the backend-generator and if we have our data models defined, then we can generate the code for the graphql server. For this purpose we should run the following lines:
-
 ```
 $ code-generator -f <input-json-files> -o <output-directory>
 ```
@@ -51,12 +52,10 @@ _**Run GraphQL server**_
 
 ```
 $ cd /your-path/backend-skeleton
-$ node_modules/.bin/sequelize db:migrate
-$ node server.js
+$ migrateDbAndStartServer.sh
 ```
-`$ node_modules/.bin/sequelize db:migrate` command will create the tables specified in the migrations folder. With credential as in config/config.json file.
+The command `migrateDbAndStartServer.sh` will use the appropriate database credentials in `config/data_models_storage_config.json` to create the tables specified in the migrations folder, .
 
-*Note:* For the command `$ node_modules/.bin/sequelize db:migrate` a data base should be already configured locally as in `config/config.json` file, which is part of the project. If you followed all the instructions, this file should be in  `/your-path/backend-skeleton/config/config.json`
 
 <br/><br/>
 _**Setup environment variables**_

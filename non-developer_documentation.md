@@ -27,6 +27,7 @@ Each data model must include the following fields. We recommend using *snake_cas
 Field name | Type | Description | Example
 ----|----|----|------|
 model | String | Name of the data model. This must be unique within each project. | `"model": "specimen"`.
+*database* | String | Name of the database connection as a key defined in [`data_models_storage_config.json`](https://github.com/Zendro-dev/graphql-server/blob/master/config/data_models_storage_config.json). If this field is not defined, the database connection used will be `default-<storageType>`.
 storageType | String | Type of storage of the model. One of: <ul> <li>  __sql__ for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. </li>  <li>__generic__ for remote databases.</li>  <li>__zendro\_server__ for models stored in another instance created with Zendro. </li></ul> | `"storageType": "sql"`
 url | String | Required only when `"storageType": "zendro_server"`. URL where the Zendro server storing the model is running.
 attributes | Object | A list where keys are model attributes and values are the corresponding data types. Optionally, values can also be objects that store both the data type and a description of the attribute in the form: `{"type": "String", "description": "String"}`. | `"attributes": {"specimen_id": "Int", "date": "Date"}` **Or** `"attributes": {"specimen_id": {"type": "Int", "description": "Unique identifier of each specimen"}, "date": "Date"}`
