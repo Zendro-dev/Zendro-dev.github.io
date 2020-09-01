@@ -54,7 +54,7 @@ _**Run GraphQL server**_
 $ cd /your-path/backend-skeleton
 $ migrateDbAndStartServer.sh
 ```
-The command `migrateDbAndStartServer.sh` will use the appropriate database credentials in `config/data_models_storage_config.json` to create the tables specified in the migrations folder, .
+The command `migrateDbAndStartServer.sh` will use the appropriate database credentials in `config/data_models_storage_config.json` to create the tables specified in the migrations folder.
 
 
 <br/><br/>
