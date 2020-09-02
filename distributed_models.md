@@ -1,7 +1,14 @@
-# Distributed Data Models
+# Distributed Data Models (DDMs)
 
-In(at?) Zendro is possible to integrate data which follows a same data model description stored in diferent servers. For example, let say there is two research groups working in the same topic, each one of them stores their data in their own servers. Distrubuted data models will allow them to access both data sets from one same access point created with Zendro.
-The description for this type of models follows the same description here(insert link), with some extra fields marked in bold in the following table, but also we will need to specify an adapter for each one of the data sets.  
+## Multiple storages for a single data model
+
+As we have seen in the Zendro documentation so far, in Zendro you can define your data models and have Zendro created a ready to use data-warehouse with default create, read, update, and delete functions for each model. In this, each data model is expected to have a single storage in which its records reside. This can be a relational database, a remote Zendro-Server, or any generic storage. Now assume, you have several such storages that all hold records of the _same_ data model and you want to integrate these in a single interface. Basically, this is the equivalent of sharding your data into several storages. 
+
+## Zendro's solution
+
+Zendro supports sharding, that is a data model may have records stored in distinct databases, even of different types, or on different Zendro-Servers. Such a setup requires declaring your Zendro data model as "distributed". In this, the communication with each separate database or zendro-server is handled by a dedicated so called `adapter`. Each adapter is responsible for implementing the Zendro API for a specific storage and enabling integrated access. The implementation of a DDM uses its registered adapters to handle the storages they are responsible for and integrates their responses in a single efficient interface. 
+
+A distributed data model is defined using the same way any other data model is using a JSON file (see [the Zendro-Spec for details](https://zendro-dev.github.io/setup_data_scheme.html)). Note the following additional requirements when setting up a distributed data model (DDM). A DDM needs a `registry`, an array of adapter-names one for each integrated data storage and it needs the in other models optional `internalId` attribute, meaning that users are expected to provide valid `ID` values themselves. 
 
 Name | Type | Description
 ------- | ------- | --------------
