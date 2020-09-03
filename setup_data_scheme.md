@@ -349,7 +349,7 @@ Normal resolver / model files are created, where the respective model type has n
 
 Not every access to Zendro is permitted. In many cases (see above), the user must be authorized to perform a certain action. Possible authorizations for a given table include `read`, `create`, `delete`, `update`. These authorizations with respect to tables are connected to roles that users can have and are stored within the database.
 
-Additionally, reading actions are refused if they access too many records. GraphQL is a very powerful data query and manipulation language that gives the user the control about what to query the server, but this makes it possible (by accident or malice) to make such a large query that the server cannot handle it. To  prevent this, the server has a set limit of records that can be accessed by a single query.
+Additionally, reading actions are refused if they access too many records. GraphQL is a very powerful data query and manipulation language that gives the user the control about what to query the server, but this makes it possible (by accident or malice) to make such a large query that the server cannot handle it. To  prevent this, the server has a set limit of records that can be accessed by a single query and the user is required to provide pagination arguments in case of a _readMany_ query. 
 
 ## Pagination types
 

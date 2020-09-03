@@ -29,13 +29,14 @@ library(dplyr)        # for table manipulation
 
 It's possible to perform any graphql query or mutation by using a POST request. 
 Let's start with the most simple example where we will be fetching all `accession_id` and `collectors_name` attributes from `accessions` from a given zendro server served in the url `http://localhost:3001/graphql`.
+Due to efficiency reasons it is necessary to provide a pagination limit in the query.
 
 
 ```{r}
 url <- "http://localhost:3001/graphql"                                 # set the zendro server url  
 accessions_query <- ' 
 {
-  accessions{
+  accessions(pagination:{limit: 6}){
 		accession_id
 		collectors_name
   }
