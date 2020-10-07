@@ -18,7 +18,7 @@ Concrete requests that can be send to the backend server are model dependent. Th
 * `records(search, order, pagination) : [Records]` - Check user authorization and return certain number of records, specified in pagination argument, that holds the condition of search argument, all of them sorted as specified by the order argument. For more information about `search`, `order` and `pagination` argument see this [section below](#general-filter-arguments). Example:
 ```
 query{
-  records(search: {field: name, value:{ value: "%test%"}, operator: like}, order: [{field: name, order: ASC}]){
+  records(search: {field: name, value:{ value: "%test%"}, operator: like}, order: [{field: name, order: ASC}], pagination: {limit:10}){
     name
     description
   }
@@ -102,11 +102,11 @@ name | Type | Description
 
 Although the search argument type depends on the data model name, the argument name will be always the same, _search_.
 
-EXAMPLE : Let's say we want to filter all the records which name has the substring *'test'*. The proper query to perform this action would be:
+EXAMPLE : Let's say we want to filter the first 100 records which name has the substring *'test'*. The proper query to perform this action would be:
 
 ```
 query {
-  records(search: {field: name, value:{ value: "%test%"}, operator: like}){
+  records(search: {field: name, value:{ value: "%test%"}, operator: like}, pagination: {limit: 100}){
     name
     description
   }
@@ -118,10 +118,10 @@ The order argument type also depends on the data model name. With our data model
 When retrieving a set of records the user passes an array or order arguments, one for each attribute that will be sorted.
 Although the order argument type depends on the data model name, the argument name will be always the same, _order_.
 
-EXAMPLE: Let's say we want to sort all records alphabetically by the name column. The proper query to perform this action would be:
+EXAMPLE: Let's say we want to sort the first 100 records alphabetically by the name column. The proper query to perform this action would be:
 ```
 query{
-  records(order: [{field: name, order: ASC}]){
+  records(order: [{field: name, order: ASC}], pagination: {limit: 100}){
     name
     description
   }
@@ -129,12 +129,15 @@ query{
 ```
 
 #### Pagination argument
-The pagination argument is generic for all data model and the purpose of this argument is to control the maximum number of records that can be retrieved. The name for the argument is `pagination` and it is an object which contains the number of records to retrieve and the offset from where to start counting the records.
+The pagination argument is generic for all data model and the purpose of this argument is to control the maximum number of records that can be retrieved. Due to efficiency, especially in the realm of big data, the pagination argument is required by the graphql schema. The name for the argument is `pagination` and it is an object which contains the number of records to retrieve and the offset from where to start counting the records. Zendro provides two different types of pagination. Standard limit-offset based and cursor-based pagination. See Section "Pagination types" [here](setup_data_scheme.md#pagination_types) for more details.
 
+**Limit-Offset**
 attribute | Type  | Description
 ------ | ------- | --------
 limit | Integer | Number of records to retrieve
 offset | Integer | Starting point for retrieving records
+
+`limit` is a mandatory argument, offset is optional.
 
 EXAMPLE: Considering the `Record` data model for retrieving the second 10 records, the proper query to perform this action would be:
 ```
@@ -145,6 +148,17 @@ query{
   }
 }
 ```
+
+**Cursor-based**
+attribute | Type  | Description
+------ | ------- | --------
+first | Integer | Number of records to retrieve
+after | String | base64 encoded record after which to return records
+last | Integer | Number of records to retrieve
+before | String | base64 encoded record before which to return records
+
+*Note* that for cursor-based pagination we follow facebooks relay specification on [GraphQL Cursor Connections](https://relay.dev/graphql/connections.htm).  
+Either `first` and optionally `after`, or `last` and optionally `before` are valid combinations. 
 
 ## Extendend API with associations
 
@@ -201,7 +215,7 @@ And we will describe the associations between the models `Record` and `Item`.
  Example:
 ```
 query{
-  records(search: {field: name, value:{ value: "%test%"}, operator: like}){
+  records(search: {field: name, value:{ value: "%test%"}, operator: like}, pagination: {limit: 100}){
     name
     description
     countFilteredItems(search: {field: name, value:{ value: "%test%"}, operator: like})
