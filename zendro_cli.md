@@ -61,7 +61,11 @@ zendro generate-spa
 ```
 zendro dockerize
 
-  Usage: zendro dockerize
+  Usage: zendro dockerize [options]
+
+  Options:
+    -u, --up: Start docker service (default: false).
+    -d, --down: Stop docker service (default: false).
 ```
 
 ### Start Zendro service:
@@ -98,12 +102,14 @@ Hints:
   
 2. `$ cd test`
 
-3. generate graphql-server code and migrations by executing `zendro generate-gqs -d ../schema -m`.
+3. generate graphql-server code and migrations by executing `zendro generate-gqs -d ../schema -m`
 
 4. generate single-page-app code by executing `zendro generate-spa -d ../schema`
 
-5. if you don't have local database or you want to dockerize example zendro App, then execute `zendro dockerize`
+5. if you don't have local database or you want to dockerize example zendro App, then execute `zendro dockerize -u`
+
+6. When you want to stop docker service, press `CTRL+C` once, then execute `zendro dockerize -d`
    
-6. for local database, you can edit its config file: *./graphql-server/config/data_models_storage_config.json*. Then install all necessary packages for all service and start all service by executing `zendro start -i`. 
+7. for local database, you can edit its config file: *./graphql-server/config/data_models_storage_config.json*. Then install all necessary packages for all service and start all service by executing `zendro start -i`
    
-7. stop all running service by executing `zendro stop`.
+8. stop all running service by executing `zendro stop`
