@@ -63,7 +63,8 @@ name | Type | Description
 *label* | String | Name of the column in the target model to be used as a display name in the GUI. This will be useful as a preview of the association.
 *sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI. Also used for a more explicit preview of the association.
 
-When the association is of type *to_many* and it referes to a more particular type of association *many_to_many*  it's necessary to describe two extra arguments given that the association is made with a cross table. In this case the type is referred to as *to_many_through_sql_cross_table* and it's only available for `sql` stored models. The additional arguments are:
+#### Many to many association through table
+When the association is of type *to_many* and it referes to a more particular type of association *many_to_many*, stored in a cross table, it's necessary to describe two extra arguments . In this case the type is referred to as *to_many_through_sql_cross_table* and it's only available for `sql` stored models. The additional arguments are:
 
 name | Type | Description
 ------- | ------- | --------------
@@ -130,6 +131,79 @@ name | Type | Description
 }
 
 ```
+
+#### Many to many association through foreign key arrays
+
+Another way you can store many-to-many association in Zendro is via arrays. In this case the model will have an array attribute which will store ids from the associated records. Please note that both sides of the association will store an array for this functionality, these two attributes will be described in the association as `sourceKey` and `targetKey`.
+Also, for indicating that the association is a many-to-many association via arrays as foreign key, we need to specify in the association info a new field `reverseAssociationType`, which should be set to `to-many`.
+
+name | Type | Description
+------- | ------- | --------------
+*reverseAssociationType* | String | Indicates the type of the inverse association, if the association is many-to-many, this attribute is mandatory and should be set to `to-many`.
+*sourceKey* | String | Attribute of type array, belonging to source model, which stores the associated ids of target model.
+*targetKey* | String | Attribute of type array, belonging to target model, which stores the associated ids of source model.
+
+Example:
+Assume we have an association between two models: `book` and `author`. The models description should be as below:
+
+```json
+{
+    "model" : "author",
+    "storageType" : "sql",
+    "database": "default-sql",
+    "attributes" : {
+        "id": "String",
+        "name": "String",
+        "lastname": "String",
+        "email": "String",
+        "book_ids": "[ String ]"
+    },
+
+    "associations":{
+      "books":{
+        "type": "to_many",
+        "reverseAssociationType": "to_many",
+        "target": "book",
+        "targetKey": "author_ids",
+        "sourceKey": "book_ids",
+        "keyIn": "author",
+        "targetStorageType": "sql"
+      }
+    },
+
+    "internalId": "id"
+  }
+```
+
+```json
+{
+    "model" : "book",
+    "storageType" : "sql",
+    "database": "default-sql",
+    "attributes" : {
+        "id": "String",
+        "title": "String",
+        "genre": "String",
+        "ISBN": "String",
+        "author_ids": "[ String]"
+    },
+
+    "associations":{
+      "authors":{
+        "type": "to_many",
+        "reverseAssociationType": "to_many",
+        "target": "author",
+        "targetKey": "book_ids",
+        "sourceKey": "author_ids",
+        "keyIn": "book",
+        "targetStorageType": "sql"
+      }
+    },
+
+    "internalId": "id"
+  }
+```
+
 
 #### Foreign keys
 It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
@@ -350,7 +424,7 @@ Normal resolver / model files are created, where the respective model type has n
 
 Not every access to Zendro is permitted. In many cases (see above), the user must be authorized to perform a certain action. Possible authorizations for a given table include `read`, `create`, `delete`, `update`. These authorizations with respect to tables are connected to roles that users can have and are stored within the database.
 
-Additionally, reading actions are refused if they access too many records. GraphQL is a very powerful data query and manipulation language that gives the user the control about what to query the server, but this makes it possible (by accident or malice) to make such a large query that the server cannot handle it. To  prevent this, the server has a set limit of records that can be accessed by a single query and the user is required to provide pagination arguments in case of a _readMany_ query. 
+Additionally, reading actions are refused if they access too many records. GraphQL is a very powerful data query and manipulation language that gives the user the control about what to query the server, but this makes it possible (by accident or malice) to make such a large query that the server cannot handle it. To  prevent this, the server has a set limit of records that can be accessed by a single query and the user is required to provide pagination arguments in case of a _readMany_ query.
 
 ## Pagination types
 
