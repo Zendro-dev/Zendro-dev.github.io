@@ -433,3 +433,36 @@ As seen above, Zendro provides two different types of pagination: Limit-offset b
 Limit-offset based pagination is not possible for distributed data models, i.e. models where records of a single table are spread over different servers. This is because the client (who makes the request) does not know how the entries are distributed, so the offset for the different servers cannot be provided. Since this data model is especially useful for Big Data, it is not feasible to request the entire table and paginate the data on the client side.
 
 Instead, a different model has to be used. If the different servers are told which was the last entry "above" the requested page (a cursor), they can deliver the content that would follow up to it and the client can now get the received data in order. This type of pagination works for any kind of data, although it is more complex (the entries for the table are found under `edges[] -> node`).
+
+## Custom Validator Function for AJV
+It is possible to add custom asynchronous validation functions with keyword `asyncValidatorFunction`.
+
+### A Running Example
+If there is a model called `example`, the attribute `id` in the model would be validated. Only if its value is `"1"`, it passes the validation. 
+
+In specifically, it should be implemented by two steps:
+1. find a file called `example.js` in folder `validations`.
+2. add keyword `asyncValidatorFunction` and corresponding asynchronous validation function for attribute `id` in `validatorSchema`.
+
+And the example code is as follows:
+```
+example.prototype.validatorSchema = {
+  "$async": true,
+  "properties": {
+    "id": {
+      "asyncValidatorFunction": async function(data) {
+        if (data === "1") {
+          return true
+        } else {
+          return new Promise(function(resolve, reject) {
+            return reject(new Ajv.ValidationError([{
+              keyword: 'asyncValidatorFunction',
+              message: `${data} is not 1`
+            }]))
+          })
+        }
+      }
+    }
+  }
+}
+```
