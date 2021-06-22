@@ -1,6 +1,9 @@
 [&larr; back](setup_root.md)
 <br/>
 
+* TOC
+{:toc}
+
 # Data Models
 
 For each one of the data sets that you want to include in the project you will need to describe the data model. This description should include its relations or associations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of its type. From now on, in this document, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
@@ -21,7 +24,7 @@ Name | Type | Description
 *associations* | Object | The key of each entry is the name of the association and the value should be an object describing the corresponding association. See [Associations Spec](#associations-spec) section below for details.
 *internalId* | String | This string corresponds to the name of the attribute that uniquely identifies a record. If this field is not specified, an _id_, default attribute, will be added.
 
-### Supported Data Types
+## Supported Data Types
 
 The following types are allowed for the attributes field.
 
@@ -43,105 +46,68 @@ Example:
 * Time: A time string at UTC, such as `10:15:30Z`.
 * DateTime: A date-time string at UTC, such as `2007-12-03T10:15:30Z`
 
-### Associations Spec
+## Associations Spec
 
-We will consider two types of associations according to the number of records
-that can be associated:
+We will consider four types of associations according to the relation between associated records of the two models:
+1. `one_to_one`
+2. `many_to_one`
+3. `one_to_many`
+4. `many_to_many`
 
-1. to_one
-2. to_many
-
-For both types of association, the necessary arguments would be:
+For all types of association, the necessary arguments would be:
 
 name | Type | Description
 ------- | ------- | --------------
-*type* | String | Type of association, either `to_one` or `to_many`.
+*type* | String | Type of association, either `one_to_one`, `one_to_many`, `many_to_one`, or `many_to_many`.
 *target* | String | Name of model to which the current model will be associated with.
+*implementation* | String | implementation type of the association. Can be one of `foreignkey`, `generic` or `sql_cross_table` (only for `many_to_many`)`
+*reverseAssociation* | String | The name of the reverse association from the other model. This field is only mandatory for building the [single-page-app](https://github.com/Zendro-dev/single-page-app), *not* for generating the the graphql-server code via this repository.
 *targetKey* | String | A unique identifier of the association stored in any of the two models involved in the association.
-*keyIn* | String | Name of the model where the targetKey is stored.
+*keysIn* | String | Name of the model where the targetKey is stored.
 *targetStorageType* | String | Type of storage where the target model is stored.
 *label* | String | Name of the column in the target model to be used as a display name in the GUI. This will be useful as a preview of the association.
 *sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI. Also used for a more explicit preview of the association.
 
-#### Many to many association through table
-When the association is of type *to_many* and it referes to a more particular type of association *many_to_many*, stored in a cross table, it's necessary to describe two extra arguments . In this case the type is referred to as *to_many_through_sql_cross_table* and it's only available for `sql` stored models. The additional arguments are:
+**Note**: The `keysIn` argument points to the model that stores the information about the foreignKey(s). That can be either a single key, a foreignkey array or a cross-model.
 
-name | Type | Description
-------- | ------- | --------------
-*sourceKey* | String | Key to identify the source id
-*keysIn* | String | Name of the cross table
+### Foreign keys
+It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
 
+Example:
 
 ```json
-//User model
 {
-  "model" : "User",
-  "storageType" : "SQL",
+  "model" : "book",
+  "storageType" : "sql",
   "attributes" : {
-    "email" : "String",
-    "password" : "String"
+    "title" : {"type":"String", "description": "The book's title"},
+    "publisher_id": "Int"
   },
-  "associations" :{
-    "roles" : {
-      "type" : "to_many_through_sql_cross_table",
-      "target" : "Role",
-      "targetKey" : "role_Id",
-      "sourceKey" : "user_Id",
-      "keysIn" : "role_to_user",
-      "targetStorageType" : "sql",
-      "label": "name"
-    }
-  }
-
-}
-```
-
-```json
-//Role model
-{
-  "model" : "Role",
-  "storageType" : "SQL",
-  "attributes" : {
-    "name" : "String",
-    "description" : "String"
-  },
-  "associations" : {
-    "users" : {
-      "type" : "to_many_through_sql_cross_table",
-      "target" : "User",
-      "targetKey" : "user_Id",
-      "sourceKey" : "role_Id",
-      "keysIn" : "role_to_user",
-      "targetStorageType" : "sql",
-      "label": "email"
-    }
+  "associations":{
+      "publisher" : {
+        "type" : "many_to_one", // association type
+        "implementation": "foreignkey",
+        "reverseAssociation": "books",
+        "target" : "publisher", // Model's name is `publisher`
+        "targetKey" : "publisher_id", // Local alias for this association
+        "keyIn": "book", // FK to publisher will be stored in the Book model
+        "targetStorageType" : "generic", //  It's a remote database
+        "label" : "name" // Show in GUI the name of the publisher taken from external DB
+        }
   }
 }
-```
-
-```json
-//role_to_user model
-{
-  "model" : "role_to_user",
-  "storageType" : "SQL",
-  "attributes" : {
-    "user_Id" : "Int",
-    "role_Id" : "Int"
-  }
-}
-
 ```
 
 #### Many to many association through foreign key arrays
 
-Another way you can store many-to-many association in Zendro is via arrays. In this case the model will have an array attribute which will store ids from the associated records. Please note that both sides of the association will store an array for this functionality, these two attributes will be described in the association as `sourceKey` and `targetKey`.
-Also, for indicating that the association is a many-to-many association via arrays as foreign key, we need to specify in the association info a new field `reverseAssociationType`, which should be set to `to-many`.
+To store many-to-many associations via foreignkeys Zendro offers to store the foreign keys in arrays. In this case the model will have an array attribute which will store ids from the associated records. Please note that both sides of the association will store an array for this functionality, these two attributes will be described in the association as `sourceKey` and `targetKey`.
+Also, for indicating that the association is a many-to-many association via arrays as foreign key, we need to specify in the association info the `implementation` field as `foreignkey`.
 
 name | Type | Description
 ------- | ------- | --------------
-*reverseAssociationType* | String | Indicates the type of the inverse association, if the association is many-to-many, this attribute is mandatory and should be set to `to-many`.
 *sourceKey* | String | Attribute of type array, belonging to source model, which stores the associated ids of target model.
 *targetKey* | String | Attribute of type array, belonging to target model, which stores the associated ids of source model.
+*implementation* | 'foreignkey' | Set the `implementation` field to 'foreignkey'
 
 Example:
 Assume we have an association between two models: `book` and `author`. The models description should be as below:
@@ -161,8 +127,9 @@ Assume we have an association between two models: `book` and `author`. The model
 
     "associations":{
       "books":{
-        "type": "to_many",
-        "reverseAssociationType": "to_many",
+        "type": "many_to_many",
+        "implementation": "foreignkey",
+        "reverseAssociation": "authors",
         "target": "book",
         "targetKey": "author_ids",
         "sourceKey": "book_ids",
@@ -190,8 +157,9 @@ Assume we have an association between two models: `book` and `author`. The model
 
     "associations":{
       "authors":{
-        "type": "to_many",
-        "reverseAssociationType": "to_many",
+        "type": "many_to_many",
+        "implementation": "foreignkey",
+        "reverseAssociation": "books",
         "target": "author",
         "targetKey": "book_ids",
         "sourceKey": "author_ids",
@@ -203,39 +171,90 @@ Assume we have an association between two models: `book` and `author`. The model
     "internalId": "id"
   }
 ```
+### Many to many association through table
+When the association is of type *many_to_many* and it referes to a more particular type of association *many_to_many*, stored in a cross table, it's necessary to describe two extra arguments . In this case the type is referred to as *to_many_through_sql_cross_table* and it's only available for `sql` stored models. The additional arguments are:
 
-
-#### Foreign keys
-It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
-
-Example:
+name | Type | Description
+------- | ------- | --------------
+*sourceKey* | String | Key to identify the source id
+*targetKey* | String | Key to identify the target id
+*implementation* | 'sql_cross_table' | Set the `implementation` field to 'sql_cross_table'
 
 ```json
+//User model
 {
-  "model" : "book",
-  "storageType" : "sql",
+  "model" : "User",
+  "storageType" : "SQL",
   "attributes" : {
-    "title" : {"type":"String", "description": "The book's title"},
-    "publisher_id": "Int"
+    "email" : "String",
+    "password" : "String"
   },
-  "associations":{
-      "publisher" : {
-        "type" : "to_one", // association type
-        "target" : "publisher", // Model's name is `publisher`
-        "targetKey" : "publisher_id", // Local alias for this association
-        "keyIn": "book", // FK to publisher will be stored in the Book model
-        "targetStorageType" : "generic", //  It's a remote database
-        "label" : "name" // Show in GUI the name of the publisher taken from external DB
-        }
+  "associations" :{
+    "roles" : {
+      "type" : "many_to_many",
+      "implementation": "sql_cross_table",
+      "reverseAssociation": "users",
+      "target" : "Role",
+      "targetKey" : "role_Id",
+      "sourceKey" : "user_Id",
+      "keysIn" : "role_to_user",
+      "targetStorageType" : "sql",
+      "label": "name"
+    }
+  }
+
+}
+```
+
+```json
+//Role model
+{
+  "model" : "Role",
+  "storageType" : "SQL",
+  "attributes" : {
+    "name" : "String",
+    "description" : "String"
+  },
+  "associations" : {
+    "users" : {
+      "type" : "many_to_many",
+      "implementation": "sql_cross_table",
+      "reverseAssociation": "roles",
+      "target" : "User",
+      "targetKey" : "user_Id",
+      "sourceKey" : "role_Id",
+      "keysIn" : "role_to_user",
+      "targetStorageType" : "sql",
+      "label": "email"
+    }
   }
 }
 ```
 
-#### Differences between backend and Frontend (GUI)
+```json
+//role_to_user model
+{
+  "model" : "role_to_user",
+  "storageType" : "SQL",
+  "attributes" : {
+    "user_Id" : "Int",
+    "role_Id" : "Int"
+  }
+}
+
+```
+
+
+### generic associations
+To generate a generic association the `generic` implementation type can be used. This will genereate code stubs in the models for the user specific implementation of resolving the management of the association.
+
+### Differences between backend and Frontend (GUI)
 
 The same data model description files (.json) can be used for generating both the [BACKEND](setup_backend.md) and [FRONTEND OR GUI](setup_gui.md). Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
 
-#### About the associations type
+The field `reverseAssociation` is only mandatory for generating the queries used in the single-page-application to communicate with the graphql-server. Generating the graphql-server code without setting this field will give an appropriate warning.
+
+### About the associations type
 
 In Zendro, association are based on the [sequelize ORM terminology](http://docs.sequelizejs.com/manual/tutorial/associations.html). As usually, in any association type the foreign-key shall be placed inside one of the two associated tables. However both table models need to be notified about that link. This association information shall be placed in each model definition JSON files. Below we consider the models for two tables A and B, that are defined in the files A.json and B.json correspondingly.
 
@@ -278,11 +297,11 @@ The meaning of these keywords and their valid combinations are discussed from th
     B.json: belongsTo A;
     (table B keeps a unique foreignkey_A)
 
-#### The Resolver Layer and the Model Layer
+## The Resolver Layer and the Model Layer
 
 The Zendro server uses two different layers below the GraphQL schema (which defines the functions that the GraphQL server understands) to process data, the resolver layer and the model layer. The main reason for this is that Zendro supports a growing number of storage types, and the more abstract layer (the resolver) is supposed to be storage type agnostic. There is one exception to this (in the case of distributed data models, one resolver function cannot be supported, see [below](#pagination-types)), but otherwise, it holds true. So the resolver layer provides an interface that the GraphQL schema can use, and (on the other side) an interface that a new storage type model has to fulfill.
 
-#### The code generator at work
+## The code generator at work
 
 The code generator receives the specification as described [above](#json-specs) and generates resolvers and models from it. In this section we take a look at the code that is generated from the different attributes that can be given by the JSON specification.
 
@@ -299,7 +318,7 @@ The model contains a constant named `definition` that contains the full JSON spe
 
 The only storage type that is examined here is `sql` (`storageType` for the main record, `associations -> <NAME> -> targetStorageType` for the association).
 
-##### The model itself
+### The model itself
 
 First we observe the methods that are created for handling the model itself with no regard yet to the associations.
 
@@ -346,7 +365,7 @@ stripAssociations() | Returns only the attributes of the current record |
 externalIdsArray() | Returns `definition.externalIds` if present, otherwise `[]` |
 externalIdsObject() | Returns an object containing only the attributes with external IDs as keys, or an empty object |
 
-##### For all associations
+### For all associations
 
 In the resolver the following entries are created:
 
@@ -358,7 +377,7 @@ async function countAllAssociatedRecords(id, context) | *Method which counts all
 
 In the model a method `static associate(models)` is created, which is filled for each association type as outlined below.
 
-##### Association type *to_many*
+### Association type *x_to_many*
 
 For this association the following methods are created in the resolver:
 
@@ -372,7 +391,7 @@ Signature | Use | Link to resolver function (optional)
 
 In the model file, an entry is added to the method `associate(models)` in  the form `<model>.hasMany(models.<assoc>, {as: <assoc>, foreignKey: <assocID>})`. The model methods that are called from the resolver are in the associated model (which holds the association key).
 
-##### Association type *to_one*
+### Association type *x_to_one*
 
 For this association the following methods are created in the resolver:
 
@@ -391,7 +410,7 @@ Signature | Use | Link to model function (optional)
 static async add_`<assocID>`(`<ModelIDAttribute>`, `<assocIDValue>`) | Adds an entry by setting the associated ID in the *main record* to the ID of the associated record | ADDING_TO1
 static async remove_`<assocID>`(`<ModelIDAttribute>`, `<assocIDValue>`) | Removes the associated ID of an associated record in the *main record* | REMOVING_TO1
 
-##### Association type *to_many_through_sql_cross_table*
+### Association type *many_to_many* through *sql_cross_table* implementation
 
 In this case an additional record type is introduced that contains the SQL cross table, so there are 3 models and 3 resolvers to consider. Unlike the former two cases, this one is fully symmetric. *Both* records involved define this type of connection with the name of the cross table as `keysIn`. The source key for both types is the ID of the own record, and the target key is the ID of the other record. Because of the symmetry, only 4 files must be considered.
 
@@ -416,7 +435,7 @@ countFiltered`<assoc>`Impl({search}) | Implements the counting | COUNT_TMTSCT
 static async add_`<assocID>`(record, add`<assoc>`) | Adds a record | ADDING_TMTSCT
 static async remove_`<assocID>`(record, remove`<assoc>`) | Removes a record | REMOVING_TMTSCT
 
-###### Cross Table Resolver / Model
+#### Cross Table Resolver / Model
 
 Normal resolver / model files are created, where the respective model type has no associations of its own so that these files contain only the methods from [the model itself](#the-model-itself).
 
