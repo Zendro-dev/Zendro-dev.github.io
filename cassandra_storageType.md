@@ -1,3 +1,6 @@
+[ &larr; back](setup_data_scheme.md)
+<br/>
+
 # Cassandra storageType
 
 This documentation aims to point out specifics related to the cassandra [storageType](setup_data_scheme.md#json-specs). [Cassandra]() in general is _not_ general purpose database and aims at providing efficient access to Big Data by carefully describing the data and specific access patterns. Zendro provides a standardized API for all defined models and assumes certain considerations when defining your data model. Important for the cassandra storageType is the presence of a unique primary Key attribute providing access to a specific record identified by that key. Aside from simple primary keys cassandra offers [compound primary keys](https://docs.datastax.com/en/cql-oss/3.3/cql/cql_using/useCompoundPrimaryKeyConcept.html) to define efficient access on a cluster of servers. For now we _do not_ support these kind of primary key definitions. A primary key _must_ refer to one attribute.
