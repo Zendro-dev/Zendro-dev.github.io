@@ -68,6 +68,7 @@ name | Type | Description
 *targetStorageType* | String | Type of storage where the target model is stored.
 *label* | String | Name of the column in the target model to be used as a display name in the GUI. This will be useful as a preview of the association.
 *sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI. Also used for a more explicit preview of the association.
+*useDataLoader* | Boolean | If it is set to `true`, server could fetch multiple records within one query for `readOne<model>` API. 
 
 **Note**: The `keysIn` argument points to the model that stores the information about the foreignKey(s). That can be either a single key, a foreignkey array or a cross-model.
 
@@ -91,7 +92,7 @@ Example:
         "reverseAssociation": "books",
         "target" : "publisher", // Model's name is `publisher`
         "targetKey" : "publisher_id", // Local alias for this association
-        "keyIn": "book", // FK to publisher will be stored in the Book model
+        "keysIn": "book", // FK to publisher will be stored in the Book model
         "targetStorageType" : "generic", //  It's a remote database
         "label" : "name" // Show in GUI the name of the publisher taken from external DB
         }
@@ -134,7 +135,7 @@ Assume we have an association between two models: `book` and `author`. The model
         "target": "book",
         "targetKey": "author_ids",
         "sourceKey": "book_ids",
-        "keyIn": "author",
+        "keysIn": "author",
         "targetStorageType": "sql"
       }
     },
@@ -164,7 +165,7 @@ Assume we have an association between two models: `book` and `author`. The model
         "target": "author",
         "targetKey": "book_ids",
         "sourceKey": "author_ids",
-        "keyIn": "book",
+        "keysIn": "book",
         "targetStorageType": "sql"
       }
     },
@@ -255,47 +256,186 @@ The same data model description files (.json) can be used for generating both th
 
 The field `reverseAssociation` is only mandatory for generating the queries used in the single-page-application to communicate with the graphql-server. Generating the graphql-server code without setting this field will give an appropriate warning.
 
-### About the associations type
+### About the association types
 
-In Zendro, association are based on the [sequelize ORM terminology](http://docs.sequelizejs.com/manual/tutorial/associations.html). As usually, in any association type the foreign-key shall be placed inside one of the two associated tables. However both table models need to be notified about that link. This association information shall be placed in each model definition JSON files. Below we consider the models for two tables A and B, that are defined in the files A.json and B.json correspondingly.
+In Zendro, there are four association types, namely __* : 1__ (many-to-one), __1 : *__ (one-to-many), __* : *__ (many-to-many) and __1:1__ (one-to-one).
+
+As usually, in any association type the foreign-key shall be placed inside one of the two associated tables. However both table models need to be notified about that link. This association information shall be placed in each model definition JSON files. Below we consider the models for two tables A and B, that are defined in the files A.json and B.json correspondingly.
 
 Within the body of any model JSON file, the model that is described in this file is considered as a source model, and any other model is considered as a target. Therefore, within the JSON source it is required to specify how the current model is associated with all its targets.
 
-The four types of association provided by Sequelize can be taken as a guide for understanding where the `targeKey`, responsible of the association between two tables, is stored.
-
-* belongsTo
-* hasOne
-* hasMany
-* belongsToMany
-
-The meaning of these keywords and their valid combinations are discussed from the point of view of the standard association relationships: __* : 1__ (many-to-one), __* : *__ (many-to-many) and __1:1__ (one-to-one).
+Let's use some examples to explain these four types of association: 
 
 1. __Many-to-One__
     This case happens when more than one element of the table A can reference the same element of table B. In this case, the foreign-key has to be created in the table A.
 
     Example: Table A contains a list of employees and each of them can work in a single department only (catalog B).
 
-    A.json: belongsTo B;
-    B.json: hasMany A;
+    Data Model Definition for table A:
+    ```
+    {
+      "model": "employee",
+      "storageType": "mongodb",
+      "attributes": {
+          "employee_id": "String",
+          "name": "String",
+          "department_id": "String"
+      },
+      "associations": {
+          "department": {
+              "type": "many_to_one",
+              "implementation": "foreignkeys",
+              "reverseAssociation": "employees",
+              "target": "department",
+              "targetKey": "department_id",
+              "keysIn": "employee",
+              "targetStorageType": "mongodb"
+          }
+      },
+      "internalId": "employee_id",
+      "id": {
+          "name": "employee_id",
+          "type": "String"
+      },
+      "useDataLoader": true
+    }
+    ```
+  
     (table A keeps a not unique foreignkey_B)
 
-1. __Many-to-Many__
+2. __One-to-Many__ This association type is the reverse type of Many-to-One association type. Hence, we can use the same example to explain. And the below data model definition is for table B:
+
+    Data Model Definition for table B:
+
+    ```
+    {
+        "model": "department",
+        "storageType": "mongodb",
+        "attributes": {
+            "department_id": "String",
+            "department_name": "String"
+        },
+        "associations": {
+            "employees": {
+                "type": "one_to_many",
+                "implementation": "foreignkeys",
+                "reverseAssociation": "department",
+                "target": "employee",
+                "targetKey": "department_id",
+                "keysIn": "employee",
+                "targetStorageType": "mongodb"
+            }
+        },
+        "internalId": "department_id",
+        "id": {
+            "name": "department_id",
+            "type": "String"
+        },
+        "useDataLoader": false
+    }
+    ```
+
+3. __Many-to-Many__
 
     Based on the previous example, this type of relationship underlines the fact, that an employee can belong to more than one department as well as the department can incorporate more than one employee. In this case, a new relation table has to be created that would hold the foreign-key pairs that define employee-to-department associations.
 
-    Example:
-    A.json belongsToMany B;
-    B.json belongsToMany A;
+    Data Model Definition for table A:
+    ```
+    {
+      "model": "employee",
+      "storageType": "mongodb",
+      "attributes": {
+          "employee_id": "String",
+          "name": "String",
+          "department_ids": "[String]"
+      },
+      "associations": {
+          "departments": {
+              "type": "many_to_many",
+              "implementation": "foreignkeys",
+              "reverseAssociation": "employees",
+              "target": "department",
+              "targetKey": "employee_ids",
+              "sourceKey": "department_ids",
+              "keysIn": "employee",
+              "targetStorageType": "mongodb"
+          }
+      },
+      "internalId": "employee_id",
+      "id": {
+          "name": "employee_id",
+          "type": "String"
+      },
+      "useDataLoader": true
+    }
+    ```
+    Data Model Definition for table B:
+
+    ```
+    {
+        "model": "department",
+        "storageType": "mongodb",
+        "attributes": {
+            "department_id": "String",
+            "department_name": "String",
+            "employee_ids": "[String]"
+        },
+        "associations": {
+            "employees": {
+                "type": "one_to_many",
+                "implementation": "foreignkeys",
+                "reverseAssociation": "departments",
+                "target": "employee",
+                "targetKey": "department_ids",
+                "sourceKey": "employee_ids",
+                "keysIn": "department",
+                "targetStorageType": "mongodb"
+            }
+        },
+        "internalId": "department_id",
+        "id": {
+            "name": "department_id",
+            "type": "String"
+        },
+        "useDataLoader": false
+    }
+    ```
+
     (AB relation table with foreignkey_A and foreignkey_B is created automatically)
 
-1. __One-to-One__
+4. __One-to-One__
 
-    This relation type contains restriction: an absence of the possibility to relate more than one pair of the elements. In this case it is a subject of intuition which table shell hold the foreign-key. However, the foreign-keys can't repeat and shall be unique.
+    This relation type contains restriction: an absence of the possibility to relate more than one pair of the elements. In this case it is a subject of intuition which table shall hold the foreign-key. However, the foreign-keys can't repeat and shall be unique.
 
     For example, the A table is a catalog of well studied species that have strict registration number, whereas table B contains all discovered species, some of which are not cataloged yet.
 
-    A.json: hasOne B;
-    B.json: belongsTo A;
+    Data Model Definition for table B:
+    ```
+    {
+        "model": "discovered_specie",
+        "storageType": "mongodb",
+        "attributes": {
+          "discovered_specie_id": "String",
+          "studied_specie_id": "String"
+        },
+        "associations": {
+          "unique_studied_specie": {
+            "type": "one_to_one",
+            "implementation": "foreignkeys",
+            "reverseAssociation": "unique_discovered_specie",
+            "target": "studied_specie",
+            "targetKey": "studied_specie_id",
+            "keysIn": "discovered_specie",
+            "targetStorageType": "mongodb"
+          }
+        },
+        "internalId": "discovered_specie_id",
+        "id": {
+            "name": "discovered_specie_id",
+            "type": "String"
+        }
+    }
+    ```
     (table B keeps a unique foreignkey_A)
 
 ## The Resolver Layer and the Model Layer
@@ -486,3 +626,34 @@ example.prototype.validatorSchema = {
   }
 }
 ```
+## Data Loader
+When reading a record by its id, by default Zendro uses a [data loader](https://github.com/graphql/dataloader) to improve read performance. It does so by bundling IDs to be fetched and request those in one composite query.
+
+Here is an example for fetching multiple records within one request:
+
+```
+{
+  n0: readOneAccession(accession_id: "a-instance1") {
+    accession_id
+    collectors_name
+    location(search:null){
+      locationId
+    }
+  }
+  n1: readOneAccession(accession_id: "b-instance1") {
+    accession_id
+    collectors_name
+    location(search:null){
+      locationId
+    }
+  }
+  n2: readOneAccession(accession_id: "c-instance1") {
+    accession_id
+    collectors_name
+    location(search:null){
+      locationId
+    }
+  }
+}
+```
+In the above example querying the associated location for each `readOneAccession` query invokes the location root resolver to search for associated records. By using the data loader we can collect all `readById` requests to the `accession` and the `location` model and optimize the queries to fetch those Ids together. This reduces the amount of executed queries from six to two.
