@@ -627,7 +627,7 @@ example.prototype.validatorSchema = {
 }
 ```
 ## Data Loader
-For `readOne<model>` API, data loader would be used by default. It means that we can collect IDs, then fetch multiple records within one query. Hence, the read performance could be improved in Zendro.
+When reading a record by its id, by default Zendro uses a [data loader](https://github.com/graphql/dataloader) to improve read performance. It does so by bundling IDs to be fetched and request those in one composite query.
 
 Here is an example for fetching multiple records within one request:
 
@@ -656,5 +656,4 @@ Here is an example for fetching multiple records within one request:
   }
 }
 ```
-
-For associated API like `location`, the root resolver would be invoked automatically. In specifically, `readOneAccession` would use the data loader in `accession` model. And the `location` API would use the data loader in `location` model. Hence, by using data loader optimization, only two queries would be executed instead of six queries.
+In the above example querying the associated location for each `readOneAccession` query invokes the location root resolver to search for associated records. By using the data loader we can collect all `readById` requests to the `accession` and the `location` model and optimize the queries to fetch those Ids together. This reduces the amount of executed queries from six to two.
