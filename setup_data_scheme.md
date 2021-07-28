@@ -382,7 +382,7 @@ Let's use some examples to explain these four types of association:
         },
         "associations": {
             "employees": {
-                "type": "one_to_many",
+                "type": "many_to_many",
                 "implementation": "foreignkeys",
                 "reverseAssociation": "departments",
                 "target": "employee",
