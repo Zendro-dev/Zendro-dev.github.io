@@ -97,22 +97,92 @@ name | Type | Description
 ------- | ------- | --------------
 *field* | String | Can be any record's attributes name. Can be also understood as the column by which the records will be filtered.
 *value* | Object | Value used to filter the records, can be type `String` or type `Array` (default type is String) and the actual value should be also specified. Example: `value:{ type: String, value: "%string_to_filter%"}`
+*valueType* | enum | One of `Array, String, Int, Float, Boolean, DateTime`
 *operator* | String | Operator used to filter the records. Example: `eq`, `like` ...
 *search* | [searchRecordInput] | Recursively the user can spefify another search argument.
 
 Although the search argument type depends on the data model name, the argument name will be always the same, _search_.
 
-EXAMPLE : Let's say we want to filter the first 100 records which name has the substring *'test'*. The proper query to perform this action would be:
+**EXAMPLE** : Let's say we want to filter the first 100 records which name has the substring *'test'*. The proper query to perform this action would be:
 
 ```
 query {
-  records(search: {field: name, value:{ value: "%test%"}, operator: like}, pagination: {limit: 100}){
+  records(search: {field: name, value: "%test%", operator: like}, pagination: {limit: 100}){
     name
     description
   }
 }
 
 ```
+
+#### Operators
+Zendro supports the following list of operators. Depending on the storage type of the model some operators are not supported and hence not exposed in the models schema.
+
+##### Patern matching operators
+| Operator | Description | Example |
+| --- | --- | --- | 
+| `like` | pattern matching with wildcards for the entire string | `value: "%abc_"` |
+| `notLike` | negated `like` | `value: "%abc%"`
+| `regexp` | pattern matching via regular expression | `value: "^[a\|b\|c]"` | 
+| `notRegexp` | negated `regexp` | `value: "^[a\|b\|c]"`
+
+##### Comparative operators
+| Operator | Description | Example |
+| --- | --- | --- | 
+| `eq` | equality | `value: 5` |
+| `ne` | unequality | `value: 4` |
+| `gt` | greater than | `value: 6`
+| `gte` | greater than equal | `value: 14.2` |
+| `lt` | less than | `value: 10` |
+| `lte` | less than equal | `value: 20` |
+| `between` | range containment | `value:"6,10" valueType:Array` |
+| `notBetween` | negated `between` | `value:"6,10" valueType:Array` |
+
+##### Array operators
+| Operator | Description | Example |
+| --- | --- | --- | 
+| `in` | check if a column matches any value in a list | `value:"a,b,c" valueType:Array`
+| `notIn` | negated `in` | `value:"a,b,c" valueType:Array`
+| `contains` | check if a value is contained in an array column | `value:3` |
+| `notContains` | negated `contains` | `value:3` |
+
+##### Logical operators
+| Operator | Description | Example |
+| --- | --- | --- | 
+| `or` | logical or to combine multiple searches | `{operator: or search:[{<search>}, {<search>}]}` | 
+| `and` | logical and to combine multiple searches | `{operator: and search:[{<search>}, {<search>}]}` |
+| `not` | logical not. searches will get combined with `and` | `{operator: not search:[{<search>}, {<search>}]}` | 
+| `all` |
+
+##### StorageType compatability
+<!-- | StorageType | `like` | `notLike` | `regexp` | `notRegexp` | `strContains` | `eq` | `ne` | `gt` | `gte` | `lt` | `lte` | `between` | `notBetween` | `in` | `notIn` | `contained` | `or` | `and` | `not` | `all` |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| sql |🟢|🟢|🟢| -->
+
+🔴🟠🟡🟢
+| Operator | sql | mongodb | neo4j | cassandra | presto<br>trino | amazonS3 |
+| --- | --- | --- | --- | --- | --- | --- |  
+| `like`        |🟢|🟢|🟢|🔴|🟢|🟢|
+| `ilike`       |🟢|🟢|🟢|🔴|🟢|🟢|
+| `notLike`     |🟢|🟡|🟡|🔴|🟡|🟡|
+| `regexp`      |🟢*|🟢|🟢|🔴|🔴|🔴|
+| `notRegexp`   |🟢*|🟢|🟢|🔴|🔴|🔴|
+| `eq`          |🟢|🟢|🟢|🟢|🟢|🟢|
+| `ne`          |🟢|🟢|🟢|🔴|🟢|🟢|
+| `gt`          |🟢|🟢|🟢|🟢|🟢|🟢|
+| `gte`         |🟢|🟢|🟢|🟢|🟢|🟢|
+| `lt`          |🟢|🟢|🟢|🟢|🟢|🟢|
+| `lte`         |🟢|🟢|🟢|🟢|🟢|🟢|
+| `between`     |🟢|🔴|🔴|🔴|🟡|🟡|
+| `notBetween`  |🟢|🔴|🔴|🔴|🟡|🟡|
+| `in`          |🟢|🟢|🟢|🟢|🟢|🟢|
+| `notIn`       |🟢|🟢|🟢|🔴|🟡|🟡|
+| `contains`    |🟢|🟡|🟡|🟡|🟡|🟡|
+| `notContains` |🟢|🟡|🟡|🟡|🟡|🟡|
+| `or`          |🟢|🟢|🟢|🔴|🟢|🟢|
+| `and`         |🟢|🟢|🟢|🟢|🟢|🟢|
+| `not`         |🟢|🟡|🟡|🔴|🟢|🟢|
+| `all`         |🟢|🔵|🔵|🔵|🔵|🔵|
 #### Order argument
 The order argument type also depends on the data model name. With our data model `Record` the order argument will be called `orderRecordInput` and it is an object  which contains the name of the attribute to sort and the order that will be used, order can be ascendent `ASC` or descendant `DESC`.
 When retrieving a set of records the user passes an array or order arguments, one for each attribute that will be sorted.
