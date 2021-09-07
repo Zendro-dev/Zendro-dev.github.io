@@ -160,9 +160,6 @@ Zendro supports the following list of operators. Depending on the storage type o
 | `not` | logical not. searches will get combined with `and` | `{operator: not search:[{<search>}, {<search>}]}` | 
 
 ##### StorageType compatability
-<!-- | StorageType | `like` | `notLike` | `regexp` | `notRegexp` | `strContains` | `eq` | `ne` | `gt` | `gte` | `lt` | `lte` | `between` | `notBetween` | `in` | `notIn` | `contained` | `or` | `and` | `not` | `all` |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| sql |🟢|🟢|🟢| -->
 
 | Operator | sql | mongodb | neo4j | cassandra | presto<br>trino | amazonS3 |
 | --- | --- | --- | --- | --- | --- | --- |  
