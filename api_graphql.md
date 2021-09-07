@@ -122,9 +122,13 @@ Zendro supports the following list of operators. Depending on the storage type o
 | Operator | Description | Example |
 | --- | --- | --- | 
 | `like` | pattern matching with wildcards for the entire string | `value: "%abc_"` |
-| `notLike` | negated `like` | `value: "%abc%"`
+| `notLike` | negated `like` | `value: "%abc%"` |
+| `iLike` | case insensitive pattern matching with wildcards for the entire string | `value: "%abc_"` |
+| `notILike` | negated `iLike` | `value: "%abc%"` |
 | `regexp` | pattern matching via regular expression | `value: "^[a\|b\|c]"` | 
 | `notRegexp` | negated `regexp` | `value: "^[a\|b\|c]"`
+| `iRegexp` | case insensitive pattern matching via regular expression | `value: "^[a\|b\|c]"` | 
+| `notIRegexp` | negated `iRegexp` | `value: "^[a\|b\|c]"`
 
 ##### Comparative operators
 | Operator | Description | Example |
@@ -152,37 +156,40 @@ Zendro supports the following list of operators. Depending on the storage type o
 | `or` | logical or to combine multiple searches | `{operator: or search:[{<search>}, {<search>}]}` | 
 | `and` | logical and to combine multiple searches | `{operator: and search:[{<search>}, {<search>}]}` |
 | `not` | logical not. searches will get combined with `and` | `{operator: not search:[{<search>}, {<search>}]}` | 
-| `all` |
 
 ##### StorageType compatability
 <!-- | StorageType | `like` | `notLike` | `regexp` | `notRegexp` | `strContains` | `eq` | `ne` | `gt` | `gte` | `lt` | `lte` | `between` | `notBetween` | `in` | `notIn` | `contained` | `or` | `and` | `not` | `all` |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | sql |🟢|🟢|🟢| -->
 
-🔴🟠🟡🟢
 | Operator | sql | mongodb | neo4j | cassandra | presto<br>trino | amazonS3 |
 | --- | --- | --- | --- | --- | --- | --- |  
-| `like`        |🟢|🟢|🟢|🔴|🟢|🟢|
-| `ilike`       |🟢|🟢|🟢|🔴|🟢|🟢|
-| `notLike`     |🟢|🟡|🟡|🔴|🟡|🟡|
-| `regexp`      |🟢*|🟢|🟢|🔴|🔴|🔴|
-| `notRegexp`   |🟢*|🟢|🟢|🔴|🔴|🔴|
+| `like`        |🟢|🟢<sup>1</sup>|🟢<sup>1</sup>|🔴|🟢|🟢|
+| `notLike`     |🟢|🟢<sup>1</sup>|🟢<sup>1</sup>|🔴|🟢|🟢|
+| `iLike`       |🟢|🟢<sup>1</sup>|🟢<sup>1</sup>|🔴|🟢<sup>2</sup>|🟢<sup>2</sup>|
+| `notILike`    |🟢|🟢<sup>1</sup>|🟢<sup>1</sup>|🔴|🟢<sup>2</sup>|🟢<sup>2</sup>|
+| `regexp`      |🟢|🟢|🟢|🔴|🟢|🔴|
+| `notRegexp`   |🟢|🟢|🟢|🔴|🟢|🔴|
+| `iRegexp`     |🟢|🟢|🟢|🔴|🟢|🔴|
+| `notIRegexp`  |🟢|🟢|🟢|🔴|🟢|🔴|
 | `eq`          |🟢|🟢|🟢|🟢|🟢|🟢|
 | `ne`          |🟢|🟢|🟢|🔴|🟢|🟢|
 | `gt`          |🟢|🟢|🟢|🟢|🟢|🟢|
 | `gte`         |🟢|🟢|🟢|🟢|🟢|🟢|
 | `lt`          |🟢|🟢|🟢|🟢|🟢|🟢|
 | `lte`         |🟢|🟢|🟢|🟢|🟢|🟢|
-| `between`     |🟢|🔴|🔴|🔴|🟡|🟡|
-| `notBetween`  |🟢|🔴|🔴|🔴|🟡|🟡|
+| `between`     |🟢|🔴|🔴|🔴|🟢|🟢|
+| `notBetween`  |🟢|🔴|🔴|🔴|🟢|🟢|
 | `in`          |🟢|🟢|🟢|🟢|🟢|🟢|
-| `notIn`       |🟢|🟢|🟢|🔴|🟡|🟡|
-| `contains`    |🟢|🟡|🟡|🟡|🟡|🟡|
-| `notContains` |🟢|🟡|🟡|🟡|🟡|🟡|
+| `notIn`       |🟢|🟢|🟢|🔴|🟢|🟢|
+| `contains`    |🟢|🟢|🟢|🟢|🟢|🟢|
+| `notContains` |🟢|🟢|🟢|🔴|🟢|🟢|
 | `or`          |🟢|🟢|🟢|🔴|🟢|🟢|
 | `and`         |🟢|🟢|🟢|🟢|🟢|🟢|
-| `not`         |🟢|🟡|🟡|🔴|🟢|🟢|
-| `all`         |🟢|🔵|🔵|🔵|🔵|🔵|
+| `not`         |🟢|🟢|🟢|🔴|🟢|🟢|
+
+<sup>1</sup> &nbsp; implemented via `regexp`  
+<sup>2</sup> &nbsp; implemented via `LOWER(<col>) LIKE LOWER(<value>)`
 #### Order argument
 The order argument type also depends on the data model name. With our data model `Record` the order argument will be called `orderRecordInput` and it is an object  which contains the name of the attribute to sort and the order that will be used, order can be ascendent `ASC` or descendant `DESC`.
 When retrieving a set of records the user passes an array or order arguments, one for each attribute that will be sorted.
