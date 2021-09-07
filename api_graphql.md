@@ -130,6 +130,8 @@ Zendro supports the following list of operators. Depending on the storage type o
 | `iRegexp` | case insensitive pattern matching via regular expression | `value: "^[a\|b\|c]"` | 
 | `notIRegexp` | negated `iRegexp` | `value: "^[a\|b\|c]"`
 
+**Note:** For now Zendro only supports the `i` flag for regular expressions to search case-insesitive via the `iRegexp` / `notIRegexp` operators. Since the syntax for regular expression varies between storagetypes to a certain degree, there might be some unexpected edge cases.
+
 ##### Comparative operators
 | Operator | Description | Example |
 | --- | --- | --- | 
@@ -168,10 +170,10 @@ Zendro supports the following list of operators. Depending on the storage type o
 | `notLike`     |🟢|🟢<sup>1</sup>|🟢<sup>1</sup>|🔴|🟢|🟢|
 | `iLike`       |🟢|🟢<sup>1</sup>|🟢<sup>1</sup>|🔴|🟢<sup>2</sup>|🟢<sup>2</sup>|
 | `notILike`    |🟢|🟢<sup>1</sup>|🟢<sup>1</sup>|🔴|🟢<sup>2</sup>|🟢<sup>2</sup>|
-| `regexp`      |🟢|🟢|🟢|🔴|🟢|🔴|
-| `notRegexp`   |🟢|🟢|🟢|🔴|🟢|🔴|
-| `iRegexp`     |🟢|🟢|🟢|🔴|🟢|🔴|
-| `notIRegexp`  |🟢|🟢|🟢|🔴|🟢|🔴|
+| `regexp`      |🟢|🟢|🟢<sup>3</sup>|🔴|🟢|🔴|
+| `notRegexp`   |🟢|🟢|🟢<sup>3</sup>|🔴|🟢|🔴|
+| `iRegexp`     |🟢|🟢|🟢<sup>3</sup>|🔴|🟢|🔴|
+| `notIRegexp`  |🟢|🟢|🟢<sup>3</sup>|🔴|🟢|🔴|
 | `eq`          |🟢|🟢|🟢|🟢|🟢|🟢|
 | `ne`          |🟢|🟢|🟢|🔴|🟢|🟢|
 | `gt`          |🟢|🟢|🟢|🟢|🟢|🟢|
@@ -189,7 +191,8 @@ Zendro supports the following list of operators. Depending on the storage type o
 | `not`         |🟢|🟢|🟢|🔴|🟢|🟢|
 
 <sup>1</sup> &nbsp; implemented via `regexp`  
-<sup>2</sup> &nbsp; implemented via `LOWER(<col>) LIKE LOWER(<value>)`
+<sup>2</sup> &nbsp; implemented via `LOWER(<col>) LIKE LOWER(<value>)`  
+<sup>3</sup> &nbsp; neo4j's implementation of [regular expressions](https://neo4j.com/docs/cypher-manual/current/clauses/where/#query-where-regex) expects to match the whole string. Since Zendro tries to unify the behaviour of the operators a wildcard `.*` is added to the beginning and the end of the pattern except when otherwise specified via `^` and/or `$`.
 #### Order argument
 The order argument type also depends on the data model name. With our data model `Record` the order argument will be called `orderRecordInput` and it is an object  which contains the name of the attribute to sort and the order that will be used, order can be ascendent `ASC` or descendant `DESC`.
 When retrieving a set of records the user passes an array or order arguments, one for each attribute that will be sorted.
