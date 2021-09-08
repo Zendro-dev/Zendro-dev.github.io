@@ -119,6 +119,7 @@ query {
 Zendro supports the following list of operators. Depending on the storage type of the model some operators are not supported and hence not exposed in the models schema.
 
 ##### Patern matching operators
+
 Operator | Description | Example
 --- | --- | ---
 `like` | pattern matching with wildcards for the entire string | `value: "%abc_"`
@@ -133,6 +134,7 @@ Operator | Description | Example
 **Note:** For now Zendro only supports the `i` flag for regular expressions to search case-insesitive via the `iRegexp` / `notIRegexp` operators. Since the syntax for regular expression varies between storagetypes to a certain degree, there might be some unexpected edge cases.
 
 ##### Comparative operators
+
 Operator | Description | Example
 --- | --- | ---
 `eq` | equality | `value: 5`
@@ -145,6 +147,7 @@ Operator | Description | Example
 `notBetween` | negated `between` | `value:"6,10" valueType:Array`
 
 ##### Array operators
+
 Operator | Description | Example
 --- | --- | ---
 `in` | check if a column matches any value in a list | `value:"a,b,c" valueType:Array`
@@ -153,6 +156,7 @@ Operator | Description | Example
 `notContains` | negated `contains` | `value:3`
 
 ##### Logical operators
+
 Operator | Description | Example
 --- | --- | ---
 `or` | logical or to combine multiple searches | `{operator: or search:[{<search>}, {<search>}]}`
