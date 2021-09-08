@@ -119,45 +119,45 @@ query {
 Zendro supports the following list of operators. Depending on the storage type of the model some operators are not supported and hence not exposed in the models schema.
 
 ##### Patern matching operators
-| Operator | Description | Example |
-| --- | --- | --- | 
-| `like` | pattern matching with wildcards for the entire string | `value: "%abc_"` |
-| `notLike` | negated `like` | `value: "%abc%"` |
-| `iLike` | case insensitive pattern matching with wildcards for the entire string | `value: "%abc_"` |
-| `notILike` | negated `iLike` | `value: "%abc%"` |
-| `regexp` | pattern matching via regular expression | `value: "^[a\|b\|c]"` | 
-| `notRegexp` | negated `regexp` | `value: "^[a\|b\|c]"`
-| `iRegexp` | case insensitive pattern matching via regular expression | `value: "^[a\|b\|c]"` | 
-| `notIRegexp` | negated `iRegexp` | `value: "^[a\|b\|c]"`
+Operator | Description | Example
+--- | --- | ---
+`like` | pattern matching with wildcards for the entire string | `value: "%abc_"`
+`notLike` | negated `like` | `value: "%abc%"`
+`iLike` | case insensitive pattern matching with wildcards for the entire string | `value: "%abc_"`
+`notILike` | negated `iLike` | `value: "%abc%"`
+`regexp` | pattern matching via regular expression | `value: "^[a\|b\|c]"` 
+`notRegexp` | negated `regexp` | `value: "^[a\|b\|c]
+`iRegexp` | case insensitive pattern matching via regular expression | `value: "^[a\|b\|c]"`
+`notIRegexp` | negated `iRegexp` | `value: "^[a\|b\|c]"`
 
 **Note:** For now Zendro only supports the `i` flag for regular expressions to search case-insesitive via the `iRegexp` / `notIRegexp` operators. Since the syntax for regular expression varies between storagetypes to a certain degree, there might be some unexpected edge cases.
 
 ##### Comparative operators
-| Operator | Description | Example |
-| --- | --- | --- | 
-| `eq` | equality | `value: 5` |
-| `ne` | unequality | `value: 4` |
-| `gt` | greater than | `value: 6`
-| `gte` | greater than equal | `value: 14.2` |
-| `lt` | less than | `value: 10` |
-| `lte` | less than equal | `value: 20` |
-| `between` | range containment | `value:"6,10" valueType:Array` |
-| `notBetween` | negated `between` | `value:"6,10" valueType:Array` |
+Operator | Description | Example
+--- | --- | ---
+`eq` | equality | `value: 5`
+`ne` | unequality | `value: 4`
+`gt` | greater than | `value: 6`
+`gte` | greater than equal | `value: 14.2`
+`lt` | less than | `value: 10`
+`lte` | less than equal | `value: 20`
+`between` | range containment | `value:"6,10" valueType:Array`
+`notBetween` | negated `between` | `value:"6,10" valueType:Array`
 
 ##### Array operators
-| Operator | Description | Example |
-| --- | --- | --- | 
-| `in` | check if a column matches any value in a list | `value:"a,b,c" valueType:Array`
-| `notIn` | negated `in` | `value:"a,b,c" valueType:Array`
-| `contains` | check if a value is contained in an array column | `value:3` |
-| `notContains` | negated `contains` | `value:3` |
+Operator | Description | Example
+--- | --- | ---
+`in` | check if a column matches any value in a list | `value:"a,b,c" valueType:Array`
+`notIn` | negated `in` | `value:"a,b,c" valueType:Array`
+`contains` | check if a value is contained in an array column | `value:3`
+`notContains` | negated `contains` | `value:3`
 
 ##### Logical operators
-| Operator | Description | Example |
-| --- | --- | --- | 
-| `or` | logical or to combine multiple searches | `{operator: or search:[{<search>}, {<search>}]}` | 
-| `and` | logical and to combine multiple searches | `{operator: and search:[{<search>}, {<search>}]}` |
-| `not` | logical not. searches will get combined with `and` | `{operator: not search:[{<search>}, {<search>}]}` | 
+Operator | Description | Example
+--- | --- | ---
+`or` | logical or to combine multiple searches | `{operator: or search:[{<search>}, {<search>}]}`
+`and` | logical and to combine multiple searches | `{operator: and search:[{<search>}, {<search>}]}`
+`not` | logical not. searches will get combined with `and` | `{operator: not search:[{<search>}, {<search>}]}`
 
 ##### StorageType compatability
 
