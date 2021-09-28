@@ -5,13 +5,15 @@
 A CLI for ScienceDbStarterPack.
 
 ## Installation
-Install Zendro CLI
+A quick installation would be this command: `npm install -g Zendro-dev/zendro`.
+However, if you would like to customize your Zendro CLI, you can set it up as the following:
 ```
 $ git clone https://github.com/Zendro-dev/zendro.git
 $ cd zendro
 $ npm install
 $ npm link
 ```
+For example, you can customize the version of each repository by editing `zendro_dependencies.json` file in your local Zendro CLI repository.
 
 ## Commands
 ### Start a new zendro application:
@@ -22,16 +24,16 @@ zendro new <your_application_name>
 
   Options:
     -d, --dockerize                Keep Docker files (default: false).
-    -u, --update_code_generators   Update code generators (default: false).
 ```
 Hints: 
-1. If you don't have local database or you want to dockerize Zendro App, you can keep docker files. These are examples for building a Zendro App.
-2. If you have local database, please edit the storage config file
-* `./graphql-server/config/data_models_storage_config.json `
-3. If you want to modify environment variables, you can edit the following files:
-* `./graphql-server/config/globals.js`
-* `./single-page-app/src/config/globals.js`
-* `./graphiql-auth/src/config/globals.js`
+1. If you don't have local database or you want to dockerize Zendro App, you can keep docker files. These are examples for dockerizing a Zendro App.
+2. If you want to modify environment variables or database configuration, you can edit the following files:
+* without docker setup: ./graphql-server/config/data_models_storage_config.json
+* with docker setup: ./config/data_models_storage_config.json
+* ./graphql-server/.env
+* SPA in development mode: ./single-page-app/.env.development
+* SPA in production mode: ./single-page-app/.env.production
+* ./graphiql-auth/.env
 
 ### Generate code for graphql-server:
 ```
@@ -40,21 +42,9 @@ zendro generate-gqs
   Usage: zendro generate-gqs [options]
 
   Options:
-    -d, --data_model_definitions: Input directory or a JSON file.
-    -o, --output_dir: Output directory.
+    -f, --data_model_definitions: Input directory or a JSON file (default: current directory path + "/data_model_definitions").
+    -o, --output_dir: Output directory (default: current directory path + "/graphql_server").
     -m, --migrations: Generate migrations (default: false).
-```
-
-### Generate code for single-page-app:
-```
-zendro generate-spa
-
-  Usage: zendro generate-spa [options]
-
-  Options:
-    -d, --data_model_definitions: Input directory or a JSON file.
-    -o, --output_dir: Output directory.
-    -D, --createBaseDirs: Create base directories (default: false).
 ```
 
 ### Dockerize Zendro App with example docker files:
@@ -66,6 +56,7 @@ zendro dockerize
   Options:
     -u, --up: Start docker service (default: false).
     -d, --down: Stop docker service (default: false).
+    -p, --production: start or stop SPA with production mode (default: false).
 ```
 
 ### Start Zendro service:
@@ -75,7 +66,7 @@ zendro start [service...]
   Usage: zendro start [options] [service...]
 
   Options:
-    -i, --install_package: Install packages (default:false).
+    -p, --production: start SPA with production mode (default: false).
 ```
 Hints:
 1. start all service by default
@@ -89,27 +80,31 @@ Hints:
 zendro stop [service…]
 
   Usage: zendro stop [service…]
+
+  Options:
+  -p, --production: stop SPA with production mode (default: false).
 ```
 Hints:
 1. stop all service by default
-1. stop specified service with abbreviations
+2. stop specified service
 
-## Running Examples
-1. create a new application (**test**). Keep docker files (**-d**) and update the latest stable code generators (**-u**) by executing  `zendro new -d -u test`. If you want to modify some environment variables, please edit relevant files, which are also specified in the console.
-* ./graphql-server/config/globals.js
-* ./single-page-app/src/config/globals.js
-* ./graphiql-auth/src/config/globals.js
-  
-2. `$ cd test`
+## A Running Example
+1. create a new application (**test**). Keep docker files (**-d**)  by executing  **`zendro new -d test`**. If you would like to modify some environment variables or database configuration, please edit relevant files, which are also specified in the console.
+* without docker setup: ./graphql-server/config/data_models_storage_config.json
+* with docker setup: ./config/data_models_storage_config.json
+* ./graphql-server/.env
+* SPA in development mode: ./single-page-app/.env.development
+* SPA in production mode: ./single-page-app/.env.production
+* ./graphiql-auth/.env
 
-3. generate graphql-server code and migrations by executing `zendro generate-gqs -d ../schema -m`
+2. `cd test`
 
-4. generate single-page-app code by executing `zendro generate-spa -d ../schema`
+3. add JSON files for model definitions in `./data_model_definitions` folder and generate graphql-server code and migrations by executing **`zendro generate-gqs -m`**.
 
-5. if you don't have local database or you want to dockerize example zendro App, then execute `zendro dockerize -u`
-
-6. When you want to stop docker service, press `CTRL+C` once, then execute `zendro dockerize -d`
+4. for local database, you can start all service by executing **`zendro start`**. Meanwhile, if you would like to use SPA with production mode, please add `-p` option.
    
-7. for local database, you can edit its config file: *./graphql-server/config/data_models_storage_config.json*. Then install all necessary packages for all service and start all service by executing `zendro start -i`
-   
-8. stop all running service by executing `zendro stop`
+5. stop all running service by executing **`zendro stop`**. Besides, if you would like to stop SPA with production mode, please add `-p` option.
+
+6. if you don't have local database or you would like to dockerize example zendro App, then execute **`zendro dockerize -u`**. Moreover, if you would like to use SPA with production mode, please execute **`zendro dockerize -u -p`**. Besides, the default username is `admin@zen.dro` and the corresponding password is `admin`.
+
+7. When you would like to stop docker service, press `CTRL+C` once, then execute **`zendro dockerize -d`** for a full cleanup. In addition, if your SPA is in production mode, please execute **`zendro dockerize -d -p`**.
