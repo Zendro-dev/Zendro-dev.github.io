@@ -8,19 +8,51 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
 
 ### Project Requirements:
  * [NodeJS](https://nodejs.org/en/)
- * [NPM](https://www.npmjs.com/get-npm)
- * [Vue CLI](https://cli.vuejs.org/)
+ **recommended for setting up zendro using docker**
+ * [docker](https://docs.docker.com/get-docker/)
+ * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
  <br/><br/>
 
 * * *
-* _**Step 1 (required): Data scheme definition**_
+* _**Step 1 (required): Setup a new Zendro project**_
 
-To generate model-dependent code that is initially missing within both servers it is necessary to define your data scheme first. The data scheme can be defined through a set of data models (it is possible to imagine each data model as a separate table).
+The easiest way to set up Zendro is using the [Zendro CLI tool](). With minimal steps and configuration a Zendro warehouse taylored to your data needs can be deployed.
+
+Follow the instruction on how to install and use the CLI to setup a new _skeleton_ project for your Zendro instance.
+```
+zendro new >my-project>
+```
+
+[ > Zendro CLI](zendro_cli.md)
+
+
+* _**Step 2 (required): Define your data models**_
+
+To generate model-dependent code that is initially missing within both the graphql-server as well as the SPA it is necessary to define your data scheme first. The data scheme can be defined through a set of data models (it is possible to imagine each data model as a separate table in a relation DB). In case you used the CLI (_Step 1_) use the `data_model_definitions` folder in the root directory of your project.
  <br/>
 
  [ > Data Models](setup_data_scheme.md)
 <br/><br/>
-* _**Step 2 (required): Setup backend GraphQL server**_
+
+* _**Step 3 (required): Configure and generate your data models**_
+
+After setting up your data models use the Zendro CLI to generate the model-specific code and fill your Zendro skeleton project with life.
+
+```
+zendro generate
+```
+
+This will automatically generate all basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step. Also have a look at how to generate and use [migrations]() using the CLI tool.
+
+You should modify environment variables and database configurations according to your needs.
+
+* _**Step 4: Start up your Zendro instance**_
+
+The recommend way to run your Zendro instance is via docker. This ensures that regardless of your local infrastructure Zendro will behave the same.  
+It is also possible to run the zendro services locally, however you might run into unexpected incompatibilities depending on your local system.
+
+
+* _**Step 3 (required): Setup backend GraphQL server**_
 
 The GraphQL server by default provides basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step. To run this server first, it is needed to generate scheme-dependent code into the server root folder. Afterwards you can start the server and access it's console from your web browser at `http://<your_host>:3000/graphql/`.
 <br/>
