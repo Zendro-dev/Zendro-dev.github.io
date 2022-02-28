@@ -213,6 +213,7 @@ query{
 The pagination argument is generic for all data model and the purpose of this argument is to control the maximum number of records that can be retrieved. Due to efficiency, especially in the realm of big data, the pagination argument is required by the graphql schema. The name for the argument is `pagination` and it is an object which contains the number of records to retrieve and the offset from where to start counting the records. Zendro provides two different types of pagination. Standard limit-offset based and cursor-based pagination. See Section "Pagination types" [here](setup_data_scheme.md#pagination_types) for more details.
 
 **Limit-Offset**
+
 attribute | Type  | Description
 ------ | ------- | --------
 limit | Integer | Number of records to retrieve
@@ -231,6 +232,7 @@ query{
 ```
 
 **Cursor-based**
+
 attribute | Type  | Description
 ------ | ------- | --------
 first | Integer | Number of records to retrieve
