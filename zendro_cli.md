@@ -1,4 +1,4 @@
-[ &larr; back](zendro_cli.md)
+[ &larr; back](README.md)
 <br/>
 # Zendro Command Line Interface (CLI)
 ## Introduction
