@@ -19,6 +19,7 @@ If you have any questions or comments, please don't hesitate to contact us via a
 * [How to define data models: for non-developers](non-developer_documentation.md). A brief, illustrated guide of data model specifications, data formatting and data uploading options, aimed at data modelers or managers to facilitate collaboration with developers.
 * [How to use Zendro command line interface (CLI)](zendro_cli.md). A tutorial of Zendro CLI, aimed at software developers.
 * [How to query and extract data](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists.
+* [How to setup Authentication / Authorization](oauth.md). A concise guide on how to use and setup the Zendro authorization / authentication services.
 * [API documentation](api_root.md).
 
 ### REPOSITORIES:
