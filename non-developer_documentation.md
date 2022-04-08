@@ -85,27 +85,26 @@ To translate the conceptual diagram into JSON, we need follow the [JSON specific
 
 ## Data upload
 
-Once the database is generated, you can upload data from a csv file to a Zendro instance directly through the GUI or the API.
+Once the database is generated, you can upload data from a csv file to a Zendro instance directly through the GUI or the Zendro CLI.
 
 ### Data format requirements
 
-Data to populate each model in your schema must be in a separate csv file, following the format requirements below:
+Data to populate each model in your schema must be in a separate CSV file, following the format requirements below:
 
 1. Column names in the first row must correspond to model attributes.
-2. Empty values must be represented as `NULL`.
-3. Strings, dates and boolean data types must be inside double quotes `""`. Do not quote NULLs or numeric data types.
-4. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
+2. Empty values should be represented as `"NULL"`.
+3. All fields should be quoted by `"`. However, if field delimiter and array delimiter do not occur in fields with String type, namely characters could be splitted without ambiguity, then each field could not be quoted. For example, if the field delimiter is comma, and one String field is like `Zendro, excellent!`. Without the quotation mark, this field would be splitted as two fields. So in such case these String fields must be quoted.
+4. Default configuration: BATCH_SIZE=20, RECORD_DELIMITER="\n", FIELD_DELIMITER=",", ARRAY_DELIMITER=";". They can be changed in the config file for environment variables.
+5. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
 
 ### GUI
 
-To upload the csv file through the GUI, go to the model on the left-side panel and use the import button. It will ask you to select a file from your computer and automatically fill the table.
+To upload the CSV/XLSX/JSON file through the GUI, go to the model on the left-side panel and use the import button. It will ask you to select a file from your computer and automatically fill the table. If you want to modify default configuration for delimiters and batch size, you can find them in `single-page-app/.env.development` or `single-page-app/.env.production`.
 
-### API
+### Zendro CLI
 
-To upload the csv file through the API, you can make a request from the terminal to:
+To upload a file, you can utilize Zendro CLI:
 
-`curl -XPOST [URL] -H 'Content-Type: mulipart/form-data' -F 'query=mutation{ bulkAdd[Model name]Csv }' -F csv_file=@[file path]`
-
-For example:
-
-`curl -XPOST http:/ Zendrodev.conabio.gob.mx:3000/graphql -H 'Content-Type: mulipart/form-data' -F 'query=mutation{ bulkAddSpecimenCsv }' -F csv_file=@specimen.csv`
+1. If the Zendro instance is on your local machine, you can directly go into the folder `graphql-server` and execute
+`zendro bulk-create -f <filename> -n <modelname> -s <sheetname>`, e.g. `zendro bulk-create -f ./country.csv -n country`. Three formats are supported here, namely CSV, XLSX and JSON. And the paramter `sheetname` is only used for XLSX file. If it is empty, by default records in the first sheet would be imported. And the default configuration for delimiters and batch size, you can find them in `graphql-server/.env`.
+2. If you want to upload a file to a remote Zendro server, it is also possible via Zendro CLI. All configuration could be modified in the file `zendro/.env.migration`. After the configuration, you can execute `zendro bulk-create -f <filename> -n <modelname> -s <sheetname> -r`, e.g. `zendro bulk-create -f ./country.csv -n country -r`.
