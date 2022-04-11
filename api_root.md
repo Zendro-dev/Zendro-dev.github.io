@@ -49,6 +49,8 @@ Unfortunately current NodeJS GraphQL implementation used in Zendro does not supp
 
 This service comes into play when a database cut is required for subsequent automated manipulations. For example: to create dynamically updated reports (diagrams, calculations) or to append project specific table *views* (tables that unite more than one data model).
 
+Records would be exported as a CSV file, in which each field is quoted via `"` for reducing the ambiguity among fields.
+
 [ > Data Export](api_export.md)
 
 ### SQL Statements in the Data model
