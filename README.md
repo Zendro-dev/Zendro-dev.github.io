@@ -12,7 +12,7 @@ Also find Zendro-dev on [github](https://github.com/Zendro-dev).
 
 If you have any questions or comments, please don't hesitate to contact us via an issue [here](https://github.com/Zendro-dev/Zendro-dev.github.io/issues). Tag your issue as a question and we will try to answer as quick as possible.
 
-[<img src="./figures/button.png" width="25"/>](setup_root.md)
+[<img src="./figures/button.png" width="500"/>](setup_root.md)
 
 ### HOW-TO GUIDES:
 
