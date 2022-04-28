@@ -43,7 +43,23 @@ zendro new -d <my-project-name>
 
 If you want to know more about enviroment variables you can check [this](env_vars.md)
 
+### Step 4: Define your data models
 
+### Step 5: Start up Zendro 
+
+## Using docker
+* Indicar cambios que deben hacerse si se quieren modificar los puertos 
+## Without docker
+* Indicar los cambios que debe haber en las variables de entorno y de donde obtenerlas en keycloak, quizá capturas de pantalla?
+
+### Step 6: Start up Zendro with access control 
+
+
+### Futuro: cómo hacerlo en un servidor remoto
+
+
+
+* * *
 
 ### Step 3 (required): Configure and generate your data models
 
