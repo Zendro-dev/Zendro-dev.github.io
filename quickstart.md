@@ -56,7 +56,50 @@ If you want to know more about the enviroment variables, you can check [this](se
 Execute the next command to start Zendro in production mode. 
 
 ```
-zendro dockerize -u -p
+$ zendro dockerize -u -p
+```
+
+This command will create docker containers for each Zendro component:
+* Keycloak: manage users and roles
+* Single Page App (SPA): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
+* API: CRUD API that can be accessed through a GraphQL query language
+* API with authenthication
+
+You can check docker logs by:
+```
+$ docker logs -f <container name>
+```
+
+Please wait until the logs indicate the app is running on XXXX port.
+
+In default config, the running containers will be on ports:
+
+* Keycloak: http://10.5.0.11:8081
+* SPA: http://localhost:8080
+* GraphQL API: http://localhost:3000/graphql
+* GraphQL API with authenthication: http://localhost:7000
+
+The default keycloak username is *admin* and the password is *admin*.
+
+The default zendro username is *zendro-admin* and the password is *admin*.
+
+Also, for the default database you can install *sqlite3* with:
+
+```
+$ sudo apt install sqlite3
+```
+
+Then, go to *graphql-server* folder and run:
+
+```
+$ sqlite3 data.db
+```
+
+You can see tables and do querys inside sqlite:
+```
+sqlite> .tables
+sqlite> SELECT * FROM <table>;
+sqlite> .exit
 ```
 
 ### Step 5: Stop up your Zendro instance
@@ -64,6 +107,6 @@ zendro dockerize -u -p
 Execute the next command to stop Zendro in production mode and remove all volumes.
 
 ```
-zendro dockerize -d -p -v
+$ zendro dockerize -d -p -v
 ```
 
