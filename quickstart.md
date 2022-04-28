@@ -75,7 +75,7 @@ You can check docker logs by:
 $ docker logs -f <container name>
 ```
 
-> **Please wait until the logs indicate the app is running on XXXX port to access Zendro services.**
+> ***Please wait until the logs indicate the app is running on XXXX port to access Zendro services.***
 
 In default config, the running containers will be on ports:
 
