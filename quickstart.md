@@ -107,9 +107,9 @@ sqlite> SELECT * FROM <table>;
 sqlite> .exit
 ```
 
-### Step 5: Stop up your Zendro instance
+### Step 5: Stop your Zendro instance
 
-Execute the next command to stop Zendro in production mode and remove all volumes.
+Execute the next command to stop Zendro and remove all volumes.
 
 ```
 $ zendro dockerize -d -p -v
