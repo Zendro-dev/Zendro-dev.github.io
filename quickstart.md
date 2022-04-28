@@ -98,9 +98,9 @@ In default config, the running containers will be on ports:
   ![api example](figures/login.png)
   ![api example](figures/graphiql.png)
 
-The default keycloak username is *admin* and the password is *admin*.
+* The default keycloak username is *admin* and the password is *admin*.
 
-The default zendro username is *zendro-admin* and the password is *admin*.
+* The default zendro username is *zendro-admin* and the password is *admin*.
 
 Also, for the default database you can install *sqlite3* with:
 
