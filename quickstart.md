@@ -9,7 +9,7 @@ If you want to know more about Zendro or a detailed explanation on how to set up
  <br/>
 
 ## Project Requirements:
- * [NodeJS](https://nodejs.org/en/) We strongly recommend to install NodeJS v14.17.6
+ * [NodeJS](https://nodejs.org/en/)
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
  <br/><br/>
@@ -63,7 +63,7 @@ This command will create docker containers for each Zendro component:
 * [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): manage users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
-* API with authenthication
+* [API with authenthication](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login
 
 You can check docker containers by:
 ```
