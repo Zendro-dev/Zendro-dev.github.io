@@ -79,9 +79,9 @@ $ docker logs -f <container name>
 
 In default config, the running containers will be on ports:
 
-* Keycloak: http://10.5.0.11:8081
-* SPA: http://localhost:8080
-* GraphQL API: http://localhost:3000/graphql
+* [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): http://10.5.0.11:8081
+* [SPA](https://github.com/Zendro-dev/single-page-app): http://localhost:8080
+* [GraphQL API](https://github.com/Zendro-dev/graphql-server): http://localhost:3000/graphql
 * GraphQL API with authenthication: http://localhost:7000
 
 The default keycloak username is *admin* and the password is *admin*.
