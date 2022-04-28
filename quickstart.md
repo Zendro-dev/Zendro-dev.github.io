@@ -49,7 +49,7 @@ Edit *NEXTAUTH_SECRET* to your expect secret word in the following files:
 * **GraphiQL in development mode:** ./graphql-server/.env.development
 * **GraphiQL in production mode:** ./graphql-server/.env.production
 
-If you want to know more about the enviroment variables, you can check [this](setup_root.md).
+If you want to know more about the enviroment variables, you can check [this](env_vars.md).
 
 ### Step 4: Start up your Zendro instance
 
