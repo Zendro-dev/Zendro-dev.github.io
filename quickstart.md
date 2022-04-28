@@ -80,12 +80,12 @@ $ docker logs -f <container name>
 In default config, the running containers will be on ports:
 
 * Keycloak: http://10.5.0.11:8081
-
+   * The default keycloak username is *admin* and the password is *admin*.
   ![Keycloak example](figures/kc1.png)
   ![Keycloak example](figures/kc2.png)
 
 * SPA: http://localhost:8080
-
+    * The default zendro username is *zendro-admin* and the password is *admin*.
   ![spa example](figures/login.png)
   ![spa example](figures/spa.png)
 
@@ -94,13 +94,13 @@ In default config, the running containers will be on ports:
   ![api example](figures/graphql.png )
 
 * GraphQL API with authenthication: http://localhost:7000
-
+    * The default zendro username is *zendro-admin* and the password is *admin*.
   ![api example](figures/login.png)
   ![api example](figures/graphiql.png)
 
-* The default keycloak username is *admin* and the password is *admin*.
 
-* The default zendro username is *zendro-admin* and the password is *admin*.
+
+
 
 Also, for the default database you can install *sqlite3* with:
 
