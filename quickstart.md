@@ -100,7 +100,7 @@ Then, go to *graphql-server* folder and run:
 $ sqlite3 data.db
 ```
 
-You can see tables and do querys inside sqlite:
+You can see tables and do querys inside sqlite by:
 ```
 sqlite> .tables
 sqlite> SELECT * FROM <table>;
