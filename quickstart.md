@@ -4,6 +4,8 @@
 
 This is a quickstart guide on how to create a new Zendro project with default parameters. It uses pre-defined datamodels, database and environment variables.
 
+If you want to know more about Zendro or a detailed explanation on how to set up Zendro from scratch, check [this](setup_root.md).
+
  <br/>
 
 ## Project Requirements:
@@ -47,7 +49,7 @@ Edit *NEXTAUTH_SECRET* to your expect secret in the following files:
 * **GraphiQL in development mode:** ./graphql-server/.env.development
 * **GraphiQL in production mode:** ./graphql-server/.env.production
 
-If you want to know more about the enviroment variables, you can check [this]().
+If you want to know more about the enviroment variables, you can check [this](setup_root.md).
 
 ### Step 4: Start up your Zendro instance
 
