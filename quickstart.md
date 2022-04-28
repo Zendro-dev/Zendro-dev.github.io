@@ -80,14 +80,13 @@ $ docker logs -f <container name>
 In default config, the running containers will be on ports:
 
 * Keycloak: http://10.5.0.11:8081
-
-  <img src="./figures/kc1.png" >
-  <img src="./figures/kc2.png" >
+  ![Keycloak example](figures/kc1.png)
+  ![Keycloak example](figures/kc2.png)
 * SPA: http://localhost:8080
   ![spa example](figures/login.png)
   ![spa example](figures/spa.png)
 * GraphQL API: http://localhost:3000/graphql
-  <img src="./figures/graphql.png" >
+  ![api example](figures/graphql.png )
 * GraphQL API with authenthication: http://localhost:7000
   ![api example](figures/login.png)
   ![api example](figures/graphiql.png)
