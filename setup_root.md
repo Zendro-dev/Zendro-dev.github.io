@@ -1,6 +1,6 @@
 [ &larr; back](README.md)
 <br/>
-# A new Zendro project from scratch
+# Getting started
 
 This is a step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
 
@@ -9,7 +9,7 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
  <br/>
 
 ## Project Requirements:
- * [NodeJS](https://nodejs.org/en/)  
+ * [NodeJS](https://nodejs.org/en/) We strongly recommend to install NodeJS v14.17.6 
 
  **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
@@ -17,26 +17,33 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
  <br/><br/>
 
 * * *
-## Step-by-Step guide
-### Step 1 (required): Setup a new Zendro project
+## Step by step guide
 
-The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro). With minimal steps and configuration a Zendro warehouse taylored to your data needs can be deployed.
+### Step 1: Installation
 
-Follow the instructions on how to install and use the CLI to setup a new _skeleton_ project for your Zendro instance.
+Execute this commands to install Zendro:
+
 ```
-zendro new -d <my-project> # "-d" adds Dockerfiles to fully dockerize running zendro 
+$ git clone https://github.com/Zendro-dev/zendro.git
+$ cd zendro
+$ npm install
+$ npm link
 ```
 
-[> Zendro CLI](zendro_cli.md)
+### Step 2: Setup a new Zendro project
+
+The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro). With minimal steps and configuration a Zendro warehouse taylored to your data needs can be deployed. Execute:
+
+```
+# "-d" adds Dockerfiles to fully dockerize running zendro 
+zendro new -d <my-project-name> 
+```
+
+### Step 3: Edit environment variables
+
+If you want to know more about enviroment variables you can check [this](env_vars.md)
 
 
-### Step 2 (required): Define your data models
-
-To generate model-dependent code that is initially missing within both the graphql-server as well as the single-page-application it is necessary to define your data scheme first. The data scheme can be defined through a set of data models (it is possible to imagine each data model as a separate table in a relation DB). In case you used the CLI (_Step 1_) use the `data_model_definitions` folder in the root directory of your project to define your models.
- <br/>
-
- [ > Data Models](setup_data_scheme.md)
-<br/><br/>
 
 ### Step 3 (required): Configure and generate your data models
 
