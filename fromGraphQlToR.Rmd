@@ -6,7 +6,7 @@ output:
   pdf_document: default
 ---
 
-This is an breve documentation about how to use Zendro API from R. 
+This is a breve documentation about how to use Zendro API from R. 
 We will explain with examples how to fetch and use data stored in a Zendro server. 
 The process we will follow goes from fetching data to getting that data in a table form. 
 
