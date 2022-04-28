@@ -87,6 +87,7 @@ In default config, the running containers will be on ports:
   ![spa example](figures/spa.png)
 * GraphQL API: http://localhost:3000/graphql
   ![api example](figures/graphql.png =250x250)
+  <img src="./figures/graphql.png" width="200">
 * GraphQL API with authenthication: http://localhost:7000
   ![api example](figures/login.png)
   ![api example](figures/graphiql.png)
