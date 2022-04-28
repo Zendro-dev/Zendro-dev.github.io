@@ -1,6 +1,6 @@
 [ &larr; back](README.md)
 <br/>
-# A new Zendro project from scratch
+# Quickstart
 
 This is a quickstart guide on how to create a new Zendro project with default parameters. It uses pre-defined datamodels, database and environment variables.
 
@@ -37,11 +37,11 @@ By default, three data models with associations will be used for this instance:
 * country
 * river
 
-Also a default SQLite database will be used.
+Also a default SQLite database will be used. You can find the database on *graphql-server* folder.
 
 ### Step 3: Edit environment variables
 
-Edit NEXTAUTH_SECRET to your expect secret in the following files:
+Edit *NEXTAUTH_SECRET* to your expect secret in the following files:
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphql-server/.env.development
