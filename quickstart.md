@@ -43,7 +43,7 @@ Also a default SQLite database will be used. You can find the database on *graph
 
 ### Step 3: Edit environment variables
 
-Edit *NEXTAUTH_SECRET* to your expect secret in the following files:
+Edit *NEXTAUTH_SECRET* to your expect secret word in the following files:
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphql-server/.env.development
@@ -64,6 +64,11 @@ This command will create docker containers for each Zendro component:
 * Single Page App (SPA): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * API: CRUD API that can be accessed through a GraphQL query language
 * API with authenthication
+
+You can check docker containers by:
+```
+$ docker ps
+```
 
 You can check docker logs by:
 ```
