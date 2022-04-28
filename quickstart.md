@@ -80,6 +80,7 @@ $ docker logs -f <container name>
 In default config, the running containers will be on ports:
 
 * Keycloak: http://10.5.0.11:8081
+
   <img src="./figures/kc1.png" width="500">
   <img src="./figures/kc2.png" width="500">
 * SPA: http://localhost:8080
