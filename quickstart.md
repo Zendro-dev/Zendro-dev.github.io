@@ -60,9 +60,9 @@ $ zendro dockerize -u -p
 ```
 
 This command will create docker containers for each Zendro component:
-* Keycloak: manage users and roles
-* Single Page App (SPA): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
-* API: CRUD API that can be accessed through a GraphQL query language
+* [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): manage users and roles
+* [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
+* [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
 * API with authenthication
 
 You can check docker containers by:
@@ -79,9 +79,9 @@ $ docker logs -f <container name>
 
 In default config, the running containers will be on ports:
 
-* [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): http://10.5.0.11:8081
-* [SPA](https://github.com/Zendro-dev/single-page-app): http://localhost:8080
-* [GraphQL API](https://github.com/Zendro-dev/graphql-server): http://localhost:3000/graphql
+* Keycloak: http://10.5.0.11:8081
+* SPA: http://localhost:8080
+* GraphQL API: http://localhost:3000/graphql
 * GraphQL API with authenthication: http://localhost:7000
 
 The default keycloak username is *admin* and the password is *admin*.
