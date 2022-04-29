@@ -75,6 +75,7 @@ Also, this will create migration files. By default, every migration file has two
 
 ### Step 6: Start up Zendro 
 
+<!----><a name="start"></a>
 #### Using docker
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 ```
@@ -130,7 +131,7 @@ In default config, the running containers will be on ports:
 
 
 If you wish to modify the default ports, adjust next files:
-> [Stop Zendro Instance](), modify files and [start Zendro Instance](####Using docker) again.
+> [Stop Zendro Instance](), modify files and [start Zendro Instance](#start) again.
 
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
