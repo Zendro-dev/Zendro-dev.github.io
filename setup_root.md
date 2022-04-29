@@ -130,7 +130,7 @@ In default config, the running containers will be on ports:
 
 
 If you wish to modify the default ports, adjust next files:
-> [Stop Zendro Instance](), modify files and [start Zendro Instance]() again.
+> [Stop Zendro Instance](), modify files and [start Zendro Instance](#### Using docker) again.
 
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
