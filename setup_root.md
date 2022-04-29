@@ -51,11 +51,12 @@ Go inside the new project and modify the selected enviroment variables in the ne
 * **GraphiQL in production mode:** ./graphql-server/.env.production
   If you would like to upload a file to a remote server, please consider the template *.env.migration.sample*, create a new file *.env.migration* and modify relevant environment variables.
 
-If you wish to know more about enviroment variables you can check [this](env_vars.md)
+If you wish to know more about enviroment variables you can check [this](env_vars.md).
 
 ### Step 4: Define your data models
 
 Add your model definitions in JSON files to `./data_model_definitions` folder.
+
 If you want to learn more about how to define data models with Zendro, please check [this](setup_data_scheme.md).
 
 ### Step 5: Generate code and migrations
@@ -150,6 +151,7 @@ Also, if you wish to modify docker containers name or docker services names, adj
 Moreover, if you wish to modify keycloak IP adjust:
 * ipv4_address
 * subnet
+
 in *./docker-compose-prod.yml* and *./docker-compose-dev.yml*.
 
 
@@ -172,29 +174,7 @@ you can start all service by executing **`zendro start`**.
 
 
 
-* * *
-
-### Step 3 (required): Configure and generate your data models
-
-After setting up your data models use the Zendro CLI to generate the model-specific code and fill your Zendro skeleton project with life.
-
-```
-zendro generate
-```
-
-This will automatically generate all basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step. Also have a look at how to generate and use [migrations](https://zendro-dev.github.io/zendro_cli.html#example-for-migrations) using the CLI tool.
-
-You should modify environment variables and database configurations according to your needs.
-
-### Step 4: Start up your Zendro instance
-
-
-It is also possible to [run the zendro services locally](https://zendro-dev.github.io/zendro_cli.html#start-zendro-service), however you might run into unexpected incompatibilities depending on your local system.
-```
-zendro start
-```
-
-### Step 5 (optional): Customize your project
+### Customize your project (optional)
 
 A couple of basic extensions are suggested to be introduced directly into the GraphQL server code. These are: *data validation logic* and *GraphQL query/mutation patches*. To implement custom logic of these extensions some programming is required, however this step is well confined and described.  
 
