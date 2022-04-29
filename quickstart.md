@@ -43,7 +43,7 @@ Also a default SQLite database will be used. You can find the database on *graph
 
 ### Step 3: Edit environment variables
 
-Edit *NEXTAUTH_SECRET* to your expect secret word in the following files:
+Edit *NEXTAUTH_SECRET* to your expected secret word in the following files:
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphql-server/.env.development
