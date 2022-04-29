@@ -131,7 +131,7 @@ In default config, the running containers will be on ports:
 
 
 If you wish to modify the default ports, adjust next files:
-> [Stop Zendro Instance](), modify files and [start Zendro Instance](#start) again.
+> [Stop Zendro Instance](#stop), modify files and [start Zendro Instance](#start) again.
 
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
@@ -144,7 +144,7 @@ If you wish to modify the default ports, adjust next files:
 * ./graphiql-auth/package.json
 
 Also, if you wish to modify docker containers name or docker services names, adjust next files:
-> [Stop Zendro Instance](), modify files and [start Zendro Instance]() again.
+> [Stop Zendro Instance](#stop), modify files and [start Zendro Instance](#start) again.
 
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
@@ -172,6 +172,17 @@ you can start all service by executing **`zendro start`**.
 
 ### Step 7: Start up Zendro with access control 
 
+<!----><a name="stop"></a>
+### Step 8: Stop Zendro instance
+Execute the next command to stop Zendro and remove all volumes.
+```
+$ zendro dockerize -d -v
+```
+
+If you are on production mode execute:
+```
+$ zendro dockerize -d -p -v
+```
 
 
 

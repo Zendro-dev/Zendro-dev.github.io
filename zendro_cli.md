@@ -140,7 +140,7 @@ zendro set-up
 
 ## A Quick Example for setting up a Zendro Sandbox
 
-Please go to [quickstart](quickstart.md) guide to set up a Zendro Sandbox. 
+Please go to [Quickstart](quickstart.md) guide to set up a Zendro Sandbox. 
 
 ## A Detailed Example for setting up a Zendro Instance
 
