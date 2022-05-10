@@ -171,6 +171,28 @@ you can start all service by executing **`zendro start`**.
 
 
 ### Step 7: Start up Zendro with access control 
+Zendro can be used checking access rights for every single GraphQL query received by the currently logged in user identified by the respective Token found in the request header. The user is decoded and his roles are loaded to check his access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). Respective access rights can and must be declared in the file `./graphql-server/acl_rules.js`.
+
+You can run Zendro with or without this access control check. The default is to run it without checking access rights.
+
+To switch access right check on, you must uncomment the command line switch acl and change the following line in `./graphql-server/migrateDbAndStartServer.sh`
+
+```
+npm start #acl
+```
+to 
+```
+npm start acl
+```
+
+Moreover, if you decide not to use access control, you can restrict the user permissions using the enviroment variable *WHITELIST_ROLES*. For example, if you wish users only can do reading querys, in `./graphql-server/.env` file modify:
+
+```
+WHITELIST_ROLES="reader"
+```
+
+You can add all roles you wish separating them with a comma.
+
 
 <!----><a name="stop"></a>
 ### Step 8: Stop Zendro instance
