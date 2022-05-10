@@ -171,7 +171,7 @@ you can start all service by executing **`zendro start`**.
 
 
 ### Step 7: Start up Zendro with access control 
-Zendro can be used checking access rights for every single GraphQL query received by the currently logged in user identified by the respective Token found in the request header. The user is decoded and his roles are loaded to check his access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). Respective access rights can and must be declared in the file `./graphql-server/acl_rules.js`.
+Zendro can be used checking access rights for every single GraphQL query received by the currently logged in user identified by the Token. The user is decoded and his roles are loaded to check his access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). Respective access rights can and must be declared in the file `./graphql-server/acl_rules.js`.
 
 You can run Zendro with or without this access control check. The default is to run it without checking access rights.
 
