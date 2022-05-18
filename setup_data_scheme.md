@@ -25,6 +25,7 @@ Name | Type | Description
 *attributes* | Object |  The key of each entry is the name of the attribute and there are two options for the value . It can be either a string indicating the type of the attribute or an object where the user indicates the type of the attribute(in the _type_ field) together with an attribute's description (in the _description_ field). See the [table](#supported-data-types) below for allowed types. Example of option one: ```{ "attribute1" : "String", "attribute2: "Int" }``` Example of option two: ``` { "attribute1" : {"type" :"String", "description": "Some description"}, "attribute2: "Int ```
 *associations* | Object | The key of each entry is the name of the association and the value should be an object describing the corresponding association. See [Associations Spec](#associations-spec) section below for details.
 *indices* | [String] |  Names of attributes for generating corresponding indices.
+*operatorSet* | String | It is possible to specify the operator set for generic models, distributed adapters and zendro servers. The following operator set are supported: `GenericPrestoSqlOperator`, `MongodbNeo4jOperator`, `CassandraOperator`, `AmazonS3Operator`. See [documentation of operators](api_graphql.md#operators) for details.
 *internalId* | String | This string corresponds to the name of the attribute that uniquely identifies a record. If this field is not specified, an _id_, default attribute, will be added.
 
 ## Supported Data Types

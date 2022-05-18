@@ -108,3 +108,16 @@ To upload a file, you can utilize Zendro CLI:
 1. If the Zendro instance is on your local machine, you can directly go into the folder `graphql-server` and execute
 `zendro bulk-create -f <filename> -n <modelname> -s <sheetname>`, e.g. `zendro bulk-create -f ./country.csv -n country`. Three formats are supported here, namely CSV, XLSX and JSON. And the paramter `sheetname` is only used for XLSX file. If it is empty, by default records in the first sheet would be imported. And the default configuration for delimiters and batch size, you can find them in `graphql-server/.env`.
 2. If you want to upload a file to a remote Zendro server, it is also possible via Zendro CLI. All configuration could be modified in the file `zendro/.env.migration`. After the configuration, you can execute `zendro bulk-create -f <filename> -n <modelname> -s <sheetname> -r`, e.g. `zendro bulk-create -f ./country.csv -n country -r`.
+
+## Data download
+In general, it is possible to download all data in two ways, namely Zendro CLI or Zendro Single Page App. Meanwhile, each field is surrounded by `"` for differentiating fields. And all records would be fetched and organized into one CSV file.
+
+### Single Page App
+It is convenient to download records by clicking the download button. And user can modify the default configuration for delimiters and batch size, which are used for generating lines in the CSV file. Besides, the configuration is in `single-page-app/.env.development` or `single-page-app/.env.production`.
+
+### Zendro CLI
+There are two options to download records through Zendro CLI:
+
+1. If the Zendro instance is installed locally, then user can execute the command in the path of `graphql-server`: `zendro bulk-download  -f <filename> -n <modelname>`. Besides, the configuration file is `graphql-server/.env`, which includes delimiters and batch size for converting records into a CSV file.
+
+2. If the Zendro instance is accessible remotely, then user needs modify the configuration file firstly, namely `zendro/.env.migration`. After that, user can execute `zendro bulk-create -f <filename> -n <modelname> -r` to download records.

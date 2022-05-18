@@ -44,14 +44,12 @@ In this project it is automatically generated a set of GraphQL queries and mutat
 <br/><br/>
 ### Batch Data Exporting
 
-Unfortunately current NodeJS GraphQL implementation used in Zendro does not support batch download in a fully optimal way because of lack of the non-blocking response data streaming (see [this](https://github.com/graphql/graphql-js/issues/1537) discussion). When it is required to join selected fields of the related data models and get it as a separate file stream, using the *export* service would be the correct solution.
+It is possbile to download all records for one model by batches. Meanwhile, records would be exported as a CSV file, in which each field is quoted via `"` for reducing the ambiguity among fields.
+We offer two ways to download records, namely by Zendro command line interface or Zendro single page app. 
 
+The concrete instruction is elaborated here:
 
-This service comes into play when a database cut is required for subsequent automated manipulations. For example: to create dynamically updated reports (diagrams, calculations) or to append project specific table *views* (tables that unite more than one data model).
-
-Records would be exported as a CSV file, in which each field is quoted via `"` for reducing the ambiguity among fields.
-
-[ > Data Export](api_export.md)
+[ > Data Export](non-developer_documentation.md#data-download)
 
 ### SQL Statements in the Data model
 
