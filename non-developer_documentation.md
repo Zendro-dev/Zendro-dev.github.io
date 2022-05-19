@@ -120,6 +120,6 @@ Be aware that when modifying the `RECORD_LIMIT` environment variable, to do so i
 ### Zendro CLI
 There are two options to download records through Zendro CLI:
 
-1. If the Zendro instance is installed locally, then user can execute the command in the `graphql-server` folder: `zendro bulk-download -f <filename> -n <modelname>`. To configure delimiters (`ARRAY_DELIMITER`, `FIELD_DELIMITER` and `RECORD_DELIMITER`) and record-limit (`RECORD_LIMIT`), set the according environment variables in  `graphql-server/.env`
+1. If the Zendro instance is installed locally, then user can execute the command in the `graphql-server` folder: `zendro bulk-download -f <filename> -n <modelname>`. To configure delimiters (`ARRAY_DELIMITER`, `FIELD_DELIMITER` and `RECORD_DELIMITER`) and record-limit (`LIMIT_RECORDS`), set the according environment variables in  `graphql-server/.env`
 
-2. If the Zendro instance is accessible remotely, modify the  `zendro/.env.migration` configuration file to map to the remote Zendro instance. After that, execute `zendro bulk-create -f <filename> -n <modelname> -r` to download the records to CSV.
+2. If the Zendro instance is accessible remotely, modify the `zendro/.env.migration` configuration file to map to the remote Zendro instance. After that, execute `zendro bulk-create -f <filename> -n <modelname> -r` to download the records to CSV.
