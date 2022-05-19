@@ -44,7 +44,7 @@ In this project it is automatically generated a set of GraphQL queries and mutat
 <br/><br/>
 ### Batch Data Exporting
 
-It is possbile to download all records for one model by batches. Meanwhile, records would be exported as a CSV file, in which each field is quoted via `"` for reducing the ambiguity among fields.
+It is possbile to download all records for one model in batches. All records will be exported as a CSV file, in which each field is quoted via `"` to reduce the ambiguity among fields.
 We offer two ways to download records, namely by Zendro command line interface or Zendro single page app. 
 
 The concrete instruction is elaborated here:

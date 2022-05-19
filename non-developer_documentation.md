@@ -110,14 +110,16 @@ To upload a file, you can utilize Zendro CLI:
 2. If you want to upload a file to a remote Zendro server, it is also possible via Zendro CLI. All configuration could be modified in the file `zendro/.env.migration`. After the configuration, you can execute `zendro bulk-create -f <filename> -n <modelname> -s <sheetname> -r`, e.g. `zendro bulk-create -f ./country.csv -n country -r`.
 
 ## Data download
-In general, it is possible to download all data in two ways, namely Zendro CLI or Zendro Single Page App. Meanwhile, each field is surrounded by `"` for differentiating fields. And all records would be fetched and organized into one CSV file.
+In general, it is possible to download all data into CSV format in two ways, either using the Zendro CLI or the Zendro Single Page App. Here every attribute will be quoted to avoid ambiguity and enable seamless integration with the zendro bulk creation functionalities.
 
 ### Single Page App
-It is convenient to download records by clicking the download button. And user can modify the default configuration for delimiters and batch size, which are used for generating lines in the CSV file. Besides, the configuration is in `single-page-app/.env.development` or `single-page-app/.env.production`.
+It is convenient to download records by clicking the download button. Here, it is possible to modify the default configuration for delimiters and record-limit, which are used for generating lines in the resulting CSV file. To configure, see the corresponding environment variables in `single-page-app/.env.development` or `single-page-app/.env.production`.
+
+Be aware that when modifying the `RECORD_LIMIT` environment variable, to do so in the backend graphql-server as well.
 
 ### Zendro CLI
 There are two options to download records through Zendro CLI:
 
-1. If the Zendro instance is installed locally, then user can execute the command in the path of `graphql-server`: `zendro bulk-download  -f <filename> -n <modelname>`. Besides, the configuration file is `graphql-server/.env`, which includes delimiters and batch size for converting records into a CSV file.
+1. If the Zendro instance is installed locally, then user can execute the command in the `graphql-server` folder: `zendro bulk-download -f <filename> -n <modelname>`. To configure delimiters (`ARRAY_DELIMITER`, `FIELD_DELIMITER` and `RECORD_DELIMITER`) and record-limit (`RECORD_LIMIT`), set the according environment variables in  `graphql-server/.env`
 
-2. If the Zendro instance is accessible remotely, then user needs modify the configuration file firstly, namely `zendro/.env.migration`. After that, user can execute `zendro bulk-create -f <filename> -n <modelname> -r` to download records.
+2. If the Zendro instance is accessible remotely, modify the  `zendro/.env.migration` configuration file to map to the remote Zendro instance. After that, execute `zendro bulk-create -f <filename> -n <modelname> -r` to download the records to CSV.
