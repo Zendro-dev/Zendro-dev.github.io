@@ -115,7 +115,7 @@ In general, it is possible to download all data into CSV format in two ways, eit
 ### Single Page App
 It is convenient to download records by clicking the download button. Here, it is possible to modify the default configuration for delimiters and record-limit, which are used for generating lines in the resulting CSV file. To configure, see the corresponding environment variables in `single-page-app/.env.development` or `single-page-app/.env.production`.
 
-Be aware that when modifying the `RECORD_LIMIT` environment variable, to do so in the backend graphql-server as well.
+Be aware that when modifying the `NEXT_PUBLIC_ZENDRO_MAX_RECORD_LIMIT` environment variable, to do so in the backend graphql-server (`LIMIT_RECORDS`) as well.
 
 ### Zendro CLI
 There are two options to download records through Zendro CLI:
