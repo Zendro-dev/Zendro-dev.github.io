@@ -159,15 +159,12 @@ in *./docker-compose-prod.yml* and *./docker-compose-dev.yml*.
 #### Without docker
 If you prefer to use local setup with Keycloak, there are a few things to do after running Zendro:
 
+***MISSING***
+
+* install java
 * Install keycloak
-
-you can start all service by executing **`zendro start`**.
-
-* Indicar los cambios que debe haber en las variables de entorno y de donde obtenerlas en keycloak, quizá screenshots?
-* Indicar dónde ver los logs
-
-
-
+* Env vars and where to find them in keycloak, screenshots.
+* logs
 
 
 ### Step 7: Start up Zendro with access control 
