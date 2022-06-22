@@ -39,6 +39,8 @@ The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.c
 $ zendro new -d <my-project-name> 
 ```
 
+<!----><a name="envvars"></a>
+
 ### Step 3: Edit environment variables
 
 Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
@@ -93,7 +95,7 @@ This command will create docker containers for each Zendro component:
 * [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): manage users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
-* [API with authenthication](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login
+* [API with filter functionality](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login
 
 You can check docker containers by:
 ```
@@ -143,18 +145,16 @@ In default config, the running containers will be:
   ![api example](figures/graphiql.png)
 
 
-If you wish to modify the default ports, adjust next files:
+If you wish to modify the default ports, adjust the [enviroment variables](#envvars) in the next files:
 > [Stop Zendro Instance](#stop), modify files and [start Zendro Instance](#start) again.
 
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
 * ./single-page-app/.env.production
 * ./single-page-app/.env.development
-* ./single-page-app/package.json
 * ./graphql-server/.env
 * ./graphiql-auth/.env.development
 * ./graphiql-auth/.env.production
-* ./graphiql-auth/package.json
 
 Also, if you wish to modify docker containers name or docker services names, adjust next files:
 > [Stop Zendro Instance](#stop), modify files and [start Zendro Instance](#start) again.
@@ -162,11 +162,6 @@ Also, if you wish to modify docker containers name or docker services names, adj
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
 
-Moreover, if you wish to modify keycloak IP adjust:
-* ipv4_address
-* subnet
-
-in *./docker-compose-prod.yml* and *./docker-compose-dev.yml*.
 
 <!----><a name="nodocker"></a>
 [![](https://img.shields.io/badge/➡_Without_docker-red?style=for-the-badge)](#nodocker)
@@ -182,7 +177,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
 
 ### Step 7: Start up Zendro with access control 
-Zendro can be used checking access rights for every single GraphQL query received by the currently logged in user identified by the Token. The user is decoded and his roles are loaded to check his access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). Respective access rights can and must be declared in the file `./graphql-server/acl_rules.js`.
+Zendro can be used checking access rights for every single GraphQL query received by the currently logged in user identified by the Token. The user is decoded and the corresponding roles are loaded to check access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). Respective access rights can and must be declared in the file `./graphql-server/acl_rules.js`.
 
 You can run Zendro with or without this access control check. The default is to run it without checking access rights.
 
@@ -223,6 +218,6 @@ $ zendro dockerize -d -p -v
 
 A couple of basic extensions are suggested to be introduced directly into the GraphQL server code. These are: *data validation logic* and *GraphQL query/mutation patches*. To implement custom logic of these extensions some programming is required, however this step is well confined and described.  
 
-Furthermore the whole codebase used to run zendro is exposed an can be directly customized if needed. That is true for the graphql-server as well as the frontend applications.
+Furthermore, the whole codebase used to run zendro is exposed and can be directly customized if needed. That is true for the graphql-server as well as the frontend applications.
 
 [ > Advanced code customizing](setup_customize.md)
