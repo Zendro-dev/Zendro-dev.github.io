@@ -63,7 +63,7 @@ This command will create docker containers for each Zendro component:
 * [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): manage users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
-* [API with authenthication](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login
+* [API with filter functionality](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login
 
 You can check docker containers by:
 ```
@@ -77,26 +77,32 @@ $ docker logs -f <container name>
 
 > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
 
-In default config, the running containers will be on ports:
+In default config, the running containers will be:
 
-* Keycloak: http://10.5.0.11:8081
+* Keycloak: http://localhost/auth/
    * The default keycloak username is *admin* and the password is *admin*.
 
   ![Keycloak example](figures/kc1.png)
   ![Keycloak example](figures/kc2.png)
 
-* SPA: http://localhost:8080
-    * The default zendro username is *zendro-admin* and the password is *admin*.
+* SPA: 
+    * Development mode: http://localhost:8080
+    * Production mode: http://localhost/spa
+      * The default zendro username is *zendro-admin* and the password is *admin*.
 
   ![spa example](figures/login.png)
   ![spa example](figures/spa.png)
 
-* GraphQL API: http://localhost:3000/graphql
+* GraphQL API: 
+    * Development mode: http://localhost:3000/graphql
+    * Production mode: http://localhost/api/graphql 
 
   ![api example](figures/graphql.png )
 
-* GraphQL API with authenthication: http://localhost:7000
-    * The default zendro username is *zendro-admin* and the password is *admin*.
+* GraphQL API with filter functionality: 
+    * Development mode: http://localhost:7000
+    * Production mode: http://localhost/graphiql
+      * The default zendro username is *zendro-admin* and the password is *admin*.
 
   ![api example](figures/login.png)
   ![api example](figures/graphiql.png)
