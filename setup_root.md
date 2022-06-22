@@ -4,7 +4,7 @@
 
 This is a step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
 
-Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app-codegen__ and __single-page-app__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default port 3000. The second pair of projects acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the 8080 port. As the names of these projects say, the *codegen* suffix means that to pull up the corresponding server it is required to generate some code first. Among inter-database transparency, the code generation step also allows a Zendro user to automate routinary ORM programming that depends on data scheme.
+Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url http://localhost:3000/graphql on development mode or http:localhost/api/graphql on production mode. As the names of this project say, the *codegen* suffix means that to pull up the corresponding server it is required to generate some code first. Among inter-database transparency, the code generation step also allows a Zendro user to automate routinary ORM programming that depends on data scheme. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url http://localhost:8080/spa on development mode or http:localhost/spa on production mode. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accomodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
 
  <br/>
 
@@ -69,14 +69,23 @@ $ zendro generate -m
 
 This will automatically generate all basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step.
 
-Also, this will create migration files. By default, every migration file has two functions, namely up and down. The up function creates a table, the down function deletes the existing table. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
+Also, this will create migration files. By default, every migration file has two functions, namely *up* and *down*. The *up* function creates a table, the *down* function deletes the existing table. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
 
-***WHEN NOT TO USE -m AND CONNECT TO OWN DB IS MISSING*** 
+***CONNECT TO OWN DB IS MISSING*** 
 
 ### Step 6: Start up Zendro 
 
 <!----><a name="start"></a>
 #### Using docker
+
+```diff
+- text in red
++ text in green
+! text in orange
+# text in gray
+@@ text in purple (and bold)@@
+```
+
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 ```
 $ zendro dockerize -u 
@@ -105,26 +114,37 @@ $ docker logs -f <container name>
 
 > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
 
-In default config, the running containers will be on ports:
+In default config, the running containers will be:
 
-* Keycloak: http://10.5.0.11:8081
-   * The default keycloak username is *admin* and the password is *admin*.
+* Keycloak: 
+    * Development mode: http://localhost:8081/auth
+    * Production mode: http://localhost/auth/
+    
+      * The default keycloak username is *admin* and the password is *admin*.
 
   ![Keycloak example](figures/kc1.png)
   ![Keycloak example](figures/kc2.png)
 
-* SPA: http://localhost:8080
-    * The default zendro username is *zendro-admin* and the password is *admin*.
+* SPA: 
+    * Development mode: http://localhost:8080/spa
+    * Production mode: http://localhost/spa
+
+      * The default zendro username is *zendro-admin* and the password is *admin*.
 
   ![spa example](figures/login.png)
   ![spa example](figures/spa.png)
 
-* GraphQL API: http://localhost:3000/graphql
+* GraphQL API: 
+    * Development mode: http://localhost:3000/graphql
+    * Production mode: http://localhost/api/graphql 
 
   ![api example](figures/graphql.png )
 
-* GraphQL API with authenthication: http://localhost:7000
-    * The default zendro username is *zendro-admin* and the password is *admin*.
+* GraphQL API with filter functionality: 
+    * Development mode: http://localhost:7000/graphiql
+    * Production mode: http://localhost/graphiql
+
+      * The default zendro username is *zendro-admin* and the password is *admin*.
 
   ![api example](figures/login.png)
   ![api example](figures/graphiql.png)
