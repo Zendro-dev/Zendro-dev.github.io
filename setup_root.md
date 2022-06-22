@@ -77,7 +77,7 @@ Also, this will create migration files. By default, every migration file has two
 
 <!----><a name="start"></a>
 
-[![](https://img.shields.io/badge/Using_docker-blue?style=for-the-badge)](#start)
+[![](https://img.shields.io/badge/Using_docker_↴-blue?style=for-the-badge)](#start)
 
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 ```
@@ -170,6 +170,7 @@ in *./docker-compose-prod.yml* and *./docker-compose-dev.yml*.
 
 
 #### Without docker
+[![](https://img.shields.io/badge/Without_docker_↴-blue?style=for-the-badge)](#)
 If you prefer to use local setup with Keycloak, there are a few things to do after running Zendro:
 
 ***MISSING***
