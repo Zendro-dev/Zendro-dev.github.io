@@ -76,10 +76,8 @@ Also, this will create migration files. By default, every migration file has two
 ### Step 6: Start up Zendro 
 
 <!----><a name="start"></a>
-#### Using docker
 
-[![](https://img.shields.io/badge/Using-blue?style=for-the-badge)](#start)
-[![](https://img.shields.io/badge/docker-blue?style=for-the-badge)](#start)
+[![](https://img.shields.io/badge/Using_docker-blue?style=for-the-badge)](#start)
 
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 ```
