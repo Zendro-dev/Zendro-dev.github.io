@@ -4,7 +4,7 @@
 
 This is a step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
 
-Zendro consists of three source-code projects: __graphql-server-model-codegen__, __graphql-server__ and __single-page-app__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default port 3000. The __single-page-app__ repository acts as a client of the GraphQL server and creates a simple generic web-based GUI to interact with the GraphQL backend. The *codegen* suffix means that to pull up the corresponding server it is required to generate some code first. Among inter-database transparency, the code generation step also allows a Zendro user to automate routinary ORM programming that depends on data scheme.
+Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url http://localhost:3000/graphql on development mode or http:localhost/api/graphql on production mode. As the names of this project say, the *codegen* suffix means that to pull up the corresponding server it is required to generate some code first. Among inter-database transparency, the code generation step also allows a Zendro user to automate routinary ORM programming that depends on data scheme. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url http://localhost:8080/spa on development mode or http:localhost/spa on production mode. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accomodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
 
  <br/>
 
@@ -39,6 +39,8 @@ The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.c
 $ zendro new -d <my-project-name> 
 ```
 
+<!----><a name="envvars"></a>
+
 ### Step 3: Edit environment variables
 
 Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
@@ -71,14 +73,22 @@ $ zendro generate -m
 
 This will automatically generate all basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step.
 
-Also, this will create migration files. By default, every migration file has two functions, namely up and down. The up function creates a table, the down function deletes the existing table. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
+Also, this will create migration files. By default, every migration file has two functions, namely **up** and **down**. The **up** function creates a table, the **down** function deletes the existing table. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
+
+### Step 6 (optional): Define your database connection
 
 In case you want to connect Zendro to an already existing database, maybe already populated with data, there is no need for Zendro to run any migrations to create the necessary infrastructure. Leave out the `-m` flag in the above `zendro generate` command.
 
-### Step 6: Start up Zendro 
+To define the connection to your local database edit the `config/data_models_storage_config.json` configuration file. You can reference a name given to a connection in your data-model-definition via the *database* attribute. See the [json specs](#json-specs) of data-model-definitions for more information.
+
+In this file you can define any number of database connections, that zendro should be aware of. Depending on the driver used a set of attributes is expected. Details can be found in the [default storage configuration for each storage type](https://github.com/Zendro-dev/graphql-server/blob/master/config/data_models_storage_config.json)
+
+### Step 7: Start up Zendro 
 
 <!----><a name="start"></a>
-#### Using docker
+
+[![](https://img.shields.io/badge/➡_Using_docker-red?style=for-the-badge)](#start)
+
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 
 Execute the next command to start Zendro in production mode. 
@@ -91,7 +101,7 @@ This command will create docker containers for each Zendro component:
 * [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): manage users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
-* [API with authenthication](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.
+* [API web-interface](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.
 * [traefik reverse-proxy](): A reverse-proxy using traefik that maps the above docker services.
 
 You can check docker containers by:
@@ -106,32 +116,43 @@ $ docker logs -f <container name>
 
 > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
 
-In default config, the running containers will be on ports:
+In default config, the running containers will be:
 
-* Keycloak: http://localhost/auth
-   * The default keycloak username is *admin* and the password is *admin*.
+* Keycloak: 
+    * Development mode: http://localhost:8081/auth
+    * Production mode: http://localhost/auth/
+    
+      * The default keycloak username is *admin* and the password is *admin*.
 
   ![Keycloak example](figures/kc1.png)
   ![Keycloak example](figures/kc2.png)
 
-* SPA: http://localhost/spa
-    * The default zendro username is *zendro-admin* and the password is *admin*.
+* SPA: 
+    * Development mode: http://localhost:8080/spa
+    * Production mode: http://localhost/spa
+
+      * The default zendro username is *zendro-admin* and the password is *admin*.
 
   ![spa example](figures/login.png)
   ![spa example](figures/spa.png)
 
-* GraphQL API: http://localhost/api/
+* GraphQL API: 
+    * Development mode: http://localhost:3000/graphql
+    * Production mode: http://localhost/api/graphql 
 
   ![api example](figures/graphql.png )
 
-* GraphQL API with authenthication: http://localhost/graphiql
-    * The default zendro username is *zendro-admin* and the password is *admin*.
+* GraphQL API web-interface with filter functionality: 
+    * Development mode: http://localhost:7000/graphiql
+    * Production mode: http://localhost/graphiql
+
+      * The default zendro username is *zendro-admin* and the password is *admin*.
 
   ![api example](figures/login.png)
   ![api example](figures/graphiql.png)
 
 
-If you wish to modify the default ports, adjust next files:
+If you wish to modify the default ports, adjust the [enviroment variables](#envvars) in the next files:
 > Hint: [Stop Zendro Instance](#stop), modify files and [start Zendro Instance](#start) again.
 
 * ./docker-compose-prod.yml
@@ -149,7 +170,9 @@ Also, if you wish to modify docker containers name or docker services names, adj
 * ./docker-compose-dev.yml
 
 
-#### Without docker
+<!----><a name="nodocker"></a>
+[![](https://img.shields.io/badge/➡_Without_docker-red?style=for-the-badge)](#nodocker)
+
 If you prefer to use local setup with Keycloak, there are a few things to do after running Zendro:
 
 ***Prerequisites***
@@ -160,8 +183,8 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 * logs
 
 
-### Step 7: Start up Zendro with access control 
-Zendro can be used checking access rights for every single GraphQL query received by the currently logged in user identified by the Token. The user is decoded and the roles are loaded to check the access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). Respective access rights can and must be declared in the file `./graphql-server/acl_rules.js`.
+### Step 8: Start up Zendro with access control 
+Zendro can be used checking access rights for every single GraphQL query received by the currently logged in user identified by the Token. The user is decoded and the corresponding roles are loaded to check access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). Respective access rights can and must be declared in the file `./graphql-server/acl_rules.js`.
 
 You can run Zendro with or without this access control check. The default is to run it without checking access rights.
 
@@ -185,7 +208,7 @@ You can add all roles you wish separating them with a comma.
 
 
 <!----><a name="stop"></a>
-### Step 8: Stop Zendro instance
+### Step 9: Stop Zendro instance
 Execute the next command to stop Zendro and remove all volumes.
 ```
 $ zendro dockerize -d -v
@@ -195,8 +218,6 @@ If you are on production mode execute:
 ```
 $ zendro dockerize -d -p -v
 ```
-
-
 
 ### Customize your project (optional)
 
