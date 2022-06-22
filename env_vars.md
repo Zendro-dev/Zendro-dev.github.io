@@ -12,10 +12,6 @@ In this file you can find an explanation of all the enviroment variables that ar
 * `ALLOW_ORIGIN` - Sets the `Access-Control-Allow-Origin` header to the specified value.
 
 ### Optional (without defaults)
-* `MAIL_SERVICE` - For bulk add operations, the email service to use for sending progress reports.
-* `MAIL_HOST` - Email service host (usually SMTP config).
-* `MAIL_ACCOUNT` - Sender email account address.
-* `MAIL_PASSWORD` - Sender email account password.
 * `OAUTH2_TOKEN_URI` - Endpoint of OAuth2 token service
 * `OAUTH2_PUBLIC_KEY`- OAuth2 service public key used to encrypt / verify tokens
 * `OAUTH2_CLIENT_ID`- GraphQL server OAuth2 Client ID
@@ -31,15 +27,17 @@ In this file you can find an explanation of all the enviroment variables that ar
 * `MAX_TIME_OUT` - Maximum number of milliseconds that a zendro server will wait to connect with another zendro server. Default value is `2000`.
 * `REQUIRE_SIGN_IN` - Boolean to toggle the required sign in to the graphql server. Default is `true`.
 * `SALT_ROUNDS` - Number of salt rounds when hashing a new password. Default is `10`.
+* `WHITELIST_ROLES` - Whitelist an array of roles to grant permission regardless of user roles
+* `DOWN_MIGRATION` - Allow down migration of a model. Executing the down migration will delete all records and its associations.
 
 ## Single-page-app
 ### Mandatory
 * `NEXT_PUBLIC_ZENDRO_GRAPHQL_URL` - GraphQL endpoint address. Used to send data queries and mutations.
-* `NEXT_PUBLIC_ZENDRO_EXPORT_URL` - Endpoint export address. Used to request table downloads in CSV format.
 * `NEXT_PUBLIC_ZENDRO_METAQUERY_URL` - GraphQL meta-query endpoint address. Used to send meta- queries and mutations.
 * `NEXT_PUBLIC_ZENDRO_MAX_UPLOAD_SIZE` - Maximum allowed upload size in megabytes.
 * `NEXT_PUBLIC_ZENDRO_MAX_RECORD_LIMIT` - Maximum number of records that can be returned per request.
-* `ZENDRO_DATA_MODELS` - relative path from the root of the directory to your models folder
+* `NEXT_PUBLIC_ZENDRO_ROLES_URL` - URL of graphql-server getRolesForOAuth2Token endpoint
+* `ZENDRO_DATA_MODELS` - relative path f`om the root of the directory to your models folder
 
 ### Mandatory (OAuth2)
 * `OAUTH2_ISSUER` - OAuth2 Issuer URL 

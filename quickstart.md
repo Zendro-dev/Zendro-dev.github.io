@@ -63,7 +63,8 @@ This command will create docker containers for each Zendro component:
 * [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): manage users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
-* [API with authenthication](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login
+* [API with authenthication](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.
+* [traefik reverse-proxy](): A reverse-proxy using traefik that maps the above docker services.
 
 You can check docker containers by:
 ```
@@ -79,23 +80,23 @@ $ docker logs -f <container name>
 
 In default config, the running containers will be on ports:
 
-* Keycloak: http://10.5.0.11:8081
+* Keycloak: http://localhost/auth
    * The default keycloak username is *admin* and the password is *admin*.
 
   ![Keycloak example](figures/kc1.png)
   ![Keycloak example](figures/kc2.png)
 
-* SPA: http://localhost:8080
+* SPA: http://localhost/spa
     * The default zendro username is *zendro-admin* and the password is *admin*.
 
   ![spa example](figures/login.png)
   ![spa example](figures/spa.png)
 
-* GraphQL API: http://localhost:3000/graphql
+* GraphQL API: http://localhost/api/
 
   ![api example](figures/graphql.png )
 
-* GraphQL API with authenthication: http://localhost:7000
+* GraphQL API with authenthication: http://localhost/graphiql
     * The default zendro username is *zendro-admin* and the password is *admin*.
 
   ![api example](figures/login.png)
@@ -127,5 +128,30 @@ Execute the next command to stop Zendro and remove all volumes.
 
 ```
 $ zendro dockerize -d -p -v
+```
+
+**Note**: If you want to persist your data, that includes user data as well as other data, remove the `-v` flag from the above command.
+
+#### Development mode
+
+To start Zendro in development mode run
+
+```
+$ zendro dockerize -u
+```
+
+This will start Zendro in development mode. All servers are listening to live changes you make in the files. Especially the SPA and graphiql-auth web-services will be slow to use since they compile pages on demand when openening them. To avoid that either change the `docker-compose-dev.yml` to compile and deploy the webservices (see `docker-compose-prod.yml`) or start Zendro in production mode.
+
+In development mode there is no reverse proxy to map the docker-services. Instead this is done by exposing the ports as follows:
+
+* API -`http://localhost:3000`
+* GraphiQL - `http://localhost:7000`
+* Single Page App (SPA) - `http://localhost:8080`
+* Keycloak - `http://localhost:8081`
+
+Stop the instance using
+
+```
+$ zendro dockerize -d -v
 ```
 
