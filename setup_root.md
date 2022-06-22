@@ -71,7 +71,7 @@ $ zendro generate -m
 
 This will automatically generate all basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step.
 
-Also, this will create migration files. By default, every migration file has two functions, namely *up* and *down*. The *up* function creates a table, the *down* function deletes the existing table. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
+Also, this will create migration files. By default, every migration file has two functions, namely **up** and **down**. The **up** function creates a table, the **down** function deletes the existing table. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
 
 ***CONNECT TO OWN DB IS MISSING*** 
 
