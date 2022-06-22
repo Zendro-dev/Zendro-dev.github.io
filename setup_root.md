@@ -169,7 +169,7 @@ Moreover, if you wish to modify keycloak IP adjust:
 in *./docker-compose-prod.yml* and *./docker-compose-dev.yml*.
 
 <!----><a name="nodocker"></a>
-[![](https://img.shields.io/badge/➡_Without_docker_↴-red?style=for-the-badge)](#nodocker)
+[![](https://img.shields.io/badge/➡_Without_docker-red?style=for-the-badge)](#nodocker)
 
 If you prefer to use local setup with Keycloak, there are a few things to do after running Zendro:
 
