@@ -102,7 +102,7 @@ This command will create docker containers for each Zendro component:
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
 * [API web-interface](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.
-* [traefik reverse-proxy](): A reverse-proxy using traefik that maps the above docker services.
+* [traefik reverse-proxy](#): A reverse-proxy using traefik that maps the above docker services.
 
 You can check docker containers by:
 ```
