@@ -169,8 +169,9 @@ Also, if you wish to modify docker containers name or docker services names, adj
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
 
+---
 
-> ***➡ WITHOUT DOCKER***
+ ***➡ WITHOUT DOCKER***
 
 If you prefer to use local setup with Keycloak, there are a few things to do after running Zendro:
 
@@ -192,15 +193,15 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     We are sorry...
     Page not found
     ```
-    If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files:
+    > If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files:
 
-      * `./single-page-app/.env.production`, `./single-page-app/.env.development`, `./graphiql-auth/.env.development` and `./graphiql-auth/.env.production`
+      * ./single-page-app/.env.production, ./single-page-app/.env.development, ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
         ```
         OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
         OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
         OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
         ```
-      * `./graphql-server/.env`
+      * ./graphql-server/.env
         ```
         OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
         ```
@@ -211,7 +212,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
 
     In default config, zendro services will be on ports:
-      * API -http://localhost:3000
+      * API - http://localhost:3000/graphql
       * GraphiQL - http://localhost:7000/graphiql
       * Single Page App (SPA) - http://localhost:8080/spa
       * Keycloak - http://localhost:8081

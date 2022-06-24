@@ -145,7 +145,7 @@ This will start Zendro in development mode. All servers are listening to live ch
 
 In development mode there is no reverse proxy to map the docker-services. Instead this is done by exposing the ports as follows:
 
-* API -`http://localhost:3000`
+* API -`http://localhost:3000/graphql`
 * GraphiQL - `http://localhost:7000/graphiql`
 * Single Page App (SPA) - `http://localhost:8080/spa`
 * Keycloak - `http://localhost:8081`
