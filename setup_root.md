@@ -275,6 +275,8 @@ You can add all roles you wish separating them with a comma.
 
 <!----><a name="stop"></a>
 ### Step 9: Stop Zendro instance
+
+ ***➡ USING DOCKER***
 Execute the next command to stop Zendro and remove all volumes.
 ```
 $ zendro dockerize -d -v
@@ -283,6 +285,18 @@ $ zendro dockerize -d -v
 If you are on production mode execute:
 ```
 $ zendro dockerize -d -p -v
+```
+---
+
+ ***➡ WITHOUT DOCKER***
+Execute the next command to stop Zendro if you are on production mode:
+```
+$ zendro stop -p
+```
+
+Execute the next command to stop Zendro if you are on development mode:
+```
+$ zendro stop
 ```
 
 ### Customize your project (optional)
