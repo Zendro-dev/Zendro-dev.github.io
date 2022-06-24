@@ -87,7 +87,7 @@ In this file you can define any number of database connections, that zendro shou
 
 <!----><a name="start"></a>
 
-[![](https://img.shields.io/badge/➡_Using_docker-red?style=for-the-badge)](#start)
+***➡ USING DOCKER***
 
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 
@@ -170,8 +170,7 @@ Also, if you wish to modify docker containers name or docker services names, adj
 * ./docker-compose-dev.yml
 
 
-<!----><a name="nodocker"></a>
-[![](https://img.shields.io/badge/➡_Without_docker-red?style=for-the-badge)](#nodocker)
+***➡ WITHOUT DOCKER***
 
 If you prefer to use local setup with Keycloak, there are a few things to do after running Zendro:
 
