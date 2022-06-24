@@ -221,7 +221,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     * Copy the content of `./single-page-app/.env.development` to `./single-page-app/.env.production`
     * Modify the `OAUTH2_TOKEN_URI` env var from `./graphql-server/.env` to:
     `OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"`
-    * Start
+  * Start
       ```
       $ zendro start -p
       ```
