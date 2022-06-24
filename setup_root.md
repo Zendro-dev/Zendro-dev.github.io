@@ -205,6 +205,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     >    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
     >    ```
 * Start zendro 
+
   **Development mode**
 
     ```
