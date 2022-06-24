@@ -188,8 +188,10 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     ```
   * Start keycloak in dev mode using `$ ./bin/kc.sh start-dev`. 
   * Go to http://localhost:8081 to see keycloak running. The keycloak username is *admin* and the password is *admin*.
+  
     * Zendro realm configuration will be done when the migration file is executed when zendro starts.
-    
+
+
     > **Important**: In some versions of keycloak, e.g. version 18.0.1, you could get the next error when go to http://localhost:8081/auth:
     > ```
     >  We are sorry...
