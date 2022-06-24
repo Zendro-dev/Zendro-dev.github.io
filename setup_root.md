@@ -87,7 +87,7 @@ In this file you can define any number of database connections, that zendro shou
 
 <!----><a name="start"></a>
 
-***➡ USING DOCKER***
+> ***➡ USING DOCKER***
 
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 
@@ -170,14 +170,24 @@ Also, if you wish to modify docker containers name or docker services names, adj
 * ./docker-compose-dev.yml
 
 
-***➡ WITHOUT DOCKER***
+> ***➡ WITHOUT DOCKER***
 
 If you prefer to use local setup with Keycloak, there are a few things to do after running Zendro:
 
-***Prerequisites***
+***Requirements***
 
-* install java
-* Install keycloak
+* Install [Java](https://www.java.com/en/)
+* Install [keycloak](https://www.keycloak.org)
+  * Go to https://www.keycloak.org/downloads and download *Distribution powered by Quarkus*.
+  * After unzip, copy the keycloak configuration file from `zendro/test/env/keycloak.conf` to `keycloak/conf/keycloak.conf`.
+  * Two enviroment variables should be configured through command line. In terminal inside keycloak folder execute:
+  ```
+  $ export KEYCLOAK_ADMIN=admin
+  $ export KEYCLOAK_ADMIN_PASSWORD=admin
+  ```
+  * Start keycloak in dev mode using `$ ./bin/kc.sh start-dev`. 
+  * Go to http://localhost:8081 to see keycloak running. The keycloak username is *admin* and the password is *admin*.
+
 * Env vars and where to find them in keycloak, screenshots.
 * logs
 
