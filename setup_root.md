@@ -181,13 +181,52 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
   * Go to https://www.keycloak.org/downloads and download *Distribution powered by Quarkus*.
   * After unzip, copy the keycloak configuration file from `zendro/test/env/keycloak.conf` to `keycloak/conf/keycloak.conf`.
   * Two enviroment variables should be configured through command line. In terminal inside keycloak folder execute:
-  ```
-  $ export KEYCLOAK_ADMIN=admin
-  $ export KEYCLOAK_ADMIN_PASSWORD=admin
-  ```
+    ```
+    $ export KEYCLOAK_ADMIN=admin
+    $ export KEYCLOAK_ADMIN_PASSWORD=admin
+    ```
   * Start keycloak in dev mode using `$ ./bin/kc.sh start-dev`. 
   * Go to http://localhost:8081 to see keycloak running. The keycloak username is *admin* and the password is *admin*.
+    > **Important**: In some versions of keycloak, e.g. version 18.0.1, you could get the next error when go to http://localhost:8081/auth:
+    ```
+    We are sorry...
+    Page not found
+    ```
+    If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files:
 
+      * `./single-page-app/.env.production`, `./single-page-app/.env.development`, `./graphiql-auth/.env.development` and `./graphiql-auth/.env.production`
+        ```
+        OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
+        OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
+        OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
+        ```
+      * `./graphql-server/.env`
+        ```
+        OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
+        ```
+  * Start zendro in development mode:
+    ```
+    $ zendro start
+    ```
+    > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
+
+    In default config, zendro services will be on ports:
+      * API -http://localhost:3000
+      * GraphiQL - http://localhost:7000/graphiql
+      * Single Page App (SPA) - http://localhost:8080/spa
+      * Keycloak - http://localhost:8081
+
+  * Start zendro in production mode:
+    > First, make sure the files `./graphiql-auth/.env.production`, `./single-page-app/.env.production` and `./graphql-server/.env` have the port on the URL
+    ```
+    $ zendro start -p
+    ```
+    
+    
+
+  * Zendro realm configuration will be done when the migration file is executed when zendro starts.
+
+  
 * Env vars and where to find them in keycloak, screenshots.
 * logs
 
