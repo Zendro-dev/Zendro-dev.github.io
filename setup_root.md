@@ -188,7 +188,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     ```
   * Start keycloak in dev mode using `$ ./bin/kc.sh start-dev`. 
   * Go to http://localhost:8081 to see keycloak running. The keycloak username is *admin* and the password is *admin*.
-  
+
     * Zendro realm configuration will be done when the migration file is executed when zendro starts.
 
 
@@ -197,7 +197,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     >  We are sorry...
     >  Page not found
     >  ```
-    > If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files: 
+    > If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files as follows: 
     >  * ./single-page-app/.env.production, ./single-page-app/.env.development, ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
     >    ```
     >    OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
