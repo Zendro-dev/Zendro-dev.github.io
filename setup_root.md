@@ -214,11 +214,10 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
 
     In default config, zendro services will be on ports:
-    
-      * API - http://localhost:3000/graphql
-      * GraphiQL - http://localhost:7000/graphiql
-      * Single Page App (SPA) - http://localhost:8080/spa
-      * Keycloak - http://localhost:8081
+    * API - http://localhost:3000/graphql
+    * GraphiQL - http://localhost:7000/graphiql
+    * Single Page App (SPA) - http://localhost:8080/spa
+    * Keycloak - http://localhost:8081
 
   **Production mode**
     * Copy the content of `./graphiql-auth/.env.development` to `./graphiql-auth/.env.production`
