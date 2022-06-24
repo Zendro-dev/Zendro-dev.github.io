@@ -204,35 +204,35 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     >    ```
     >    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
     >    ```
-  * Start zendro in development mode:
+* Start zendro in development mode:
+  ```
+  $ zendro start
+  ```
+  > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
+
+  In default config, zendro services will be on ports:
+    * API - http://localhost:3000/graphql
+    * GraphiQL - http://localhost:7000/graphiql
+    * Single Page App (SPA) - http://localhost:8080/spa
+    * Keycloak - http://localhost:8081
+
+* Start zendro in production mode:
+  * Copy the content of `./graphiql-auth/.env.development` to `./graphiql-auth/.env.production`
+  * Copy the content of `./single-page-app/.env.development` to `./single-page-app/.env.production`
+  * Modify the `OAUTH2_TOKEN_URI` env var from `./graphql-server/.env` to:
+  `OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"`
+* Start
     ```
-    $ zendro start
+    $ zendro start -p
     ```
-    > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
+  > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
 
-    In default config, zendro services will be on ports:
-      * API - http://localhost:3000/graphql
-      * GraphiQL - http://localhost:7000/graphiql
-      * Single Page App (SPA) - http://localhost:8080/spa
-      * Keycloak - http://localhost:8081
-
-  * Start zendro in production mode:
-    * Copy the content of `./graphiql-auth/.env.development` to `./graphiql-auth/.env.production`
-    * Copy the content of `./single-page-app/.env.development` to `./single-page-app/.env.production`
-    * Modify the `OAUTH2_TOKEN_URI` env var from `./graphql-server/.env` to:
-    `OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"`
-  * Start
-      ```
-      $ zendro start -p
-      ```
-    > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
-
-    In default config, zendro services will be on ports:
-      * API - http://localhost:3000/graphql
-      * GraphiQL - http://localhost:7000/graphiql
-      * Single Page App (SPA) - http://localhost:8080/spa
-      * Keycloak - http://localhost:8081
-    
+  In default config, zendro services will be on ports:
+    * API - http://localhost:3000/graphql
+    * GraphiQL - http://localhost:7000/graphiql
+    * Single Page App (SPA) - http://localhost:8080/spa
+    * Keycloak - http://localhost:8081
+  
     
 
   * Zendro realm configuration will be done when the migration file is executed when zendro starts.
