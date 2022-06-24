@@ -193,9 +193,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     We are sorry...
     Page not found
     ```
-    > If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files:
-
-      > * ./single-page-app/.env.production, ./single-page-app/.env.development, ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
+    > If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files: > * ./single-page-app/.env.production, ./single-page-app/.env.development, ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
         ```
         OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
         OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
