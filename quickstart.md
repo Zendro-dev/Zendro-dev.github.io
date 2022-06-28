@@ -53,7 +53,20 @@ If you want to know more about the enviroment variables, you can check [this](en
 
 ### Step 4: Start up your Zendro instance
 
-Execute the next command to start Zendro in production mode. 
+#### Development mode
+
+To start Zendro in development mode run
+
+```
+$ zendro dockerize -u
+```
+
+This will start Zendro in development mode. All servers are listening to live changes you make in the files. Especially the SPA and graphiql-auth web-services will be slow to use since they compile pages on demand when openening them. To avoid that either change the `docker-compose-dev.yml` to compile and deploy the webservices (see `docker-compose-prod.yml`) or start Zendro in production mode.
+
+In development mode there is no reverse proxy to map the docker-services. Instead this is done by exposing the ports.
+
+#### Production mode
+Execute the next command to start Zendro in production mode.
 
 ```
 $ zendro dockerize -u -p
@@ -133,22 +146,6 @@ sqlite> SELECT * FROM <table>;
 sqlite> .exit
 ```
 
-#### Development mode
-
-To start Zendro in development mode run
-
-```
-$ zendro dockerize -u
-```
-
-This will start Zendro in development mode. All servers are listening to live changes you make in the files. Especially the SPA and graphiql-auth web-services will be slow to use since they compile pages on demand when openening them. To avoid that either change the `docker-compose-dev.yml` to compile and deploy the webservices (see `docker-compose-prod.yml`) or start Zendro in production mode.
-
-In development mode there is no reverse proxy to map the docker-services. Instead this is done by exposing the ports as follows:
-
-* API -`http://localhost:3000/graphql`
-* GraphiQL - `http://localhost:7000/graphiql`
-* Single Page App (SPA) - `http://localhost:8080/spa`
-* Keycloak - `http://localhost:8081`
 
 ### Step 5: Stop your Zendro instance
 

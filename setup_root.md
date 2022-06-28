@@ -91,7 +91,7 @@ In this file you can define any number of database connections, that zendro shou
 
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 
-Execute the next command to start Zendro in production mode. 
+Execute the next command to start Zendro in production mode or without `-p` to start in development mode. 
 
 ```
 $ zendro dockerize -u -p
@@ -241,12 +241,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
       * Keycloak - http://localhost:8081
   
     
-
-
-
-  
-* Env vars and where to find them in keycloak, screenshots.
-* logs
+* You can find applications logs on `./logs/graphiql.log`, `./logs/graphql-server.log` and `./logs/single-page-app.log`.
 
 
 ### Step 8: Start up Zendro with access control 
