@@ -47,6 +47,8 @@ In this file you can find an explanation of all the enviroment variables that ar
 * `NEXTAUTH_URL` - When deploying to production, set the NEXTAUTH_URL environment variable to the canonical URL of your site.
 * `NEXTAUTH_SECRET` - Used to encrypt the NextAuth.js JWT, and to hash [email verification tokens](https://next-auth.js.org/adapters/models#verification-token).
 
+**Note**: `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` vars will be added automatically if you run the default keycloak migration.
+
 ## Graphiql-auth
 ### Mandatory
 * `NEXT_PUBLIC_ZENDRO_GRAPHQL_URL` - GraphQL endpoint address. Used to send data queries and mutations.
@@ -59,3 +61,5 @@ In this file you can find an explanation of all the enviroment variables that ar
 * `OAUTH2_CLIENT_SECRET` - SPA OAuth2 Client Secret.
 * `NEXTAUTH_URL` - When deploying to production, set the NEXTAUTH_URL environment variable to the canonical URL of your site.
 * `NEXTAUTH_SECRET` - Used to encrypt the NextAuth.js JWT, and to hash [email verification tokens](https://next-auth.js.org/adapters/models#verification-token).
+
+**Note**: `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` vars will be added automatically if you run the default keycloak migration.
