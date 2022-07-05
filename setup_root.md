@@ -192,9 +192,9 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
     * Zendro realm configuration will be done when the migration file is executed after zendro starts.
 
-  <!----><a name="important"></a>
+<!----><a name="important">
 
-    > **Important**: In some versions of keycloak, e.g. version 18.0.1, you could get the next error when go to http://localhost:8081/auth:
+  > **Important**: In some versions of keycloak, e.g. version 18.0.1, you could get the next error when go to http://localhost:8081/auth:
     > ```
     >  We are sorry...
     >  Page not found
