@@ -27,8 +27,8 @@ In this file you can find an explanation of all the enviroment variables that ar
 * `MAX_TIME_OUT` - Maximum number of milliseconds that a zendro server will wait to connect with another zendro server. Default value is `2000`.
 * `REQUIRE_SIGN_IN` - Boolean to toggle the required sign in to the graphql server. Default is `true`.
 * `SALT_ROUNDS` - Number of salt rounds when hashing a new password. Default is `10`.
-* `WHITELIST_ROLES` - Whitelist an array of roles to grant permission regardless of user roles.
-* `DOWN_MIGRATION` - Allow down migration of a model. Executing the down migration will delete all records and its associations.
+* `WHITELIST_ROLES` - Whitelist of roles to grant permission regardless of user roles. E.g. `"reader,editor"`.
+* `DOWN_MIGRATION` - Default is false. User can perform down migration if the table or collection is empty, namely no records. When this env var is true, user can drop all data and metadata for non-empty table. 
 
 ## Single-page-app
 ### Mandatory
