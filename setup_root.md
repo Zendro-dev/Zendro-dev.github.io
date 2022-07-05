@@ -4,7 +4,7 @@
 
 This is a step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
 
-Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url http://localhost:3000/graphql on development mode or http:localhost/api/graphql on production mode. As the names of this project say, the *codegen* suffix means that to pull up the corresponding server it is required to generate some code first. Among inter-database transparency, the code generation step also allows a Zendro user to automate routinary ORM programming that depends on data scheme. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url http://localhost:8080/spa on development mode or http://localhost/spa on production mode. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accomodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
+Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url http://localhost:3000/graphql on development mode or http://localhost/api/graphql on production mode. To pull up the corresponding server it is required to generate some code first. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url http://localhost:8080/spa on development mode or http://localhost/spa on production mode. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accomodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
 
  <br/>
 
@@ -55,7 +55,7 @@ Go inside the new project and modify the selected enviroment variables in the ne
 
 If you wish to know more about enviroment variables you can check [this](env_vars.md).
 
-**Note**: The `data_models_storage_config.json` file defines the connections to the databases that zendro should be aware of.
+**Note**: The `data_models_storage_config.json` file defines the connections to the databases that zendro should be aware of. Currently we have integrated sequelize, neo4j, cassandra, amazon s3, mongodb. For other storage types, user needs to implement the connection part and add a [new storage type](https://github.com/Zendro-dev/Zendro-dev.github.io/pull/25), or use generic models. 
 
 ### Step 4: Define your data models
 
@@ -73,7 +73,7 @@ $ zendro generate -m
 
 This will automatically generate all basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step.
 
-Also, this will create migration files. By default, every migration file has two functions, namely **up** and **down**. The **up** function creates a table, the **down** function deletes the existing table. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
+Also, this will create migration files. By default, every migration file has two functions, namely **up** and **down**. The **up** function creates a table, the **down** function deletes the existing table. Additionally, **up** and **down** functions would add and drop indices for primary keys. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
 
 ### Step 6 (optional): Define your database connection
 
@@ -91,7 +91,7 @@ In this file you can define any number of database connections, that zendro shou
 
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 
-Execute the next command to start Zendro in production mode or without `-p` to start in development mode. 
+Execute this command to start Zendro in production mode or without `-p` to start in development mode. 
 
 ```
 $ zendro dockerize -u -p
@@ -101,7 +101,7 @@ This command will create docker containers for each Zendro component:
 * [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): manage users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
-* [API web-interface](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.
+* [GraphiQL interface](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.
 * [traefik reverse-proxy](#): A reverse-proxy using traefik that maps the above docker services.
 
 You can check docker containers by:
@@ -142,7 +142,7 @@ In default config, the running containers will be:
 
   ![api example](figures/graphql.png )
 
-* GraphQL API web-interface with filter functionality: 
+* GraphiQL interface with filter functionality: 
     * Development mode: http://localhost:7000/graphiql
     * Production mode: http://localhost/graphiql
 
@@ -177,8 +177,8 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
 ***Requirements***
 
-* Install [Java](https://www.java.com/en/)
-* Install [keycloak](https://www.keycloak.org)
+* Install [Java](https://www.java.com/en/) (from Java 11 forward).
+* Install [keycloak](https://www.keycloak.org). We recommend Keycloak 17.0.1. Latest versions could cause issues like the described [here](#important).
   * Go to https://www.keycloak.org/downloads and download *Distribution powered by Quarkus*.
   * After unzip, copy the keycloak configuration file from `zendro/test/env/keycloak.conf` to `keycloak/conf/keycloak.conf`.
   * Two enviroment variables should be configured through command line. In terminal inside keycloak folder execute:
@@ -186,12 +186,12 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     $ export KEYCLOAK_ADMIN=admin
     $ export KEYCLOAK_ADMIN_PASSWORD=admin
     ```
-  * Start keycloak in dev mode using `$ ./bin/kc.sh start-dev`. 
+  * Start keycloak in dev mode executing `$ ./bin/kc.sh start-dev` in keycloak folder. 
   * Go to http://localhost:8081 to see keycloak running. The keycloak username is *admin* and the password is *admin*.
 
-    * Zendro realm configuration will be done when the migration file is executed when zendro starts.
+    * Zendro realm configuration will be done when the migration file is executed after zendro starts.
 
-
+<!----><a name="important"></a>
     > **Important**: In some versions of keycloak, e.g. version 18.0.1, you could get the next error when go to http://localhost:8081/auth:
     > ```
     >  We are sorry...
@@ -259,7 +259,7 @@ to
 npm start acl
 ```
 
-Moreover, you can whitelist certain roles, independent of the users permissions, using the *WHITELIST_ROLES* environment variable. For example, if you wish to whitelist reading actions modify in `./graphql-server/.env`:
+Moreover, you can whitelist certain roles, which can own all user permissions, by using *WHITELIST_ROLES* environment variable. For example, if you wish to whitelist reading actions, modify in `./graphql-server/.env`:
 
 ```
 WHITELIST_ROLES="reader"
@@ -273,7 +273,7 @@ You can add all roles you wish separating them with a comma.
 
  ***➡ USING DOCKER***
 
-Execute the next command to stop Zendro and remove all volumes.
+Execute this command to stop Zendro. To remove all volumes use `-v`.
 ```
 $ zendro dockerize -d -v
 ```
@@ -286,7 +286,7 @@ $ zendro dockerize -d -p -v
 
  ***➡ WITHOUT DOCKER***
  
-Execute the next command to stop Zendro if you are on production mode:
+Execute this command to stop Zendro if you are on production mode:
 ```
 $ zendro stop -p
 ```
