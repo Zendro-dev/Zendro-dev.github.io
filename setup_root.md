@@ -195,21 +195,22 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 <!----><a name="important"></a>
 
 > **Important**: In some versions of keycloak, e.g. version 18.0.1, you could get the next error when go to http://localhost:8081/auth:
-    > ```
-    >  We are sorry...
-    >  Page not found
-    >  ```
-    > If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files as follows: 
-    >  * ./single-page-app/.env.production, ./single-page-app/.env.development, ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
-    >    ```
-    >    OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
-    >    OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
-    >    OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
-    >    ```
-    >  * ./graphql-server/.env
-    >    ```
-    >    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
-    >    ```
+> ```
+>  We are sorry...
+>  Page not found
+>  ```
+> If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files as follows: 
+>  * ./single-page-app/.env.production, ./single-page-app/.env.development, ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
+>    ```
+>    OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
+>    OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
+>    OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
+>    ```
+>  * ./graphql-server/.env
+>    ```
+>    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
+>    ```
+
 * Start zendro 
 
   **Development mode**
