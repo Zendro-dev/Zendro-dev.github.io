@@ -12,9 +12,9 @@ Also find Zendro-dev on [github](https://github.com/Zendro-dev).
 
 If you have any questions or comments, please don't hesitate to contact us via an issue [here](https://github.com/Zendro-dev/Zendro-dev.github.io/issues). Tag your issue as a question and we will try to answer as quick as possible.
 
-### HOW-TO GUIDES:
+[<p align="center"><img src="./figures/quick.png" /></p>](quickstart.md) [<p align="center"><img src="./figures/gettingstarted.png"/></p>](setup_root.md)
 
-* [How to set up a Zendro instance](setup_root.md). A step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
+### HOW-TO GUIDES:
 * [How to define data models: for developers](setup_data_scheme.md). Detailed technical specifications on how to define data models for Zendro, aimed at software developers and system administrators.
 * [How to define data models: for non-developers](non-developer_documentation.md). A brief, illustrated guide of data model specifications, data formatting and data uploading options, aimed at data modelers or managers to facilitate collaboration with developers.
 * [How to use Zendro command line interface (CLI)](zendro_cli.md). A tutorial of Zendro CLI, aimed at software developers.

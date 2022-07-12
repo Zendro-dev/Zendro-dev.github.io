@@ -139,38 +139,12 @@ zendro set-up
 ```
 
 ## A Quick Example for setting up a Zendro Sandbox
-1. By default, three data models with associations would be used for this sandbox, namely city, country and river. And a default SQLite database would be used.
-2. Execute `zendro set-up -d <name>`, edit NEXTAUTH_SECRET to your expect secret and modify other environment variables if necessary in the following config files:
-* SPA in development mode: ./single-page-app/.env.development
-* SPA in production mode: ./single-page-app/.env.production
-* GraphiQL in development mode: ./graphql-server/.env.development 
-* GraphiQL in production mode: ./graphql-server/.env.production
-If you would like to upload a file to a remote server, please consider the template `.env.migration.sample`, create a new file `.env.migration` and modify relevant environment variables.
-3. Execute `zendro dockerize -u -p`, then zendro instance with production mode would start.
-4. Execute `zendro dockerize -d -p -v`, then zendro instance would stop and all volumes would be removed.
+
+Please go to [Quickstart](quickstart.md) guide to set up a Zendro Sandbox. 
 
 ## A Detailed Example for setting up a Zendro Instance
-1. create a new application (**test**). Keep docker files (**-d**)  by executing  **`zendro new -d test`**. If you would like to modify some environment variables or database configuration, please edit relevant files, which are also specified in the console.
-* without docker setup: ./graphql-server/config/data_models_storage_config.json
-* with docker setup: ./config/data_models_storage_config.json
-* ./graphql-server/.env
-* SPA in development mode: ./single-page-app/.env.development
-* SPA in production mode: ./single-page-app/.env.production
-* GraphiQL in development mode: ./graphql-server/.env.development 
-* GraphiQL in production mode: ./graphql-server/.env.production
-If you would like to upload a file to a remote server, please consider the template `.env.migration.sample`, create a new file `.env.migration` and modify relevant environment variables.
 
-2. `cd test`
-
-3. add JSON files for model definitions in `./data_model_definitions` folder and generate graphql-server (GQS) code and migrations by executing **`zendro generate -m`**.
-
-4. if you prefer to use local setup with Keycloak, you can start all service by executing **`zendro start`**. And an example configuration file for Keycloak is `./test/env/keycloak.conf`. By default Keycloak would use H2 database to store information. Moreover, the default database for records in Zendro would be a SQLite3 database. Its configuration is in this file: `./graphql-server/config/data_models_storage_config.json`. If user would like to add other storage types, it is necessary to edit this file. Meanwhile, if you would like to use production mode, please add `-p` option.
-
-5. stop all running service by executing **`zendro stop`**. Besides, if you would like to stop the production mode, please add `-p` option.
-
-6. if you don't have local setup with keycloak or you would like to dockerize example zendro App, then execute **`zendro dockerize -u`**. Moreover, if you would like to use production mode, please execute **`zendro dockerize -u -p`**. Besides, the default username is `zendro-admin` and the corresponding password is `admin`.
-
-7. When you would like to stop docker service, execute **`zendro dockerize -d`** for a full cleanup. In addition, if your services are in production mode, please execute **`zendro dockerize -d -p`**.
+Please go to [Getting started](setup_root.md) guide to set up a Zendro Instance. 
 
 ## Example for Migrations
 If a user has new data model definitions, it is convinient to use Zendro CLI for dealing with migrations. And the following procedure shows how to generate, perform or drop migrations:
