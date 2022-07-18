@@ -17,6 +17,10 @@ To see our contribute to our code please visit Zendro-dev on [github](https://gi
 
 If you have any questions or comments, please don't hesitate to contact us via an issue [here](https://github.com/Zendro-dev/Zendro-dev.github.io/issues). Tag your issue as a question or bug and we will try to answer as quick as possible.
 
+## SHOW ME HOW IT LOOKS!
+
+Would you like to see Zendro in action before deciding to learn more? That's fine! We set up a Dummy Zendro Instance for you to explore [Zendro's graphical user interface](https://zendro.conabio.gob.mx) and [Zendro's API](https://zendro.conabio.gob.mx/dummy_api). The tutorials on how to [use Zendro day to day](## Using Zendro day to day) of the section below use this instance, so go there to start exploring.
+
 
 ## HOW-TO GUIDES:
 
@@ -24,7 +28,7 @@ If you have any questions or comments, please don't hesitate to contact us via a
 
 To start trying Zendro you can try the [Quickstart tutorial](https://zendro-dev.github.io/quickstart.html) on how to create a new Zendro project with pre-defined datamodels, database and environment variables. Then you can try the [Getting started tutorial](https://zendro-dev.github.io/setup_root.html), a step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
 
-[<p align="center"><img src="./figures/quick.png" /></p>](quickstart.md) [<p align="center"><img src="./figures/gettingstarted.png"/></p>](setup_root.md).
+[<p align="center"><img src="./figures/quick.png" /></p>](quickstart.md) [<p align="center"><img src="./figures/gettingstarted.png"/></p>](setup_root.md)
 
 For more sysadmin details also check:
 
@@ -42,7 +46,7 @@ For more sysadmin details also check:
 
 ## Using Zendro day to day
 
-* [How to use the Single Page Application](SPA_howto.md). 
+* [How to use Zendro's graphical interface](SPA_howto.md). A full guide on how to use Zendro's graphical point and click interface. Aimed to general users and featuring lots of screenshots.
 * [How to query and extract data from R](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists.
 
 # Zendro users profiles
