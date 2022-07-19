@@ -32,9 +32,9 @@ Clicking on a data model name will present the user with the **master data model
  
 ![SPA_models2.png](figures/SPA_models2.png)
 
-If you are explorin a table with lots of rows, you can modify the number of rows the table shall show at a time by clicking on the number. The number of pages will be modified automatically to fit all the data to the desired number of rows per page. Try that in the river model:
+If you are exploring a table with lots of rows, you can modify the number of rows the table shall show at a time by clicking on the number. The number of pages will be modified automatically to fit all the data to the desired number of rows per page. Try that in the river model:
 
-SCREENSHOT CON RIVER CON MUCHOS ROWS
+![SPA_rivers.png](figures/SPA_rivers.png)
 
 At the bottom right of the table the user can skip forward or backward trough pages:
 
@@ -70,8 +70,6 @@ In the detailed view all users also can see a tab called "ASSOCIATIONS"  at the 
 Upon clicking on such an association name the user can now inspect the associated records. If this is an association of many records, i.e. one-to-many or many-to-many association type a table is shown just like the master table. This table has the same sorting, search, and pagination functions as the data model master table shown before. 
 
 ![SPA_models5.png](figures/SPA_models5.png)
-
-
 
 
 
@@ -139,74 +137,66 @@ Your new record will be saved. You can click on the "table" icon on the top to s
 
 ### Add several records from a file
 
-Adding single records one by one is useful sometimes, but honestly we all want to add data in bulk. Users often have data in tables that were created in MS Excel, recorded with a digital device or by any other mean. You can import this data into Zendro by creating a coma separated values file ("csv file"). 
+Adding single records one by one is useful sometimes, but honestly we all want to add data in bulk. Users often have data in tables that were created in MS Excel, recorded with a digital device or by any other mean. You can import this data into Zendro from an **Excel file** (.xlsx) or a **coma separated file** (.csv). 
 
-The csv file is expected to have the **same** fields of the data model you want to add data to, and follow the format requirements below:
+The data file is expected to follow these requirements:
 
-1. Column names in the first row must correspond to model attributes.
-2. Empty values should be represented as `"NULL"` (**with** the `""`)
-3. **All** records should be quoted by `"`. However, if field delimiter and array delimiter do not occur in fields with String type, namely characters could be splitted without ambiguity, then each field could not be quoted. For example, if the field delimiter is comma, and one String field is like `Zendro, excellent!`. Without the quotation mark, this field would be splitted as two fields. So in such case these String fields must be quoted.
-5. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
+1. Column names in the first row must correspond to model attributes (i.e. column names in the Zendro master table for that model)
+2. Empty values should be represented as `NULL`.
+3. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
+
+Additionally, if you are uploading your data from a csv file, it should:
+
+1. String (text) records should be quoted by `"`. For example `"Ingredient A, Ingredient B"` instead of `Ingredient A, Ingredient B`. However if there are no commas (`,`) within any single record then the quotes are not necessary. 
 
 In order to get the field names right and check what type (e.g. integer, character, etc) is each one, you can **Download the model template** by clicking in the "light down arrow" at the top right panel of the master data model table. You will be prompted to download a csv file named after the table you are, for example "river". You can open this file in your favourite spreadsheet processor (e.g. Excel).
 
-It will have the the column names you need in the first row, and the data type in the second. Notice that if your data model has associations the ids ("key") associating records will be shown as columns too. For example because the model "river" is associated with "country" you have to provide the `country_id` in the last column. If we fill this example with a list of Mexican rivers, this means that the `country_id` field should include Mexico's country id, which from the "country" data model table we know is "MX".
+It will have the the column names you need in the first row, and the data type in the second. Notice that if your data model has associations the ids ("key") associating records will be shown as columns too. For example because the model "river" is associated with one or more "countries" you have to provide the `country_ids` in the last column. If we fill this example with a list of Mexican rivers, this means that the `country_ids` field should include Mexico's country id, which from the "country" data model table we know is "MX".
 
 ![SPA_csvtemplate.png](figures/SPA_csvtemplate.png)
 
-Next edit this csv file to add your data. Make sure to:
+Next edit this csv file to add your data. You can do this in a spreadsheet processor (e.g. Excel).
+
+Make sure to:
 
 * Leave the first line (column names) as it is.
 * Replace the second row with data, but remember: the second row is there to tell you what type of data is Zendro expecting for each field, e.g. `Int` = integer numbers, and `String` = text. 
 * Follow the data requirements detailed above.
 
-Remember, **all data should be quoted** with `""`. If you are working with MS Excel and don't want to manually add the quotes, try this:
+Save at as an .xlsx file. It should be ready to upload it to Zendro!
 
-1. Select all data cells (not the column names!)
-2. Go to Format –> Cells –> Custom
-3. Copy/Paste the following into the Type field: `\“#\”;\“@\”`
-4. Click “okay”
-
-![SPA_csvhowtoquote.png](figures/SPA_csvhowtoquote.png)
-
-Now save your data as csv. For this:
-
-1. Go to File -> Save as...
-2. On the File format menu select `CSV UTF-8 (Comma-delimited) (.csv)`
-3. Save your file somewhere nice.
-
-![SPA_csvsave.png](figures/SPA_csvsave.png)
-
-To double check that your file looks how it should, open it with a Text Editor. You should look something like this:
+Alternatively, if you are using a Text Editor (e.g. NotePad, Sublime) to generate a .csv, your file should look something like this (here we quoted all fields to prevent any ambiguity):
 
 ```
 river_id,name,length,country_ids
-“1”,“Acaponeta”,“233”,“MX”
-“2”,“Ameca”,“205”,“MX”
-“3”,“Armería”,“240”,“MX”
-“4”,“Balsas”,“770”,“MX”
-“5”,“Baluarte”,“142”,“MX”
-“6”,“Bravo”,“NULL”,“MX”
-“7”,“Candelaria”,“150”,“MX”
-“8”,“Cazones”,“145”,“MX”
-“9”,“Coahuayana”,“203”,“MX”
-“10”,“Coatán”,“75”,“MX”
-“11”,“Coatzacoalcos”,“325”,“MX”
-“12”,“Colorado”,“160”,“MX”
-“13”,“Concepción”,“335”,“MX”
-“14”,“Culiacán”,“875”,“MX”
-“15”,“El Fuerte”,“540”,“MX”
-“16”,“Elota”,“65”,“MX”
-“17”,“Grijalva-Usumacinta”,“1521”,“MX”
-“18”,“Hondo”,“115”,“MX”
+"47","Tonalá","82","NULL"
+"48","Tuxpan","150","NULL"
+"49","Verde","342","NULL"
+"50","Yaqui","410","NULL"
 ```
 
-To finally upload your data to Zendro click on the Import data as csv ("bold top arrow" icon) of the top right menu:
+Save it as an .csv file. It should be ready to upload it to Zendro!
+
+**Note:** you can also Save as csv file from Excel, but make sure you add the `"` if any of your strings (text) have `,` within them.
 
 
+To finally upload your data to Zendro click on Import data ("bold top arrow" icon) of the top right menu, select your file and click **Upload**:
+
+![SPA_addExcel.png](figures/SPA_addExcel.png)
+
+If there are no errors your data will be uploaded. Click the Reload button of the top right menu if you can't see it. 
+
+If there are errors you will be told what's the problem. Check your data and try again.
 
 
 ## Download data
+
+To download data, click on the Download data button (bold down arrow). You will be prompted to select a directory and file name where to save the data. 
+
+![SPA_download.png](figures/SPA_download.png)
+
+
+The data will be saved in csv format, which you can open in Excel or import it to statistical software like R. Notice that this only downloads the data of any given table at a time. Complex queries to download specific data or show in a single table columns from different models can be done through Zendro API. Check Zendro home documentation for tutorials on how to do this.
 
 
 
