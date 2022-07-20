@@ -1,73 +1,73 @@
 # How to use Zendro's graphical user interface
 
 
-Zendro's graphical point and click user interface is accessible in a web browser, as a so-called single page application (SPA). 
+Zendro's graphical point-and-click user interface is accessible in a web browser, as a single page application (SPA). 
 
-To explore how it looks, you can look at the screenshots before, or even better try it out live! Just go to [https://zendro.conabio.gob.mx](https://zendro.conabio.gob.mx), where you would find a dummy Zendro instance we set up for you to try. 
+To explore how it looks, you can look at the screenshots below, or even better try it out live! Just go to [https://zendro.conabio.gob.mx](https://zendro.conabio.gob.mx), where you will find a dummy Zendro instance we set up for you to try. 
 
 Zendro's home graphical interface looks similar to the image below. But of course you can customise it to show what you prefer:
 
 ![SPA_home.png](figures/SPA_home.png) 
  
-All data administration functions made available in the browser based point and click graphical user interface are subjected to user based access control, meaning the user is only seeing the respective icons, buttons, and even model names in the main menu, if and only if she / he has the required user-role providing access rights to the respective read or write operations. 
+All data administration functions available in the graphical user interface are subjected to user based access control, meaning a user only sees the respective icons, buttons, and even model names in the main menu, if and only if she / he has the required access rights to the respective read or write operations. 
 
 ## Login
 
-Clicking in LOGIN will prompt you for your user name and password. Zendro's graphical interface allows users to Create, Read, Update or Delete (CRUD) records, but you can decide which users can do what. For instance only one or two people on a research team may have edit access rights to create, update or delete records, while several other members of the team could be allowed to read.
+Clicking in LOGIN will prompt you for your username and password. Zendro's graphical interface allows users to Create, Read, Update or Delete (CRUD) records, but you can decide which users can do what. For instance only one or two people on a research team may have edit access rights to create, update or delete records, while several other members of the team could be allowed to read.
 
-We created a user with reading acess rights for you to explore. You can login with user the shown in the image bellow and the password *reader*.
+We created a user with reading access rights for you to explore. You can login with the user shown in the image below and the password *reader*.
 
 ![SPA_login.png](figures/SPA_login.png)
 
 ## Exploring data
 
-Upon successful sign-in in the graphical interface, the user is presented with an overview menu on the left, offering one entry per data model Zendro created components for. That is, Zendro will create a table for each of the data models provided when setting it up.
+Upon successful sign-in in the graphical interface, the user is presented with an overview menu on the left, offering one entry per data model. That is, Zendro will create a table for each of the data models provided when setting it up.
 
 In this dummy example the models are "City", "River" and "Country". The home is shown in blank by default, but you can use this area to add whatever you want, like models documentation or project introduction. 
 
 ![SPA_models1.png](figures/SPA_models1.png)
 
-Clicking on a data model name will present the user with the **master data model table**, showing a column for each data model field (in this example "city_id", "name" and "population" of the "city" model), and the records in rows. 
+Clicking on a data model name will present the user with the **main data model table**, showing a column for each field in the data model (in this example "city_id", "name" and "population" of the model "city"), and a row for each record.  
 
  
 ![SPA_models2.png](figures/SPA_models2.png)
 
-If you are exploring a table with lots of rows, you can modify the number of rows the table shall show at a time by clicking on the number. The number of pages will be modified automatically to fit all the data to the desired number of rows per page. Try that in the river model:
+If you are exploring a table with lots of rows, you can modify the number of rows the table shows at a time by clicking on the number in the lower-left corner. The number of pages will be modified automatically to fit all the data to the desired number of rows per page. Try that in the river model:
 
 ![SPA_rivers.png](figures/SPA_rivers.png)
 
-At the bottom right of the table the user can skip forward or backward trough pages:
+At the bottom right of the table, the user can skip forward or backward through pages:
 
 ![SPA_paginationmenu.png](figures/SPA_paginationmenu.png)
 
 
-You can hide or expand the left data models menu by clicking in the ">" icon:
+You can hide or expand the data models menu by clicking in the ">" icon:
 
 ![SPA_hidemenu.png](figures/SPA_hidemenu.png)
 
 
-Clicking on the column name will cause the data to be sorted by that column in alphabetically ascending order. Above the table the user can enter search terms which will be matched against any column, if the respective field is of type string (text), and against any numeric columns, if the entered search term can be translated to a number. 
+Clicking on the column name will sort the data by that column in ascending alphabetical order. Above the table the user can enter search terms which will be matched against any column, if the respective field is of type string (text), and against any numeric columns, if the entered search term can be translated to a number. 
 
-For each record, the table offers the user the option to open the detailed view of a selected record ("eye" icon). For users with edit and delete access rights the options to edit ("pencil" icon) or delete the record ("trash" icon) are also shown:
+For each record, the table offers the user the option to open the detailed view of a selected record ("eye" icon). Users with edit and delete permissions also see the option to edit ("pencil" icon) or delete the record ("trash" icon):
 
 
 ![SPA_crud.png](figures/SPA_crud.png)
 
-You may have noticed that you can only see the "eye" icon to go the detailed view, but not the other icons. This is because the user we made public for this tutorial only has reader permissions and hence can not modify the existing data. 
+You may have noticed that you can only see the "eye" icon to go to the detailed view, but not the other icons. This is because the user we made public for this tutorial only has reader permissions and hence cannot modify the existing data. 
 
-Clicking on the "eye" icon leads to the detailed view, which enables to inspect in full details ("ATTRIBUTES" tab) that a single data record has:
+Clicking on the "eye" icon leads to the detailed view, which enables full inspection of all details ("ATTRIBUTES" tab) that a single record has:
 
 ![SPA_models3.png](figures/SPA_models3.png) 
 
-If the user has edit permissions, here there would be shown buttons for opening the edit and delete forms. See [Editing data](## Editing data) below for details. 
+If the user has edit permissions, they would also see buttons for opening the edit and delete forms. See [Editing data](## Editing data) below for details. 
 
 ![SPA_editoptions.png](figures/SPA_editoptions.png)
 
-In the detailed view all users also can see a tab called "ASSOCIATIONS"  at the top right which shows one entry per association that the respective record (data model) has. In this case the record of the city "Aachen" is associated with "COUNTRY" and "CAPITALTO".
+In the detailed view, all users also see a tab called "ASSOCIATIONS" at the top right, which shows one entry per association that the respective record (data model) has. In this case the record of the city "Aachen" is associated with "COUNTRY" and "CAPITALTO".
 
 ![SPA_models4.png](figures/SPA_models4.png)
 
-Upon clicking on such an association name the user can now inspect the associated records. If this is an association of many records, i.e. one-to-many or many-to-many association type a table is shown just like the master table. This table has the same sorting, search, and pagination functions as the data model master table shown before. 
+Upon clicking on an association name the user can now inspect the associated records. If this is an association of many records, i.e. one-to-many or many-to-many association type, a table is shown just like the main table. This table has the same sorting, search, and pagination functions as the data model's main table shown before. 
 
 ![SPA_models5.png](figures/SPA_models5.png)
 
@@ -77,27 +77,27 @@ Upon clicking on such an association name the user can now inspect the associate
 
 ### Modify or delete existing records
 
-For a user with all Create Read Update and Delete permissions, the master table offers the user the option to open the detailed view ("eye" icon), edit ("pencil" icon), or delete ("trash" icon) a given record:
+For a user with all Create, Read, Update, and Delete permissions, the main table offers the user the option to open the detailed view ("eye" icon), edit ("pencil" icon), or delete ("trash" icon) a given record:
 
 ![SPA_crud.png](figures/SPA_crud.png)
 
-Clicking on the "pencil" icon either in the data model master table or in the detail view will open the edit form, pre-filled with the selected records data. Here the user can change the data and will be presented with validation errors if the data is invalid. 
+Clicking on the "pencil" icon either in the data model's main table or in the detail view will open the edit form, pre-filled with the selected record's data. Here the user can change the data, and a validation error will show up if the data is invalid. 
 
 ![SPA_editoptions.png](figures/SPA_editoptions.png)
 
-For example if I try to introduce character text in the "population" field, which is defined as an integer, I would be asked to instead enter a valid integer.
+For example, if we try to introduce text in the "population" field, which is defined as an integer, we would be asked to instead enter a valid integer.
 
 ![SPA_validation.png](figures/SPA_validation.png)
 
 All fields can be modified in this form, except the id which is the key linking to the record associations. 
 
-To edit the associations, on the "ASSOCIATIONS" tab click the name of the data model where the record to be associated is. For example "country". 
+To edit the associations, on the "ASSOCIATIONS" tab click the name of the data model where the record to be associated is, for example "country". 
 
-After clicking it, the user is shown a modified version of the data model master table, in which an additional column enables the association or dissociation of records with the currently edited one. Associated records are marked with a "link chain" icon, and not associated records with a "broken chain link" icon. In this table the user can mark several associations to be executed once the "save" button is clicked.  
+After clicking it, the user is shown a modified version of the data model's main table, in which an additional column enables the association or dissociation of records with the currently edited one. Associated records are marked with a "link chain" icon, and not associated records with a "broken chain link" icon. In this table the user can mark several associations to be executed once the "save" button is clicked.  
 
 ![SPA_associatons_edit.png](figures/SPA_associatons_edit.png)
 
-Once any of the associated/not associated icons is clicked they revert to their respective counterpart, a connected chain link becomes a broken one and vice versa. To highlight that these are to be persisted changes the converted icons are highlighted in color, green connected chain link icons indicate that an association with the respective record shall be established, while red broken chain link icons indicate the opposite. 
+Once any of the associated/not associated icons is clicked, they revert to their respective counterpart, a connected chain link becomes a broken one and vice versa. To highlight that these are to be persisted changes the converted icons are highlighted in color, green connected chain link icons indicate that an association with the respective record shall be established, while red broken chain link icons indicate the opposite. 
 
 ![SPA_associations_color.png](figures/SPA_associations_color.png)
 
@@ -113,7 +113,7 @@ Alternatively, if the record you wish to associate to does not exist, then it is
 
 ### Add a single record manually
 
-If your user has edition permissions, on the top bar of the data model table you will see the following buttons to Reload the data ("circle arrow" icon), Add new record ("+" icon), Import data as csv ("bold top arrow" icon), Download data as csv ("bold down arrow" icon) and Download the model template ("light down arrow" icon). If your user only has reading access you will only see the Reload and Download icons.
+If your user has edit permissions, on the top bar of the data model table you will see the following buttons to Reload the data ("circle arrow" icon), Add new record ("+" icon), Import data as csv ("bold top arrow" icon), Download data as csv ("bold down arrow" icon) and Download the model template ("light down arrow" icon). If your user only has reading access you will only see the Reload and Download icons.
 
 ![SPA_topmenu.png](figures/SPA_topmenu.png)
 
@@ -125,7 +125,7 @@ The "+" icon enables the user to **Add a single new data record**, to the curren
 
 If invalid data has been entered and the user attempts to save that invalid data, validation error messages are shown as in the example above when we edited and existing record. 
 
-Once you finish typing the data click on the "save" icon. You don't need to add data to all fields, but you would be asked if you are sure you want to leave some fields blank. Click "yes" to proceed:
+Once you finish typing the data click on the "save" icon. You don't need to add data to all fields, but you will be asked if you are sure you want to leave some fields blank. Click "yes" to proceed:
 
 ![SPA_addblankok.png](figures/SPA_addblankok.png)
 
@@ -137,11 +137,11 @@ Your new record will be saved. You can click on the "table" icon on the top to s
 
 ### Add several records from a file
 
-Adding single records one by one is useful sometimes, but honestly we all want to add data in bulk. Users often have data in tables that were created in MS Excel, recorded with a digital device or by any other mean. You can import this data into Zendro from an **Excel file** (.xlsx) or a **coma separated file** (.csv). 
+Adding single records one by one is useful sometimes, but many users want to add data in bulk. Users often have data in tables that were created in MS Excel, recorded with a digital device or by any other mean. You can import this data into Zendro from an **Excel file** (.xlsx) or a **comma separated value file** (.csv). 
 
 The data file is expected to follow these requirements:
 
-1. Column names in the first row must correspond to model attributes (i.e. column names in the Zendro master table for that model)
+1. Column names in the first row must correspond to model attributes (i.e. column names in the Zendro main table for that model)
 2. Empty values should be represented as `NULL`.
 3. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
 
@@ -149,23 +149,23 @@ Additionally, if you are uploading your data from a csv file, it should:
 
 1. String (text) records should be quoted by `"`. For example `"Ingredient A, Ingredient B"` instead of `Ingredient A, Ingredient B`. However if there are no commas (`,`) within any single record then the quotes are not necessary. 
 
-In order to get the field names right and check what type (e.g. integer, character, etc) is each one, you can **Download the model template** by clicking in the "light down arrow" at the top right panel of the master data model table. You will be prompted to download a csv file named after the table you are, for example "river". You can open this file in your favourite spreadsheet processor (e.g. Excel).
+In order to get the field names right and check what type each one is (e.g. integer, character, etc), you can **Download the model template** by clicking in the "light down arrow" at the top right panel of the main data model table. You will be prompted to download a csv file named after the table you are downloading, for example "river". You can open this file in your favourite spreadsheet processor (e.g. Excel).
 
-It will have the the column names you need in the first row, and the data type in the second. Notice that if your data model has associations the ids ("key") associating records will be shown as columns too. For example because the model "river" is associated with one or more "countries" you have to provide the `country_ids` in the last column. If we fill this example with a list of Mexican rivers, this means that the `country_ids` field should include Mexico's country id, which from the "country" data model table we know is "MX".
+It will have the the column names you need in the first row, and the data type in the second. Notice that if your data model has associations, the ids ("key") associating records will be shown as columns too. For example because the model "river" is associated with one or more "countries" you have to provide the `country_ids` in the last column. If we fill this example with a list of Mexican rivers, this means that the `country_ids` field should include Mexico's country id, which is "MX" according to the "country" data model table.
 
 ![SPA_csvtemplate.png](figures/SPA_csvtemplate.png)
 
-Next edit this csv file to add your data. You can do this in a spreadsheet processor (e.g. Excel).
+Next, edit this csv file to add your data. You can do this in a spreadsheet processor (e.g. Excel).
 
 Make sure to:
 
 * Leave the first line (column names) as it is.
-* Replace the second row with data, but remember: the second row is there to tell you what type of data is Zendro expecting for each field, e.g. `Int` = integer numbers, and `String` = text. 
+* Replace the second row with data, but remember: the second row tells you what type of data Zendro is expecting for each field, e.g. `Int` = integer numbers, and `String` = text. 
 * Follow the data requirements detailed above.
 
-Save at as an .xlsx file. It should be ready to upload it to Zendro!
+Save as an .xlsx file. It should be ready to upload it to Zendro!
 
-Alternatively, if you are using a Text Editor (e.g. NotePad, Sublime) to generate a .csv, your file should look something like this (here we quoted all fields to prevent any ambiguity):
+Alternatively, if you are using a Text Editor (e.g. NotePad, Sublime Text) to generate a .csv, your file should look something like this (here we quoted all fields to prevent any ambiguity):
 
 ```
 river_id,name,length,country_ids
@@ -196,7 +196,7 @@ To download data, click on the Download data button (bold down arrow). You will 
 ![SPA_download.png](figures/SPA_download.png)
 
 
-The data will be saved in csv format, which you can open in Excel or import it to statistical software like R. Notice that this only downloads the data of any given table at a time. Complex queries to download specific data or show in a single table columns from different models can be done through Zendro API. Check Zendro home documentation for tutorials on how to do this.
+The data will be saved in csv format, which you can open in Excel or import it to statistical software like R. Notice that this only downloads the data of any given table at a time. Complex queries to download specific data or to show columns from different models in a single table, can be done through Zendro's API. Check Zendro home documentation for tutorials on how to do this.
 
 
 
