@@ -19,7 +19,7 @@ If you have any questions or comments, please don't hesitate to contact us via a
 
 ## SHOW ME HOW IT LOOKS!
 
-Would you like to see Zendro in action before deciding to learn more? That's fine! We set up a Dummy Zendro Instance for you to explore [Zendro's graphical user interface](https://zendro.conabio.gob.mx) and [Zendro's API](https://zendro.conabio.gob.mx/dummy_api). The tutorials on how to [use Zendro day to day](## Using Zendro day to day) of the section below use this instance, so go there to start exploring.
+Would you like to see Zendro in action before deciding to learn more? That's fine! We set up a Dummy Zendro Instance for you to explore [Zendro's graphical user interface](https://zendro.conabio.gob.mx) and [Zendro's API](https://zendro.conabio.gob.mx/dummy_api). The tutorials on how to [use Zendro day to day](#using-zendro-day-to-day) of the section below use this instance, so go there to start exploring.
 
 
 ## HOW-TO GUIDES:

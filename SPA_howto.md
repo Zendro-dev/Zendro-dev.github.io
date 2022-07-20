@@ -5,7 +5,7 @@ Zendro's graphical point-and-click user interface is accessible in a web browser
 
 To explore how it looks, you can look at the screenshots below, or even better try it out live! Just go to [https://zendro.conabio.gob.mx](https://zendro.conabio.gob.mx), where you will find a dummy Zendro instance we set up for you to try. 
 
-Zendro's home graphical interface looks similar to the image below. But of course you can customise it to show what you prefer:
+Zendro's home graphical interface looks similar to the image below. But of course it can be customised (by the person who installed Zendro) to show what you prefer:
 
 ![SPA_home.png](figures/SPA_home.png) 
  
@@ -59,7 +59,7 @@ Clicking on the "eye" icon leads to the detailed view, which enables full inspec
 
 ![SPA_models3.png](figures/SPA_models3.png) 
 
-If the user has edit permissions, they would also see buttons for opening the edit and delete forms. See [Editing data](## Editing data) below for details. 
+If the user has edit permissions, they would also see buttons for opening the edit and delete forms. See [Editing data](#editing-data) below for details. 
 
 ![SPA_editoptions.png](figures/SPA_editoptions.png)
 
@@ -111,13 +111,15 @@ Alternatively, if the record you wish to associate to does not exist, then it is
 
 ![SPA_associations_create.png](figures/SPA_associations_create.png)
 
-### Add a single record manually
+### Add new records
 
-If your user has edit permissions, on the top bar of the data model table you will see the following buttons to Reload the data ("circle arrow" icon), Add new record ("+" icon), Import data as csv ("bold top arrow" icon), Download data as csv ("bold down arrow" icon) and Download the model template ("light down arrow" icon). If your user only has reading access you will only see the Reload and Download icons.
+If your user has edit permissions, on the top bar of the main data model table you will see the following buttons to Reload the data ("circle arrow" icon), Add new record ("+" icon), Import data ("bold top arrow" icon), Download data as csv ("bold down arrow" icon) and Download the model template ("light down arrow" icon). If your user only has reading access you will only see the Reload and Download icons.
 
 ![SPA_topmenu.png](figures/SPA_topmenu.png)
 
 Notice that these buttons work independently for each data model table. That is, if you are in the "city" model you would be able to create or download records of the city table, but if you want to add a country you have to click in the "country" model in the left side menu.
+
+#### Add a single record manually
 
 The "+" icon enables the user to **Add a single new data record**, to the current data table. Upon clicking it, the user is presented with a form where the values for each field of the new record can be entered. 
 
@@ -135,19 +137,20 @@ Your new record will be saved. You can click on the "table" icon on the top to s
 
 
 
-### Add several records from a file
+#### Add several records from a file
 
-Adding single records one by one is useful sometimes, but many users want to add data in bulk. Users often have data in tables that were created in MS Excel, recorded with a digital device or by any other mean. You can import this data into Zendro from an **Excel file** (.xlsx) or a **comma separated value file** (.csv). 
+Adding single records one by one is useful sometimes, but many users want to add data in bulk. Users often have data in tables that were created in MS Excel, recorded with a digital device or by any other mean. You can import this data into Zendro from an **Excel file** (.xlsx), a **comma separated value file** (.csv) or a **json** file. Here we will cover the first two.
 
-The data file is expected to follow these requirements:
+The .xlsx or .csv data file is expected to follow these requirements:
 
 1. Column names in the first row must correspond to model attributes (i.e. column names in the Zendro main table for that model)
 2. Empty values should be represented as `NULL`.
 3. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
 
-Additionally, if you are uploading your data from a csv file, it should:
+Additionally, if you are uploading your data from a csv file:
 
-1. String (text) records should be quoted by `"`. For example `"Ingredient A, Ingredient B"` instead of `Ingredient A, Ingredient B`. However if there are no commas (`,`) within any single record then the quotes are not necessary. 
+1. String (text) records should be quoted by `"`. For example `"Ingredient A, Ingredient B"` instead of `Ingredient A, Ingredient B`. However if there are no commas (`,`) within any single record, then the quotes are not necessary. 
+2. `"NULL"` should be quoted.
 
 In order to get the field names right and check what type each one is (e.g. integer, character, etc), you can **Download the model template** by clicking in the "light down arrow" at the top right panel of the main data model table. You will be prompted to download a csv file named after the table you are downloading, for example "river". You can open this file in your favourite spreadsheet processor (e.g. Excel).
 
@@ -165,7 +168,7 @@ Make sure to:
 
 Save as an .xlsx file. It should be ready to upload it to Zendro!
 
-Alternatively, if you are using a Text Editor (e.g. NotePad, Sublime Text) to generate a .csv, your file should look something like this (here we quoted all fields to prevent any ambiguity):
+Alternatively, if you are using a Text Editor (e.g. NotePad, Sublime Text) or a command line program (e.g. R, python) to generate a .csv, your file should look something like this (here we quoted all fields to prevent any ambiguity):
 
 ```
 river_id,name,length,country_ids
@@ -196,7 +199,7 @@ To download data, click on the Download data button (bold down arrow). You will 
 ![SPA_download.png](figures/SPA_download.png)
 
 
-The data will be saved in csv format, which you can open in Excel or import it to statistical software like R. Notice that this only downloads the data of any given table at a time. Complex queries to download specific data or to show columns from different models in a single table, can be done through Zendro's API. Check Zendro home documentation for tutorials on how to do this.
+The data will be saved in .csv format, which you can open in Excel or import it to statistical software like R. Notice that this only downloads the data of any given table at a time. Complex queries to download specific data or to show columns from different models in a single table, can be done through Zendro's API. Check Zendro home documentation for tutorials on how to do this.
 
 
 
