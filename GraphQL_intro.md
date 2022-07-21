@@ -8,7 +8,7 @@ Zendro provides a GraphQL API web interface, called Graph**i**QL, which is a Web
 
 You can live-try an example here, which is the API that we will be using in this and other tutorials: [https://zendro.conabio.gob.mx/dummy_api](https://zendro.conabio.gob.mx/dummy_api).
 
-Zendro's GraphQL API allows not only query the data, but also create, modify or delete records (`mutate`). This is available only with authentication (i.e. logging in with edit permissions) and won't be covered in this tutorial, but you can check other Zendro`s How to guides for details on mutations.
+Zendro's GraphQL API allows not only query the data, but also create, modify or delete records (`mutate`). This is available only with authentication (i.e. logging in with edit permissions) and won't be covered in this tutorial, but you can check other Zendro's How to guides for details on mutations.
 
 ## GraphiQL web interface
 
@@ -26,9 +26,7 @@ The [GraphQL documentation](https://graphql.org/learn/) has the details, but in 
 
 A GraphQL service is created by defining types and fields on those types, then providing functions for each field on each type. 
 
-The documentation explorer allows to examine what operations (e.g. query, mutation) are allowed for each type. Then, 
-
- clicking on `Query` will open another view with the details of what operations could be done to query the data. In this view, all types available in a given dataset are listed in alphabetical order, with the operations than can be done within them listed below. 
+The documentation explorer allows to examine what operations (e.g. query, mutation) are allowed for each type. Then, clicking on `Query` will open another view with the details of what operations could be done to query the data. In this view, all types available in a given dataset are listed in alphabetical order, with the operations than can be done within them listed below. 
 
 In the example of the image above, we can see that the first type is `cities`. Types can contain elements or arguments, which are specified inside `()`. Some of these may be required (marked with `!`), such as `pagination`.
 
