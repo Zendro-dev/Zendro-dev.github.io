@@ -57,7 +57,16 @@ Copy-pasting and executing the former query in GrapiQL looks like the following 
 
 ![API_query1.png](figures/API_query1.png)
 
-But how did we know that `name` is a field within `rivers`?
+But how did we know that `name` is a field within `rivers`? There are two options: 
+
+**Option 1: Check the Docs panel.**
+
+Click on `Query` then look for the type you want (in this example `rivers`) and then click on `[river]`. This would open the list of fields available for it, along with their documentation:
+
+![API_docs2.png](figures/API_docs2.png)
+
+
+**Option 2: autocomplete while you type **
 
 If you want to know what fields are available for the type `rivers` you can hold `ctrl+space` within the `{}` after `rivers(pagination:{limit:10, offset:0})`. A menu will appear showing you all possible fields. 
 
