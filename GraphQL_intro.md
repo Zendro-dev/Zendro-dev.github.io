@@ -66,7 +66,7 @@ Click on `Query` then look for the type you want (in this example `rivers`) and 
 ![API_docs2.png](figures/API_docs2.png)
 
 
-**Option 2: autocomplete while you type **
+**Option 2: autocomplete while you type**
 
 If you want to know what fields are available for the type `rivers` you can hold `ctrl+space` within the `{}` after `rivers(pagination:{limit:10, offset:0})`. A menu will appear showing you all possible fields. 
 
