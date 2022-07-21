@@ -47,6 +47,7 @@ For more sysadmin details also check:
 ## Using Zendro day to day
 
 * [How to use Zendro's graphical interface](SPA_howto.md). A full guide on how to use Zendro's graphical point and click interface. Aimed to general users and featuring lots of screenshots.
+* [Introduction to GraphQL and querying the API](GraphQL_intro.md). A friendly intro to how to perform GraphQL queries and use GraphiQL documentation.
 * [How to query and extract data from R](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists.
 
 # Zendro users profiles
