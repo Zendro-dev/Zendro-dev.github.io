@@ -59,7 +59,7 @@ Copy-pasting and executing the former query in GrapiQL looks like the following 
 
 But how did we know that `name` is a field within `rivers`?
 
-If you want to know what fields are available for the type `rivers` you can hold `ctr+space` within the `{}` after `rivers(pagination:{limit:10, offset:0})`. A menu will appear showing you all possible fields. 
+If you want to know what fields are available for the type `rivers` you can hold `ctrl+space` within the `{}` after `rivers(pagination:{limit:10, offset:0})`. A menu will appear showing you all possible fields. 
 
 ![API_query2.png](figures/API_query2.png)
 
@@ -69,11 +69,11 @@ But first, lets build a query to give us back the fields `river_id`, `name` and 
 
 ```
 {rivers(pagination:{limit:10, offset:0}){
-   river_id
-   name
-   length
-   country_ids  
-}
+      river_id
+      name
+      length
+      country_ids  
+   }
 }
 ```
 
@@ -87,16 +87,16 @@ For this, there would be a `Connection` for each each association the `river` mo
 
 ```
 {rivers(pagination:{limit:10, offset:0}){
-   river_id
-   name
-   length
-   country_ids  
-  countriesConnection(pagination:{first:1}){
-    countries{
+      river_id
       name
-      population}
-  }
-}
+      length
+      country_ids  
+     countriesConnection(pagination:{first:1}){
+       countries{
+         name
+         population}
+     }
+   }
 }
 ```
 
