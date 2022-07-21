@@ -32,7 +32,7 @@ In the example of the image above, we can see that the first type is `cities`. T
 
 ## Writing queries
 
-The [GraphQL documentation](https://graphql.org/learn/) includes plenty of resources to learn how to build queries and make the most out of the power of GraphQL. Below we provide just a very basic summary, after which we recommend you to explore [GraphQL documentation](https://graphql.org/learn/) to learn more. But feel free to try your queries in our[Zendro Dummy API](https://zendro.conabio.gob.mx/dummy_api) we set up for tests.
+The [GraphQL documentation](https://graphql.org/learn/) includes plenty of resources to learn how to build queries and make the most out of the power of GraphQL. Below we provide just a very basic summary, after which we recommend you to explore [GraphQL documentation](https://graphql.org/learn/) to learn more. But feel free to try your queries in our [Zendro Dummy API](https://zendro.conabio.gob.mx/dummy_api) we set up for tests.
 
 Some GraphQL syntax tips:
 
@@ -47,9 +47,9 @@ A very simple query will look like this:
 
 ```
 {rivers(pagination:{limit:10, offset:0}){
- # fields you want from the "rivers" type go here
-  name
-}
+   # fields you want from the "rivers" type go here
+    name
+  }
 }
 ```
 
