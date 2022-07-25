@@ -6,7 +6,7 @@ Queries are written in the GraphQL language, and the result (the data) is given 
 
 Zendro provides a GraphQL API web interface, called Graph**i**QL, which is a Web Browser tool for writing, validating, and testing GraphQL queries.
 
-You can live-try an example here, which is the API that we will be using in this and other tutorials: [https://zendro.conabio.gob.mx/dummy_api](https://zendro.conabio.gob.mx/dummy_api).
+You can live-try an example here, which is the API that we will be using in this and other tutorials: [https://zendro.conabio.gob.mx/api/graphql](https://zendro.conabio.gob.mx/api/graphql).
 
 Zendro's GraphQL API allows not only to query the data, but also to create, modify or delete records (`mutate`). This is available only with authentication (i.e. logging in with edit permissions), and it won't be covered in this tutorial, but you can check other Zendro's How to guides for details on mutations.
 
