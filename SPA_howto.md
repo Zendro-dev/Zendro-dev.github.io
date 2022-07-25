@@ -3,7 +3,7 @@
 
 Zendro's graphical point-and-click user interface is accessible in a web browser, as a single page application (SPA). 
 
-To explore how it looks, you can look at the screenshots below, or even better try it out live! Just go to [https://zendro.conabio.gob.mx](https://zendro.conabio.gob.mx), where you will find a dummy Zendro instance we set up for you to try. 
+To explore how it looks, you can look at the screenshots below, or even better try it out live! Just go to [https://zendro.conabio.gob.mx/spa](https://zendro.conabio.gob.mx/spa), where you will find a dummy Zendro instance we set up for you to try. 
 
 Zendro's home graphical interface looks similar to the image below. But of course it can be customised (by the person who installed Zendro) to show what you prefer:
 
