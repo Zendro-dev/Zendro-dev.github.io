@@ -3,7 +3,6 @@ title: "How to get data from Zendro to R"
 output:
   html_document:
     df_print: paged
-date: "3/25/2022"
 ---
 
 Libraries needed for this tutorial:
@@ -14,129 +13,36 @@ library(dplyr)
 library(stringr)
 ```
 
+This tutorial uses the library `httr` to establish the connection with the GraphiQL API, but there are also other options to interact with GraphQL from R. Please check the R packages: [ghql](https://docs.ropensci.org/ghql/), [gqlr](https://github.com/schloerke/gqlr) and [graphql](https://github.com/ropensci/graphql).
 
-## Introduction to the GraphQL API
+## Introduction to GraphQL API and how to query it
 
-GraphQL is a query language for Application Programming Interfaces (APIs), which documents what data is available in the API and allows to query and get exactly the data we want and nothing more. This could be done from the graphiQL API that Zendro provides. You can live-try an example here: [https://zendro.conabio.gob.mx/dummy_api](https://zendro.conabio.gob.mx/dummy_api)
+GraphQL is a query language for Application Programming Interfaces (APIs). Queries are written in the GraphQL language, and the result (the data) is given back in [JSON format](https://www.w3schools.com/whatis/whatis_json.asp). 
 
-The [GraphQL documentation](https://graphql.org/learn/) has the details, but in short a query is made up of **types** and **fields** within those types. You can think of **types as the names of tables**, and **fields as the columns of those tables**. The records will be the rows of data from those tables. GraphQL can get fields associated with a record in different types, allowing us to create a new table with only the variables and records we need form the entire dataset.
+If you are not familiar with GraphQL, we recommend you to start by checking the [Introduction to GraphQL and querying the API](GraphQL_intro.md) of Zendro How to Guides.
 
-In the query below the types are `country`, `city`, `river`, and for each one we ask the query to provide only certain fields out of all possible ones.
+Zendro provides a GraphQL API web interface, called Graph**i**QL, which is a Web Browser tool for writing, validating, and testing GraphQL queries.
 
-Types can contain elements, which are specified inside `()`. Some of these may be required, such as `pagination`.
+For example, try copy-pasting and executing the following query at [https://zendro.conabio.gob.mx/api/graphql](https://zendro.conabio.gob.mx/api/graphql), which is the API that we will be using in this and other tutorials.
 
-To explore what arguments each type has, you look for the type name in the documentation (`Docs` menu in the upper right corner) of the API. Required arguments end in `!`.
-
-![](query_eg.png)
-
-
-Before trying to download from R, we recommend writing the query to the graphiQL API and making sure it works. That is, it returns the desired data as in the right panel in the image above.
-
-## Download data step by step
-The following is a step-by-step example of downloading the data by querying Zendro's graphiQL API and formatting it into a data frame. Later the same code is in a function and a loop for convenient use for many queries.
-
-First you have to define a GraphQL query to download the desired data.
-
-Once you have the query working, you'll need to save it to R as a character vector:
-
-(The example below only pulls down the first 100 results, in the last section of this tutorial we explained how to define `paging` to pull down a given number, or all, of the items in a dataset.)
-
-```{r}
-my_query<- "{
-  registros(pagination:{limit:100}){
-    EstatusEcologico
-    proyecto_id
-    proyecto(search:{field:proyecto_id}){
-      NombreProyecto
-    }
-    sitio(search:{field:sitio_id}){
-      Latitud
-    Longitud
-    }
-    taxon(search:{field:taxon_id}){
-      taxon_id
-      Genero
-      EpitetoEspecifico
-      EpitetoSubespecie
-      EpitetoVariedad
-      EpitetoForma
-      EpitetoRaza
-      EpitetoCultivar
-    }
-  }
+```{GraphQL eval=FALSE}
+{
+rivers(pagination:{limit:10, offset:0}){
+      river_id
+      name
+      length
 }
-"
+} 
 ```
 
-También debemos definir la url del servidor GraphiQL al que debe hacerse el query, que es la misma url donde escribiste la query para ver que funcionara:
-```{r}
-url<-"https://siagro.conabio.gob.mx/colectas_api"
-```
+(The example above only gets the first 10 results, in a section of this tutorial we will explain how to define `pagination` to pull down a given number, or all, of the items in a dataset.)
 
-Ahora enviamos la consulta al servidor, y guardar el resultado en un objeto:
 
-```{r}
-# query server
-result <- POST(url, body = list(query=my_query))
-```
+## Download a small dataset (<1,000 elements):
 
-El resultado que obtenemos es la respuesta http. Todavía necesitamos extraer los datos para poder manipularlos. Pero antes, revisaremos si la conexión fue exitosa, revisando si el status code es = 200
+The function `get_from_graphQL()` defined below queries a GraphQL API and transforms the data from JSON format (which is the output of GraphQL) into a R data frame object you can easily use for further analyses. If you want to now what's going on inside this function, there is an step-by-step detailed description at the end of this document.
 
-```{r}
-# check server response
-result$status_code
-```
-
-Si todo salió bien, la respuesta http contendrá el atributo `data`, que a su vez contendrán un atributo denominado como la consula que hicimos, en este caso `registros`:
-
-```{r}
-result
-```
-
-Si el query está mál escrito o hay cualquier otro error, el atributo `data` no existirá, y en vez tendremos el atributo `errors` enlistando los errores encontrados.
-
-Si todo salió bien, podemos extraer el contenido de los resultados con:
-
-```{r}
-# get data from query result
-jsonResult <- content(result, as = "text") 
-
-```
-El resultado está en json, primero se convierte a un objeto en R (lista). El resultado será una lista, donde cada los datos están dentro de cada modelo consultado. El argumento `flatten` sirve para colapsar en una sola data.frame los datos de modelos de datos distintos, de lo contrario cada modelo queda en una lista distinta. 
-```{r}
-# transform to json
-readableResult <- fromJSON(jsonResult, 
-                         flatten = T)
-```
-
-Se extraen los datos:
-
-```{r}
-# get data
-data<-as.data.frame(readableResult$data[1]) 
-head(data)
-```
-
-Al reformatear los datos de diferentes modelos a una sola df R agrega al inicio del nombre de las columnas la ruta (modelos) de la query de GraphQL.
-
-```{r}
-colnames(data)
-```
-
- Para quedarnos solo con el nombre de la variable tal cual está en la base original:
-```{r}
-x<-str_match(colnames(data), "\\w*$")[,1] # matches word characters (ie not the ".") at the end of the string
-colnames(data)<-x # assing new colnames 
-```
-
-Ya tenemos los datos:
-```{r}
-head(data) 
-```
-
-## Desgargar los datos en un solo paso con una función
-
-Definir una función basada en el código anterior:
+To start using `get_from_graphQL()` first run the code below to load the function into your R environment (you can also have it as a different file and use `source()` to run it): 
 
 ```{r}
 
@@ -156,7 +62,7 @@ get_from_graphQL<-function(query, url){
 ### Function
 
 ##  query the server
-result <- POST(url, body = list(query=query))
+result <- POST(url, body = list(query=query), encode=c("json"))
 
 ## check server response
 satus_code<-result$status_code
@@ -195,61 +101,81 @@ else{
 
 ```
 
-Ahora podemos correr la función (utilizando la query que habíamos definido anteriormente):
+`get_from_graphQL()` allows you to get data of up to 1,000 elements (results of your query) at a time, which is the maximum number allowed by GraphQL for a single batch. In the next section we explain how to use `pagination` to download larger datasets in batches.
+
+To use the `get_from_graphQL()` function, first you have to define a GraphQL query. If you don't know how to do this, start by checking the [Introduction to GraphQL and querying the API](GraphQL_intro.md) of Zendro How to Guides.
+
+Once you have a GraphQL query working, you'll need to save it to an R object as a character vector:
 
 ```{r}
-data<-get_from_graphQL(query=my_query, url="https://siagro.conabio.gob.mx/colectas_api")
+my_query<- "{
+rivers(pagination:{limit:10, offset:0}){
+      river_id
+      name
+      length
+   }
+}
+"
+```
+
+Next we use this query as an argument for `get_from_graphQL()`, along with the url of the API, which is the same of the GraphiQL web interface you explored above:
+
+```{r}
+data<-get_from_graphQL(query=my_query, url="https://zendro.conabio.gob.mx/api/graphql")
+```
+
+If all wen't well you will get a data frame with the result of your query:
+
+```{r}
 head(data)
 ```
 
-## Desgargar los datos cuando necesitamos hacer paginación
 
-Si el dataset es muy grande, probablemente no podamos descargarlo de una sola vez, por lo que será necesario utilizar paginación (*pagination*), es decir, descargarlo por partes. Este es un parámetro dentro de la query de graphQL. La paginación puede hacerse con:
+## Download a dataset with more than >1,000 elements:
 
-* *Limit-offset*: mediante el índice del primer elemento a obtener (`offset`, default 0) y el número de elmentos a obtener (`limit`). 
+GraphQL outputs the resutls of a query in batches of max 1,000 elements. So if the data you want to download is larger than that, then you need to **paginate**, i.e. to get the data in batches. `pagination` is is an argument within GraphQL queries that could be done by:
 
-* *Cursor-based*: mediante el ID único (`cursor`) del elemento a obtener primero, y un número de elmentos a obtener.
+* *Limit-offset*: indicating the first element to get (`offset`, default 0) and the number of elements to get (`limit`). The `limit` can't be larger than `1000`.
 
-Dentro de una query de Zendro la paginación tiene la sintaxis: 
+* *Cursor-based*: indicating the unique ID (`cursor`) of the element to get first, and a number of elements to get after.
+
+Zendro uses the limit-offset pagination with the syntaxis:
 
 `pagination:{limit:[integer], offset:[integer]}`
 
-[Ver documentación de graphQL](https://graphql.org/learn/pagination/) y este [tutoral de paginación en GraphQL](https://daily.dev/blog/pagination-in-graphql) para más detalles.
+[See GraphQL documentation](https://graphql.org/learn/pagination/) and this [tutorial on GraphQL pagination](https://daily.dev/blog/pagination-in-graphql) for more details.
 
-En los ejemplos anteriores descargamos solo 100 elementos (`pagination:{limit:100})`) del conjunto de datos de las Colectas RG, pero en realidad la base completa es mucho mayor.
+In the previous examples we downloaded only 10 elements (`pagination:{limit:10})`) from the rivers type, but the dataset is larger. (Remember, data in GraphQL is organised in **types** and **fields** within those types. When thinking about your structured data, you can think of types as the names of tables, and fields as the columns of those tables. In the example above `rivers` is a type and the fields are `river_id`, `name`, `length` among others.)
 
-Para saber el número de elementos de un tipo, (i.e. nuestros modelos `registros`, `proyecto`, etc, ver arriba) podemos hacer una query con la función `count`, si está disponible para el tipo del que deseamos saber cuántos elementos tiene. Podemos saber si esta función está disponible en la documentación (`Docs`, esquina superior derecha de la API). 
+To know how many elements does a type has we can make a query with the function `count`, if it is available for the type we are interested on. You can check this in the `Docs` at the top right menu of the GraphiQL interface. 
 
-Por ejemplo, la documentación indica que el tipo `donantes` tiene disponible la función `countDonantes`, y al hacer la query `{countDonantes}` obtenemos el total de donantes.
+For example, `rivers` has the function `countRivers` so with the query `{countRivers}` we can get the total number of rivers.
 
-![](query_egCount.png)
-
-
-En este tutorial nos interesa saber el número de registros, por lo tanto:
+Similar to how we got data before, you can use this very simple query in the function `get_from_graphQL` to get the number of rivers into R:
 
 ```{r}
 # query API with count function
-no_records<-get_from_graphQL(query="{countRegistros}", url="https://siagro.conabio.gob.mx/colectas_api")
+no_records<-get_from_graphQL(query="{countRivers}", url="https://zendro.conabio.gob.mx/api/graphql")
 
 # change to vector, we don't need a df
 no_records<-no_records[1,1]
 no_records
 ```
 
-El límite de elementos que podemos consultar en una sola query a la API es de 1,000 y en este caso tenemos `r no_records`.
-Por lo que descargaremos la base de 1,000 en 1,000 hasta cubrir el total de elementos.
+In this case we have `r no_records`. Technically we could download all the data in a single batch because it is <1000, but for demostration purposes we will download it in batches of 10.
 
-El siguiente código calcula la paginación necesarios para bajar un determinado número de registros. Luego corre la función `get_from_graphQL()` dentro de un loop en cada página hasta obtener el total de registros deseados en una sola data frame.
+The following code calculates the number of pages needed to get a given number of records assuming a desired limit (size of each batch). Then it runs `get_from_graphQL()` within a loop for each page until getting the total number of records desired.
+
 
 ```{r}
 # Define desired number of records and limit. Number of pages and offset will be estimated based on the number of records to download
 no_records<- no_records # this was estimated above with a query to count the total number of records, but you can also manually change it to a custom desired number
-my_limit<-1000 # max 1000
+my_limit<-10 # max 1000. 
 no_pages<-ceiling(no_records/my_limit)
 
 ## Define offseet.
 # You can use the following loop:
-# to calculate offset automatically basedon 
+# to calculate the offset automatically based on 
 # on the number of pages needed.
 my_offset<-0 # start in 0. Leave like this
 for(i in 1:no_pages){ # loop to 
@@ -259,9 +185,9 @@ for(i in 1:no_pages){ # loop to
 # Or you can define the offset manually 
 # uncommenting the following line
 # and commenting the loop above:
-# offeset<-c(#manually define your vector) 
+# my_offset<-c(#manually define your vector) 
 
-## create obtjet where to store downloaded data. Leave empity
+## create object where to store downloaded data. Leave empty
 data<-character()
 
 ##
@@ -271,46 +197,121 @@ data<-character()
 for(i in c(1:length(my_offset))){
 
 # Define pagination
-    pagination <- paste0("limit:", my_limit, ", offset:", my_offset[i])
+pagination <- paste0("limit:", my_limit, ", offset:", my_offset[i])
 
 # Define query looping through desired pagination:
 my_query<- paste0("{
-  registros(pagination:{", pagination, "}){
-    EstatusEcologico
-    proyecto_id
-    proyecto(search:{field:proyecto_id}){
-      NombreProyecto
-    }
-    sitio(search:{field:sitio_id}){
-      Latitud
-    Longitud}
-    taxon(search:{field:taxon_id}){
-      taxon_id
-      Genero
-      EpitetoEspecifico
-      EpitetoSubespecie
-      EpitetoVariedad
-      EpitetoForma
-      EpitetoRaza
-      EpitetoCultivar
-      ObservacionesTaxonomicas
-    }
-  }
-}")
+  rivers(pagination:{", pagination, "}){
+      river_id
+      name
+      length
+   }
+   } 
+   ")
+
+
 
 # Get data and add it to the already created df
-data<-rbind(data, get_from_graphQL(query=my_query, url="https://siagro.conabio.gob.mx/colectas_api"))
+data<-rbind(data, get_from_graphQL(query=my_query, url="https://zendro.conabio.gob.mx/api/graphql"))
 
 #end of loop
 }
 
 ```
 
-El resultado son los datos completos de la base RG colectas:
+As a result you will get all the data in a single df:
 
 ```{r}
 head(data)
 summary(data)
 ```
 
+## `get_from_graphQL()` explained step by step
+
+The following is a step-by-step example explaining with more detail how does the function `get_from_graphQL()` that we used above works.
+
+First, once you have a GraphQL query working, you'll need to save it to an R object as a character vector:
+
+```{r}
+my_query<- "{
+rivers(pagination:{limit:10, offset:0}){
+      river_id
+      name
+      length
+   }
+}
+"
+```
+
+Next, define as another character vector the url of the API, which is the same of the GraphiQL web interface you explored above:
+
+```{r}
+url<-"https://zendro.conabio.gob.mx/api/graphql"
+```
+
+
+Now we can a query to the API by using a POST request:
+
+```{r}
+# query server
+result <- POST(url, body = list(query=my_query), encode = c("json"))
+```
+
+The result that we are getting is the `http` response. Before checking if we got the data, it is good practice to verify if the connection was successful by checking the status code. A `200` means that all went well. Any other code means problems. See [this](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes).
+
+```{r}
+# check server response
+result$status_code
+```
+
+We now need to extract the data in order to be able to manipulate it. If everything went well, the `http` response will contain an attribute data which will itself contain an attribute named as the query, in this case `rivers`.
+
+
+```{r}
+result
+```
+
+If the query is not written properly or if there is any other error, the attribute `data` won't exist and instead we will get the attribute `erros` listing the errors found. 
+
+If all wen't well we can proceed to extract the content of the results with:
+
+```{r}
+# get data from query result
+jsonResult <- content(result, as = "text") 
+
+```
+
+The result will be in json format, which we can convert into an Robjet (list). In this list the results are within each type used in the query. The argumment `flatten` is used to collapse the list into a single data frame the data from different types. 
+
+```{r}
+# transform to json
+readableResult <- fromJSON(jsonResult, 
+                         flatten = T)
+```
+
+Extract data:
+
+```{r}
+# get data
+data<-as.data.frame(readableResult$data[1]) 
+head(data)
+```
+
+By default, the name of each type will be added a the beggining of each column name:
+
+```{r}
+colnames(data)
+```
+
+To keep only the name of the variable as it is in the original data: 
+```{r}
+x<-str_match(colnames(data), "\\w*$")[,1] # matches word characters (ie not the ".") at the end of the string
+colnames(data)<-x # assing new colnames 
+```
+
+So finally we have the data in a single nice looking data frame:
+```{r}
+head(data) 
+```
+Notice that you will get a dataframe like teh one above only for one to one associations, but than in other cases you still will get variables that are a list, which you can process in a separate step.
 
