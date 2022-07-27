@@ -86,13 +86,44 @@ But first, lets build a query to give us back the fields `river_id`, `name` and 
 }
 ```
 
-As a result of the query, for each of the 10 first rivers of the data we will get its id, name, length, and the id of any country it is associated to:
+As a result of the query, for each of the 10 first rivers (10 because we set `limit:10`) of the data we will get its id, name, length, and the id of any country it is associated to:
 
 ![API_query3.png](figures/API_query3.png)
 
-GraphQL can get fields associated with a record in different types, allowing us to get the data with only the variables and records we need form the entire dataset. 
+### Extracting data from different types (i.e. dealing with associations) 
 
-For this, there would be a `Connection` for each each association the `river` model has. For example, we can extend the previous query to include data from the country type with `countriesConnection`.
+GraphQL can get fields associated with a record in different types, allowing us to get the data with only the variables and records we need form the entire dataset. For example, we can get the name and length of a river, but also the name and population of the countries it crosses.
+
+Extracting data from associated types depends on if the association is *one to one* (a city belongs to one country) or *one to many* (a river can cross many countries).
+
+#### One to one
+
+When the association is *one to one* the associated data model will apear as just another field, . For example each `city` is associated with one `country`, therefore `country` is one of the fields available within `cities`.
+
+If you look at the Docs, you will notice that it is not just another field, but that you need to provide it with an input search. 
+
+![API_city](figures/API_city.png)
+
+In this case we want to look for what country this is associated, and we know that the field in common (i.e. the key) is the `country_id`, therefore your search should look like:
+
+```
+{
+cities(pagination:{limit:10, offset:0}){
+  city_id
+  name
+  population
+  country(search:{field:country_id}){
+    name
+    population
+  }
+     }
+   }
+```
+
+
+#### One to many
+
+When the association is *one to many* there would be a `Connection` for each each association the model has. For example, to see the countries a river is associated to we need to use `countriesConnection`:
 
 ```
 {rivers(pagination:{limit:10, offset:0}){
