@@ -2,7 +2,9 @@
 
 GraphQL is a query language for Application Programming Interfaces (APIs), which documents what data is available in the API and allows to query and get exactly the data we want and nothing more. 
 
-Queries are written in the GraphQL language, and the result (the data) is given back in JSON format. JSON (from JavaScript Object Notation) is a standard text-based format for representing structured data. It is widely used for transmitting data in web applications, and it can easily be reformatted into tables or data frames within programming languages like R or Python. 
+This tutorial provides a short introduction to GraphQL, but we recommend you to explore the [GraphQL documentation](https://graphql.org/learn/) and other [introductory resources like this one](https://docs.github.com/en/graphql/guides/introduction-to-graphql) to learn more.
+
+In the GraphQL API Queries are written in the GraphQL language, and the result (the data) is given back in [JSON](https://www.w3schools.com/whatis/whatis_json.asp) format. JSON (from JavaScript Object Notation) is a standard text-based format for representing structured data. It is widely used for transmitting data in web applications, and it can easily be reformatted into tables or data frames within programming languages like R or Python. 
 
 Zendro provides a GraphQL API web interface, called Graph**i**QL, which is a Web Browser tool for writing, validating, and testing GraphQL queries.
 
