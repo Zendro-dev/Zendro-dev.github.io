@@ -28,9 +28,7 @@ Would you like to see Zendro in action before deciding to learn more? That's fin
 
 To start trying Zendro you can try the [Quickstart tutorial](https://zendro-dev.github.io/quickstart.html) on how to create a new Zendro project with pre-defined datamodels, database and environment variables. Then you can try the [Getting started tutorial](https://zendro-dev.github.io/setup_root.html), a step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
 
-[<p align="center">
-<img src="./figures/quick.png" />
-</p>](quickstart.md) 
+[<p align="center"><img src="./figures/quick.png" /></p>](quickstart.md) 
 
 [<p align="center"><img src="./figures/gettingstarted.png"/></p>](setup_root.md)
 
