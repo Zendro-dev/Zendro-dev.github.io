@@ -19,7 +19,7 @@ If you have any questions or comments, please don't hesitate to contact us via a
 
 ## SHOW ME HOW IT LOOKS!
 
-Would you like to see Zendro in action before deciding to learn more? That's fine! We set up a Dummy Zendro Instance for you to explore [Zendro's graphical user interface](https://zendro.conabio.gob.mx) and [Zendro's API](https://zendro.conabio.gob.mx/dummy_api). The tutorials on how to [use Zendro day to day](#using-zendro-day-to-day) of the section below use this instance, so go there to start exploring.
+Would you like to see Zendro in action before deciding to learn more? That's fine! We set up a Dummy Zendro Instance for you to explore [Zendro's graphical user interface]( https://zendro.conabio.gob.mx/spa) and [Zendro's API]( https://zendro.conabio.gob.mx/graphiql). The tutorials on how to [use Zendro day to day](#using-zendro-day-to-day) of the section below use this instance, so go there to start exploring.
 
 
 ## HOW-TO GUIDES:
@@ -50,7 +50,8 @@ For more sysadmin details also check:
 
 * [How to use Zendro's graphical interface](SPA_howto.md). A full guide on how to use Zendro's graphical point and click interface. Aimed to general users and featuring lots of screenshots.
 * [Introduction to GraphQL and querying the API](GraphQL_intro.md). A friendly intro to how to perform GraphQL queries and use GraphiQL documentation.
-* [How to query and extract data from R](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists.
+* [How to query and extract data from R](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data 
+* [How to use the Zendro API with python to make changes to the data](Zendro_requests_with_python.md). A concise guide on how to access the API using your user credentials to make CRUD operations on the data using python.
 
 ## Zendro users profiles
 
