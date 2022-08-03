@@ -64,19 +64,24 @@ name | Type | Description
 ------- | ------- | --------------
 *type* | String | Type of association, either `one_to_one`, `one_to_many`, `many_to_one`, or `many_to_many`.
 *target* | String | Name of model to which the current model will be associated with.
-*implementation* | String | implementation type of the association. Can be one of `foreignkey`, `generic` or `sql_cross_table` (only for `many_to_many`)`
+*implementation* | String | implementation type of the association. Can be one of `foreignkey`, `generic` or `sql_cross_table` (only for `many_to_many`)
 *reverseAssociation* | String | The name of the reverse association from the other model. This field is only mandatory for building the [single-page-app](https://github.com/Zendro-dev/single-page-app), *not* for generating the the graphql-server code via this repository.
-*targetKey* | String | A unique identifier of the association stored in any of the two models involved in the association.
-*keysIn* | String | Name of the model where the targetKey is stored.
 *targetStorageType* | String | Type of storage where the target model is stored.
-*label* | String | Name of the column in the target model to be used as a display name in the GUI. This will be useful as a preview of the association.
-*sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI. Also used for a more explicit preview of the association.
 *useDataLoader* | Boolean | If it is set to `true`, server could fetch multiple records within one query for `readOne<model>` API. 
 
-**Note**: The `keysIn` argument points to the model that stores the information about the foreignKey(s). That can be either a single key, a foreignkey array or a cross-model.
 
 ### Foreign keys
 It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
+To store to-many associations (many-to-many or one-to-many) via foreign keys Zendro offers to store the foreign keys in arrays. In this case the model will have an array attribute which will store ids from the associated records.
+
+There are two ways for storing foreign keys in Zendro, namely `single-end foreign keys` and `paired-end foreign keys`. For one association with two data models, single-end foreign keys would only be stored in one data model, while paired-end foreign keys would be saved in both data models.
+Meanwhile, single-end foreign keys require less storage space but it is slow to read and search them in distributed setup. In contrast, paired-end foreign keys could be easily accessed in distributed setup and own read efficiency, although write operations would take more time and space in this case. Moreover, for many-to-many associations only paired-end foreign keys are supported in Zendro. Next, different arguments for two kinds of foreign keys would be presented as the following:
+
+`single-end foreign keys`:
+name | Type | Description
+------- | ------- | --------------
+*targetKey* | String | A unique identifier of the association stored in any of the two models involved in the association. And it could be an array for to-many associations.
+*keysIn* | String | Name of the model where the targetKey is stored.
 
 Example:
 
@@ -103,20 +108,16 @@ Example:
 }
 ```
 
-#### Many to many association through foreign key arrays
-
-To store many-to-many associations via foreignkeys Zendro offers to store the foreign keys in arrays. In this case the model will have an array attribute which will store ids from the associated records. Please note that both sides of the association will store an array for this functionality, these two attributes will be described in the association as `sourceKey` and `targetKey`.
-Also, for indicating that the association is a many-to-many association via arrays as foreign key, we need to specify in the association info the `implementation` field as `foreignkey`.
-
+`paired-end foreign keys`:
 name | Type | Description
 ------- | ------- | --------------
-*sourceKey* | String | Attribute of type array, belonging to source model, which stores the associated ids of target model.
-*targetKey* | String | Attribute of type array, belonging to target model, which stores the associated ids of source model.
-*implementation* | 'foreignkey' | Set the `implementation` field to 'foreignkey'
+*sourceKey* | String | Attribute belonging to source model, which stores the associated ids of target model. And it could be an array for to-many associations.
+*targetKey* | String | Attribute belonging to target model, which stores the associated ids of source model. And it could be an array for to-many associations.
+*keysIn* | String | Name of the model where the sourceKey is stored.
 
 Example:
-Assume we have an association between two models: `book` and `author`. The models description should be as below:
 
+Assume we have an association between two models: `book` and `author`. The models description should be as below:
 ```json
 {
     "model" : "author",
@@ -177,14 +178,9 @@ Assume we have an association between two models: `book` and `author`. The model
   }
 ```
 ### Many to many association through table
-When the association is of type *many_to_many* and it referes to a more particular type of association *many_to_many*, stored in a cross table, it's necessary to describe two extra arguments . In this case the type is referred to as *to_many_through_sql_cross_table* and it's only available for `sql` stored models. The additional arguments are:
+When the association is of type *many_to_many* and it refers to a more particular type of association *many_to_many*, stored in a cross table, the `implementation` argument should be set as `to_many_through_sql_cross_table` and it's only available for `sql` stored models.
 
-name | Type | Description
-------- | ------- | --------------
-*sourceKey* | String | Key to identify the source id
-*targetKey* | String | Key to identify the target id
-*implementation* | 'sql_cross_table' | Set the `implementation` field to 'sql_cross_table'
-
+Example:
 ```json
 //User model
 {
