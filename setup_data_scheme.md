@@ -74,10 +74,11 @@ name | Type | Description
 It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
 To store to-many associations (many-to-many or one-to-many) via foreign keys Zendro offers to store the foreign keys in arrays. In this case the model will have an array attribute which will store ids from the associated records.
 
-There are two ways for storing foreign keys in Zendro, namely `single-end foreign keys` and `paired-end foreign keys`. For one association with two data models, single-end foreign keys would only be stored in one data model, while paired-end foreign keys would be saved in both data models.
-Meanwhile, single-end foreign keys require less storage space but it is slow to read and search them in distributed setup. In contrast, paired-end foreign keys could be easily accessed in distributed setup and own read efficiency, although write operations would take more time and space in this case. Moreover, for many-to-many associations only paired-end foreign keys are supported in Zendro. Next, different arguments for two kinds of foreign keys would be presented as the following:
+#### single-end foreign keys
+Storing the foreign keys on a single end of the association means that only one of the two associated data-models holds the foreign-key attribute. Storing the keys in that way guarantees fast write actions and avoids error prone operations of writing multiple records to update any association. It also requires less storage space, but can become slow to read and search, especially in a distributed context, where the associated records could be distributed over multiple servers.
 
-`single-end foreign keys`:
+To define single-end foreign key associations the following arguments need to be added:
+
 name | Type | Description
 ------- | ------- | --------------
 *targetKey* | String | A unique identifier of the association stored in any of the two models involved in the association. And it could be an array for to-many associations.
@@ -107,8 +108,14 @@ Example:
   }
 }
 ```
+#### paired-end foreign keys
+Storing the association via paired-end foreign keys means that both associated data-models contain a reference (foreign key) to the associated records. Storing the keys in that way guarantees read and search efficiency, especially in a distributed context, at the cost of time and storage-space when handling write actions. Since the keys are stored at both ends the information needs to be updated at both ends as well, which is slower and more prone to errors.
 
-`paired-end foreign keys`:
+Many-to-many associations can be stored via paired-end associations. In this case both models will hold an array attribute which will store ids from the associated records. These two attributes will be described in the association as `sourceKey` and `targetKey`.
+Also, for indicating that the association is a many-to-many association via arrays as foreign key, we need to specify in the association info the `implementation` field as `foreignkey`.
+
+To define paired-end foreign key associations the following arguments need to be added:
+
 name | Type | Description
 ------- | ------- | --------------
 *sourceKey* | String | Attribute belonging to source model, which stores the associated ids of target model. And it could be an array for to-many associations.
