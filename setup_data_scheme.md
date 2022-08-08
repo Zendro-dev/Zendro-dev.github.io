@@ -64,21 +64,27 @@ name | Type | Description
 ------- | ------- | --------------
 *type* | String | Type of association, either `one_to_one`, `one_to_many`, `many_to_one`, or `many_to_many`.
 *target* | String | Name of model to which the current model will be associated with.
-*implementation* | String | implementation type of the association. Can be one of `foreignkey`, `generic` or `sql_cross_table` (only for `many_to_many`)`
+*implementation* | String | implementation type of the association. Can be one of `foreignkey`, `generic` or `sql_cross_table` (only for `many_to_many`)
 *reverseAssociation* | String | The name of the reverse association from the other model. This field is only mandatory for building the [single-page-app](https://github.com/Zendro-dev/single-page-app), *not* for generating the the graphql-server code via this repository.
-*targetKey* | String | A unique identifier of the association stored in any of the two models involved in the association.
-*keysIn* | String | Name of the model where the targetKey is stored.
 *targetStorageType* | String | Type of storage where the target model is stored.
-*label* | String | Name of the column in the target model to be used as a display name in the GUI. This will be useful as a preview of the association.
-*sublabel* | String | Optional name of the column in the target model to be used as a sub-label in the GUI. Also used for a more explicit preview of the association.
 *useDataLoader* | Boolean | If it is set to `true`, server could fetch multiple records within one query for `readOne<model>` API. 
 
-**Note**: The `keysIn` argument points to the model that stores the information about the foreignKey(s). That can be either a single key, a foreignkey array or a cross-model.
 
 ### Foreign keys
 It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
+To store to-many associations (many-to-many or one-to-many) via foreign keys Zendro offers to store the foreign keys in arrays. In this case the model will have an array attribute which will store ids from the associated records.
 
-Example:
+#### single-end foreign keys
+Storing the foreign keys on a single end of the association means that only one of the two associated data-models holds the foreign-key attribute. Storing the keys in that way guarantees fast write actions and avoids error prone operations of writing multiple records to update any association. It also requires less storage space, but can become slow to read and search, especially in a distributed context, where the associated records could be distributed over multiple servers.
+
+To define single-end foreign key associations the following arguments need to be added:
+
+name | Type | Description
+------- | ------- | --------------
+*targetKey* | String | A unique identifier of the association stored in any of the two models involved in the association. And it could be an array for to-many associations.
+*keysIn* | String | Name of the model where the targetKey is stored.
+
+Examples:
 
 ```json
 {
@@ -93,30 +99,53 @@ Example:
         "type" : "many_to_one", // association type
         "implementation": "foreignkey",
         "reverseAssociation": "books",
-        "target" : "publisher", // Model's name is `publisher`
-        "targetKey" : "publisher_id", // Local alias for this association
-        "keysIn": "book", // FK to publisher will be stored in the Book model
-        "targetStorageType" : "generic", //  It's a remote database
-        "label" : "name" // Show in GUI the name of the publisher taken from external DB
+        "target" : "publisher", // the target model name is `publisher`
+        "targetKey" : "publisher_id", // foreign key for this association
+        "keysIn": "book", // FK to `publisher` will be stored in the `book` model
+        "targetStorageType" : "sql"
         }
   }
 }
 ```
 
-#### Many to many association through foreign key arrays
+```json
+{
+  "model" : "publisher",
+  "storageType" : "sql",
+  "attributes" : {
+    "publisher_id": "Int",
+    "publisher_name": "Int"
+  },
+  "associations":{
+      "books" : {
+        "type" : "one_to_many", // association type
+        "implementation": "foreignkey",
+        "reverseAssociation": "publisher",
+        "target" : "book", // the target model name is `book`
+        "targetKey" : "publisher_id", // foreign key for this association
+        "keysIn": "book", // FK to `book` will be stored in the `book` model
+        "targetStorageType" : "sql"
+        }
+  }
+}
+```
+#### paired-end foreign keys
+Storing the association via paired-end foreign keys means that both associated data-models contain a reference (foreign key) to the associated records. Storing the keys in that way guarantees read and search efficiency, especially in a distributed context, at the cost of time and storage-space when handling write actions. Since the keys are stored at both ends the information needs to be updated at both ends as well, which is slower and more prone to errors.
 
-To store many-to-many associations via foreignkeys Zendro offers to store the foreign keys in arrays. In this case the model will have an array attribute which will store ids from the associated records. Please note that both sides of the association will store an array for this functionality, these two attributes will be described in the association as `sourceKey` and `targetKey`.
+Many-to-many associations can be stored via paired-end associations. In this case both models will hold an array attribute which will store ids from the associated records. These two attributes will be described in the association as `sourceKey` and `targetKey`.
 Also, for indicating that the association is a many-to-many association via arrays as foreign key, we need to specify in the association info the `implementation` field as `foreignkey`.
+
+To define paired-end foreign key associations the following arguments need to be added:
 
 name | Type | Description
 ------- | ------- | --------------
-*sourceKey* | String | Attribute of type array, belonging to source model, which stores the associated ids of target model.
-*targetKey* | String | Attribute of type array, belonging to target model, which stores the associated ids of source model.
-*implementation* | 'foreignkey' | Set the `implementation` field to 'foreignkey'
+*sourceKey* | String | Attribute belonging to source model, which stores the associated ids of target model. And it could be an array for to-many associations.
+*targetKey* | String | Attribute belonging to target model, which stores the associated ids of source model. And it could be an array for to-many associations.
+*keysIn* | String | Name of the model where the sourceKey is stored.
 
-Example:
-Assume we have an association between two models: `book` and `author`. The models description should be as below:
+Examples:
 
+Assume we have an many_to_many association between two models `book` and `author` and an one_to_many association between `author` and `card`. The model definitions should be as below:
 ```json
 {
     "model" : "author",
@@ -127,18 +156,29 @@ Assume we have an association between two models: `book` and `author`. The model
         "name": "String",
         "lastname": "String",
         "email": "String",
-        "book_ids": "[ String ]"
+        "book_ids": "[ String ]",
+        "card_ids": "[ String ]"
     },
 
     "associations":{
       "books":{
-        "type": "many_to_many",
+        "type": "many_to_many", // association type
         "implementation": "foreignkey",
         "reverseAssociation": "authors",
-        "target": "book",
-        "targetKey": "author_ids",
-        "sourceKey": "book_ids",
-        "keysIn": "author",
+        "target": "book", // target model name
+        "targetKey": "author_ids", // foreign key array stored in target model
+        "sourceKey": "book_ids", // foreign key array stored in source model
+        "keysIn": "author", // source model name
+        "targetStorageType": "sql"
+      },
+      "cards":{
+        "type": "one_to_many", // association type
+        "implementation": "foreignkey",
+        "reverseAssociation": "author",
+        "target": "card", // target model name
+        "targetKey": "author_id", // foreign key stored in target model
+        "sourceKey": "card_ids", // foreign key array stored in source model
+        "keysIn": "author", // source model name
         "targetStorageType": "sql"
       }
     },
@@ -162,13 +202,40 @@ Assume we have an association between two models: `book` and `author`. The model
 
     "associations":{
       "authors":{
-        "type": "many_to_many",
+        "type": "many_to_many", // association type
         "implementation": "foreignkey",
         "reverseAssociation": "books",
-        "target": "author",
-        "targetKey": "book_ids",
-        "sourceKey": "author_ids",
-        "keysIn": "book",
+        "target": "author", // target model name
+        "targetKey": "book_ids", // foreign key array stored in target model
+        "sourceKey": "author_ids", // foreign key array stored in source model
+        "keysIn": "book", // source model name
+        "targetStorageType": "sql"
+      }
+    },
+
+    "internalId": "id"
+  }
+```
+```json
+{
+    "model" : "card",
+    "storageType" : "sql",
+    "database": "default-sql",
+    "attributes" : {
+        "card_id": "String",
+        "genre": "String",
+        "author_id": "String"
+    },
+
+    "associations":{
+      "author":{
+        "type": "many_to_one", // association type
+        "implementation": "foreignkey",
+        "reverseAssociation": "cards",
+        "target": "author", // target model name
+        "targetKey": "card_ids", // foreign key array stored in target model
+        "sourceKey": "author_id", // foreign key stored in source model
+        "keysIn": "card", // source model name
         "targetStorageType": "sql"
       }
     },
@@ -177,14 +244,9 @@ Assume we have an association between two models: `book` and `author`. The model
   }
 ```
 ### Many to many association through table
-When the association is of type *many_to_many* and it referes to a more particular type of association *many_to_many*, stored in a cross table, it's necessary to describe two extra arguments . In this case the type is referred to as *to_many_through_sql_cross_table* and it's only available for `sql` stored models. The additional arguments are:
+When the association is of type *many_to_many* and it refers to a more particular type of association *many_to_many*, stored in a cross table, the `implementation` argument should be set as `to_many_through_sql_cross_table` and it's only available for `sql` stored models.
 
-name | Type | Description
-------- | ------- | --------------
-*sourceKey* | String | Key to identify the source id
-*targetKey* | String | Key to identify the target id
-*implementation* | 'sql_cross_table' | Set the `implementation` field to 'sql_cross_table'
-
+Example:
 ```json
 //User model
 {
@@ -196,13 +258,13 @@ name | Type | Description
   },
   "associations" :{
     "roles" : {
-      "type" : "many_to_many",
+      "type" : "many_to_many", // association type
       "implementation": "sql_cross_table",
       "reverseAssociation": "users",
-      "target" : "Role",
-      "targetKey" : "role_Id",
-      "sourceKey" : "user_Id",
-      "keysIn" : "role_to_user",
+      "target" : "Role", // target model name
+      "targetKey" : "role_Id", // foreign key stored in target model
+      "sourceKey" : "user_Id", // foreign key stored in source model
+      "keysIn" : "role_to_user", // source model name
       "targetStorageType" : "sql",
       "label": "name"
     }
@@ -222,13 +284,13 @@ name | Type | Description
   },
   "associations" : {
     "users" : {
-      "type" : "many_to_many",
+      "type" : "many_to_many", // association type
       "implementation": "sql_cross_table",
       "reverseAssociation": "roles",
-      "target" : "User",
-      "targetKey" : "user_Id",
-      "sourceKey" : "role_Id",
-      "keysIn" : "role_to_user",
+      "target" : "User", // target model name
+      "targetKey" : "user_Id", // foreign key stored in target model
+      "sourceKey" : "role_Id", // foreign key stored in source model
+      "keysIn" : "role_to_user", // source model name
       "targetStorageType" : "sql",
       "label": "email"
     }
