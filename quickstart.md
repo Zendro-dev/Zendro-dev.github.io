@@ -9,7 +9,7 @@ If you want to know more about Zendro or a detailed explanation on how to set up
  <br/>
 
 ## Project Requirements:
- * [NodeJS](https://nodejs.org/en/)
+ * [NodeJS](https://nodejs.org/en/) version 14+ is required.
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
  <br/><br/>
@@ -46,8 +46,8 @@ Also a default SQLite database will be used. You can find the database on *graph
 Edit *NEXTAUTH_SECRET* to your expected secret word in the following files:
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
-* **GraphiQL in development mode:** ./graphql-server/.env.development
-* **GraphiQL in production mode:** ./graphql-server/.env.production
+* **GraphiQL in development mode:** ./graphiql-auth/.env.development
+* **GraphiQL in production mode:** ./graphiql-auth/.env.production
 
 If you want to know more about the enviroment variables, you can check [this](env_vars.md).
 
