@@ -152,6 +152,36 @@ If a user has new data model definitions, it is convinient to use Zendro CLI for
 2. in `graphql-server` folder, it is possible to perform new generated migrations, which are generated after the last executed migration, by executing `zendro migration:up`. After that, the last executed migration and migration log are updated.
 3. in `graphql-server` folder, the last executed migration can be dropped by executing `zendro migration:down`. This will update the latest successful migration and add the dropped operation to the migration log. If there are some remaining records and associations in the table, by default an error is thrown. To forcefully drop the table, in spite of remaining records, set the environment variable `DOWN_MIGRATION` to `true` in `/graphql-server/.env` file and re-execute this down-migration.
 
+Note: for all `up` and `down` functions, there is a default argument called `zendro`. And it provides the access to different APIs in zendro layers (resolvers, models, adapters) and enables graphql queries. In model and adapter levels zendro can also access the storage handler which can interact with corresponding database management system. And there are some examples for model `movie` and adapter `dist_movie_instance1`.
+```
+await zendro.models.movie.storageHandler;
+await zendro.models.movie.countRecords();
+await zendro.adapters.dist_movie_instance1.storageHandler;
+await zendro.adapters.dist_movie_instance1.countRecords();
+```
+In the resolver level we can access corresponding APIs, e.g. `readOneMovie`, `countMovies` and so on. And we need provide `context` to resolver APIs. Besides, event emitter would be used for collecting errors in Zendro. And the example for using `countMovies` API via `zendro` is as the following:
+```
+const {
+  BenignErrorArray,
+} = require("./graphql-server/utils/errors.js");
+let benign_errors_arr = new BenignErrorArray();
+let errors_sink = [];
+let errors_collector = (err) => {
+  errors_sink.push(err);
+};
+benign_errors_arr.on("push", errors_collector);
+const res = await zendro.resolvers.countMovies(
+  { search: null },
+  {
+    request: null, // by default the token is null
+    acl: null,
+    benignErrors: benign_errors_arr, // collect errors
+    recordsLimit: 15,
+  }
+);
+```
+Moreover, it is possible to execute graphql queries or mutations via ` execute_graphql(query, variables)` function. In specifically, the `query` argument refers to the query string and the `variable` argument represents dynamic values for that query. By default, queries would be executed without token. However, if one user adopts a distributed setup, then a token is necessary for queries. Then the user needs to set two environment variables for fetching tokens from Keycloak, namely `MIGRATION_USERNAME` and `MIGRATION_PASSWORD`. And an example for using the function would be like `await zendro.execute_graphql("{ countMovies }");`.
+
 ## Uploading a File
 ### Data format requirements
 Data to populate each model in your schema must be in a separate CSV file, following the format requirements below:
