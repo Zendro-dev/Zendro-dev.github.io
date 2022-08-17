@@ -42,7 +42,7 @@ $ zendro new -d <my-project-name>
 
 <!----><a name="envvars"></a>
 
-### Step 3: Edit environment variables
+### Step 3: Edit environment variables in your project directory
 
 Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
 
