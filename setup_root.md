@@ -44,7 +44,7 @@ $ zendro new -d <my-project-name>
 
 ### Step 3: Edit environment variables in your project directory
 
-Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
+Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the preexisting *NEXTAUTH_SECRET* variable.
 
 * **Without docker setup:** ./graphql-server/config/data_models_storage_config.json (specify data model here)
 * **With docker setup:** ./config/data_models_storage_config.json (specify data model here)
