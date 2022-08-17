@@ -46,8 +46,8 @@ $ zendro new -d <my-project-name>
 
 Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
 
-* **Without docker setup:** ./graphql-server/config/data_models_storage_config.json
-* **With docker setup:** ./config/data_models_storage_config.json
+* **Without docker setup:** ./graphql-server/config/data_models_storage_config.json (specify data model here)
+* **With docker setup:** ./config/data_models_storage_config.json (specify data model here)
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphiql-auth/.env.development
