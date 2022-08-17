@@ -17,6 +17,8 @@ In this file you can find an explanation of all the enviroment variables that ar
 * `OAUTH2_CLIENT_ID`- GraphQL server OAuth2 Client ID.
 * `GRAPHIQL_REDIRECT_URI`- RedirectURI of the graphiql-auth client, used to migrate the default keycloak OAuth2 service.
 * `SPA_REDIRECT_URI`- RedirectURI of the single-page-app client, used to migrate the default keycloak OAuth2 service.
+* `MIGRATION_USERNAME` - Registered username in OAuth2 service, used to fetch token for a distributed setup.
+* `MIGRATION_PASSWORD` - Registered password in OAuth2 service, used to fetch token for a distributed setup.
 
 ### Optional (with sensible defaults)
 * `ERROR_LOG` - Debug logs verbosity. Can be either "verbose" or "compact". Default value is `compact`.
