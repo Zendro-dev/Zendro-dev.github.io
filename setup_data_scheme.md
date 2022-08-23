@@ -27,6 +27,7 @@ Name | Type | Description
 *indices* | [String] |  Names of attributes for generating corresponding indices.
 *operatorSet* | String | It is possible to specify the operator set for generic models, distributed adapters and zendro servers. The following operator set are supported: `GenericPrestoSqlOperator`, `MongodbNeo4jOperator`, `CassandraOperator`, `AmazonS3Operator`. See [documentation of operators](api_graphql.md#operators) for details.
 *internalId* | String | This string corresponds to the name of the attribute that uniquely identifies a record. If this field is not specified, an _id_, default attribute, will be added.
+*spaSearchOperator* | 'like' \| 'iLike' | Optional attribute to specify which operator should be used for the single-page-app text search-field. Defaults to iLike
 
 ## Supported Data Types
 

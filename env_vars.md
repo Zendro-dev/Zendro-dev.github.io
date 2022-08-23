@@ -1,8 +1,10 @@
 [ &larr; back](setup_root.md)
 <br/>
-# Enviroment variables
+# Environment variables
 
-In this file you can find an explanation of all the enviroment variables that are used in Zendro for GraphQL server, the Single page app and the GraphiQL-auth services.
+In this file you can find an explanation of all the environment variables that are used in Zendro for GraphQL server, the Single page app and the GraphiQL-auth services.
+
+The most convenient way to use them is to setup a .env file in the root directory of the respective sub-project and set the variables as needed. Be aware that when using zendro with docker, the docker-compose file also expects some sensible environment variables that can be set in a .env file in the root directory. Also see the .env.example files for inspiration.
 
  <br/>
 
