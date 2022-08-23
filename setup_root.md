@@ -9,7 +9,7 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
  <br/>
 
 ## Project Requirements:
- * [NodeJS](https://nodejs.org/en/) 
+ * [NodeJS](https://nodejs.org/en/) version 14+ is required.
 
  **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
@@ -49,8 +49,9 @@ Go inside the new project and modify the selected enviroment variables in the ne
 * **With docker setup:** ./config/data_models_storage_config.json
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
-* **GraphiQL in development mode:** ./graphql-server/.env.development
-* **GraphiQL in production mode:** ./graphql-server/.env.production
+* **GraphiQL in development mode:** ./graphiql-auth/.env.development
+* **GraphiQL in production mode:** ./graphiql-auth/.env.production
+
   If you would like to upload a file to a remote server, please consider the template *.env.migration.sample*, create a new file *.env.migration* and modify relevant environment variables.
 
 If you wish to know more about enviroment variables you can check [this](env_vars.md).
