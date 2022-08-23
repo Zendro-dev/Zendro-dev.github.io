@@ -88,7 +88,7 @@ $ docker ps
 
 You can check docker logs by:
 ```
-$ docker logs -f <container name>
+$ docker logs -f <container name> #for us the container id worked, the name did not
 ```
 
 > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
