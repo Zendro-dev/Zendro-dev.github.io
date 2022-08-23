@@ -32,6 +32,8 @@ The documentation explorer allows to examine what operations (e.g. query, mutati
 
 In the example of the image above, we can see that the first type is `cities`. Types can contain elements or arguments, which are specified inside parentheses `()`. Some of these may be required arguments (marked with `!`), such as `pagination`.
 
+You can extend the bottom panel ("Query variables") to filter 
+
 ## Writing queries
 
 The [GraphQL documentation](https://graphql.org/learn/) includes plenty of resources to learn how to build queries and make the most out of the power of GraphQL. Below we provide just a short summary, after which we recommend you to explore the [GraphQL documentation](https://graphql.org/learn/) to learn more. Feel free to try your queries in our [Zendro Dummy API](https://zendro.conabio.gob.mx/dummy_api) we set up for tests.
@@ -154,3 +156,4 @@ You can write much more complex queries to get the data you want. Please explore
 Before trying to download data from R, Python or any other programming language using the GraphQL API, we recommend writing the query to the GraphiQL web interface and making sure it returns the desired data as in the right panel in the image above.
 
 Next step? Check Zendro How to guides for tutorials on how to use the GraphQL API from R or Python to explore and analyse data stored in Zendro.
+
