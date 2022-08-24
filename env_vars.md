@@ -43,9 +43,17 @@ The most convenient way to use them is to setup a .env file in the root director
 * `NEXT_PUBLIC_ZENDRO_ROLES_URL` - URL of graphql-server getRolesForOAuth2Token endpoint.
 * `ZENDRO_DATA_MODELS` - relative path from the root of the directory to your models folder.
 
-### Mandatory (OAuth2)
+### Optional
+* `NEXT_PUBLIC_ZENDRO_BASEPATH` - custom basepath for the application
+* `RECORD_DELIMITER` - File delimiter to differentiate between records. Default is '\n'
+* `FIELD_DELIMITER` - File delimiter to differentiate between record fields. Default is ','
+* `ARRAY_DELIMITER` - File delimiter to differentiate between Array-field elements. Default is ';'
+
+### OAuth2
 * `OAUTH2_ISSUER` - OAuth2 Issuer URL.
+* `OAUTH2_AUTH_URI` - Endpoint OAuth2 auth service. Can be used instead of OAUTH2_ISSUER in case you want to use a non-OIDC custom provider. See https://next-auth.js.org/configuration/providers/oauth#using-a-custom-provider for more information.
 * `OAUTH2_TOKEN_URI` - Endpoint of OAuth2 token service.
+* `OAUTH2_LOGOUT_URI` - Logout Endpoint of OAuth2 server. If not provided the OAUTH2_ISSUER is used to use the standard OIDC logout route.
 * `OAUTH2_CLIENT_ID` - SPA OAuth2 Client ID.
 * `OAUTH2_CLIENT_SECRET` - SPA OAuth2 Client Secret.
 * `NEXTAUTH_URL` - When deploying to production, set the NEXTAUTH_URL environment variable to the canonical URL of your site.
@@ -58,9 +66,14 @@ The most convenient way to use them is to setup a .env file in the root director
 * `NEXT_PUBLIC_ZENDRO_GRAPHQL_URL` - GraphQL endpoint address. Used to send data queries and mutations.
 * `NEXT_PUBLIC_ZENDRO_METAQUERY_URL` - GraphQL meta-query endpoint address. Used to send meta- queries and mutations.
 
-### Mandatory (OAuth2)
+### Optional
+* `NEXT_PUBLIC_ZENDRO_BASEPATH` - custom basepath for the application
+
+### OAuth2
 * `OAUTH2_ISSUER` - OAuth2 Issuer URL.
+* `OAUTH2_AUTH_URI` - Endpoint OAuth2 auth service. Can be used instead of OAUTH2_ISSUER in case you want to use a non-OIDC custom provider. See https://next-auth.js.org/configuration/providers/oauth#using-a-custom-provider for more information.
 * `OAUTH2_TOKEN_URI` - Endpoint of OAuth2 token service.
+* `OAUTH2_LOGOUT_URI` - Logout Endpoint of OAuth2 server. If not provided the OAUTH2_ISSUER is used to use the standard OIDC logout route.
 * `OAUTH2_CLIENT_ID` - SPA OAuth2 Client ID.
 * `OAUTH2_CLIENT_SECRET` - SPA OAuth2 Client Secret.
 * `NEXTAUTH_URL` - When deploying to production, set the NEXTAUTH_URL environment variable to the canonical URL of your site.
