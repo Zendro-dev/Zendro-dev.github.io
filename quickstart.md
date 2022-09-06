@@ -96,8 +96,7 @@ $ docker logs -f <container name> #for us the container id worked, the name did 
 In default config, the running containers will be:
 
 * Keycloak: 
-    * Development mode: http://localhost:8081/auth
-    * Production mode: http://localhost/auth/
+    * http://localhost:8081/auth
     
       * The default keycloak username is *admin* and the password is *admin*.
 
@@ -105,8 +104,7 @@ In default config, the running containers will be:
   ![Keycloak example](figures/kc2.png)
 
 * SPA: 
-    * Development mode: http://localhost:8080/spa
-    * Production mode: http://localhost/spa
+    * http://localhost:8080
 
       * The default zendro username is *zendro-admin* and the password is *admin*.
 
@@ -114,14 +112,12 @@ In default config, the running containers will be:
   ![spa example](figures/spa.png)
 
 * GraphQL API: 
-    * Development mode: http://localhost:3000/graphql
-    * Production mode: http://localhost/api/graphql 
+    * http://localhost:3000/graphql
 
   ![api example](figures/graphql.png )
 
 * GraphiQL interface with filter functionality: 
-    * Development mode: http://localhost:7000/graphiql
-    * Production mode: http://localhost/graphiql
+    * http://localhost:7000
 
       * The default zendro username is *zendro-admin* and the password is *admin*.
 
