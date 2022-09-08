@@ -10,6 +10,9 @@ If you want to know more about Zendro or a detailed explanation on how to set up
 
 ## Project Requirements:
  * [NodeJS](https://nodejs.org/en/) version 14+ is required.
+ * [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable) 
+
+ **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
  <br/><br/>
@@ -23,7 +26,7 @@ Execute this commands to install Zendro:
 $ git clone https://github.com/Zendro-dev/zendro.git
 $ cd zendro
 $ npm install
-$ npm link
+$ npm link #sudo npm link?
 ```
 
 ### Step 2: Setup a new Zendro project
@@ -55,7 +58,7 @@ If you want to know more about the enviroment variables, you can check [this](en
 
 #### Development mode
 
-To start Zendro in development mode run
+To start Zendro in development mode, run the following command from within your project directory:
 
 ```
 $ zendro dockerize -u
@@ -68,7 +71,7 @@ In development mode there is no reverse proxy to map the docker-services. Instea
 **Note**: We recommend to use Linux system for development mode.
 
 #### Production mode
-Execute this command to start Zendro in production mode.
+Execute this command from within your project directory to start Zendro in production mode:
 
 ```
 $ zendro dockerize -u -p
@@ -88,7 +91,7 @@ $ docker ps
 
 You can check docker logs by:
 ```
-$ docker logs -f <container name>
+$ docker logs -f <container name> #for us the container id worked, the name did not
 ```
 
 > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***

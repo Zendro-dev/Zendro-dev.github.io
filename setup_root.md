@@ -10,6 +10,7 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
 
 ## Project Requirements:
  * [NodeJS](https://nodejs.org/en/) version 14+ is required.
+ * [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable) 
 
  **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
@@ -41,12 +42,12 @@ $ zendro new -d <my-project-name>
 
 <!----><a name="envvars"></a>
 
-### Step 3: Edit environment variables
+### Step 3: Edit environment variables in your project directory
 
-Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
+Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the preexisting *NEXTAUTH_SECRET* variable.
 
-* **Without docker setup:** ./graphql-server/config/data_models_storage_config.json
-* **With docker setup:** ./config/data_models_storage_config.json
+* **Without docker setup:** ./graphql-server/config/data_models_storage_config.json (specify data model here)
+* **With docker setup:** ./config/data_models_storage_config.json (specify data model here)
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphiql-auth/.env.development
@@ -92,7 +93,7 @@ In this file you can define any number of database connections, that zendro shou
 
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 
-Execute this command to start Zendro in production mode or without `-p` to start in development mode. 
+Execute this command to start Zendro in production mode or without `-p` to start in development mode, each from within your project directory. 
 
 ```
 $ zendro dockerize -u -p
@@ -120,7 +121,7 @@ $ docker logs -f <container name>
 In default config, the running containers will be:
 
 * Keycloak: 
-    * http://localhost:8081
+    * http://localhost:8081/auth
     
       * The default keycloak username is *admin* and the password is *admin*.
 
