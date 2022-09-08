@@ -10,6 +10,9 @@ If you want to know more about Zendro or a detailed explanation on how to set up
 
 ## Project Requirements:
  * [NodeJS](https://nodejs.org/en/) version 14+ is required.
+ * [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable) 
+
+ **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
  <br/><br/>
