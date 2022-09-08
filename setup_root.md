@@ -93,7 +93,7 @@ In this file you can define any number of database connections, that zendro shou
 
 The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 
-Execute this command to start Zendro in production mode or without `-p` to start in development mode. 
+Execute this command to start Zendro in production mode or without `-p` to start in development mode, each from within your project directory. 
 
 ```
 $ zendro dockerize -u -p
