@@ -13,7 +13,7 @@ Defining a distributed-data-model (ddm) and its adapters requires some special a
 | ----------------- | ----------------- | ----------------------- |
 | registry | String[] | List of registered adapters the ddm should request |
 | internalId | String | While optional in basic models, ddms require a String identifier attribute, instead of e.g. the default numeric sequence. |
-| adapterName | String | Only used in the adapter definitions. References the name given in the "registry" List | 
+| adapterName | String | Only used in the adapter definitions. References the name given in the "registry" List. The adpaterName _must_ be kept consistent and unique over your zendro nodes, meaning it should always point to the same endpoint. | 
 | regex | String | Only used in the adapter definitions. Regular expression used to identify the adapter a specific record belongs to (using its internalId). This is used to identify responsible adapters for read-one and write actions | 
 | url | String | Only used in ddm-adapter definitions | URL of the graphql-server to forward the requests to. |
 
@@ -161,4 +161,183 @@ First and foremost the overhead resulting from distributing the incoming request
 
 To ensure efficient read of associations it is recommend to use [paired-end foreign keys](setup_data_scheme.md#paired-end-foreign-keys) for any associations among distributed data models. This ensures that associations can be resolved directly from the read record itself instead of the need to query multiple distributed zendro instances for records matching the requested association.
 
-Due to Zendro requiring the use of a pagination argument the user needs to think about what and especially how much data he is requesting. Scaling up a zendro network to include a lot of nodes means that for each of the connected databases a query with the requested pagination will be send and that data has to be collected in memory at the requesting node. This can grow quickly out of proportion if a network and the requested data become very big. 
+Due to Zendro requiring the use of a pagination argument the user needs to think about what and especially how much data he is requesting. Scaling up a zendro network to include a lot of nodes means that for each of the connected databases a query with the requested pagination will be send and that data has to be collected in memory at the requesting node. This can grow quickly out of proportion if a network and the requested data become very big.
+
+## Authorization and Authentication
+
+Handling authorization and authentication in a network of zendro instances requires some manual setup. The following guide intents to give solutions for zendros default authorization setup using [keycloak](https://www.keycloak.org/). See also the documentation on [authorization and authentication](oauth.md).
+
+Generally it is recommended to use a single authorization endpoint for all zendro nodes in the network, however it is also conceivable, depending on the users needs to setup multiple authorization endpoints. This guide will focus on using a single endpoint.
+
+
+### Removing the docker-containers and migration
+
+*In case you are not using docker to start up your zendro services you should do the equivalent steps on your local server*
+
+Since only one of the zendro nodes should expose the keycloak endpoint you should remove the keycloak services from your docker-compose files for all _other_ zenro nodes.
+
+```yml
+services:
+
+  # comment or remove the following services:
+  zendro-keycloak-postgres:
+    container_name: zendro-keycloak-postgres
+    ...
+  
+  zendro-keycloak:
+    container_name: zendro-keycloak
+    ...
+
+  # Also make sure to remove the zendro-graphql-server dependency
+  zendro-graphql-server:
+    container_name: zendro-graphql-server
+    # comment or remove the depends_on
+    depends_on:
+      - zendro-keycloak
+    ...
+
+```
+
+You should also remove the keycloak migration file from your migrations folder to prevent zendro from running and failing the migration. This migration only needs to be run _once_ on the node that handles the keycloak endpoint.
+
+```
+/<my-zendro-app>
+|--- graphql-server
+|    |--- migrations
+|    |    |--- 2021-12-08T17_37_17.804Z#keycloak.js //remove this file
+|    |    |--- ...
+|    |--- ...
+|--- ...
+```
+
+When starting zendro via the `zendro dockerize` command after doing the previous steps zendro should not start the `zendro-keycloak` and `zendro-keycloak-postgres` services.
+
+### Create the clients
+To enable all zendro web-clients in the network communication with the keycloak endpoint they need to be registered as clients in keycloak. There is multiple ways to do so, this guide will focus on doing it via the [keycloak admin-console](https://www.keycloak.org/docs/latest/server_admin/).
+
+Go to http://localhost:8081/auth/admin/zendro/console and login with a zendro user. The default user created is
+```
+username: zendro-admin
+password: admin
+```
+After login go to the clients menu and click on "import client":
+
+![import-client](./figures/admin-console-import-client.png)
+
+You can find the default clients to import in the `config` folder:
+
+```
+/<my-zendro-app>
+|--- config
+|    |--- zendro_graphiql.json 
+|    |--- zendro_spa.json
+|    |--- zendro_graphql-server.json
+|    |--- ...
+|--- ...
+```
+
+import both the `zendro_graphiql.json` and `zendro_spa.json` clients. Change their `Client ID` to something meaningful given the context of the zendro network.
+
+![import-client-browse](./figures/admin-console-import-client-browse.png)
+![change-client-name](./figures/admin-console-import-client-name.png)
+
+After importing, make sure to save the clients by clicking the "Save" button at the end of the page.
+
+### Create the graphql-server client (optional)
+If you want the graphql-server of any given zendro node to be able to directly communicate with keycloak you can also register it as a client. This is only necessary if you want users to be able to programmatically receive a token using credentials or create roles specific to that zendro instance. By default the zendro instance that exposes keycloak will register its graphql-server as a client that can be used, so in theory it is not necessary to do so.
+
+Follow the same steps depicted above, import the `zendro_graphql-server.json` client and change its name to something meaningful.
+
+#### Roles
+
+If you create a client for your graphql-server, by default it does _not_ expose any client roles. If you want to use that endpoint to decode roles, or implement custom roles on that zendro node, you have to add those roles manually.
+
+**_Note_**: Be aware that the zendro single-page-app expects at least an "editor" and "reader" role to be present in the token.
+
+To do so go to the newly create client and add the role in the roles tab using the "Create role" Button:
+
+![create-client-role](./figures/admin-console-create-client-role.png)
+
+After doing so any user can be given the newly created client-roles via the admin-console.
+
+In te "Users" menu, select a user, navigate to the "Role mapping" tab, click on the "Assign role" button, select to filter by your client and assign the role:
+
+![assign-client-role](./figures/admin-console-assign-role.png)
+
+### Setup the environment
+
+After registering all necessary clients to keycloak the corresponding environment variables have to set manually for the different zendro services.
+
+#### Web-services
+To make the web-services aware of their keycloak client representations the `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` need to set in the .env files:
+
+```
+/<my-zendro-app>
+|--- single-page-app
+|    |--- .env.development 
+|    |--- .env.production
+|    |--- ...
+|--- graphiql-auth
+|    |--- .env.development 
+|    |--- .env.production
+|    |--- ...
+|--- ...
+```
+
+To find out the client ID and client Secret go to the "Clients" Menu and select the corresponding newly created client. The Client ID can be copied from there:
+
+![client-id](./figures/admin-console-client-id.png)
+
+The client secret can be found in the "Credentials" tab and copied from there:
+
+![client-secret](./figures/admin-console-client-secret.png).
+
+Copy and paste these two values into your single-page-app and graphiql-auth environment files:
+
+```
+# single-page-app .env
+...
+OAUTH2_CLIENT_ID="<my-spa-client-id>"
+OAUTH2_CLIENT_SECRET="<my-spa-client-secret>"
+
+# graphiql-auth .env
+OAUTH2_CLIENT_ID="<my-graphiql-auth-client-id>"
+OAUTH2_CLIENT_SECRET="<my-graphiql-auth-client-secret>"
+```
+
+#### Graphql-server
+
+The graphql-server needs to be made aware of the keycloak zendro-realm public key. This is controlled via the `OAUTH2_PUBLIC_KEY` environment variable.
+
+To get the public key navigate to the "Realm settings" menu and find the public key under the "Keys" tab. Click on the "RS256" "Public key" button and copy the key:
+
+![realm-public-key](./figures/admin-console-public-key.png).
+
+Alternatively find the public key by requesting `http://localhost:8081/auth/realms/zendro` (interchane localhost:8081 with your keycloak endpoint).
+
+After copying the key enter it into the graphql-server .env file:
+
+```
+/<my-zendro-app>
+|--- graphql-server
+|    |--- .env
+|    |--- ...
+|--- ...
+```
+
+**_Note_**: Make sure to add the public key signature like so:
+
+```
+...
+OAUTH2_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\n<my-public-key>\n-----END PUBLIC KEY-----"
+```
+
+Depending on whether you created a separate client for the graphql-server you can pass that Client ID to the graphql-server via the `OAUTH2_ClIENT_ID` environment variable:
+
+```
+OAUTH2_CLIENT_ID="<my-graphql-server-client-id>"
+```
+
+This environment variable determines the resource from where the graphql-server decodes the user-roles from the token. If you manually create roles you will have to pass your Client ID here. If you want to use the default roles used by the graphql-server that is registered by default, you can pass the Client ID of that server.
+
+That's it. It should now be possible to login from any of your zendro web-services using a central keycloak authentication service.
