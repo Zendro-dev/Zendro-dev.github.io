@@ -120,7 +120,7 @@ $ docker logs -f <container name>
 In default config, the running containers will be:
 
 * Keycloak: 
-    * http://localhost:8081
+    * http://localhost:8081/auth
     
       * The default keycloak username is *admin* and the password is *admin*.
 
