@@ -146,11 +146,11 @@ Depending on the use-case several different topologies of "zendro-networks" can 
 
 ![mesh-topology](./figures/mesh-ddm.png)
 
-A mesh topology where each participating zendro node has access to all other zendro nodes in the network can be achieved simply by making all nodes aware of each other. In practical terms that means on every zendro instance exists a model of storagetype "distributed-data-model", a ddmadapter for every zendro-node in the network and, if exists, an adapter to a local storage. That means, no matter from which node a user requests data, _every_ node in the network will return the data stored at their local site and the end result will include data from _all_ zendro nodes in the network.
+A mesh topology where each participating zendro node has access to all other zendro nodes in the network can be achieved simply by making all nodes aware of each other. In practical terms that means on every zendro instance exists a model of storagetype "distributed-data-model", a ddm-adapter for every zendro-node in the network and, if exists, an adapter to a local storage. That means, no matter from which node a user requests data, _every_ node in the network will return the data stored at their local site and the end result will include data from _all_ zendro nodes in the network.
 ### Example 2: Master-slave topology
 ![master-slave-topology](./figures/ms-ddm.png)
 
-A master-slave topology where one zendro-node acts as a central controller can be achieved by only making the central node aware of the other instances. To do so, only that node defines a model of storagetype "distributed-data-model" and ddm-adapters for each node in the network. All other secondary nodes do _not_ need a "distributed-data-model" in this case. That means that only when querying the central node, data from all other nodes will be returned. If a user queryies one of the secondary nodes only data specifically from the requested node can be returned.
+A master-slave topology where one zendro-node acts as a central controller can be achieved by only making the central node aware of the other instances. To do so, only that node defines a model of storagetype "distributed-data-model" and ddm-adapters for each node in the network. All other secondary nodes do _not_ need a "distributed-data-model" in this case. That means that only when querying the central node, data from all other nodes will be returned. If a user queries one of the secondary nodes only data specifically from the requested node can be returned.
 
 
 ## Performance and Limitations
@@ -172,9 +172,9 @@ Generally it is recommended to use a single authorization endpoint for all zendr
 
 ### Removing the docker-containers and migration
 
-*In case you are not using docker to start up your zendro services you should do the equivalent steps on your local server*
+**_Note_**: In case you are not using docker to start up your zendro services you should do the equivalent steps on your local server, i.e don't start keycloak on every zendro node manually.
 
-Since only one of the zendro nodes should expose the keycloak endpoint you should remove the keycloak services from your docker-compose files for all _other_ zenro nodes.
+Since only one of the zendro nodes should expose the keycloak endpoint you should remove the keycloak services from your docker-compose files for all _other_ zendro nodes.
 
 ```yml
 services:
@@ -212,7 +212,7 @@ You should also remove the keycloak migration file from your migrations folder t
 
 When starting zendro via the `zendro dockerize` command after doing the previous steps zendro should not start the `zendro-keycloak` and `zendro-keycloak-postgres` services.
 
-### Create the clients
+### Create the keycloak clients
 To enable all zendro web-clients in the network communication with the keycloak endpoint they need to be registered as clients in keycloak. There is multiple ways to do so, this guide will focus on doing it via the [keycloak admin-console](https://www.keycloak.org/docs/latest/server_admin/).
 
 Go to http://localhost:8081/auth/admin/zendro/console and login with a zendro user. The default user created is
@@ -254,22 +254,22 @@ If you create a client for your graphql-server, by default it does _not_ expose 
 
 **_Note_**: Be aware that the zendro single-page-app expects at least an "editor" and "reader" role to be present in the token.
 
-To do so go to the newly create client and add the role in the roles tab using the "Create role" Button:
+To do so go to the newly created client and add the role in the roles tab using the "Create role" Button:
 
 ![create-client-role](./figures/admin-console-create-client-role.png)
 
 After doing so any user can be given the newly created client-roles via the admin-console.
 
-In te "Users" menu, select a user, navigate to the "Role mapping" tab, click on the "Assign role" button, select to filter by your client and assign the role:
+In the "Users" menu, select a user, navigate to the "Role mapping" tab, click on the "Assign role" button, select to filter by your client and assign the role:
 
 ![assign-client-role](./figures/admin-console-assign-role.png)
 
 ### Setup the environment
 
-After registering all necessary clients to keycloak the corresponding environment variables have to set manually for the different zendro services.
+After registering all necessary clients to keycloak, the corresponding environment variables have to be set manually for the different zendro services.
 
 #### Web-services
-To make the web-services aware of their keycloak client representations the `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` need to set in the .env files:
+To make the web-services aware of their keycloak client representations, the `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` need to set in the .env files:
 
 ```
 /<my-zendro-app>
@@ -295,12 +295,12 @@ The client secret can be found in the "Credentials" tab and copied from there:
 Copy and paste these two values into your single-page-app and graphiql-auth environment files:
 
 ```
-# single-page-app .env
+# single-page-app .env(.development | .production)
 ...
 OAUTH2_CLIENT_ID="<my-spa-client-id>"
 OAUTH2_CLIENT_SECRET="<my-spa-client-secret>"
 
-# graphiql-auth .env
+# graphiql-auth .env(.development | .production)
 OAUTH2_CLIENT_ID="<my-graphiql-auth-client-id>"
 OAUTH2_CLIENT_SECRET="<my-graphiql-auth-client-secret>"
 ```
@@ -313,7 +313,7 @@ To get the public key navigate to the "Realm settings" menu and find the public 
 
 ![realm-public-key](./figures/admin-console-public-key.png).
 
-Alternatively find the public key by requesting `http://localhost:8081/auth/realms/zendro` (interchane localhost:8081 with your keycloak endpoint).
+Alternatively find the public key by requesting `http://localhost:8081/auth/realms/zendro` (interchange localhost:8081 with your keycloak endpoint).
 
 After copying the key enter it into the graphql-server .env file:
 
