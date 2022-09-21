@@ -2,7 +2,6 @@
 <br/>
 
 # Table of Contents
-- [Table of Contents](#table-of-contents)
 - [Data Models](#data-models)
   - [JSON Specs](#json-specs)
   - [Supported Data Types](#supported-data-types)
@@ -13,7 +12,7 @@
   - [Pagination types](#pagination-types)
   - [Custom Validator Function for AJV](#custom-validator-function-for-ajv)
   - [Data Loader](#data-loader)
-  
+
 # Data Models
 
 For each one of the data sets that you want to include in the project you will need to describe the data model. This description can include its relations or associations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of its type. From now on, in this folder, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
