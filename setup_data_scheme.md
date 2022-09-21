@@ -75,7 +75,7 @@ name | Type | Description
 It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
 To store to-many associations (many-to-many or one-to-many) via foreign keys Zendro offers to store the foreign keys in arrays. In this case the model will have an array attribute which will store ids from the associated records.
 
-#### single-end foreign keys
+#### Single-end foreign keys
 Storing the foreign keys on a single end of the association means that only one of the two associated data-models holds the foreign-key attribute. Storing the keys in that way guarantees fast write actions and avoids error prone operations of writing multiple records to update any association. It also requires less storage space, but can become slow to read and search, especially in a distributed context, where the associated records could be distributed over multiple servers.
 
 To define single-end foreign key associations the following arguments need to be added:
@@ -130,7 +130,7 @@ Examples:
   }
 }
 ```
-#### paired-end foreign keys
+#### Paired-end foreign keys
 Storing the association via paired-end foreign keys means that both associated data-models contain a reference (foreign key) to the associated records. Storing the keys in that way guarantees read and search efficiency, especially in a distributed context, at the cost of time and storage-space when handling write actions. Since the keys are stored at both ends the information needs to be updated at both ends as well, which is slower and more prone to errors.
 
 Many-to-many associations can be stored via paired-end associations. In this case both models will hold an array attribute which will store ids from the associated records. These two attributes will be described in the association as `sourceKey` and `targetKey`.
@@ -313,7 +313,7 @@ Example:
 ```
 
 
-### generic associations
+### Generic associations
 To generate a generic association the `generic` implementation type can be used. This will genereate code stubs in the models for the user specific implementation of resolving the management of the association.
 
 ### Differences between backend and Frontend (GUI)
