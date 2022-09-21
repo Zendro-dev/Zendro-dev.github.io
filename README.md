@@ -39,7 +39,7 @@ Francisca Acevedo<sup>1</sup>, Vicente Arriaga<sup>1</sup>, Katja Dohm<sup>3</su
 ##### Author affiliations
 1. CONABIO - Comisión Nacional para el Conocimiento y Uso de la Biodiversidad, México
 2. Forschungszentrum Jülich - Germany
-3. auticon - www.auticon.com
+3. Auticon - www.auticon.com
 4. InterTech - www.intertech.de
 
 #### Zendro author contributions
