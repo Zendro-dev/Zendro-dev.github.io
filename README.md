@@ -8,10 +8,6 @@ Zendro is a software tool to quickly create a data warehouse tailored to your sp
 Zendro consists of two main components, backend and frontend. The backend component has its [base project](https://github.com/ScienceDb/graphql-server) and a [code generator](https://github.com/ScienceDb/graphql-server-model-codegen). The frontend component (SPA) also has its [base project](https://github.com/ScienceDb/single-page-app) and a [code generator](https://github.com/ScienceDb/single-page-app-codegen). All of the component repositories mentioned here are also pinned under find Zendro-dev on [github](https://github.com/Zendro-dev).  
 The following instructions will show you how to use Zendro.
 
-
-
-If you have any questions or comments, please don't hesitate to contact us via an issue [here](https://github.com/Zendro-dev/Zendro-dev.github.io/issues). Tag your issue as a question and we will try to answer as quick as possible.
-
 [<p align="center"><img src="./figures/quick.png" /></p>](quickstart.md) 
 
 [<p align="center"><img src="./figures/gettingstarted.png"/></p>](setup_root.md)
@@ -24,6 +20,8 @@ If you have any questions or comments, please don't hesitate to contact us via a
 * [How to query and extract data](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists.
 * [How to setup Authentication / Authorization](oauth.md). A concise guide on how to use and setup the Zendro authorization / authentication services.
 * [API documentation](api_root.md).
+
+If you have any questions or comments, please don't hesitate to contact us via an issue [here](https://github.com/Zendro-dev/Zendro-dev.github.io/issues). Tag your issue as a question and we will try to answer as quick as possible.
 
 ### REPOSITORIES:
 
