@@ -12,6 +12,7 @@ If you want to know more about Zendro or a detailed explanation on how to set up
  * [NodeJS](https://nodejs.org/en/) version 14+ is required.
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
+ * [yarn](https://www.npmjs.com/package/yarn)
  <br/><br/>
 
 * * *
