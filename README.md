@@ -13,12 +13,12 @@ The following instructions will show you how to use Zendro.
 [<p align="center"><img src="./figures/gettingstarted.png"/></p>](setup_root.md)
 
 ### HOW-TO GUIDES:
-* [How to define data models: for developers](setup_data_scheme.md). Detailed technical specifications on how to define data models for Zendro, aimed at software developers and system administrators.
-* [How to define data models: for non-developers](non-developer_documentation.md). A brief, illustrated guide of data model specifications, data formatting and data uploading options, aimed at data modelers or managers to facilitate collaboration with developers.
-* [How to setup a distributed cloud of zendro nodes](ddm.md). A brief guide, aimed at software developers and system administrators, on how to use Zendros distributed-data-models.
-* [How to use Zendro command line interface (CLI)](zendro_cli.md). A tutorial of Zendro CLI, aimed at software developers.
-* [How to query and extract data using R](fromGraphQlToR.html). A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists.
-* [How to setup Authentication / Authorization](oauth.md). A concise guide on how to use and setup the Zendro authorization / authentication services.
+* [How to define data models (for developers): ](setup_data_scheme.md). Detailed technical specifications on how to define data models for Zendro, aimed at software developers and system administrators.
+* [How to define data models (for non-developers): ](non-developer_documentation.md). A brief, illustrated guide of data model specifications, data formatting and data uploading options, aimed at data modelers or managers to facilitate collaboration with developers.
+* [How to setup a distributed cloud of zendro nodes: ](ddm.md) A brief guide, aimed at software developers and system administrators, on how to use Zendros distributed-data-models.
+* [How to use Zendro command line interface (CLI): ](zendro_cli.md) A tutorial of Zendro CLI, aimed at software developers.
+* [How to query and extract data using R: ](fromGraphQlToR.html) A concise guide on how to use the Zendro API from R to extract data and perform queries, aimed at data managers or data scientists.
+* [How to setup Authentication / Authorization: ](oauth.md) A concise guide on how to use and setup the Zendro authorization / authentication services.
 * [API documentation](api_root.md).
 
 If you have any questions or comments, please don't hesitate to contact us via an issue [here](https://github.com/Zendro-dev/Zendro-dev.github.io/issues). Tag your issue as a question and we will try to answer as quick as possible.
