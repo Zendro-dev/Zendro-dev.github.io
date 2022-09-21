@@ -2,26 +2,35 @@
 <br/>
 
 # Table of Contents
-* TOC
-{:toc}
-
+- [Table of Contents](#table-of-contents)
+- [Data Models](#data-models)
+  - [JSON Specs](#json-specs)
+  - [Supported Data Types](#supported-data-types)
+  - [Associations Spec](#associations-spec)
+  - [The Resolver Layer and the Model Layer](#the-resolver-layer-and-the-model-layer)
+  - [The code generator at work](#the-code-generator-at-work)
+  - [Authorization-checks and record limits](#authorization-checks-and-record-limits)
+  - [Pagination types](#pagination-types)
+  - [Custom Validator Function for AJV](#custom-validator-function-for-ajv)
+  - [Data Loader](#data-loader)
+  
 # Data Models
 
 For each one of the data sets that you want to include in the project you will need to describe the data model. This description can include its relations or associations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of its type. From now on, in this folder, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
 
 ## JSON Specs
 
-Each json file describes one and only one data model. However, one model can reference another model using the associations mechanism described below.
+Each json file describes one and only one data model. However, one data model can reference another data model using the associations mechanism described below.
 
-For a complete description of each model we need to specify the following fields in the json file:
+For a complete description of each data model we need to specify the following fields in the json file:
 
 Name | Type | Description
 ------- | ------- | --------------
-*model* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API). The string here can not contain spaces.
-*model_name_in_storage* | String | The name of the model in the storage itself. E.g the table-name in relation dbs, the collection in mongodb, the node in neo4j, etc. By default Zendro uses the lowercase pluralized *model* property. 
+*model* | String | Name of the data model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API). The string here can not contain spaces.
+*model_name_in_storage* | String | The name of the data model in the storage itself. E.g the table-name in relation dbs, the collection in mongodb, the node in neo4j, etc. By default Zendro uses the lowercase pluralized *model* property. 
 *database* | String | Name of the database connection as a key defined in [`data_models_storage_config.json`](https://github.com/Zendro-dev/graphql-server/blob/master/config/data_models_storage_config.json). If this field is not defined, the database connection used will be `default-<storageType>`.
-*storageType* | String | Type of storage where the model is stored. So far can be one of: <ul> <li>  __sql__ for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. </li>  <li>__generic__ for any database that your project would connect remotely.</li>  <li>__zendro\_server__ for models stored in any other instance created with zendro-tools.</li><li>  __cassandra__ for local cassandra databases supported by datastax node [cassandra-driver](https://docs.datastax.com/en/developer/nodejs-driver/4.6/). Refer to [cassandra storageType documentation](cassandra_storageType.md) for cassandra specific restrictions.</li></ul>
-*url* | String | This field is only mandatory for __zendro\_server__ stored models. Indicates the url where the zendro server storing the model is runnning.
+*storageType* | String | Type of storage where the data model is stored. So far can be one of: <ul> <li>  __sql__ for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. </li>  <li>__generic__ for any database that your project would connect remotely.</li>  <li>__zendro\_server__ for data models stored in any other instance created with zendro-tools.</li><li>  __cassandra__ for local cassandra databases supported by datastax node [cassandra-driver](https://docs.datastax.com/en/developer/nodejs-driver/4.6/). Refer to [cassandra storageType documentation](cassandra_storageType.md) for cassandra specific restrictions.</li></ul>
+*url* | String | This field is only mandatory for __zendro\_server__ stored data models. Indicates the url where the zendro server storing the data model is runnning.
 *attributes* | Object |  The key of each entry is the name of the attribute and there are two options for the value . It can be either a string indicating the type of the attribute or an object where the user indicates the type of the attribute(in the _type_ field) together with an attribute's description (in the _description_ field). See the [table](#supported-data-types) below for allowed types. Example of option one: ```{ "attribute1" : "String", "attribute2: "Int" }``` Example of option two: ``` { "attribute1" : {"type" :"String", "description": "Some description"}, "attribute2: "Int ```
 *associations* | Object | The key of each entry is the name of the association and the value should be an object describing the corresponding association. See [Associations Spec](#associations-spec) section below for details.
 *indices* | [String] |  Names of attributes for generating corresponding indices.
