@@ -11,7 +11,7 @@ For each one of the data sets that you want to include in the project you will n
 
 ## JSON Specs
 
-Each json file describes one and only one model. However, one model can reference another model using the associations mechanism described below.
+Each json file describes one and only one data model. However, one model can reference another model using the associations mechanism described below.
 
 For a complete description of each model we need to specify the following fields in the json file:
 
