@@ -44,7 +44,7 @@ To translate the conceptual diagram into JSON, we need follow the [JSON specific
             "reverseAssociation": "taxon_information", // The name of the reverse association defined in the specimen model
             "target": "specimen",
             "targetKey": "specimen_id",
-            "keyIn": "taxon",
+            "keyIn": "specimen",
             "targetStorageType": "sql",
             "label": "common_name",
         },
