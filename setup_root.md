@@ -4,7 +4,7 @@
 
 This is a step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
 
-Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url http://localhost:3000/graphql on development mode or http://localhost/api/graphql on production mode. To pull up the corresponding server it is required to generate some code first. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url http://localhost:8080/spa on development mode or http://localhost/spa on production mode. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accomodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
+Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url http://localhost:3000/graphql. To pull up the corresponding server it is required to generate some code first. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url http://localhost:8080. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accommodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
 
  <br/>
 
@@ -120,8 +120,7 @@ $ docker logs -f <container name>
 In default config, the running containers will be:
 
 * Keycloak: 
-    * Development mode: http://localhost:8081/auth
-    * Production mode: http://localhost/auth/
+    * http://localhost:8081/auth
     
       * The default keycloak username is *admin* and the password is *admin*.
 
@@ -129,8 +128,7 @@ In default config, the running containers will be:
   ![Keycloak example](figures/kc2.png)
 
 * SPA: 
-    * Development mode: http://localhost:8080/spa
-    * Production mode: http://localhost/spa
+    * http://localhost:8080
 
       * The default zendro username is *zendro-admin* and the password is *admin*.
 
@@ -138,14 +136,12 @@ In default config, the running containers will be:
   ![spa example](figures/spa.png)
 
 * GraphQL API: 
-    * Development mode: http://localhost:3000/graphql
-    * Production mode: http://localhost/api/graphql 
+    * http://localhost:3000/graphql
 
   ![api example](figures/graphql.png )
 
 * GraphiQL interface with filter functionality: 
-    * Development mode: http://localhost:7000/graphiql
-    * Production mode: http://localhost/graphiql
+    * http://localhost:7000
 
       * The default zendro username is *zendro-admin* and the password is *admin*.
 
@@ -223,9 +219,9 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
     In default config, zendro services will be on ports:
     * API - http://localhost:3000/graphql
-    * GraphiQL - http://localhost:7000/graphiql
-    * Single Page App (SPA) - http://localhost:8080/spa
-    * Keycloak - http://localhost:8081
+    * GraphiQL - http://localhost:7000
+    * Single Page App (SPA) - http://localhost:8080
+    * Keycloak - http://localhost:8081/auth
 
   **Production mode**
     * Copy the content of `./graphiql-auth/.env.development` to `./graphiql-auth/.env.production`
@@ -240,9 +236,9 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
     In default config, zendro services will be on ports:
       * API - http://localhost:3000/graphql
-      * GraphiQL - http://localhost:7000/graphiql
-      * Single Page App (SPA) - http://localhost:8080/spa
-      * Keycloak - http://localhost:8081
+      * GraphiQL - http://localhost:7000
+      * Single Page App (SPA) - http://localhost:8080
+      * Keycloak - http://localhost:8081/auth
   
     
 * You can find applications logs on `./logs/graphiql.log`, `./logs/graphql-server.log` and `./logs/single-page-app.log`.
