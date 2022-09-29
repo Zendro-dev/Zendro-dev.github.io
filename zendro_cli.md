@@ -188,20 +188,22 @@ await zendro.execute_graphql("{ countMovies }");
 ## Uploading a File
 ### Data format requirements
 Data to populate each model in your schema must be in a separate CSV file, following the format requirements below:
-1. Column names in the first row must correspond to model attributes.
+1. Column names in the first row must correspond to model attributes. And for associations, the format of a column name is like `add<associationName>`, e.g. `addCountries` for assciationName `countries`.
 2. Empty values should be represented as `"NULL"`.
 3. All fields should be quoted by `"`. However, if field delimiter and array delimiter do not occur in fields with String type, namely characters could be split without ambiguity, then no quotes are necessary. For example, if the field delimiter is `,` and one String field is like `Zendro, excellent!`, then without the quotation mark, this field will be split as two fields. So in such case these String fields must be quoted.
-4. Default configuration: BATCH_SIZE=20, RECORD_DELIMITER="\n", FIELD_DELIMITER=",", ARRAY_DELIMITER=";". They can be changed in the config file for environment variables.
+4. Default configuration: LIMIT_RECORDS=10000, RECORD_DELIMITER="\n", FIELD_DELIMITER=",", ARRAY_DELIMITER=";". They can be changed in the config file for environment variables.
 5. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
 
 ### Examples
 There are two ways to upload a file via zendro CLI:
 1. If the Zendro instance is on your local machine, you can directly go into the folder `graphql-server` and execute
-`zendro bulk-create -f <filename> -n <modelname> -s <sheetname>`, e.g. `zendro bulk-create -f ./country.csv -n country`. Three formats are supported here, namely CSV, XLSX and JSON. And the paramter `sheetname` is only used for XLSX file. If it is empty, by default records in the first sheet would be imported. And the default configuration for delimiters and batch size, you can find them in `graphql-server/.env`.
+`zendro bulk-create -f <filename> -n <modelname> -s <sheetname>`, e.g. `zendro bulk-create -f ./country.csv -n country`. Three formats are supported here, namely CSV, XLSX and JSON. And the paramter `sheetname` is only used for XLSX file. If it is empty, by default records in the first sheet would be imported. And the default configuration for delimiters and record limit, you can find them in `graphql-server/.env`.
 2. If you want to upload a file to a remote Zendro server, it is also possible via Zendro CLI. All configuration could be modified in the file `zendro/.env.migration`. After the configuration, you can execute `zendro bulk-create -f <filename> -n <modelname> -s <sheetname> -r`, e.g. `zendro bulk-create -f ./country.csv -n country -r`.
 
+Note: if the validation of records fails, the log file would be stored in the folder of the uploaded file and its name would be like `errors_<uuid>.log`.
+
 ## Download Records
-In general, it is possible to download all data into CSV format in two ways, either using the Zendro CLI or the Zendro Single Page App. Here every attribute will be quoted to avoid ambiguity and enable seamless integration with the zendro bulk creation functionalities.
+In general, it is possible to download all data into CSV format in two ways, either using the Zendro CLI or the Zendro Single Page App. Here every attribute will be quoted to avoid ambiguity and enable seamless integration with the zendro bulk creation functionalities. And column names for foreign keys would be like `add<associationName>`. For example, there is an association named `countries`, which includes a foreign key called `country_ids`, then the column name for `country_id` should be `addCountries`.
 
 1. If the Zendro instance is installed locally, then user can execute the command in the `graphql-server` folder: `zendro bulk-download -f <filename> -n <modelname>`. To configure delimiters (`ARRAY_DELIMITER`, `FIELD_DELIMITER` and `RECORD_DELIMITER`) and record-limit (`LIMIT_RECORDS`), set the according environment variables in  `graphql-server/.env`
 
