@@ -55,7 +55,10 @@ if login.status_code == 200:
     Successful login
 
 
-With a successful login we can now make the requests to the Zendro API. The first query we are going to make, is a **mutation**. In this mutation we are going to create a new country in the country table, and we are going to retrieve the country id if the mutation was successful. 
+With a successful login we can now make the requests to the Zendro API. Word of advice: this token will expire after 30 mins.
+
+
+The first query we are going to make, is a **mutation**. In this mutation we are going to create a new country in the country table, and we are going to retrieve the country id if the mutation was successful. 
 
 To write the query we can use the multiline syntax of python, then we insert this string in a dictionary as a value to the key "query", and we pass it to the requests in the json parameter. 
 
