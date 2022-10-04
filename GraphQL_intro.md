@@ -32,7 +32,7 @@ The documentation explorer allows to examine what operations (e.g. query, mutati
 
 In the example of the image above, we can see that the first type is `cities`. Types can contain elements or arguments, which are specified inside parentheses `()`. Some of these may be required arguments (marked with `!`), such as `pagination`.
 
-You can extend the bottom panel ("Query variables") to filter 
+You can extend the bottom panel ("Query variables") to provide dynamic inputs to your query. [Learn more](https://graphql.org/learn/queries/#variables).
 
 ## Writing queries
 
