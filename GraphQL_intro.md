@@ -144,7 +144,7 @@ When the association is *one to many* there would be a `Connection` for each eac
 }
 ```
 
-Remember to check the Docs for any mandatory argument. In this case `pagination` is mandatory. You can check what you are expected to write in its `paginationCursorInput` by clicking on it in the documentation. 
+Remember to check the Docs for any mandatory argument. In this case `pagination` is mandatory. You can check what you are expected to write in its `paginationCursorInput` by clicking on it in the documentation. Also check the [pagination documentation](https://zendro-dev.github.io/api_graphql.html#pagination-argument) for details on how to use this argument.
 
 After you execute the query, you will get the same data we got for each river before, but also the data of the country (or countries, if it were the case) it is associated to. 
 
