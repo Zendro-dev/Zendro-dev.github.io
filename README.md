@@ -12,9 +12,9 @@ Also find Zendro-dev on [github](https://github.com/Zendro-dev).
 
 If you have any questions or comments, please don't hesitate to contact us via an issue [here](https://github.com/Zendro-dev/Zendro-dev.github.io/issues). Tag your issue as a question and we will try to answer as quick as possible.
 
-[![Go to Quickstart](./figures/quick.png)](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/master/quickstart.md)
+[![Go to Quickstart]](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/master/quickstart.html)
 
-[![Go to Getting started guide](./figures/gettingstarted.png)](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/master/setup_root.md)
+[![Go to Getting started guide]](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/master/setup_root.html)
 
 ### HOW-TO GUIDES:
 * [How to define data models: for developers](setup_data_scheme.md). Detailed technical specifications on how to define data models for Zendro, aimed at software developers and system administrators.
