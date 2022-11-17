@@ -27,7 +27,7 @@ zendro new <your_application_name>
 ```
 Hints: 
 1. If you don't have local database or you want to dockerize Zendro App, you can keep docker files. These are examples for dockerizing a Zendro App.
-2. If you want to modify environment variables or database configuration, you can edit the following files:
+2. If you want to modify environment variables or database configuration, you can edit corresponding docker-compose file and the following files:
 * without docker setup: ./graphql-server/config/data_models_storage_config.json
 * with docker setup: ./config/data_models_storage_config.json
 * ./graphql-server/.env
@@ -35,6 +35,8 @@ Hints:
 * SPA in production mode: ./single-page-app/.env.production
 * GraphiQL in development mode: ./graphql-server/.env.development 
 * GraphiQL in production mode: ./graphql-server/.env.production
+
+Note: by default, SQLite3 would be used for the data storage. If you want to use other storage types, then you can reuse part of two example files, which illustrate the configuration of all supported storage types with docker setup, namely `./config/data_models_storage_config_example.json` and `./docker-compose-dev-example.yml`.
 
 ### Generate code for graphql-server:
 ```
