@@ -9,7 +9,7 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
  <br/>
 
 ## Project Requirements:
- * [NodeJS](https://nodejs.org/en/) version 14+ is required.
+ * [NodeJS](https://nodejs.org/en/) version 17+ is required.
 
  **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
@@ -56,7 +56,7 @@ Go inside the new project and modify the selected enviroment variables in the ne
 
 If you wish to know more about enviroment variables you can check [this](env_vars.md).
 
-**Note**: The `data_models_storage_config.json` file defines the connections to the databases that zendro should be aware of. Currently we have integrated sequelize, neo4j, cassandra, amazon s3, mongodb. For other storage types, user needs to implement the connection part and add a [new storage type](https://github.com/Zendro-dev/Zendro-dev.github.io/pull/25), or use generic models. 
+**Note**: The `data_models_storage_config.json` file defines the connections to the databases that zendro should be aware of. Currently we have integrated sequelize, neo4j, cassandra, amazon s3, mongodb. For other storage types, user needs to implement the connection part and add a [new storage type](https://github.com/Zendro-dev/Zendro-dev.github.io/pull/25), or use generic models. If user wants to use other supported storage types, then user can reuse part of two example files, which illustrate the configuration of all supported storage types with docker setup, namely `./config/data_models_storage_config_example.json` and `./docker-compose-dev-example.yml`.
 
 ### Step 4: Define your data models
 
