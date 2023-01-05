@@ -1,36 +1,28 @@
-[ &larr; back](setup_root.md)
-<br/>
-# Under construction
-
-
-...
-Unfortunately Zendro can support just one scheme per GraphQL server. It means that if you would need to create a multi-scheme project or implement any strong business logic it is definitely that a new Web GUI server will be needed.
-
 # Add a new storage type
 If current storage types cannot fulfill user' requirements, it is possible to add a new storage type in Zendro. Here is the guidance for that.
 
 ## Workflow
-1. Define some new **data models** according to the specification: [Data Models](setup_data_scheme.md). If user would like to introduce associations among data models, new data model definitions should also include definitions of associations. For distributed models and their adapters, please read this specification. 
+1. Define some new **data models** according to the specification: [Data Models](setup_data_scheme.md). If user would like to introduce associations among data models, new data model definitions should also include definitions of associations. For distributed models and their adapters, please read this [specification]({% link ddm.md %}). 
 2. Modify the `storageType` in new data model definitions. In specifically, according to the kinds of accesses in the new storage type, user can choose one similar existing `storageType` and replace the new `storageType` with that (replace `targetStorageType` for defined associations if necessary). For example, if the current storage type supports both read and write accesses, user can choose `mongodb` as `storageType`. And in templates of `mongodb` all APIs would be implemented. However, if the new storage type only supports the read access, then an existing storageType `trino` could be used. In this situation, respective APIs would be disabled. For instance, if user calls APIs related to write access in `trino`, error information like **'Not supported by Trino'** would be thrown. 
 3. Create a sandbox with [zendro CLI](https://github.com/Zendro-dev/zendro#a-running-example). Please following the steps 1-3 in the CLI page.
-4. Add connection in Zendro by the node driver of the new storage type.
-5. Design the **basic CRUD** (create, read, update and delete) operations for a single record and operations for **associations** between records in generated templates of existing `storageType`.
-6. User can extend `single-page-app` for the new storage type.
-7. (optional) If user would like to submit a pull request for the new storage type to the main branch of Zendro, the modified templates should be translated into EJS templates in `graphql-server-model-codegen`. Besides, corresponding unit tests and integration tests in backend should also be added.
+4. Add [connection]({% link setup_customize.md %}#connection) in Zendro by the node driver of the new storage type.
+5. Design the **basic CRUD** (create, read, update and delete) [operations]({% link setup_customize.md %}#basic-crud-operations) for a single record and [operations]({% link setup_customize.md %}#operations-for-associations) for **associations** between records in generated templates of existing `storageType`. 
+6. User can extend `single-page-app` for the new storage type as in this [section]({% link setup_customize.md %}#extension-in-single-page-application).
+7. (optional) If user would like to submit a pull request for the new storage type to the main branch of Zendro, the modified templates should be translated into [EJS]({% link setup_customize.md %}#ejs-templates-in-code-generator) templates in `graphql-server-model-codegen`. Besides, corresponding [tests]({% link setup_customize.md %}#test) in backend should also be added.
 
 How to add connection, APIs, EJS templates, SPA extension and tests in detail is described below:
 ## Connection
-1. In `connection.js` user can introduce the corresponding node driver and implement a setup function for the new storage type. Afterwards, user can extend `addConnectionInstances` method with the implemented setup function. Besides, user need extend `checkConnections` function, which is used for checking the connectivity for all storage types. 
+1. In `connection.js` file from graphql-server repository user can introduce the corresponding node driver and implement a setup function for the new storage type. Afterwards, user can extend `addConnectionInstances` method with the implemented setup function. Besides, user need extend `checkConnections` function, which is used for checking the connectivity for all storage types. 
 2. In `models/index.js` user can add the new storage type object in the object definition of `models`. And this object is used for storing models according to different storage types. Moreover, user should create a new folder under `models` for new models in the new storage type and move all new models into the new folder. And it is necessary to correct the `storageType` in the object `definition` of each new model, because these models are generated based on other existing storage types. In addition, if there are defined associations, `targetStorageType` should also be updated to the new storage type. 
 3. If user would like to use distributed models and adapters, it is necessary to modify the `index.js` file in the `models/adapters` folder. Similarly, user need add the new storage type object in the object definition of `adapters`. Besides, user need correct the `storageType` in the object `definition` of each new adapter, because these adapters are generated based on other existing storage types. 
 4. In `utils/helper.js` user need extend functions `initializeStorageHandlersForModels` and `initializeStorageHandlersForAdapters`. By these two functions, the connected node driver, namely storage handler in Zendro context, would be assigned to corresponding models or adapters. Moreover, it is recommended to extend the `createIndexes` function. By indexes, the speed of fetching/writing records would be greatly improved.
-5. Execute `zendro start gqs` for local databases. Or execute `zendro dockerize -u` for dockerizing Zendro APP. Because currently user only needs to test the backend, user can comment `zendro_spa` part and add container information for new storage type in the `docker-compose-dev.yml` file. If there is no error in `./logs/graphql-server.log` (local databases) or in the console (dockerized App), then the connection between models/adapters and node driver is successful.
-6. Create a new branch for the new storage type, then only commit changes for connection. Note, please do not commit model files, adapter files, schema files, validation files and patch files. Because these files are generated from code generators.
+5. Execute `zendro start gqs` for local databases. Or execute `zendro dockerize -u` for dockerizing Zendro APP. Because currently user only needs to test the backend, user can comment `zendro-spa` service and add container information for new storage type in the `docker-compose-dev.yml` file. If there is no error in `./logs/graphql-server.log` (local databases) or in the console (dockerized App), then the connection between models/adapters and node driver is successful.
+6. Create a new branch for the new storage type in graphql-server repository, then only commit changes for connection. Note, please do not commit model files, adapter files, schema files, validation files and patch files. Because these files are generated from code generators.
 
 ## Basic CRUD operations
 
 ### Schema
-In Zendro, different storage types have various sets of operators for search. In specifically, there are four existing schemas of operators, namely `GenericPrestoSqlOperator`, `MongodbNeo4jOperator`, `CassandraOperator` and `AmazonS3Operator`. Meanwhile, considering [StorageType compatability](api_graphql.md#storagetype-compatability), user can choose one similar operator schema and substitute that into `operator` field in new schema files, which are stored in the folder `schemas`.
+In Zendro, different storage types have various sets of operators for search. In specifically, there are four existing schemas of operators, namely `GenericPrestoSqlOperator`, `MongodbNeo4jOperator`, `CassandraOperator` and `AmazonS3Operator`. Meanwhile, considering [StorageType compatability](api_graphql.md#storagetype-compatability), user can choose one similar operator schema and substitute that into `operator` field in new schema files, which are stored in the folder `schemas`. And it is also possible to add your own set of search operators.
 
 ### Resolver & Model
 In general, it is unnecessary to modify new resolvers in `resolvers` folder. Besides, user need modify some relevant methods in new model files of `models/new_storage_type` folder. 
@@ -128,7 +120,7 @@ If user would like to contribute to Zendro main branch, it is necessary to commi
 
 The test frameworks for backend are `mocha` and `chai`.
 ### Unit test  
-For Zendro, unit tests mean that code generater can generate expected code according to the given templates. Hence, it is necessary to add data model definitions to be tested in `graphql-server-model-codegen/test/unit_test_misc` folder and expected code in `graphql-server-model-codegen/test/unit_test_misctest-describe` folder. Apart from that, user needs add test cases for new storage type in file `graphql-server-model-codegen/test/mocha_unit.test`. And user can execute unit tests by the command `npm run test-unit`. In addition, the required unit tests in the model level would be the following:
+For Zendro, unit tests mean that code generater can generate expected code according to the given templates. Hence, it is necessary to add data model definitions to be tested in `graphql-server-model-codegen/test/unit_test_misc` folder and expected code in `graphql-server-model-codegen/test/unit_test_misc/test-describe` folder. Apart from that, user needs add test cases for new storage type in file `graphql-server-model-codegen/test/mocha_unit.test`. And user can execute unit tests by the command `npm run test-unit`. In addition, the required unit tests in the model level would be the following:
 * __Basic CRUD Methods__: readById, countRecords, readAll,  readAllCursor, addOne, deleteOne, updateOne, bulkAddCsv
 * __Association Methods__:
   * OneToOne: add one association, remove one association, bulkAssociation, bulkDisassociation
@@ -137,7 +129,7 @@ For Zendro, unit tests mean that code generater can generate expected code accor
 
 ### Integration test  
 In integration tests functionality of APIs would be tested. Before the test, data model definitions should be added in the folder `test/integration_test_misc/integration_test_models_instance2`. Besides, user needs add the container configuration for new storage type in `test/integration_test_misc/docker-compose-test.yml` file, because the setup of integration tests is based on the `docker` and `docker-compose`. In addition, user needs update `test/integration_test_misc/data_models_storage_config2.json` file, which is the configuration file for default connection, for new storage type. Moreover, if the `bulkAddCsv` method would be tested, the corrsponding CSV files should be added in the folder `test/integration_test_misc`. Afterwards user needs create a new integration test file as `test/mocha_integration_<storageType>.test.js`, e.g. `mocha_integration_mongodb.test.js`. Besides, user needs update the `test/testenv_cli` file. Namely, user needs add the new integration file into the CLI file. For example, user can search `mocha_integration_mongodb.test.js` in the CLI file and add new integration file below the same `if` condition. To run the integration-test suite, user can execute the command `npm run test-integration [-- OPTIONS]`. To view the different integration-test commands and some examples, user can execute `npm run test-integration -- -h`. In addition, the list of concrete tests would be in the following:
-* __Basic CRUD Operations__: add operation, update operation, readOne operation, delete operation, CSV bulkUpload functionality, limit-offset pagination, cursor-based pagination, sort functionality, table template acquisition, data loader functionality
+* __Basic CRUD Operations__: add operation, update operation, readOne operation, delete operation, CSV bulkUpload functionality, limit-offset pagination, cursor-based pagination, sort functionality, table template acquisition, data loader functionality, search functionality
 * __Operators__: like , notLike, iLike, notILike, regexp, notRegexp, iRegexp, notIRegexp, in, notIn, contains, notContains
 * __Association__:
   * __ManyToOne__: add one association, read one associated record, remove one association, bulkAssociation, bulkDisassociation
