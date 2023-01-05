@@ -1,11 +1,27 @@
-[ &larr; back](setup_root.md)
-# Customizing Zendro
+---
+layout: default
+title: Customize Zendro
+parent: Getting started
+nav_order: 5
+permalink: /setup_root/customize
+---
+# Customize Zendro
+{: .no_toc }
 Zendro offers multiple different ways to customize it to your specific needs.
+{: .fs-6 .fw-300 }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 ## Graphql server
 ### Custom validations
 It is possible to add custom asynchronous validation functions to validate your data. For more information see:  
 
-[> custom validations](https://zendro-dev.github.io/setup_data_scheme.html#custom-validator-function-for-ajv)
+[> custom validations]({% link setup_data_scheme.md %}#custom-validator-function-for-ajv)
 ### Patches
 Custom patches allow the user to monkey patch functions and properties of the generated backend code. When running the code generator a skeleton patch file is automatically created for every data-model in `/patches`. Implementing functions there will automatically override default behaviour. An example patch to override `<function_name>` could look something like this:
 

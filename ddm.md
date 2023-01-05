@@ -1,8 +1,22 @@
-# Distributed Data Models
+---
+layout: default
+title: Distributed Data Models
+nav_order: 7
+---
 
+# Distributed Data Models
+{: .no_toc }
 Zendro provides the ability to build a network of zendro graphql-servers, able to talk to and request data from each other, as long as the graphql schema for a given model is identical to all zendro instances inside the cloud of graphql-servers.
 
 To do so it is necessary to define your data-model as storageType "distributed-data-model" (ddm) and provide zendro with adapters to either a local storage database or another zendro instance to be queried for data. Since Zendros data-model-definitions aim to be atomic and independent of any other model, those adapters have be defined as separate data models, even though they are linked to the distributed-data-model (ddm). That means that only the ddm is exposed to the graphql-schema, the adapters are then used internally to request the expected data.
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Data model definition
 
@@ -135,7 +149,7 @@ In case of a read-many function the ddm will query _all_ registered adapters for
 
 ### Cursor-based Pagination
 
-To make sure distributed-data-models can be paginated efficiently they only support cursor-based pagination. See the documentation of the [Pagination Argument](api_graphql.md#pagination-argument) for more information. Since the ddm will fetch data from multiple sources and databases we cannot use the classic limit-offset based pagination. Instead, when requesting paginated data zendro sends along a cursor (a base64 encoded record) and the amount (first or last x records) to all data sources and fetches data after, or before that cursor. After all returned data is collected a final pagination to the first, or last number of requested records is done in memory and send to the user.
+To make sure distributed-data-models can be paginated efficiently they only support cursor-based pagination. See the documentation of the [Pagination Argument]({% link api_graphql.md %}#pagination-argument) for more information. Since the ddm will fetch data from multiple sources and databases we cannot use the classic limit-offset based pagination. Instead, when requesting paginated data zendro sends along a cursor (a base64 encoded record) and the amount (first or last x records) to all data sources and fetches data after, or before that cursor. After all returned data is collected a final pagination to the first, or last number of requested records is done in memory and send to the user.
 
 ## Network topologies
 
@@ -159,13 +173,13 @@ Zendro ensures performance of any kind of distributed setup through multiple str
 
 First and foremost the overhead resulting from distributing the incoming request to multiple adapters is kept at a minimum. Due to the paginated nature of results collected at the distributed-data-model post-processing of the data in memory is usually very fast. Only the collected result has to sorted and paginated once from the individual adapter results. Keep in mind that all parameters (search, oder, pagination) are forwarded to the adapters, which will take care of the execution of the database queries. Requests from the distributed-data-model are send to adapters in parallel, the limiting factor will be the slowest node in the network to return data.
 
-To ensure efficient read of associations it is recommend to use [paired-end foreign keys](setup_data_scheme.md#paired-end-foreign-keys) for any associations among distributed data models. This ensures that associations can be resolved directly from the read record itself instead of the need to query multiple distributed zendro instances for records matching the requested association.
+To ensure efficient read of associations it is recommend to use [paired-end foreign keys]({% link setup_data_scheme.md %}#paired-end-foreign-keys) for any associations among distributed data models. This ensures that associations can be resolved directly from the read record itself instead of the need to query multiple distributed zendro instances for records matching the requested association.
 
 Due to Zendro requiring the use of a pagination argument the user needs to think about what and especially how much data he is requesting. Scaling up a zendro network to include a lot of nodes means that for each of the connected databases a query with the requested pagination will be send and that data has to be collected in memory at the requesting node. This can grow quickly out of proportion if a network and the requested data become very big.
 
 ## Authorization and Authentication
 
-Handling authorization and authentication in a network of zendro instances requires some manual setup. The following guide intents to give solutions for zendros default authorization setup using [keycloak](https://www.keycloak.org/). See also the documentation on [authorization and authentication](oauth.md).
+Handling authorization and authentication in a network of zendro instances requires some manual setup. The following guide intents to give solutions for zendros default authorization setup using [keycloak](https://www.keycloak.org/). See also the documentation on [authorization and authentication]({{ site.baseurl }}{% link oauth.md %}).
 
 Generally it is recommended to use a single authorization endpoint for all zendro nodes in the network, however it is also conceivable, depending on the users needs to setup multiple authorization endpoints. This guide will focus on using a single endpoint.
 
@@ -215,7 +229,7 @@ When starting zendro via the `zendro dockerize` command after doing the previous
 ### Create the keycloak clients
 To enable all zendro web-clients in the network communication with the keycloak endpoint they need to be registered as clients in keycloak. There is multiple ways to do so, this guide will focus on doing it via the [keycloak admin-console](https://www.keycloak.org/docs/latest/server_admin/).
 
-Go to http://localhost:8081/auth/admin/zendro/console and login with a zendro user. The default user created is
+Go to `http://localhost:8081/auth/admin/zendro/console` and login with a zendro user. The default user created is
 ```
 username: zendro-admin
 password: admin

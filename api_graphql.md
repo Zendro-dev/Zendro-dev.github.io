@@ -1,5 +1,21 @@
-[ &larr; back](api_root.md)
-<br/>
+---
+layout: default
+title: GraphQL
+parent: Zendro API
+nav_order: 2
+permalink: /api_root/graphql
+---
+
+# GraphQL
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 Concrete requests that can be send to the backend server are model dependent. Therefore from now on let's assume that our first data model is called `record` and is described as follows:
 
 ```

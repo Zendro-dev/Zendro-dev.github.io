@@ -1,5 +1,11 @@
-# Authentication and Authorization
+---
+layout: default
+title: Authentication
+nav_order: 5
+---
 
+# Authentication and Authorization
+{: .no_toc }
 When using Zendro in a default setup, Zendro implements authorization and authentication of users and roles via [OAuth2](https://oauth.net/2/) using third-party libraries to provide a secure and stable experience.
 
 As OAuth2 backend, Zendro sets up a [keycloak](https://www.keycloak.org/) server to handle all authentication and user management, which also supports [OpenID Connect](https://openid.net/connect/). Zendro itself, if started with authorization rules enabled, only requires a valid access_token to be present in the request header.
@@ -8,6 +14,13 @@ On the front-end web interfaces, Zendro uses [NextAuth.js](https://next-auth.js.
 
 To connect to the web interfaces we use the recommended OAuth2 [Authorization Code grant](https://oauth.net/2/grant-types/authorization-code/) flow to exchange an authorization for an access token
 
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 ## keycloak
 
 When setting up a new Zendro instance using the Zendro CLI and the recommended docker setup, a default keycloak migration is provided, that sets up the necessary infrastructure on the keycloak server. This includes creating a default user, default roles and the OAuth2 clients for the different Zendro-interfaces (graphql-server, graphiql-auth, single-page-app). This migration is run automatically on the first start-up of any Zendro installation if not manually removed from the `graphql-server/migrations` folder. For further, more detailed information check out the detailed information on the [keycloak documentation](https://www.keycloak.org/documentation). In the background keycloak 

@@ -1,6 +1,21 @@
-# How to get started: a Zendro guide for non-developers
+---
+layout: default
+title: Doc for non-developer
+nav_order: 4
+---
 
-This guide is aimed at data modelers, data managers and other data users to facilitate collaboration with developers in designing Zendro-generated database systems. We assume that as a data modeler or manager, you might be responsible for structuring your database, and work with a developer or system administrator to set up the project. In this guide we describe and illustrate the requirements for data models, which are the main input for Zendro, and then follow up to describe data uploading options. If you want to dive deeper into the installation process from scratch, see this [tutorial](./setup_root.md) on how to set up a new project.
+# Doc for non-developer
+{: .no_toc }
+
+This guide is aimed at data modelers, data managers and other data users to facilitate collaboration with developers in designing Zendro-generated database systems. We assume that as a data modeler or manager, you might be responsible for structuring your database, and work with a developer or system administrator to set up the project. In this guide we describe and illustrate the requirements for data models, which are the main input for Zendro, and then follow up to describe data uploading options. If you want to dive deeper into the installation process from scratch, see this [tutorial]({{ site.baseurl }}{% link setup_root.md %}) on how to set up a new project.
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Data models
 
@@ -22,7 +37,7 @@ Foreign keys are also needed to establish the associations to other data models;
 
 ## From conceptual model to JSON
 
-To translate the conceptual diagram into JSON, we need follow the [JSON specifications](./setup_data_scheme.md#json-specs). We present two complete examples below.
+To translate the conceptual diagram into JSON, we need follow the [JSON specifications]({% link setup_data_scheme.md %}#json-specs). We present two complete examples below.
 
 ```
 // Taxon Model

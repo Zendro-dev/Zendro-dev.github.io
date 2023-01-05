@@ -1,12 +1,23 @@
-[ &larr; back](README.md)
-<br/>
+---
+layout: default
+title: Getting started
+nav_order: 3
+has_children: true
+---
 # Getting started
+{: .no_toc }
 
 This is a step-by-step guide on how to create a new Zendro project from scratch, aimed at software developers and system administrators.
+{: .fs-6 .fw-300 }
 
-Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url http://localhost:3000/graphql. To pull up the corresponding server it is required to generate some code first. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url http://localhost:8080. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accommodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
+## Table of contents
+{: .no_toc .text-delta }
 
- <br/>
+1. TOC
+{:toc}
+
+---
+Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url `http://localhost:3000/graphql`. To pull up the corresponding server it is required to generate some code first. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url `http://localhost:8080`. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accommodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
 
 ## Project Requirements:
  * [NodeJS](https://nodejs.org/en/) version 17+ is required.
@@ -14,7 +25,6 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
  **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
- <br/><br/>
 
 * * *
 ## Step by step guide
@@ -54,7 +64,7 @@ Go inside the new project and modify the selected enviroment variables in the ne
 
   If you would like to upload a file to a remote server, please consider the template *.env.migration.sample*, create a new file *.env.migration* and modify relevant environment variables.
 
-If you wish to know more about enviroment variables you can check [this](env_vars.md).
+If you wish to know more about enviroment variables you can check [this]({{ site.baseurl }}{% link env_vars.md %}).
 
 **Note**: The `data_models_storage_config.json` file defines the connections to the databases that zendro should be aware of. Currently we have integrated sequelize, neo4j, cassandra, amazon s3, mongodb. For other storage types, user needs to implement the connection part and add a [new storage type](https://github.com/Zendro-dev/Zendro-dev.github.io/pull/25), or use generic models. If user wants to use other supported storage types, then user can reuse part of two example files, which illustrate the configuration of all supported storage types with docker setup, namely `./config/data_models_storage_config_example.json` and `./docker-compose-dev-example.yml`.
 
@@ -62,7 +72,7 @@ If you wish to know more about enviroment variables you can check [this](env_var
 
 Add your model definitions in JSON files to `./data_model_definitions` folder.
 
-If you want to learn more about how to define data models with Zendro, please check [this](setup_data_scheme.md).
+If you want to learn more about how to define data models with Zendro, please check [this]({{ site.baseurl }}{% link setup_data_scheme.md %}).
 
 ### Step 5: Generate code and migrations
 
@@ -74,13 +84,13 @@ $ zendro generate -m
 
 This will automatically generate all basic create, read, update and delete (CRUD) operations for each data model specified in the scheme from the previous step.
 
-Also, this will create migration files. By default, every migration file has two functions, namely **up** and **down**. The **up** function creates a table, the **down** function deletes the existing table. Additionally, **up** and **down** functions would add and drop indices for primary keys. Furthermore it is possible to customize the migration functions. Please check [this](zendro_cli.md) to learn more about migrations.
+Also, this will create migration files. By default, every migration file has two functions, namely **up** and **down**. The **up** function creates a table, the **down** function deletes the existing table. Additionally, **up** and **down** functions would add and drop indices for primary keys. Furthermore it is possible to customize the migration functions. Please check [this]({{ site.baseurl }}{% link zendro_cli.md %}) to learn more about migrations.
 
 ### Step 6 (optional): Define your database connection
 
 In case you want to connect Zendro to an already existing database, maybe already populated with data, there is no need for Zendro to run any migrations to create the necessary infrastructure. Leave out the `-m` flag in the above `zendro generate` command.
 
-To define the connection to your local database edit the `config/data_models_storage_config.json` configuration file. You can reference a name given to a connection in your data-model-definition via the *database* attribute. See the [json specs](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/setup_data_scheme.md#json-specs) of data-model-definitions for more information.
+To define the connection to your local database edit the `config/data_models_storage_config.json` configuration file. You can reference a name given to a connection in your data-model-definition via the *database* attribute. See the [json specs]({{ site.baseurl }}{% link setup_data_scheme.md %}#json-specs) of data-model-definitions for more information.
 
 In this file you can define any number of database connections, that zendro should be aware of. Depending on the driver used a set of attributes is expected. Details can be found in the [default storage configuration for each storage type](https://github.com/Zendro-dev/graphql-server/blob/master/config/data_models_storage_config.json).
 
@@ -90,7 +100,7 @@ In this file you can define any number of database connections, that zendro shou
 
 > ***➡ USING DOCKER***
 
-The recommend way to [run your Zendro instance is via docker](https://zendro-dev.github.io/zendro_cli.html#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
+The recommend way to [run your Zendro instance is via docker]({{ site.baseurl }}{% link zendro_cli.md %}#dockerize-zendro-app-with-example-docker-files). This ensures that regardless of your local infrastructure Zendro will behave the same.
 
 Execute this command to start Zendro in production mode or without `-p` to start in development mode. 
 
@@ -99,11 +109,11 @@ $ zendro dockerize -u -p
 ```
 
 This command will create docker containers for each Zendro component:
-* [Keycloak](https://github.com/Zendro-dev/Zendro-dev.github.io/blob/documentation-vb/oauth.md): manage users and roles
+* [Keycloak]({{ site.baseurl }}{% link oauth.md %}): manage users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
 * [GraphiQL interface](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.
-* [traefik reverse-proxy](#): A reverse-proxy using traefik that maps the above docker services.
+* [traefik reverse-proxy](https://doc.traefik.io/traefik/): A reverse-proxy using traefik that maps the above docker services.
 
 You can check docker containers by:
 ```
@@ -302,4 +312,4 @@ A couple of basic extensions are suggested to be introduced directly into the Gr
 
 Furthermore, the whole codebase used to run zendro is exposed and can be directly customized if needed. That is true for the graphql-server as well as the frontend applications.
 
-[ > Advanced code customizing](setup_customize.md)
+[ > Advanced code customizing]({{ site.baseurl }}{% link setup_customize.md %})

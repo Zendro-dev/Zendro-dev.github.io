@@ -1,13 +1,23 @@
-[&larr; back](setup_root.md)
-<br/>
+---
+layout: default
+title: Data models
+parent: Getting started
+has_children: true
+nav_order: 2
+permalink: /setup_root/data_models
+---
 
-# Table of Contents
-* TOC
+# Data models
+{: .no_toc }
+For each one of the data sets that you want to include in the project you will need to describe the data model. This description should include its relations or associations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of its type. From now on, in this document, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
 {:toc}
 
-# Data Models
-
-For each one of the data sets that you want to include in the project you will need to describe the data model. This description should include its relations or associations with any other model. The description should be placed in a json file following the [json specs](#json-specs) for this purpose. You will need to store all these json files in a single folder. Another limitation is that each model should have a unique name independently of its type. From now on, in this document, we will assume that all json files for each one of your data models will be stored in the directory `/your-path/json-files`
+---
 
 ## JSON Specs
 
@@ -20,12 +30,12 @@ Name | Type | Description
 *model* | String | Name of the model (it is recommended to use snake_case naming style to obtain nice names in the auto-generated GraphQL API). The string here can not contain spaces.
 *model_name_in_storage* | String | The name of the model in the storage itself. E.g the table-name in relation dbs, the collection in mongodb, the node in neo4j, etc. By default Zendro uses the lowercase pluralized *model* property. 
 *database* | String | Name of the database connection as a key defined in [`data_models_storage_config.json`](https://github.com/Zendro-dev/graphql-server/blob/master/config/data_models_storage_config.json). If this field is not defined, the database connection used will be `default-<storageType>`.
-*storageType* | String | Type of storage where the model is stored. So far can be one of: <ul> <li>  __sql__ for local relational databases supported by [sequelize](#http://docs.sequelizejs.com/) such as PostgreSql/MySql etc. </li>  <li>__generic__ for any database that your project would connect remotely.</li>  <li>__zendro-server__ for models stored in any other instance created with zendro-tools.</li><li>  __cassandra__ for local cassandra databases supported by datastax node [cassandra-driver](https://docs.datastax.com/en/developer/nodejs-driver/4.6/). Refer to [cassandra storageType documentation](cassandra_storageType.md) for cassandra specific restrictions.</li><li>  __mongodb__ for local mongodb databases supported by mongodb-driver. </li><li>  __neo4j__ for local neo4j databases supported by neo4j-driver. </li><li>  __presto/trino__ for local presto/trino databases supported by presto-driver. </li><li>  __amazon-s3__ for Amazon S3 cloud storage service and local object storage MinIO supported by amazon-s3-driver. </li><li>  __distributed-data-model__ for a distributed setup, which would connect all relevant adapters. </li><li>  __adapter__ for different adapters in a distributed setup: sql-adapter, generic-adapter,cassandra-adapter, mongodb-adapter, amazonS3-adapter, trino-adapter, neo4j-adapter, ddm-adapter, zendro-webservice-adapter. </li></ul>
+*storageType* | String | Type of storage where the model is stored. So far can be one of:<br/> - __sql__ for local relational databases supported by [sequelize](http://docs.sequelizejs.com/) such as PostgreSql/MySql etc.<br/> - __generic__ for any database that your project would connect remotely.<br/> - __zendro-server__ for models stored in any other instance created with zendro-tools.<br/> - __cassandra__ for local cassandra databases supported by datastax node [cassandra-driver](https://docs.datastax.com/en/developer/nodejs-driver/4.6/). Refer to [cassandra storageType documentation]({{ site.baseurl }}{% link cassandra_storageType.md %}) for cassandra specific restrictions.<br/> - __mongodb__ for local mongodb databases supported by mongodb-driver. <br/> - __neo4j__ for local neo4j databases supported by neo4j-driver. <br/> - __presto/trino__ for local presto/trino databases supported by presto-driver. <br/> - __amazon-s3__ for Amazon S3 cloud storage service and local object storage MinIO supported by amazon-s3-driver. <br/> - __distributed-data-model__ for a distributed setup, which would connect all relevant adapters. <br/> - __adapter__ for different adapters in a distributed setup: sql-adapter, generic-adapter,cassandra-adapter, mongodb-adapter, amazonS3-adapter, trino-adapter, neo4j-adapter, ddm-adapter, zendro-webservice-adapter. 
 *url* | String | This field is only mandatory for __zendro\_server__ stored models. Indicates the url where the zendro server storing the model is runnning.
 *attributes* | Object |  The key of each entry is the name of the attribute and there are two options for the value . It can be either a string indicating the type of the attribute or an object where the user indicates the type of the attribute(in the _type_ field) together with an attribute's description (in the _description_ field). See the [table](#supported-data-types) below for allowed types. Example of option one: ```{ "attribute1" : "String", "attribute2: "Int" }``` Example of option two: ``` { "attribute1" : {"type" :"String", "description": "Some description"}, "attribute2: "Int ```
 *associations* | Object | The key of each entry is the name of the association and the value should be an object describing the corresponding association. See [Associations Spec](#associations-spec) section below for details.
 *indices* | [String] |  Names of attributes for generating corresponding indices.
-*operatorSet* | String | It is possible to specify the operator set for generic models, distributed adapters and zendro servers. The following operator set are supported: `GenericPrestoSqlOperator`, `MongodbNeo4jOperator`, `CassandraOperator`, `AmazonS3Operator`. See [documentation of operators](api_graphql.md#operators) for details.
+*operatorSet* | String | It is possible to specify the operator set for generic models, distributed adapters and zendro servers. The following operator set are supported: `GenericPrestoSqlOperator`, `MongodbNeo4jOperator`, `CassandraOperator`, `AmazonS3Operator`. See [documentation of operators]({{ site.baseurl }}{% link api_graphql.md %}#operators) for details.
 *internalId* | String | This string corresponds to the name of the attribute that uniquely identifies a record. If this field is not specified, an _id_, default attribute, will be added.
 *spaSearchOperator* | 'like' \| 'iLike' | Optional attribute to specify which operator should be used for the single-page-app text search-field. Defaults to iLike
 
@@ -72,7 +82,7 @@ name | Type | Description
 
 
 ### Foreign keys
-It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this](api_graphql.md#extra-mutation-fields-to-update-or-create-associations) section for more info.
+It's important to notice that when a model involves a foreign key for the association, this key should be explicitly written into the attributes field of the given local model. Although, foreign keys will be available for the user only as readable attributes, for editing this attributes we offer the possibility as part of the API, please see [this]({{ site.baseurl }}{% link api_graphql.md %}#extra-mutation-fields-to-update-or-create-associations) section for more info.
 To store to-many associations (many-to-many or one-to-many) via foreign keys Zendro offers to store the foreign keys in arrays. In this case the model will have an array attribute which will store ids from the associated records.
 
 #### single-end foreign keys
@@ -318,13 +328,13 @@ To generate a generic association the `generic` implementation type can be used.
 
 ### Differences between backend and Frontend (GUI)
 
-The same data model description files (.json) can be used for generating both the [BACKEND](setup_backend.md) and [FRONTEND OR GUI](setup_gui.md). Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
+The same data model description files (.json) can be used for generating both the [BACKEND]({% link setup_backend.md %}) and [FRONTEND OR GUI]({% link setup_gui.md %}). Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
 
 The field `reverseAssociation` is only mandatory for generating the queries used in the single-page-application to communicate with the graphql-server. Generating the graphql-server code without setting this field will give an appropriate warning.
 
 ### About the association types
 
-In Zendro, there are four association types, namely __* : 1__ (many-to-one), __1 : *__ (one-to-many), __* : *__ (many-to-many) and __1:1__ (one-to-one).
+In Zendro, there are four association types, namely __\* : 1__ (many-to-one), __1 : \*__ (one-to-many), __\* : \*__ (many-to-many) and __1:1__ (one-to-one).
 
 As usually, in any association type the foreign-key shall be placed inside one of the two associated tables. However both table models need to be notified about that link. This association information shall be placed in each model definition JSON files. Below we consider the models for two tables A and B, that are defined in the files A.json and B.json correspondingly.
 

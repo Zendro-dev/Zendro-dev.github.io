@@ -1,4 +1,8 @@
-theme: jekyll-theme-cayman
 title: Zendro Documentation
 description: Here you will find a tutorial for all Zendro projects and how to do a basic set up to start working.
-markdown: kramdown
+theme: just-the-docs
+
+url: https://zendro-dev.github.io/
+
+aux_links:
+  Template Repository: https://github.com/Zendro-dev/Zendro-dev.github.io

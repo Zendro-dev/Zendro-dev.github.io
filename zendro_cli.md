@@ -1,9 +1,22 @@
-[ &larr; back](README.md)
-<br/>
-# Zendro Command Line Interface (CLI)
-## Introduction
-A CLI for ZendroStarterPack.
+---
+layout: default
+title: Zendro CLI
+nav_order: 8
+---
 
+# Zendro CLI
+{: .no_toc }
+
+A CLI for ZendroStarterPack.
+{: .fs-6 .fw-300 }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 ## Installation
 A quick installation would be this command: `npm install -g Zendro-dev/zendro`.
 However, if you would like to customize your Zendro CLI, you can set it up as the following:
@@ -16,7 +29,7 @@ $ npm link
 For example, you can customize the version of each repository by editing `zendro_dependencies.json` file in your local Zendro CLI repository.
 
 ## Commands
-### Start a new zendro application:
+### Start a new zendro application
 ```
 zendro new <your_application_name>
 
@@ -38,7 +51,7 @@ Hints:
 
 Note: by default, SQLite3 would be used for the data storage. If you want to use other storage types, then you can reuse part of two example files, which illustrate the configuration of all supported storage types with docker setup, namely `./config/data_models_storage_config_example.json` and `./docker-compose-dev-example.yml`.
 
-### Generate code for graphql-server:
+### Generate code for graphql-server
 ```
 zendro generate
 
@@ -50,7 +63,7 @@ zendro generate
     -m, --migrations: Generate migrations (default: false).
 ```
 
-### Dockerize Zendro App with example docker files:
+### Dockerize Zendro App with example docker files
 ```
 zendro dockerize
 
@@ -63,7 +76,7 @@ zendro dockerize
     -v, --volume: remove volumes (default: false).
 ```
 
-### Start Zendro service:
+### Start Zendro service
 ```
 zendro start [service...]
 
@@ -79,7 +92,7 @@ Hints:
 * spa: single-page-app
 * giql: graphiql
   
-### Stop Zendro service:
+### Stop Zendro service
 ```
 zendro stop [service…]
 
@@ -92,7 +105,7 @@ Hints:
 1. stop all service by default
 2. stop specified service
 
-### Generate migration code for graphql-server:
+### Generate migration code for graphql-server
 ```
 zendro migration:generate
 
@@ -142,11 +155,11 @@ zendro set-up
 
 ## A Quick Example for setting up a Zendro Sandbox
 
-Please go to [Quickstart](quickstart.md) guide to set up a Zendro Sandbox. 
+Please go to [Quickstart]({{ site.baseurl }}{% link quickstart.md %}) guide to set up a Zendro Sandbox. 
 
 ## A Detailed Example for setting up a Zendro Instance
 
-Please go to [Getting started](setup_root.md) guide to set up a Zendro Instance. 
+Please go to [Getting started]({{ site.baseurl }}{% link setup_root.md %}) guide to set up a Zendro Instance. 
 
 ## Example for Migrations
 If a user has new data model definitions, it is convinient to use Zendro CLI for dealing with migrations. And the following procedure shows how to generate, perform or drop migrations:

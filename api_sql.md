@@ -1,13 +1,26 @@
-[&larr; back](api_root.md)
-<br/>
+---
+layout: default
+title: SQL
+parent: Zendro API
+nav_order: 3
+permalink: /api_root/sql
+---
 
 # SQL statements in the data model
-
+{: .no_toc }
 This document describes the SQL statements that are used for implementing CRUD functionality for models that are based on the `sql` storage type.
 
 Zendro uses the promise-based ORM [Sequelize](https://sequelize.org/) to make the needed database calls. Sequelize provides a class [Model](https://sequelize.org/master/class/lib/model.js~Model.html) to represent tables in a database, with the instances of this class being single rows in this table. In Zendro, the model classes are extended from this class.
 
 We will use the model `event` from the [Breeding API](https://github.com/usadellab/EMPHASIS-Layer/tree/master/data_model_definitions) to see how the various Zendro commands are translated into SQL.
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Case 'Create'
 

@@ -1,9 +1,23 @@
-[ &larr; back](setup_root.md)
-<br/>
-# Back-end Server Setup
+---
+layout: default
+title: Back-end server setup
+parent: Getting started
+nav_order: 3
+permalink: /setup_root/backend
+---
 
-<br/><br/>
-_**Server "skeleton"**_
+# Back-end server setup
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
+
+# Server "skeleton"
 
 For installing the backend skeleton we will need a copy of the repository, found in [this link](https://github.com/Zendro-dev/graphql-server), installed locally. For this purpose we should run the following lines:
 
@@ -14,8 +28,7 @@ $ npm install
 ```
 From now on, in this document, we will assume that your backend-skeleton is installed in `/your-path/backend-skeleton`.
 
-<br/><br/>
-_**Install backend code generator**_
+# Install backend code generator
 
 For installing the backend generator we will need a copy of the repository, found in [this link](https://github.com/Zendro-dev/graphql-server-model-codegen), installed.
 For this purpose we should run the following lines:
@@ -29,8 +42,7 @@ $ npm install -g
 If you only want to install it locally, then you should run
 `$ npm install` instead and then adapt each command accordingly.
 
-<br/><br/>
-_**Generate the code**_
+# Generate the code
 
 After installing the backend-generator and if we have our data models defined, then we can generate the code for the graphql server. For this purpose we should run the following lines:
 ```
@@ -47,8 +59,7 @@ Example:
 $ code-generator -f /your-path/json-files -o /your-path/backend-skeleton
 ```
 
-<br/><br/>
-_**Run GraphQL server**_
+# Run GraphQL server
 
 ```
 $ cd /your-path/backend-skeleton
@@ -57,8 +68,7 @@ $ migrateDbAndStartServer.sh
 The command `migrateDbAndStartServer.sh` will use the appropriate database credentials in `config/data_models_storage_config.json` to create the tables specified in the migrations folder.
 
 
-<br/><br/>
-_**Setup environment variables**_
+# Setup environment variables
 
 You can also specify some environment variables:
 

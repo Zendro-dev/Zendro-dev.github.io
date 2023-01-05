@@ -1,8 +1,21 @@
-[ &larr; back](setup_root.md)
-<br/>
+---
+layout: default
+title: Set up GUI
+parent: Getting started
+nav_order: 4
+permalink: /setup_root/gui
+---
 # Set up GUI
+{: .no_toc }
 Once we have our models defined and our graphql server running, we can generate and run a graphical user interface.
-To install it, we need to run the following lines:
+{: .fs-6 .fw-300 }
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 ### Install GUI skeleton
 ```
 $ git clone https://github.com/ScienceDb/single-page-app.git gui-skeleton

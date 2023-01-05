@@ -1,20 +1,29 @@
-[ &larr; back](README.md)
-<br/>
-# Zendro API Documentation
+---
+layout: default
+title: Zendro API
+nav_order: 6
+has_children: true
+permalink: /api_root
+---
 
-Given a data scheme described using our [custom format](setup_data_scheme.md), the Zendro backend generator will implement default CRUD API that can be accessed through a well-known GraphQL query language or through an *export service*. To get more information about GraphQL queries and mutations you can read its [official documentation](https://graphql.org/learn/queries/). When back-end server is up, the regular GraphQL service is accessible at `http://<back_srv>/graphql`. The service for exporting massive joined database slices has another URL: `http://<back_srv>/export`. Both services accept POST requests with authentication information in its header. In the case of GraphQL, request body should follow the GraphQL standard. Data export service accepts its own request parameters.
+# Zendro API
+{: .no_toc }
+Given a data scheme described using our [custom format]({% link setup_data_scheme.md %}), the Zendro backend generator will implement default CRUD API that can be accessed through a well-known GraphQL query language or through an *export service*. To get more information about GraphQL queries and mutations you can read its [official documentation](https://graphql.org/learn/queries/). When back-end server is up, the regular GraphQL service is accessible at `http://<back_srv>/graphql`. The service for exporting massive joined database slices has another URL: `http://<back_srv>/export`. Both services accept POST requests with authentication information in its header. In the case of GraphQL, request body should follow the GraphQL standard. Data export service accepts its own request parameters.
 
 Zendro back-end server implementation follows the GraphQL convention to refer to a request that does not cause any data change as *query* and a request that modifies data as *mutation*. The export service would never modify data, so all its requests can be referred as queries identically.
 
+## Table of contents
+{: .no_toc .text-delta }
 
-Zendro API documentation consists of three parts:
-<br/><br/>
+1. TOC
+{:toc}
 
+---
 ### Access Permissions
 
 Back-end server can work in two modes: *development* and *production*, depending on the presence of `acl` argument in the command line that runs back-end server. The development mode will cause all user permissions to be ignored. In this mode it is possible to omit authentication header in the requests and start to explore server's API without configuring any permissions. However, for obvious reasons, it is highly recommended to open remote access to the server running in production mode (with `acl` switched-*on*).
 
-[ > ACL](api_acl.md)
+[ > ACL]({{ site.baseurl }}{% link api_acl.md %})
 <br/><br/>
 ### GraphQL API
 
@@ -40,7 +49,7 @@ It exists a possibility to parametrize such requests inserting some logic into t
 
 In this project it is automatically generated a set of GraphQL queries and mutations that, from our point of view, would cover most of the needs of Zendro end users.
 
-[ > GraphQL Queries and Mutations](api_graphql.md)
+[ > GraphQL Queries and Mutations]({{ site.baseurl }}{% link api_graphql.md %})
 <br/><br/>
 ### Batch Data Exporting
 
@@ -49,7 +58,7 @@ We offer two ways to download records, namely by Zendro command line interface o
 
 The concrete instruction is elaborated here:
 
-[ > Data Export](non-developer_documentation.md#data-download)
+[ > Data Export]({% link non-developer_documentation.md %}#data-download)
 
 ### SQL Statements in the Data model
 
@@ -57,4 +66,4 @@ One of the supported storage types (and the standard storage type for completely
 
 A list of basic GraphQL statements and their transformation into SQL can be seen here.
 
-[ > SQL Statements](api_sql.md)
+[ > SQL Statements]({{ site.baseurl }}{% link api_sql.md %})
