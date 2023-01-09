@@ -328,7 +328,7 @@ To generate a generic association the `generic` implementation type can be used.
 
 ### Differences between backend and Frontend (GUI)
 
-The same data model description files (.json) can be used for generating both the [BACKEND]({% link setup_backend.md %}) and [FRONTEND OR GUI]({% link setup_gui.md %}). Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
+The same data model description files (.json) can be used for generating both the backend and frontend. Fields such as  *`label`* and *`sublabel`* in the model specification that are only needed for GUI generator are ignored by the backend generator.
 
 The field `reverseAssociation` is only mandatory for generating the queries used in the single-page-application to communicate with the graphql-server. Generating the graphql-server code without setting this field will give an appropriate warning.
 

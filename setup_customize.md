@@ -2,7 +2,7 @@
 layout: default
 title: Customize Zendro
 parent: Getting started
-nav_order: 5
+nav_order: 3
 permalink: /setup_root/customize
 ---
 # Customize Zendro
