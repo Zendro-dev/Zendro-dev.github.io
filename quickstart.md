@@ -9,7 +9,7 @@ nav_order: 2
 
 This is a quickstart guide on how to create a new Zendro project with default parameters. It uses pre-defined datamodels, database and environment variables. 
 {: .fs-6 .fw-300 }
-If you want to know more about Zendro or a detailed explanation on how to set up Zendro from scratch, check [this]({{ site.baseurl }}{% link setup_root.md %}).
+If you want to know more about Zendro or a detailed explanation on how to set up Zendro from scratch, check [this]({% link setup_root.md %}).
 {: .fs-6 .fw-300 }
 
 ## Table of contents
@@ -61,7 +61,7 @@ Edit *NEXTAUTH_SECRET* to your expected secret word in the following files:
 * **GraphiQL in development mode:** ./graphiql-auth/.env.development
 * **GraphiQL in production mode:** ./graphiql-auth/.env.production
 
-If you want to know more about the enviroment variables, you can check [this](env_vars.md).
+If you want to know more about the enviroment variables, you can check [this]({% link env_vars.md %}).
 
 ### Step 4: Start up your Zendro instance
 
@@ -87,7 +87,7 @@ $ zendro dockerize -u -p
 ```
 
 This command will create docker containers for each Zendro component:
-* [Keycloak]({{ site.baseurl }}{% link oauth.md %}): manage users and roles
+* [Keycloak]({% link oauth.md %}): manage users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
 * [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
 * [GraphiQL interface](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.

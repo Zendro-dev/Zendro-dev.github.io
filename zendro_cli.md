@@ -155,11 +155,11 @@ zendro set-up
 
 ## A Quick Example for setting up a Zendro Sandbox
 
-Please go to [Quickstart]({{ site.baseurl }}{% link quickstart.md %}) guide to set up a Zendro Sandbox. 
+Please go to [Quickstart]({% link quickstart.md %}) guide to set up a Zendro Sandbox. 
 
 ## A Detailed Example for setting up a Zendro Instance
 
-Please go to [Getting started]({{ site.baseurl }}{% link setup_root.md %}) guide to set up a Zendro Instance. 
+Please go to [Getting started]({% link setup_root.md %}) guide to set up a Zendro Instance. 
 
 ## Example for Migrations
 If a user has new data model definitions, it is convinient to use Zendro CLI for dealing with migrations. And the following procedure shows how to generate, perform or drop migrations:

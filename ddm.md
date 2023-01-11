@@ -179,7 +179,7 @@ Due to Zendro requiring the use of a pagination argument the user needs to think
 
 ## Authorization and Authentication
 
-Handling authorization and authentication in a network of zendro instances requires some manual setup. The following guide intents to give solutions for zendros default authorization setup using [keycloak](https://www.keycloak.org/). See also the documentation on [authorization and authentication]({{ site.baseurl }}{% link oauth.md %}).
+Handling authorization and authentication in a network of zendro instances requires some manual setup. The following guide intents to give solutions for zendros default authorization setup using [keycloak](https://www.keycloak.org/). See also the documentation on [authorization and authentication]({% link oauth.md %}).
 
 Generally it is recommended to use a single authorization endpoint for all zendro nodes in the network, however it is also conceivable, depending on the users needs to setup multiple authorization endpoints. This guide will focus on using a single endpoint.
 

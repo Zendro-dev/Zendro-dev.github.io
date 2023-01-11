@@ -23,7 +23,7 @@ Zendro back-end server implementation follows the GraphQL convention to refer to
 
 Back-end server can work in two modes: *development* and *production*, depending on the presence of `acl` argument in the command line that runs back-end server. The development mode will cause all user permissions to be ignored. In this mode it is possible to omit authentication header in the requests and start to explore server's API without configuring any permissions. However, for obvious reasons, it is highly recommended to open remote access to the server running in production mode (with `acl` switched-*on*).
 
-[ > ACL]({{ site.baseurl }}{% link api_acl.md %})
+[ > ACL]({% link api_acl.md %})
 <br/><br/>
 ### GraphQL API
 
@@ -49,7 +49,7 @@ It exists a possibility to parametrize such requests inserting some logic into t
 
 In this project it is automatically generated a set of GraphQL queries and mutations that, from our point of view, would cover most of the needs of Zendro end users.
 
-[ > GraphQL Queries and Mutations]({{ site.baseurl }}{% link api_graphql.md %})
+[ > GraphQL Queries and Mutations]({% link api_graphql.md %})
 <br/><br/>
 ### Batch Data Exporting
 
@@ -66,4 +66,4 @@ One of the supported storage types (and the standard storage type for completely
 
 A list of basic GraphQL statements and their transformation into SQL can be seen here.
 
-[ > SQL Statements]({{ site.baseurl }}{% link api_sql.md %})
+[ > SQL Statements]({% link api_sql.md %})
