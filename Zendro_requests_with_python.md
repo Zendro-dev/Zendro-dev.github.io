@@ -238,12 +238,33 @@ delete_response = session.post(
 )
 
 delete_response.json()
-```
-
-
 
 
     {'data': {'updateCity': {'city_id': '7', 'country_id': None},
       'deleteCity': 'Item successfully deleted'}}
 
+```
 
+Remember you can also pass [variables](https://graphql.org/learn/queries/#variables) to a given query. This allows users to define their query and then pass in the dynamic parameters (search, order, pagination,...) at run time. 
+
+For instance, the file [cursor-based-pagination.js](https://github.com/Zendro-dev/graphql-server-model-codegen/blob/master/test/unit_test_misc/test-describe/cursor-based-pagination.js), of Zendro's code generator uses a query (line 142) using variables:
+```
+    let query = \`query booksConnection($search: searchBookInput $pagination: paginationCursorInput! $order: [orderBookInput]){
+        booksConnection(search:$search pagination:$pagination order:$order){ edges{cursor node{  id  title
+          genre
+          publisher_id
+         } } pageInfo{ startCursor endCursor hasPreviousPage hasNextPage } } }\`
+```
+Here the variables are `search`, `pagination` and `order`. User can pass these variables dynamically.
+And we can send query and variables via axios:
+
+```
+      let response = await axios.post(
+        remoteZendroURL, 
+        {
+          query: query,
+          variables: {search: search, order:order, pagination: pagination},
+        },
+        opts
+      );
+```

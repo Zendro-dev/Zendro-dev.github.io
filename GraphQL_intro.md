@@ -151,9 +151,19 @@ After you execute the query, you will get the same data we got for each river be
 ![API_query4.png](figures/API_query4.png)
 
 
-You can write much more complex queries to get the data you want. Please explore the [GraphQL documentation](https://graphql.org/learn/) or many other resources out there to learn more. The above examples should get you going if you want to get data to perform analyses in R or Python.
+In the above examples all the arguments are inside the query string. But the arguments to fields can also be dynamic, for instance there might be a dropdownn menu in an application that lets the user select which City the user is interested in, or a set of filters. 
+
+To improve run time, GraphQL can factor dynamic values out of the query, and pass them as a separate dictionary. These values are called **variables**. Common variables include search, order and pagination. To work with variables you need to do three things:
+
+1. Replace the static value in the query with `$variableName`
+2. Declare `$variableName` as one of the variables accepted by the query
+3. Pass `variableName: value` in the separate, transport-specific (usually JSON) variables dictionary 
+
+Check the [official documentation](https://graphql.org/learn/queries/#variables) for examples.  
+
+As you can see, you can write much more complex queries to get the data you want. Please explore the [GraphQL documentation](https://graphql.org/learn/) or many other resources out there to learn more. The above examples should get you going if you want to get data to perform analyses in R or Python.
 
 Before trying to download data from R, Python or any other programming language using the GraphQL API, we recommend writing the query to the GraphiQL web interface and making sure it returns the desired data as in the right panel in the image above.
 
-Next step? Check Zendro How to guides for tutorials on how to use the GraphQL API from R or Python to explore and analyse data stored in Zendro.
+**Next step?** Check Zendro How to guides for tutorials on how to use the GraphQL API from R or Python to explore and analyse data stored in Zendro.
 
