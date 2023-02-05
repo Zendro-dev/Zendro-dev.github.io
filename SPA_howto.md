@@ -191,6 +191,8 @@ If there are no errors your data will be uploaded. Click the Reload button of th
 
 If there are errors you will be told what's the problem. Check your data and try again.
 
+**Note:** the maximun allowed upload size and other variables you see our interact with in the graphical interface are customizable when setting up Zendro. You (or your sys admin) can learn more about this int he [Environment variables](https://zendro-dev.github.io/setup_root/env_var) section of the documentation.
+
 
 ## Download data
 
