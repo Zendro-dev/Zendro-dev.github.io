@@ -143,9 +143,11 @@ Adding single records one by one is useful sometimes, but many users want to add
 
 The .xlsx or .csv data file is expected to follow these requirements:
 
-1. Column names in the first row must correspond to model attributes (i.e. column names in the Zendro main table for that model)
+1. Column names in the first row must correspond to model attributes (i.e. column names in the Zendro main table for that model). For associations, corresponding column name should be `add<associationName>`, e.g. `addCountries` for assciationName `countries`.
 2. Empty values should be represented as `NULL`.
-3. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
+3. All fields should be quoted by `"`. However, if field delimiter and array delimiter do not occur in fields with String type, namely characters could be split without ambiguity, then no quotes are necessary. For example, if the field delimiter is `,` and one String field is like `Zendro, excellent!`, then without the quotation mark, this field will be split as two fields. So in such case these String fields must be quoted.
+4. Default configuration: LIMIT_RECORDS=10000, RECORD_DELIMITER="\n", FIELD_DELIMITER=",", ARRAY_DELIMITER=";". They can be changed in the config file for environment variables.
+5. Date and time formats must follow the [RFC 3339](https://tools.ietf.org/html/rfc3339) standard.
 
 Additionally, if you are uploading your data from a csv file:
 
@@ -154,7 +156,7 @@ Additionally, if you are uploading your data from a csv file:
 
 In order to get the field names right and check what type each one is (e.g. integer, character, etc), you can **Download the model template** by clicking in the "light down arrow" at the top right panel of the main data model table. You will be prompted to download a csv file named after the table you are downloading, for example "river". You can open this file in your favourite spreadsheet processor (e.g. Excel).
 
-It will have the the column names you need in the first row, and the data type in the second. Notice that if your data model has associations, the ids ("key") associating records will be shown as columns too. For example because the model "river" is associated with one or more "countries" you have to provide the `country_ids` in the last column. If we fill this example with a list of Mexican rivers, this means that the `country_ids` field should include Mexico's country id, which is "MX" according to the "country" data model table.
+It will have the the column names you need in the first row, and the data type in the second. Notice that if your data model has associations, the foreign keys of associating records will be shown as columns too. For example because the model "river" is associated with one or more "countries" you have to provide the `addCountries` in the last column. If we fill this example with a list of Mexican rivers, this means that the `addCountries` field should include Mexico's country id, which is "MX" according to the "country" data model table.
 
 ![SPA_csvtemplate.png](figures/SPA_csvtemplate.png)
 
@@ -180,10 +182,10 @@ river_id,name,length,country_ids
 
 Save it as an .csv file. It should be ready to upload it to Zendro!
 
-**Note:** you can also Save as csv file from Excel, but make sure you add the `"` if any of your strings (text) have `,` within them.
+**Note:** you can also save as csv file from Excel, but make sure you add the `"` if any of your strings (text) have `,` within them.
 
 
-To finally upload your data to Zendro click on Import data ("bold top arrow" icon) of the top right menu, select your file and click **Upload**:
+To finally upload your data to Zendro click on `Import data` ("bold top arrow" icon) of the top right menu, select your file and click **Upload**:
 
 ![SPA_addExcel.png](figures/SPA_addExcel.png)
 
@@ -196,7 +198,7 @@ If there are errors you will be told what's the problem. Check your data and try
 
 ## Download data
 
-To download data, click on the Download data button (bold down arrow). You will be prompted to select a directory and file name where to save the data. 
+To download data, click on the `Download data` button (bold down arrow). You will be prompted to select a directory and file name where to save the data. 
 
 ![SPA_download.png](figures/SPA_download.png)
 
