@@ -21,7 +21,7 @@ If you want to know more about Zendro or a detailed explanation on how to set up
 ---
 
 ## Project Requirements:
- * [NodeJS](https://nodejs.org/en/) version 17+ is required.
+ * [NodeJS](https://nodejs.org/en/) version 16+ is required.
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
  <br/><br/>

@@ -20,7 +20,7 @@ This is a step-by-step guide on how to create a new Zendro project from scratch,
 Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url `http://localhost:3000/graphql`. To pull up the corresponding server it is required to generate some code first. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url `http://localhost:8080`. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accommodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
 
 ## Project Requirements:
- * [NodeJS](https://nodejs.org/en/) version 17+ is required.
+ * [NodeJS](https://nodejs.org/en/) version 16+ is required.
 
  **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
@@ -70,9 +70,11 @@ If you wish to know more about enviroment variables you can check [this]({% link
 
 ### Step 4: Define your data models
 
-Add your model definitions in JSON files to `./data_model_definitions` folder.
+Add your model definitions in JSON files to `./data_model_definitions` folder. 
 
-If you want to learn more about how to define data models with Zendro, please check [this]({% link setup_data_scheme.md %}).
+If you want to learn more about how to define data models with Zendro, please check [this]({% link setup_data_scheme.md %}). 
+
+Note: by default, indices would be generated for *internalId*. And it is recommended to add indices for attributes which are foreign keys. See the [json specs]({% link setup_data_scheme.md %}#json-specs) for more information.
 
 ### Step 5: Generate code and migrations
 
@@ -313,3 +315,7 @@ A couple of basic extensions are suggested to be introduced directly into the Gr
 Furthermore, the whole codebase used to run zendro is exposed and can be directly customized if needed. That is true for the graphql-server as well as the frontend applications.
 
 [ > Advanced code customizing]({% link setup_customize.md %})
+
+### Add empty or default plots (optional)
+
+Empty or default plots could be generated via zendro CLI. Please see the instruction [here]({% link zendro_cli.md %}#plots)
