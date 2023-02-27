@@ -58,7 +58,7 @@ We offer two ways to download records, namely by Zendro command line interface o
 
 The concrete instruction is elaborated here:
 
-[ > Data Export]({% link non-developer_documentation.md %}#data-download)
+[ > Data Export]({% link what_are_data_models.md %}#data-download)
 
 ### SQL Statements in the Data model
 
