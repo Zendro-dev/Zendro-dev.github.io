@@ -3,7 +3,7 @@ layout: default
 title: Roles
 parent: Authentication
 nav_order: 1
-permalink: /oauth/data_models/validation
+permalink: /oauth/roles
 ---
 
 

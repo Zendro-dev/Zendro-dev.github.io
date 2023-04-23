@@ -2,6 +2,7 @@
 layout: default
 title: Authentication
 nav_order: 5
+has_children: true
 ---
 
 # Authentication and Authorization
