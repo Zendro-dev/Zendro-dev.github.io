@@ -1,7 +1,7 @@
 ---
 layout: default
 title: What are data models?
-parent: Usage
+parent: For users
 nav_order: 1
 permalink: /usage/data_models
 ---

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: GraphQL & API
-parent: Usage
+parent: For users
 nav_order: 2
 permalink: /usage/graphql
 ---

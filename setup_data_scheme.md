@@ -514,10 +514,6 @@ Let's use some examples to explain these four types of association:
     ```
     (table B keeps a unique foreignkey_A)
 
-## The Resolver Layer and the Model Layer
-
-The Zendro server uses two different layers below the GraphQL schema (which defines the functions that the GraphQL server understands) to process data, the resolver layer and the model layer. The main reason for this is that Zendro supports a growing number of storage types, and the more abstract layer (the resolver) is supposed to be storage type agnostic. There is one exception to this (in the case of distributed data models, one resolver function cannot be supported, see [below](#pagination-types)), but otherwise, it holds true. So the resolver layer provides an interface that the GraphQL schema can use, and (on the other side) an interface that a new storage type model has to fulfill.
-
 ## The code generator at work
 
 The code generator receives the specification as described [above](#json-specs) and generates resolvers and models from it. In this section we take a look at the code that is generated from the different attributes that can be given by the JSON specification.
@@ -670,38 +666,6 @@ Limit-offset based pagination is not possible for distributed data models, i.e. 
 
 Instead, a different model has to be used. If the different servers are told which was the last entry "above" the requested page (a cursor), they can deliver the content that would follow up to it and the client can now get the received data in order. This type of pagination works for any kind of data, although it is more complex (the entries for the table are found under `edges[] -> node`).
 
-## Custom Validator Function for AJV
-It is possible to add custom asynchronous validation functions with keyword `asyncValidatorFunction`.
-
-### A Running Example
-If there is a model called `example`, the attribute `id` in the model would be validated. Only if its value is `"1"`, it passes the validation. 
-
-In specifically, it should be implemented by two steps:
-1. find a file called `example.js` in folder `validations`.
-2. add keyword `asyncValidatorFunction` and corresponding asynchronous validation function for attribute `id` in `validatorSchema`.
-
-And the example code is as follows:
-```
-example.prototype.validatorSchema = {
-  "$async": true,
-  "properties": {
-    "id": {
-      "asyncValidatorFunction": async function(data) {
-        if (data === "1") {
-          return true
-        } else {
-          return new Promise(function(resolve, reject) {
-            return reject(new Ajv.ValidationError([{
-              keyword: 'asyncValidatorFunction',
-              message: `${data} is not 1`
-            }]))
-          })
-        }
-      }
-    }
-  }
-}
-```
 ## Data Loader
 When reading a record by its id, by default Zendro uses a [data loader](https://github.com/graphql/dataloader) to improve read performance. It does so by bundling IDs to be fetched and request those in one composite query.
 

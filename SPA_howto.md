@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Graphical UI
-parent: Usage
+parent: For users
 nav_order: 3
 permalink: /usage/spa
 ---

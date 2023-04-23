@@ -2,6 +2,7 @@
 layout: default
 title: Cassandra storageType
 parent: Data models
+nav_order: 3
 grand_parent: Getting started
 permalink: /setup_root/data_models/cassandra
 ---
