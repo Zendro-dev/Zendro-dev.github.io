@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Data validation
+title: Resolver Layer and Model Layer
 parent: Data models
 nav_order: 1
 grand_parent: Getting started
@@ -10,13 +10,6 @@ permalink: /setup_root/data_models/model_resolver_layers
 
 # The Resolver Layer and the Model Layer
 {: .no_toc }
-
-
-## Table of contents
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
 
 ---
 

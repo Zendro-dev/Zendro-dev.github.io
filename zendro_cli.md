@@ -2,6 +2,7 @@
 layout: default
 title: Zendro CLI
 nav_order: 8
+category: Test
 ---
 
 # Zendro CLI
