@@ -40,11 +40,14 @@ $ npm link
 
 ### Step 2: Setup a new Zendro project
 
-The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro) with minimal steps and configuration. Execute:
+The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro) with minimal steps and configuration. 
+Go out from the previusly created `zendro` directory and execute:
 
 ```
 $ zendro set-up -d <name>
 ```
+
+where `<name>` is the name of your new project.
 
 By default, three data models with associations will be used for this instance:
 * city
@@ -55,7 +58,8 @@ Also a default SQLite database will be used. You can find the database on *graph
 
 ### Step 3: Edit environment variables
 
-Edit *NEXTAUTH_SECRET* to your expected secret word in the following files:
+Go inside the new project you just created named `<name>` and edit *NEXTAUTH_SECRET* to your expected secret word in the following files:
+
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphiql-auth/.env.development
