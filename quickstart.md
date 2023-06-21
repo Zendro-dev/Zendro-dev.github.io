@@ -41,7 +41,14 @@ $ npm link
 ### Step 2: Setup a new Zendro project
 
 The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro) with minimal steps and configuration. 
-Go out from the previusly created `zendro` directory and execute:
+
+Go out from the previusly created `zendro` directory 
+
+```
+$ cd ..
+```
+
+and execute:
 
 ```
 $ zendro set-up -d <name>
