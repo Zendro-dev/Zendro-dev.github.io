@@ -42,11 +42,19 @@ $ npm link
 
 ### Step 2: Setup a new Zendro project
 
-The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro). With minimal steps and configuration a Zendro warehouse taylored to your data needs can be deployed. Execute:
+The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro). With minimal steps and configuration a Zendro warehouse taylored to your data needs can be deployed. 
+
+Go out from the previusly created `zendro` directory 
+
+```
+$ cd ..
+```
+
+and execute:
 
 ```
 # "-d" adds Dockerfiles to fully dockerize running zendro 
-$ zendro new -d <my-project-name> 
+$ zendro new -d <my-project-name>  
 ```
 
 <!----><a name="envvars"></a>
@@ -78,7 +86,9 @@ Note: by default, indices would be generated for *internalId*. And it is recomme
 
 ### Step 5: Generate code and migrations
 
-After setting up your data models use the next command to generate the model-specific code and fill your Zendro skeleton project with life.
+After setting up your data models use the next command to generate the model-specific code and fill your Zendro skeleton project with life. 
+
+Inside the new project execute:
 
 ```
 $ zendro generate -m
@@ -187,7 +197,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 ***Requirements***
 
 * Install [Java](https://www.java.com/en/) (from Java 11 forward).
-* Install [keycloak](https://www.keycloak.org). We recommend Keycloak 17.0.1. Latest versions could cause issues like the described [here](#important).
+* Install [keycloak](https://www.keycloak.org). We recommend Keycloak 18+. 
   * Go to https://www.keycloak.org/downloads and download *Distribution powered by Quarkus*.
   * After unzip, copy the keycloak configuration file from `zendro/test/env/keycloak.conf` to `keycloak/conf/keycloak.conf`.
   * Two enviroment variables should be configured through command line. In terminal inside keycloak folder execute:
@@ -200,25 +210,29 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
 
     * Zendro realm configuration will be done when the migration file is executed after zendro starts.
+    <br/><br/>
 
-<!----><a name="important"></a>
 
-> **Important**: In some versions of keycloak, e.g. version 18.0.1, you could get the next error when go to http://localhost:8081/auth:
-> ```
->  We are sorry...
->  Page not found
->  ```
-> If this is your case, try to go to http://0.0.0.0:8081 (**see: without /auth**). If the url works, modify the url in the next env files as follows: 
->  * ./single-page-app/.env.production, ./single-page-app/.env.development, ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
->    ```
->    OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
->    OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
->    OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
->    ```
->  * ./graphql-server/.env
->    ```
->    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
->    ```
+  * In order to get zendro and keycloak running, you have to do some modifications in your zendro new project `.env` files. 
+
+    * ./single-page-app/.env.production and ./single-page-app/.env.development
+    ```
+    NEXT_PUBLIC_ZENDRO_ROLES_URL="http://localhost:3000/getRolesForOAuth2Token"
+    OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
+    OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
+    OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
+    ```
+    * ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
+    ```
+    OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
+    OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
+    OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
+    ```
+
+    * ./graphql-server/.env
+    ```
+    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
+    ```
 
 * Start zendro 
 
@@ -233,7 +247,8 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     * API - http://localhost:3000/graphql
     * GraphiQL - http://localhost:7000
     * Single Page App (SPA) - http://localhost:8080
-    * Keycloak - http://localhost:8081/auth
+    * Keycloak - http://localhost:8081/
+
 
   **Production mode**
     * Copy the content of `./graphiql-auth/.env.development` to `./graphiql-auth/.env.production`
@@ -250,10 +265,20 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
       * API - http://localhost:3000/graphql
       * GraphiQL - http://localhost:7000
       * Single Page App (SPA) - http://localhost:8080
-      * Keycloak - http://localhost:8081/auth
+      * Keycloak - http://localhost:8081
   
     
 * You can find applications logs on `./logs/graphiql.log`, `./logs/graphql-server.log` and `./logs/single-page-app.log`.
+
+<!----><a name="important"></a>
+>
+> **Important**: If you have problems to connect zendro with keycloak service, we recommend you to modify http://localhost:8081 to http://0.0.0.0:8081 in the next .env files:
+>
+>  * ./single-page-app/.env.production
+>  * ./single-page-app/.env.development
+>  * ./graphiql-auth/.env.development 
+>  * ./graphiql-auth/.env.production
+>  * ./graphql-server/.env
 
 
 ### Step 8: Start up Zendro with access control 
