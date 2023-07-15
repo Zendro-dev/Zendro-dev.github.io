@@ -163,7 +163,7 @@ In default config, the running containers will be:
   ![api example](figures/graphql.png )
 
 * GraphiQL interface with filter functionality: 
-    * http://localhost:7000
+    * http://localhost:7070
 
       * The default zendro username is *zendro-admin* and the password is *admin*.
 
@@ -245,7 +245,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
     In default config, zendro services will be on ports:
     * API - http://localhost:3000/graphql
-    * GraphiQL - http://localhost:7000
+    * GraphiQL - http://localhost:7070
     * Single Page App (SPA) - http://localhost:8080
     * Keycloak - http://localhost:8081/
 
@@ -263,7 +263,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
     In default config, zendro services will be on ports:
       * API - http://localhost:3000/graphql
-      * GraphiQL - http://localhost:7000
+      * GraphiQL - http://localhost:7070
       * Single Page App (SPA) - http://localhost:8080
       * Keycloak - http://localhost:8081
   
