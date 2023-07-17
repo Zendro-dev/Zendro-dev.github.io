@@ -344,3 +344,23 @@ Furthermore, the whole codebase used to run zendro is exposed and can be directl
 ### Add empty or default plots (optional)
 
 Empty or default plots could be generated via zendro CLI. Please see the instruction [here]({% link zendro_cli.md %}#plots)
+
+## Uninstallation
+
+### Remove Project
+
+Execute the following to remove a project:
+
+```
+$ rm -r "path/to/<name>"
+$ docker rmi -f $(docker images -a -q "<name>*")
+```
+
+### Uninstall Zendro
+
+To uninstall Zendro, execute the following:
+
+```
+$ sudo npm unlink -g zendro
+$ sudo rm -r "path/to/zendro"
+```

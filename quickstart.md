@@ -181,5 +181,22 @@ $ zendro dockerize -d -v
 
 **Note**: If you want to persist your data, that includes user data as well as other data, remove the `-v` flag from the above command.
 
+## Uninstallation
 
+### Remove Project
 
+Execute the following to remove a project:
+
+```
+$ rm -r "path/to/<name>"
+$ docker rmi -f $(docker images -a -q "<name>*")
+```
+
+### Uninstall Zendro
+
+To uninstall Zendro, execute the following:
+
+```
+$ sudo npm unlink -g zendro
+$ sudo rm -r "path/to/zendro"
+```
