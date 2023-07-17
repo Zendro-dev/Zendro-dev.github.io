@@ -181,6 +181,17 @@ $ zendro dockerize -d -v
 
 **Note**: If you want to persist your data, that includes user data as well as other data, remove the `-v` flag from the above command.
 
+* * *
+## Updating Zendro
+
+To update Zendro enter your zendro folder and execute:
+
+```
+$ git pull
+$ npm install
+```
+
+* * *
 ## Uninstallation
 
 ### Remove Project

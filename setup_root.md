@@ -345,6 +345,17 @@ Furthermore, the whole codebase used to run zendro is exposed and can be directl
 
 Empty or default plots could be generated via zendro CLI. Please see the instruction [here]({% link zendro_cli.md %}#plots)
 
+* * *
+## Updating Zendro
+
+To update Zendro enter your zendro folder and execute:
+
+```
+$ git pull
+$ npm install
+```
+
+* * *
 ## Uninstallation
 
 ### Remove Project
