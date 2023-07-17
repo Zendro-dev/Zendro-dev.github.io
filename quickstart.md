@@ -139,7 +139,7 @@ In default config, the running containers will be:
   ![api example](figures/graphql.png )
 
 * GraphiQL interface with filter functionality: 
-    * http://localhost:7000
+    * http://localhost:7070
 
       * The default zendro username is *zendro-admin* and the password is *admin*.
 
