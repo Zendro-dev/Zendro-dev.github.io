@@ -20,11 +20,19 @@ This is a step-by-step guide on how to create a new Zendro project from scratch,
 Zendro consists of four source-code projects: __graphql-server-model-codegen__, __graphql-server__, __single-page-app__ and __graphiql-auth__. The first pair is responsible for the back-end [GraphQL](https://graphql.org/learn/) service that can be accessed on the default url `http://localhost:3000/graphql`. To pull up the corresponding server it is required to generate some code first. The third project acts as a client of the GraphQL server and creates a simple generic web-based GUI for this server on the url `http://localhost:8080`. The last project offers a Zendro specific implementation of the browser based GraphQL IDE [Graphiql](https://github.com/graphql/graphiql). The project is a simple [Next.js](https://nextjs.org/) application. Custom adjustments have been made to accommodate Zendro requirements for authentication of users and enhanced meta searches using [jq](https://stedolan.github.io/jq/) or [JSONPath](https://goessner.net/articles/JsonPath/) statements.
 
 ## Project Requirements:
- * [NodeJS](https://nodejs.org/en/) version 16+ is required.
+ * [NodeJS](https://nodejs.org/en/) version 18+ is required.
 
  **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
+
+* * *
+## Recommendations:
+  * We strongly recommend you to use Zendro in Linux with or without docker.
+  * If you prefer to use Zendro in Windows, we recommend you to use it with Windows Subsystem for Linux (WSL).
+  * If you prefer to use Zendro in Mac, we recommend you to use it without docker.
+
+ <br/>
 
 * * *
 ## Step by step guide
@@ -50,27 +58,46 @@ Go out from the previusly created `zendro` directory
 $ cd ..
 ```
 
-and execute:
+* if you prefer to use docker, execute:
 
 ```
 # "-d" adds Dockerfiles to fully dockerize running zendro 
 $ zendro new -d <my-project-name>  
 ```
 
+* if you prefer to use Zendro without docker, execute:
+
+```
+$ zendro new <my-project-name>  
+```
+
 <!----><a name="envvars"></a>
 
 ### Step 3: Edit environment variables
 
-Go inside the new project and modify the selected enviroment variables in the next files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
+Go inside the new project and modify the selected enviroment variables in the following files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
 
-* **Without docker setup:** ./graphql-server/config/data_models_storage_config.json
+* **Without docker setup:** You should modify this file according to your database connection. If you wish to use the default database, please replace the content of the file `./graphql-server/config/data_models_storage_config.json` for:
+```
+{
+  "default-sql": {
+    "storageType": "sql",
+    "dialect": "sqlite",
+    "storage": "data.db"
+  }
+}
+```
+
 * **With docker setup:** ./config/data_models_storage_config.json
+
+**With or without docker:**
+
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphiql-auth/.env.development
 * **GraphiQL in production mode:** ./graphiql-auth/.env.production
 
-  If you would like to upload a file to a remote server, please consider the template *.env.migration.sample*, create a new file *.env.migration* and modify relevant environment variables.
+If you would like to upload a file to a remote server, please consider the template *.env.migration.sample*, create a new file *.env.migration* and modify relevant environment variables.
 
 If you wish to know more about enviroment variables you can check [this]({% link env_vars.md %}).
 
@@ -205,8 +232,12 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     $ export KEYCLOAK_ADMIN=admin
     $ export KEYCLOAK_ADMIN_PASSWORD=admin
     ```
+    *Important: If you are working on Windows and the command `export` is not working, ignore this step. Keycloak is going to ask you for the admin credentials when it starts in the web interface.*
+
   * Start keycloak in dev mode executing `$ ./bin/kc.sh start-dev` in keycloak folder. 
   * Go to http://localhost:8081 to see keycloak running. The keycloak username is *admin* and the password is *admin*.
+
+    *Important: If you are working on Windows and the command `export` is not working, Keycloak is going to ask you for the admin credentials when it starts in the web interface.*
 
 
     * Zendro realm configuration will be done when the migration file is executed after zendro starts.
@@ -218,15 +249,16 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     * ./single-page-app/.env.production and ./single-page-app/.env.development
     ```
     NEXT_PUBLIC_ZENDRO_ROLES_URL="http://localhost:3000/getRolesForOAuth2Token"
-    OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
-    OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
-    OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
+    OAUTH2_ISSUER="http://localhost:8081/realms/zendro"
+    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
+    OAUTH2_LOGOUT_URL="http://localhost:8081/realms/zendro/protocol/openid-connect/logout"
     ```
     * ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
     ```
-    OAUTH2_ISSUER='http://localhost:8081/realms/zendro'
-    OAUTH2_TOKEN_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/token'
-    OAUTH2_AUTH_URI='http://localhost:8081/realms/zendro/protocol/openid-connect/auth'
+    OAUTH2_ISSUER="http://localhost:8081/realms/zendro"
+    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
+    OAUTH2_AUTH_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/auth"
+    OAUTH2_LOGOUT_URL="http://localhost:8081/realms/zendro/protocol/openid-connect/logout"
     ```
 
     * ./graphql-server/.env
