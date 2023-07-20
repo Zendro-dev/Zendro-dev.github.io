@@ -45,7 +45,7 @@ Execute this commands to install Zendro:
 $ git clone https://github.com/Zendro-dev/zendro.git
 $ cd zendro
 $ npm install
-$ npm link
+$ sudo npm link
 ```
 
 ### Step 2: Setup a new Zendro project
