@@ -26,6 +26,8 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
 
+ We strongly recommend to follow [this guide](https://docs.docker.com/engine/install/linux-postinstall/) to use docker without sudo.
+
 * * *
 ## Recommendations:
   * We strongly recommend you to use Zendro in Linux with or without docker.
@@ -92,6 +94,7 @@ Go inside the new project and modify the selected enviroment variables in the fo
 
 **With or without docker:**
 
+*Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files.*
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphiql-auth/.env.development
@@ -201,6 +204,8 @@ In default config, the running containers will be:
 If you wish to modify the default ports, adjust the [enviroment variables](#envvars) in the next files:
 > Hint: [Stop Zendro Instance](#stop), modify files and [start Zendro Instance](#start) again.
 
+*Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files.*
+
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
 * ./single-page-app/.env.production
@@ -214,6 +219,8 @@ Also, if you wish to modify docker containers name or docker services names, adj
 
 * ./docker-compose-prod.yml
 * ./docker-compose-dev.yml
+
+*If you are having problems starting zendro in development mode due to "mandatory OAuth2 variables are not being set" error in SPA or GraphiQL, please run `zendro dockerize -d -v` to stop the services and then `zendro dockerize -u` to start services again. This happens because graphql-server should write the OAuth2 variables in .env files before SPA and GraphiQL load, but SPA and GraphiQL are loading faster than graphql-server.*
 
 ---
 
@@ -244,7 +251,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     <br/><br/>
 
 
-  * In order to get zendro and keycloak running, you have to do some modifications in your zendro new project `.env` files. 
+  * In order to get zendro and keycloak running, you have to do some modifications in your zendro new project `.env` files. Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files.
 
     * ./single-page-app/.env.production and ./single-page-app/.env.development
     ```
@@ -281,8 +288,12 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     * Single Page App (SPA) - http://localhost:8080
     * Keycloak - http://localhost:8081/
 
+*If you are having problems starting zendro in development mode due to "mandatory OAuth2 variables are not being set" error in SPA or GraphiQL, please run `zendro stop` to stop the services and then `zendro start` to start services again. This happens because graphql-server should write the OAuth2 variables in .env files before SPA and GraphiQL load, but SPA and GraphiQL are loading faster than graphql-server.*
 
   **Production mode**
+
+  *Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files.*
+
     * Copy the content of `./graphiql-auth/.env.development` to `./graphiql-auth/.env.production`
     * Copy the content of `./single-page-app/.env.development` to `./single-page-app/.env.production`
     * Modify the `OAUTH2_TOKEN_URI` env var in `./graphql-server/.env`:
@@ -304,7 +315,7 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
 <!----><a name="important"></a>
 >
-> **Important**: If you have problems to connect zendro with keycloak service, we recommend you to modify http://localhost:8081 to http://0.0.0.0:8081 in the next .env files:
+> **Important**: If you have problems to connect zendro with keycloak service, we recommend you to modify http://localhost:8081 to http://0.0.0.0:8081 in the next .env files. Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files:
 >
 >  * ./single-page-app/.env.production
 >  * ./single-page-app/.env.development

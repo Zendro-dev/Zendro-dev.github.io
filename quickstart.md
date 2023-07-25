@@ -24,6 +24,8 @@ If you want to know more about Zendro or a detailed explanation on how to set up
  * [NodeJS](https://nodejs.org/en/) version 18+ is required.
  * [docker](https://docs.docker.com/get-docker/)
  * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
+
+ We strongly recommend to follow [this guide](https://docs.docker.com/engine/install/linux-postinstall/) to use docker without sudo.
  <br/><br/>
 
 * * *
@@ -73,7 +75,7 @@ Also a default SQLite database will be used. You can find the database on *graph
 
 ### Step 3: Edit environment variables
 
-Go inside the new project you just created named `<name>` and edit *NEXTAUTH_SECRET* to your expected secret word in the following files:
+Go inside the new project you just created named `<name>` and edit *NEXTAUTH_SECRET* to your expected secret word in the following files. Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files:
 
 * **SPA in development mode:** ./single-page-app/.env.development
 * **SPA in production mode:** ./single-page-app/.env.production
@@ -97,6 +99,8 @@ This will start Zendro in development mode. All servers are listening to live ch
 In development mode there is no reverse proxy to map the docker-services. Instead this is done by exposing the ports.
 
 **Note**: We recommend to use Linux system for development mode.
+
+*If you are having problems starting zendro in development mode due to "mandatory OAuth2 variables are not being set" error in SPA or GraphiQL, please run `zendro dockerize -d -v` to stop the services and then `zendro dockerize -u` to start services again. This happens because graphql-server should write the OAuth2 variables in .env files before SPA and GraphiQL load, but SPA and GraphiQL are loading faster than graphql-server.*
 
 #### Production mode
 Execute this command to start Zendro in production mode.
