@@ -200,7 +200,7 @@ To update Zendro enter your zendro folder and execute:
 
 ```
 $ git pull
-$ npm install
+$ npm ci
 ```
 
 * * *
