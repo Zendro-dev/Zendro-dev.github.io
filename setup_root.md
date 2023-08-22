@@ -396,7 +396,8 @@ To update Zendro enter your zendro folder and execute:
 
 ```
 $ git pull
-$ npm ci
+$ rm -r package-lock.json node_modules
+$ npm install
 ```
 
 * * *
