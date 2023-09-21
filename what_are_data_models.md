@@ -54,7 +54,7 @@ To translate the conceptual diagram into JSON, we need follow the [JSON specific
     "associations": {
         "specimen_information": { // give your association an informative name
             "type" : "one_to_one",
-            "implementation": "foreignkey",
+            "implementation": "foreignkeys",
             "reverseAssociation": "taxon_information", // The name of the reverse association defined in the specimen model
             "target": "specimen",
             "targetKey": "specimen_id",
@@ -84,7 +84,7 @@ To translate the conceptual diagram into JSON, we need follow the [JSON specific
     "associations": {
         "medicinal_plants": {
             "type" : "one_to_many",
-            "implementation": "foreignkey",
+            "implementation": "foreignkeys",
             "reverseAssociation": "collection",
             "target": "specimen",
             "targetKey": "specimen_id",

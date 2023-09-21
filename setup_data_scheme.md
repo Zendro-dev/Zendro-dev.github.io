@@ -75,7 +75,7 @@ name | Type | Description
 ------- | ------- | --------------
 *type* | String | Type of association, either `one_to_one`, `one_to_many`, `many_to_one`, or `many_to_many`.
 *target* | String | Name of model to which the current model will be associated with.
-*implementation* | String | implementation type of the association. Can be one of `foreignkey`, `generic` or `sql_cross_table` (only for `many_to_many`)
+*implementation* | String | implementation type of the association. Can be one of `foreignkeys`, `generic` or `sql_cross_table` (only for `many_to_many`)
 *reverseAssociation* | String | The name of the reverse association from the other model. This field is only mandatory for building the [single-page-app](https://github.com/Zendro-dev/single-page-app), *not* for generating the the graphql-server code via this repository.
 *targetStorageType* | String | Type of storage where the target model is stored.
 *useDataLoader* | Boolean | If it is set to `true`, server could fetch multiple records within one query for `readOne<model>` API. 
@@ -108,7 +108,7 @@ Examples:
   "associations":{
       "publisher" : {
         "type" : "many_to_one", // association type
-        "implementation": "foreignkey",
+        "implementation": "foreignkeys",
         "reverseAssociation": "books",
         "target" : "publisher", // the target model name is `publisher`
         "targetKey" : "publisher_id", // foreign key for this association
@@ -130,7 +130,7 @@ Examples:
   "associations":{
       "books" : {
         "type" : "one_to_many", // association type
-        "implementation": "foreignkey",
+        "implementation": "foreignkeys",
         "reverseAssociation": "publisher",
         "target" : "book", // the target model name is `book`
         "targetKey" : "publisher_id", // foreign key for this association
@@ -144,7 +144,7 @@ Examples:
 Storing the association via paired-end foreign keys means that both associated data-models contain a reference (foreign key) to the associated records. Storing the keys in that way guarantees read and search efficiency, especially in a distributed context, at the cost of time and storage-space when handling write actions. Since the keys are stored at both ends the information needs to be updated at both ends as well, which is slower and more prone to errors.
 
 Many-to-many associations can be stored via paired-end associations. In this case both models will hold an array attribute which will store ids from the associated records. These two attributes will be described in the association as `sourceKey` and `targetKey`.
-Also, for indicating that the association is a many-to-many association via arrays as foreign key, we need to specify in the association info the `implementation` field as `foreignkey`.
+Also, for indicating that the association is a many-to-many association via arrays as foreign key, we need to specify in the association info the `implementation` field as `foreignkeys`.
 
 To define paired-end foreign key associations the following arguments need to be added:
 
@@ -174,7 +174,7 @@ Assume we have an many_to_many association between two models `book` and `author
     "associations":{
       "books":{
         "type": "many_to_many", // association type
-        "implementation": "foreignkey",
+        "implementation": "foreignkeys",
         "reverseAssociation": "authors",
         "target": "book", // target model name
         "targetKey": "author_ids", // foreign key array stored in target model
@@ -184,7 +184,7 @@ Assume we have an many_to_many association between two models `book` and `author
       },
       "cards":{
         "type": "one_to_many", // association type
-        "implementation": "foreignkey",
+        "implementation": "foreignkeys",
         "reverseAssociation": "author",
         "target": "card", // target model name
         "targetKey": "author_id", // foreign key stored in target model
@@ -214,7 +214,7 @@ Assume we have an many_to_many association between two models `book` and `author
     "associations":{
       "authors":{
         "type": "many_to_many", // association type
-        "implementation": "foreignkey",
+        "implementation": "foreignkeys",
         "reverseAssociation": "books",
         "target": "author", // target model name
         "targetKey": "book_ids", // foreign key array stored in target model
@@ -241,7 +241,7 @@ Assume we have an many_to_many association between two models `book` and `author
     "associations":{
       "author":{
         "type": "many_to_one", // association type
-        "implementation": "foreignkey",
+        "implementation": "foreignkeys",
         "reverseAssociation": "cards",
         "target": "author", // target model name
         "targetKey": "card_ids", // foreign key array stored in target model

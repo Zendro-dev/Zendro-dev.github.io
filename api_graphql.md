@@ -278,7 +278,7 @@ And we will describe the associations between the models `Record` and `Item`.
     "associations":{
       "record":{
         "type": "many_to_one",
-        "implementation": "foreignkey",
+        "implementation": "foreignkeys",
         "reverseAssociation": "items",
         "target": "Record",
         "targetKey": "recordId",
@@ -296,7 +296,7 @@ And we will describe the associations between the models `Record` and `Item`.
   "associations":{
     "items": {
       "type": "one_to_many",
-      "implementation": "foreignkey",
+      "implementation": "foreignkeys",
       "reverseAssociation": "record",
       "target": "Item",
       "targetKey": "recordId",
