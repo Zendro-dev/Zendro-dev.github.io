@@ -24,7 +24,7 @@ Zendro consists of four source-code projects: __graphql-server-model-codegen__, 
 
  **recommended for setting up zendro using docker**
  * [docker](https://docs.docker.com/get-docker/)
- * [docker-compose](https://docs.docker.com/compose/install/#install-compose)
+ * [docker compose plugin](https://docs.docker.com/compose/install/#install-compose) if not already included in docker installation
 
  We strongly recommend to follow [this guide](https://docs.docker.com/engine/install/linux-postinstall/) to use docker without sudo.
 
@@ -408,8 +408,9 @@ $ npm install
 Execute the following to remove a project:
 
 ```
-$ rm -r "path/to/<name>"
+$ sudo rm -r "path/to/<name>"
 $ docker rmi -f $(docker images -a -q "<name>*")
+$ docker volume rm $(docker volume ls -q | grep "^<name>")
 ```
 
 ### Uninstall Zendro
