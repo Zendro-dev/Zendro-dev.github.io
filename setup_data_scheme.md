@@ -37,7 +37,7 @@ Name | Type | Description
 *indices* | [String] |  Attributes for generating corresponding indices. By default, indices would be generated for *internalId*. And it is recommended to add indices for attributes which are foreign keys.
 *operatorSet* | String | It is possible to specify the operator set for generic models, distributed adapters and zendro servers. The following operator set are supported: `GenericPrestoSqlOperator`, `MongodbNeo4jOperator`, `CassandraOperator`, `AmazonS3Operator`. See [documentation of operators]({% link api_graphql.md %}#operators) for details.
 *internalId* | String | This string corresponds to the name of the attribute that uniquely identifies a record. If this field is not specified, an _id_, default attribute, will be added.
-*spaSearchOperator* | 'like' \| 'iLike' | Optional attribute to specify which operator should be used for the single-page-app text search-field. Defaults to iLike
+*spaSearchOperator* | 'like' \| 'iLike' | Optional attribute to specify which operator should be used for the single-page-app text search-field. Defaults to "iLike".
 
 ## Supported Data Types
 
@@ -79,6 +79,7 @@ name | Type | Description
 *reverseAssociation* | String | The name of the reverse association from the other model. This field is only mandatory for building the [single-page-app](https://github.com/Zendro-dev/single-page-app), *not* for generating the the graphql-server code via this repository.
 *targetStorageType* | String | Type of storage where the target model is stored.
 *useDataLoader* | Boolean | If it is set to `true`, server could fetch multiple records within one query for `readOne<model>` API. 
+*deletion* | String | Sets the record deletion behaviour. Defaults to "reject". <br> `reject`: Deletion of a record will be rejected if there are related records for this association. <br> `update`: Deletion of a record always succeeds and all connections to by this association related records will be dissolved automatically.
 
 
 ### Foreign keys
