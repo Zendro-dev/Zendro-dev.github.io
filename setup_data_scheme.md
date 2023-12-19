@@ -126,7 +126,7 @@ Examples:
   "storageType" : "sql",
   "attributes" : {
     "publisher_id": "Int",
-    "publisher_name": "Int"
+    "publisher_name": "String"
   },
   "associations":{
       "books" : {
