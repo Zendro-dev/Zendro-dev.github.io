@@ -18,7 +18,9 @@ If you have any questions or comments, please don't hesitate to contact us via a
 
 ## SHOW ME HOW IT LOOKS!
 
-Would you like to see Zendro in action before deciding to learn more? That's fine! We set up a Dummy Zendro Instance for you to explore [Zendro's graphical user interface]( https://zendro.conabio.gob.mx/spa) and [Zendro's API]( https://zendro.conabio.gob.mx/graphiql). The tutorials on how to [use Zendro day to day](#using-zendro-day-to-day) of the section below use this instance, so go there to start exploring.
+Would you like to see Zendro in action before deciding to learn more? That's fine! We set up a Zendro Instance for you to explore [Zendro's graphical user interface](https://brapi-gui.zendro-dev.org/) and [Zendro's API](https://brapi-graphql.zendro-dev.org/graphql). 
+
+You can find tutorials on how to [use Zendro day to day here](https://zendro-dev.github.io/#using-zendro-day-to-day), so go there to start exploring.
 
 ### Installation and sysadmin
 
