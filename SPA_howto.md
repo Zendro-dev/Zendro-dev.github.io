@@ -2,7 +2,7 @@
 layout: default
 title: Graphical UI
 parent: For users
-nav_order: 3
+nav_order: 4
 permalink: /usage/spa
 ---
 # Graphical UI
