@@ -62,8 +62,8 @@ In the results, you can see the JSON output, which can be further processed with
 Once you have the query, at the top of the interface, there are several buttons. If you click on `Filter`, a section will open at the bottom of the screen where you can select the option you want to use: `jq` or `JsonPath`, the space to write your filter, and the window where you can see the results.
 
 
-![Filter.png](figures/jq1.png)
-![Filter_options.png](figures/jq2.png)
+![Filter.png](../figures/jq1.png)
+![Filter_options.png](../figures/jq2.png)
 
 The filters you use will be applied to the query results. 
 
@@ -73,7 +73,7 @@ You can reproduce the results by accessing to the [Zendro-BrAPI data warehouse](
 
 For example, if we want to get the names of the studies in the trial example, since we are only calling 2 `(limit:2)`, we expect to have 2 names:
 
-![Filter_example.png](figures/jq3.png)
+![Filter_example.png](../figures/jq3.png)
 
 #### Explanation:
 
@@ -171,7 +171,7 @@ To get the result:
 
 Now if we want to get the IDs of the studies in the trial example, since we are only calling 2 `(limit:2)`, we expect to have 2 IDs:
 
-![Filter_example.png](figures/jp1.png)
+![Filter_example.png](../figures/jp1.png)
 
 #### Explanation:
 
