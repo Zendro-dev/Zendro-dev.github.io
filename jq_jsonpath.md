@@ -1,11 +1,11 @@
 ---
 layout: default
-title: GraphQL filtering using jq and JsonPath
+title: GraphQL filtering
 parent: For users
 nav_order: 3
-permalink: /usage/graphql/filtering
+permalink: /usage/filtering
 ---
-# GraphQL & API
+# GraphQL filtering using jq and JsonPath
 {: .no_toc }
 
 ## Table of contents

@@ -47,6 +47,7 @@ Here we are indicating the title, who is its parent, what is the position that i
 - For users -> `usage.md`
     - What are data models? -> `what_are_data_models.md`
     - GraphQL & API -> `GraphQL_intro.md`
+    - GraphQL filtering -> `jq_jsonpath.md`
     - Graphical UI -> `SPA_howto.md`
 - Quick start -> `quickstart.md`
 - Getting started -> `setup_root.md`
