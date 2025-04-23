@@ -50,6 +50,8 @@ $ npm install
 $ sudo npm link
 ```
 
+In Windows Subsystem for Linux the `sudo npm` may not work, try `sudo -env "PATH=$PATH" npm` then. Also when using the docker related command `zendro dockerize` the `sudo -env "PATH=$PATH"` may be necessary, as docker requires to be run with higher permissions.
+
 ### Step 2: Setup a new Zendro project
 
 The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro). With minimal steps and configuration a Zendro warehouse taylored to your data needs can be deployed. 
@@ -77,20 +79,11 @@ $ zendro new <my-project-name>
 
 ### Step 3: Edit environment variables
 
-Go inside the new project and modify the selected enviroment variables in the following files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable.
+Go inside the new project and modify the selected enviroment variables in the following files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable. An easy way to do so in Linux is by using the following command:
 
-* **Without docker setup:** You should modify this file according to your database connection. If you wish to use the default database, please replace the content of the file `./graphql-server/config/data_models_storage_config.json` for:
 ```
-{
-  "default-sql": {
-    "storageType": "sql",
-    "dialect": "sqlite",
-    "storage": "data.db"
-  }
-}
+$ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1=.../' graphiql-auth/.env.* single-page-app/.env.*
 ```
-
-* **With docker setup:** ./config/data_models_storage_config.json
 
 **With or without docker:**
 
@@ -113,6 +106,21 @@ Add your model definitions in JSON files to `./data_model_definitions` folder.
 If you want to learn more about how to define data models with Zendro, please check [this]({% link setup_data_scheme.md %}). 
 
 Note: by default, indices would be generated for *internalId*. And it is recommended to add indices for attributes which are foreign keys. See the [json specs]({% link setup_data_scheme.md %}#json-specs) for more information.
+
+You should also configure the storage types you used, like credentials or port of a database.
+
+* **Without docker setup:** If you wish to use the default database, please replace the content of the file `./graphql-server/config/data_models_storage_config.json` for:
+```
+{
+  "default-sql": {
+    "storageType": "sql",
+    "dialect": "sqlite",
+    "storage": "data.db"
+  }
+}
+```
+
+* **With docker setup:** ./config/data_models_storage_config.json
 
 ### Step 5: Generate code and migrations
 
@@ -231,13 +239,13 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 ***Requirements***
 
 * Install [Java](https://www.java.com/en/) (from Java 11 forward).
-* Install [keycloak](https://www.keycloak.org). We recommend Keycloak 18+. 
+* Install [Keycloak](https://www.keycloak.org). Zendro works with [Keycloak 26.2.0](https://github.com/keycloak/keycloak/releases/tag/26.2.0). It is highly recommended to try the latest version and use 26.2.0 in case of breaking changes.
   * Go to https://www.keycloak.org/downloads and download *Distribution powered by Quarkus*.
   * After unzip, copy the keycloak configuration file from `zendro/test/env/keycloak.conf` to `keycloak/conf/keycloak.conf`.
   * Two enviroment variables should be configured through command line. In terminal inside keycloak folder execute:
     ```
-    $ export KEYCLOAK_ADMIN=admin
-    $ export KEYCLOAK_ADMIN_PASSWORD=admin
+    $ export KC_BOOTSTRAP_ADMIN_USERNAME=admin
+    $ export KC_BOOTSTRAP_ADMIN_PASSWORD=admin
     ```
     *Important: If you are working on Windows and the command `export` is not working, ignore this step. Keycloak is going to ask you for the admin credentials when it starts in the web interface.*
 
@@ -248,30 +256,6 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
 
 
     * Zendro realm configuration will be done when the migration file is executed after zendro starts.
-    <br/><br/>
-
-
-  * In order to get zendro and keycloak running, you have to do some modifications in your zendro new project `.env` files. Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files.
-
-    * ./single-page-app/.env.production and ./single-page-app/.env.development
-    ```
-    NEXT_PUBLIC_ZENDRO_ROLES_URL="http://localhost:3000/getRolesForOAuth2Token"
-    OAUTH2_ISSUER="http://localhost:8081/realms/zendro"
-    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
-    OAUTH2_LOGOUT_URL="http://localhost:8081/realms/zendro/protocol/openid-connect/logout"
-    ```
-    * ./graphiql-auth/.env.development and ./graphiql-auth/.env.production
-    ```
-    OAUTH2_ISSUER="http://localhost:8081/realms/zendro"
-    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
-    OAUTH2_AUTH_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/auth"
-    OAUTH2_LOGOUT_URL="http://localhost:8081/realms/zendro/protocol/openid-connect/logout"
-    ```
-
-    * ./graphql-server/.env
-    ```
-    OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"
-    ```
 
 * Start zendro 
 
@@ -288,20 +272,13 @@ If you prefer to use local setup with Keycloak, there are a few things to do aft
     * Single Page App (SPA) - http://localhost:8080
     * Keycloak - http://localhost:8081/
 
-*If you are having problems starting zendro in development mode due to "mandatory OAuth2 variables are not being set" error in SPA or GraphiQL, please run `zendro stop` to stop the services and then `zendro start` to start services again. This happens because graphql-server should write the OAuth2 variables in .env files before SPA and GraphiQL load, but SPA and GraphiQL are loading faster than graphql-server.*
+   *If you are having problems starting zendro in development mode due to "mandatory OAuth2 variables are not being set" error in SPA or GraphiQL, please run `zendro stop` to stop the services and then `zendro start` to start services again. This happens because graphql-server should write the OAuth2 variables in .env files before SPA and GraphiQL load, but SPA and GraphiQL may load faster than graphql-server.*
 
   **Production mode**
 
-  *Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files.*
-
-    * Copy the content of `./graphiql-auth/.env.development` to `./graphiql-auth/.env.production`
-    * Copy the content of `./single-page-app/.env.development` to `./single-page-app/.env.production`
-    * Modify the `OAUTH2_TOKEN_URI` env var in `./graphql-server/.env`:
-    `OAUTH2_TOKEN_URI="http://localhost:8081/realms/zendro/protocol/openid-connect/token"`
-  * Start
-      ```
-      $ zendro start -p
-      ```
+   ```
+   $ zendro start -p
+   ```
     > ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
 
     In default config, zendro services will be on ports:

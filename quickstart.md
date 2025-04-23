@@ -48,6 +48,8 @@ $ npm install
 $ sudo npm link
 ```
 
+In Windows Subsystem for Linux the `sudo npm` may not work, try `sudo -env "PATH=$PATH" npm` then. Also when using the docker related command `zendro dockerize` the `sudo -env "PATH=$PATH"` may be necessary, as docker requires to be run with higher permissions.
+
 ### Step 2: Setup a new Zendro project
 
 The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro) with minimal steps and configuration. 
@@ -81,6 +83,12 @@ Go inside the new project you just created named `<name>` and edit *NEXTAUTH_SEC
 * **SPA in production mode:** ./single-page-app/.env.production
 * **GraphiQL in development mode:** ./graphiql-auth/.env.development
 * **GraphiQL in production mode:** ./graphiql-auth/.env.production
+
+An easy way to set them in Linux is by using the following command:
+
+```
+$ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1=.../' graphiql-auth/.env.* single-page-app/.env.*
+```
 
 If you want to know more about the enviroment variables, you can check [this]({% link env_vars.md %}).
 
