@@ -79,10 +79,10 @@ $ zendro new <my-project-name>
 
 ### Step 3: Edit environment variables
 
-Go inside the new project and modify the selected enviroment variables in the following files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable. An easy way to do so in Linux is by using the following command:
+Go inside the new project and modify the selected enviroment variables in the following files. These files have a default configuration, please remember to add your expected secret word in the *NEXTAUTH_SECRET* variable. An easy way to do so in Linux is by using the following command, replace `<secret>` accordingly:
 
 ```
-$ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1=.../' graphiql-auth/.env.* single-page-app/.env.*
+$ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
 ```
 
 **With or without docker:**

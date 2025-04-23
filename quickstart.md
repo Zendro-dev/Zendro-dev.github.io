@@ -84,10 +84,10 @@ Go inside the new project you just created named `<name>` and edit *NEXTAUTH_SEC
 * **GraphiQL in development mode:** ./graphiql-auth/.env.development
 * **GraphiQL in production mode:** ./graphiql-auth/.env.production
 
-An easy way to set them in Linux is by using the following command:
+An easy way to set them in Linux is by using the following command, replace `<secret>` accordingly:
 
 ```
-$ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1=.../' graphiql-auth/.env.* single-page-app/.env.*
+$ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
 ```
 
 If you want to know more about the enviroment variables, you can check [this]({% link env_vars.md %}).
