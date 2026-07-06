@@ -1,7 +1,19 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem "jekyll", "~> 4.3" # installed by `gem jekyll`
-# gem "webrick"        # required when using Ruby >= 3 and Jekyll <= 4.2.2
+gem "jekyll", "~> 4.3"
+gem "kramdown-parser-gfm"
 
-# gem "just-the-docs", "0.4.0.rc3" # currently the latest pre-release
-# gem "just-the-docs"            # the latest release - currently 0.3.3
+group :jekyll_plugins do
+  gem "jekyll-feed"
+  gem "jekyll-seo-tag"
+  gem "jekyll-sitemap"
+end
+
+# Ruby 3.4+ moved these out of default gems
+gem "csv"
+gem "base64"
+gem "bigdecimal"
+gem "logger"
+gem "ostruct"
+gem "webrick"
+gem "just-the-docs"

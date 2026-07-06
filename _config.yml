@@ -1,6 +1,6 @@
 title: Zendro Documentation
 description: Here you will find a tutorial for all Zendro projects and how to do a basic set up to start working.
-remote_theme: "just-the-docs/just-the-docs@main"
+theme: just-the-docs
 
 url: https://zendro-dev.github.io/
 color_scheme: dark
