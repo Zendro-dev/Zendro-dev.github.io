@@ -3,6 +3,7 @@ description: Here you will find a tutorial for all Zendro projects and how to do
 remote_theme: "just-the-docs/just-the-docs@main"
 
 url: https://zendro-dev.github.io/
+color_scheme: dark
 
 aux_links:
   Template Repository: https://github.com/Zendro-dev/Zendro-dev.github.io
