@@ -1,13 +1,13 @@
-Zendro can be used checking access rights for every single GraphQL query received by the currently logged in user identified by the Token. The user is decoded and the corresponding roles are loaded to check access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). Respective access rights can and must be declared in the file `./graphql-server/acl_rules.js`.
+Zendro can check access rights for every single GraphQL query, based on the currently logged-in user identified by the token. The user is decoded and the corresponding roles are loaded to check access rights. This step is carried out by the [NPM acl package](https://www.npmjs.com/package/acl). The respective access rights can, and must, be declared in the file `./graphql-server/acl_rules.js`.
 
 You can run Zendro with or without this access control check. The default is to run it without checking access rights.
 
-To switch access right check on, you must uncomment the command line switch acl (`//,'acl'`) in `./graphql-server/startServer.js`
+To switch the access rights check on, uncomment the command line switch `acl` (`//,'acl'`) in `./graphql-server/startServer.js`.
 
-Moreover, you can whitelist certain roles, which can own all user permissions, by using *WHITELIST_ROLES* environment variable. For example, if you wish to whitelist reading actions, modify in `./graphql-server/.env`:
+You can also whitelist certain roles to own all user permissions, using the `WHITELIST_ROLES` environment variable. For example, to whitelist reading actions, add this to `./graphql-server/.env`:
 
 ```
 WHITELIST_ROLES="reader"
 ```
 
-You can add all roles you wish separating them with a comma.
+You can add as many roles as you wish, separated by commas.

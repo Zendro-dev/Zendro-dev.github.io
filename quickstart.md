@@ -1,15 +1,15 @@
 ---
 layout: default
 title: Quick start
-nav_order: 3
+nav_order: 2
 ---
 
 # Quick start
 {: .no_toc }
 
-This is a quickstart guide on how to create a new Zendro project with default parameters. It uses pre-defined datamodels, database and environment variables. 
+This is a quickstart guide on how to create a new Zendro project with default parameters. It uses pre-defined data models, database and environment variables.
 {: .fs-6 .fw-300 }
-If you want to know more about Zendro or a detailed explanation on how to set up Zendro from scratch, check [this]({% link setup_root.md %}).
+If you want to know more about Zendro or a detailed explanation on how to set up Zendro from scratch, check the [Getting started]({% link getting-started/index.md %}) guide instead.
 {: .fs-6 .fw-300 }
 
 ## Table of contents
@@ -20,41 +20,13 @@ If you want to know more about Zendro or a detailed explanation on how to set up
 
 ---
 
-## Project Requirements:
- * [NodeJS](https://nodejs.org/en/) version 18+ is required.
- * [docker](https://docs.docker.com/get-docker/)
- * [docker compose plugin](https://docs.docker.com/compose/install/#install-compose) if not already included in docker installation
+## Step 1: Install Zendro
 
- We strongly recommend to follow [this guide](https://docs.docker.com/engine/install/linux-postinstall/) to use docker without sudo.
- <br/><br/>
+Follow [Installation and the Zendro CLI]({% link getting-started/installation-and-cli.md %}) to install the `zendro` command line tool and its requirements.
 
-* * *
-## Recommendations:
-  * We strongly recommend you to use Zendro in Linux with or without docker.
-  * If you prefer to use Zendro in Windows, we recommend you to use it with Windows Subsystem for Linux (WSL).
-  * If you prefer to use Zendro in Mac, we recommend you to use it without docker.
+## Step 2: Set up a new Zendro project
 
- <br/>
-
-* * *
-### Step 1: Installation
-
-Execute this commands to install Zendro:
-
-```
-$ git clone https://github.com/Zendro-dev/zendro.git
-$ cd zendro
-$ npm install
-$ sudo npm link
-```
-
-In Windows Subsystem for Linux the `sudo npm` may not work, try `sudo -env "PATH=$PATH" npm` then. Also when using the docker related command `zendro dockerize` the `sudo -env "PATH=$PATH"` may be necessary, as docker requires to be run with higher permissions.
-
-### Step 2: Setup a new Zendro project
-
-The easiest way to set up Zendro is using the [Zendro CLI tool](https://github.com/Zendro-dev/zendro) with minimal steps and configuration. 
-
-Go out from the previusly created `zendro` directory 
+The easiest way to set up Zendro is using the `zendro` CLI tool with minimal steps and configuration. Go out from the previously created `zendro` directory:
 
 ```
 $ cd ..
@@ -68,128 +40,100 @@ $ zendro set-up -d <name>
 
 where `<name>` is the name of your new project.
 
-By default, three data models with associations will be used for this instance:
-* city
-* country
-* river
+By default, three data models with associations will be used for this instance: `city`, `country` and `river`. A default SQLite database will be used; you can find it in the `graphql-server` folder.
 
-Also a default SQLite database will be used. You can find the database on *graphql-server* folder.
+## Step 3: Edit environment variables
 
-### Step 3: Edit environment variables
+Go inside the new project you just created, named `<name>`, and edit `NEXTAUTH_SECRET` to your expected secret word in the following files. Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files:
 
-Go inside the new project you just created named `<name>` and edit *NEXTAUTH_SECRET* to your expected secret word in the following files. Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files:
+* **SPA in development mode:** `./single-page-app/.env.development`
+* **SPA in production mode:** `./single-page-app/.env.production`
+* **GraphiQL in development mode:** `./graphiql-auth/.env.development`
+* **GraphiQL in production mode:** `./graphiql-auth/.env.production`
 
-* **SPA in development mode:** ./single-page-app/.env.development
-* **SPA in production mode:** ./single-page-app/.env.production
-* **GraphiQL in development mode:** ./graphiql-auth/.env.development
-* **GraphiQL in production mode:** ./graphiql-auth/.env.production
-
-An easy way to set them in Linux is by using the following command, replace `<secret>` accordingly:
+An easy way to set them in Linux is by using the following command, replacing `<secret>` accordingly:
 
 ```
 $ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
 ```
 
-If you want to know more about the enviroment variables, you can check [this]({% link env_vars.md %}).
+If you want to know more about the environment variables, see [Environment variables]({% link getting-started/environment-variables.md %}).
 
-### Step 4: Start up your Zendro instance
+## Step 4: Start up your Zendro instance
 
-#### Development mode
-
-To start Zendro in development mode run
+### Development mode
 
 ```
 $ zendro dockerize -u
 ```
 
-This will start Zendro in development mode. All servers are listening to live changes you make in the files. Especially the SPA and graphiql-auth web-services will be slow to use since they compile pages on demand when opening them. To avoid that either change the `docker-compose-dev.yml` to compile and deploy the webservices (see `docker-compose-prod.yml`) or start Zendro in production mode.
+All servers listen for live changes you make to the files. The SPA and graphiql-auth web services will be slow to use since they compile pages on demand when opening them; to avoid that either change `docker-compose-dev.yml` to compile and deploy the web services (see `docker-compose-prod.yml`) or start Zendro in production mode instead.
 
-In development mode there is no reverse proxy to map the docker-services. Instead this is done by exposing the ports.
+In development mode there is no reverse proxy mapping the docker services; ports are exposed directly instead.
 
-**Note**: We recommend to use Linux system for development mode.
+**Note**: We recommend using a Linux system for development mode.
 
-*If you are having problems starting zendro in development mode due to "mandatory OAuth2 variables are not being set" error in SPA or GraphiQL, please run `zendro dockerize -d -v` to stop the services and then `zendro dockerize -u` to start services again. This happens because graphql-server should write the OAuth2 variables in .env files before SPA and GraphiQL load, but SPA and GraphiQL are loading faster than graphql-server.*
+*If you get a "mandatory OAuth2 variables are not being set" error in SPA or GraphiQL, run `zendro dockerize -d -v` to stop the services and then `zendro dockerize -u` to start them again. This happens because graphql-server needs to write the OAuth2 variables to the .env files before SPA and GraphiQL load, but they sometimes load faster than graphql-server.*
 
-#### Production mode
-Execute this command to start Zendro in production mode.
+### Production mode
 
 ```
 $ zendro dockerize -u -p
 ```
 
-This command will create docker containers for each Zendro component:
-* [Keycloak]({% link oauth.md %}): manage users and roles
+This creates a docker container for each Zendro component:
+
+* [Keycloak]({% link authentication/index.md %}): manages users and roles
 * [Single Page App (SPA)](https://github.com/Zendro-dev/single-page-app): graphical interface to send CRUD requests to a Zendro GraphQL endpoint
-* [API](https://github.com/Zendro-dev/graphql-server): CRUD API that can be accessed through a GraphQL query language
-* [GraphiQL interface](https://github.com/Zendro-dev/graphiql-auth): An implementation of the GraphQL IDE with Zendro login and advanced filter functionalities.
+* [API](https://github.com/Zendro-dev/graphql-server): CRUD API accessible through the GraphQL query language
+* [GraphiQL interface](https://github.com/Zendro-dev/graphiql-auth): an implementation of the GraphQL IDE with Zendro login and advanced filter functionalities
 
-You can check docker containers by:
-```
-$ docker ps
-```
+Check the running containers with `docker ps`, and their logs with `docker logs -f <container name>`.
 
-You can check docker logs by:
-```
-$ docker logs -f <container name>
-```
+> ***Wait until the logs indicate the app is running on the expected port before accessing Zendro's services.***
 
-> ***Please wait until logs indicate the app is running on XXXX port to access Zendro services.***
+With the default configuration, the running containers will be:
 
-In default config, the running containers will be:
+* **Keycloak** — `http://localhost:8081/auth`, default user `admin` / password `admin`
 
-* Keycloak: 
-    * http://localhost:8081/auth
-    
-      * The default keycloak username is *admin* and the password is *admin*.
+  ![Keycloak example](/figures/kc1.png)
+  ![Keycloak example](/figures/kc2.png)
 
-  ![Keycloak example](figures/kc1.png)
-  ![Keycloak example](figures/kc2.png)
+* **SPA** — `http://localhost:8080`, default user `zendro-admin` / password `admin`
 
-* SPA: 
-    * http://localhost:8080
+  ![spa example](/figures/login.png)
+  ![spa example](/figures/spa.png)
 
-      * The default zendro username is *zendro-admin* and the password is *admin*.
+* **GraphQL API** — `http://localhost:3000/graphql`
 
-  ![spa example](figures/login.png)
-  ![spa example](figures/spa.png)
+  ![api example](/figures/graphql.png)
 
-* GraphQL API: 
-    * http://localhost:3000/graphql
+* **GraphiQL interface with filter functionality** — `http://localhost:7070`, default user `zendro-admin` / password `admin`
 
-  ![api example](figures/graphql.png )
+  ![api example](/figures/login.png)
+  ![api example](/figures/graphiql.png)
 
-* GraphiQL interface with filter functionality: 
-    * http://localhost:7070
-
-      * The default zendro username is *zendro-admin* and the password is *admin*.
-
-  ![api example](figures/login.png)
-  ![api example](figures/graphiql.png)
-
-
-Also, for the default database you can install *sqlite3* with:
+For the default database, you can also install `sqlite3` to inspect the data directly:
 
 ```
 $ sudo apt install sqlite3
 ```
 
-Then, go to *graphql-server* folder and run:
+Then, from the `graphql-server` folder, run:
 
 ```
 $ sqlite3 data.db
 ```
 
-You can see tables and do querys inside sqlite by:
+You can list tables and run queries inside sqlite with:
+
 ```
 sqlite> .tables
 sqlite> SELECT * FROM <table>;
 sqlite> .exit
 ```
 
-
-### Step 5: Stop your Zendro instance
-
-Execute this command to stop Zendro and remove all volumes.
+## Step 5: Stop your Zendro instance
 
 ```
 # Production
@@ -199,37 +143,8 @@ $ zendro dockerize -d -p -v
 $ zendro dockerize -d -v
 ```
 
-**Note**: If you want to persist your data, that includes user data as well as other data, remove the `-v` flag from the above command.
+**Note**: The `-v` flag also removes all volumes. Drop it if you want to persist your data, including user data, between restarts.
 
-* * *
-## Updating Zendro
+---
 
-To update Zendro enter your zendro folder and execute:
-
-```
-$ git pull
-$ rm -r package-lock.json node_modules
-$ npm install
-```
-
-* * *
-## Uninstallation
-
-### Remove Project
-
-Execute the following to remove a project:
-
-```
-$ sudo rm -r "path/to/<name>"
-$ docker rmi -f $(docker images -a -q "<name>*")
-$ docker volume rm $(docker volume ls -q | grep "^<name>")
-```
-
-### Uninstall Zendro
-
-To uninstall Zendro, execute the following:
-
-```
-$ sudo npm unlink -g zendro
-$ sudo rm -r "path/to/zendro"
-```
+Need to update or uninstall Zendro afterwards? See [Installation and the Zendro CLI]({% link getting-started/installation-and-cli.md %}#updating-zendro).
