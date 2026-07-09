@@ -76,8 +76,10 @@ Zendro supports array-type attributes, defined in the [JSON data model definitio
 Due to the restrictions on ordering result sets in Cassandra (see [Sorting](#sorting) above), it is not possible to define a distributed data model stored in both a relational and a Cassandra database, i.e. one with both sql and cassandra adapters. It is, however, possible to define distributed data models that live *only* in Cassandra databases. These need to set a `cassandraRestrictions` flag to ensure correct behaviour:
 
 ```json
-"model": "dog",
-"storageType": "distributed-data-model",
-"registry": ["dog_instance1", "dog_instance2"],
-"cassandraRestrictions": true,
+{
+    "model": "dog",
+    "storageType": "distributed-data-model",
+    "registry": ["dog_instance1", "dog_instance2"],
+    "cassandraRestrictions": true
+}
 ```

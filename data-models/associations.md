@@ -54,7 +54,7 @@ name | Type | Description
 
 Examples:
 
-```json
+```js
 {
   "model" : "book",
   "storageType" : "sql",
@@ -76,7 +76,7 @@ Examples:
 }
 ```
 
-```json
+```js
 {
   "model" : "publisher",
   "storageType" : "sql",
@@ -115,7 +115,7 @@ Examples:
 
 Assume a many-to-many association between models `book` and `author`, and a one-to-many association between `author` and `card`:
 
-```json
+```js
 {
     "model" : "author",
     "storageType" : "sql",
@@ -156,7 +156,7 @@ Assume a many-to-many association between models `book` and `author`, and a one-
   }
 ```
 
-```json
+```js
 {
     "model" : "book",
     "storageType" : "sql",
@@ -185,7 +185,7 @@ Assume a many-to-many association between models `book` and `author`, and a one-
     "internalId": "id"
   }
 ```
-```json
+```js
 {
     "model" : "card",
     "storageType" : "sql",
@@ -217,7 +217,7 @@ Assume a many-to-many association between models `book` and `author`, and a one-
 When the association is `many_to_many` and is stored via a cross table, set `implementation` to `sql_cross_table` — this is only available for `sql`-stored models.
 
 Example:
-```json
+```js
 //User model
 {
   "model" : "User",
@@ -243,7 +243,7 @@ Example:
 }
 ```
 
-```json
+```js
 //Role model
 {
   "model" : "Role",
@@ -268,7 +268,7 @@ Example:
 }
 ```
 
-```json
+```js
 //role_to_user model
 {
   "model" : "role_to_user",
@@ -304,7 +304,7 @@ This happens when more than one element of table A can reference the same elemen
 Example: table A contains a list of employees, and each of them works in a single department only (catalog B).
 
 Data model definition for table A:
-```
+```json
 {
   "model": "employee",
   "storageType": "mongodb",
@@ -338,7 +338,7 @@ Data model definition for table A:
 ### One-to-many
 This is the reverse of the many-to-one association above, so we can reuse the same example. Data model definition for table B:
 
-```
+```json
 {
     "model": "department",
     "storageType": "mongodb",
@@ -370,7 +370,7 @@ This is the reverse of the many-to-one association above, so we can reuse the sa
 Based on the previous example: an employee can belong to more than one department, and a department can have more than one employee. A new relation table needs to be created, holding the foreign-key pairs that define employee-to-department associations.
 
 Data model definition for table A:
-```
+```json
 {
   "model": "employee",
   "storageType": "mongodb",
@@ -401,7 +401,7 @@ Data model definition for table A:
 ```
 Data model definition for table B:
 
-```
+```json
 {
     "model": "department",
     "storageType": "mongodb",
@@ -439,7 +439,7 @@ This relation type comes with a restriction: it's not possible to relate more th
 Example: table A is a catalog of well-studied species with a strict registration number, while table B contains all discovered species, some of which are not yet cataloged.
 
 Data model definition for table B:
-```
+```json
 {
     "model": "discovered_specie",
     "storageType": "mongodb",

@@ -181,7 +181,7 @@ When reading a record by its ID, Zendro uses a [data loader](https://github.com/
 Example of fetching multiple records within one request:
 
 ```
-{
+query {
   n0: readOneAccession(accession_id: "a-instance1") {
     accession_id
     collectors_name

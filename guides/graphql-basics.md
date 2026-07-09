@@ -65,7 +65,8 @@ The [GraphQL documentation](https://graphql.org/learn/) has plenty of resources 
 A simple query looks like this:
 
 ```
-{rivers(pagination:{limit:10, offset:0}){
+query {
+  rivers(pagination:{limit:10, offset:0}){
    # fields you want from the "rivers" type go here
     name
   }
@@ -95,12 +96,13 @@ Here we can get the fields `river_id`, `name` and `country_ids`. The rest of the
 Let's build a query that returns the fields `river_id`, `name`, `length` and `country_ids` from the `river` type:
 
 ```
-{rivers(pagination:{limit:10, offset:0}){
-      river_id
-      name
-      length
-      country_ids
-   }
+query {
+  rivers(pagination:{limit:10, offset:0}){
+    river_id
+    name
+    length
+    country_ids
+  }
 }
 ```
 
@@ -125,17 +127,17 @@ Looking at the Docs, you'll notice it's not just another field — you need to p
 Here we want to look up the associated country, and we know the common field (the key) is `country_id`, so the search should look like:
 
 ```
-{
-cities(pagination:{limit:10, offset:0}){
-  city_id
-  name
-  population
-  country(search:{field:country_id}){
+query {
+  cities(pagination: {limit: 10, offset: 0}) {
+    city_id
     name
     population
+    country(search: {field: country_id}) {
+      name
+      population
+    }
   }
-     }
-   }
+}
 ```
 
 #### One to many
@@ -143,17 +145,19 @@ cities(pagination:{limit:10, offset:0}){
 For a *one-to-many* association, there's a `Connection` for each association the model has. For example, to see the countries a river is associated with, use `countriesConnection`:
 
 ```
-{rivers(pagination:{limit:10, offset:0}){
+query {
+  rivers(pagination:{limit:10, offset:0}){
       river_id
       name
       length
       country_ids
-     countriesConnection(pagination:{first:1}){
-       countries{
-         name
-         population}
-     }
-   }
+      countriesConnection(pagination: {first: 1}) {
+      countries{
+        name
+        population
+      }
+    }
+  }
 }
 ```
 

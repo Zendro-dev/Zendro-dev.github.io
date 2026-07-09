@@ -31,20 +31,20 @@ The easiest way to set up Zendro is using the `zendro` CLI tool. With minimal st
 Go out from the previously created `zendro` directory:
 
 ```
-$ cd ..
+cd ..
 ```
 
 * If you prefer to use docker, execute:
 
   ```
   # "-d" adds Dockerfiles to fully dockerize running zendro
-  $ zendro new -d <my-project-name>
+  zendro new -d <my-project-name>
   ```
 
 * If you prefer to use Zendro without docker, execute:
 
   ```
-  $ zendro new <my-project-name>
+zendro new <my-project-name>
   ```
 
 ## Step 3: Edit environment variables
@@ -52,7 +52,7 @@ $ cd ..
 Go inside the new project and modify the relevant environment variables in the following files. These files have a default configuration; please remember to add your own secret word to the `NEXTAUTH_SECRET` variable. An easy way to do so in Linux is by using the following command, replacing `<secret>` accordingly:
 
 ```
-$ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
+sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
 ```
 
 **With or without docker** (remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files):
@@ -95,7 +95,7 @@ You should also configure the storage types you use, such as credentials or the 
 After setting up your data models, use the following command to generate the model-specific code and fill your Zendro skeleton project with life:
 
 ```
-$ zendro generate -m
+zendro generate -m
 ```
 
 This automatically generates all basic create, read, update and delete (CRUD) operations for each data model in your scheme.
@@ -119,7 +119,7 @@ The recommended way to [run your Zendro instance is via docker]({% link cli-refe
 Start Zendro in production mode, or without `-p` for development mode:
 
 ```
-$ zendro dockerize -u -p
+zendro dockerize -u -p
 ```
 
 This creates a docker container for each Zendro component:
@@ -184,8 +184,8 @@ If you prefer a local setup with Keycloak, there are a few extra things to do af
   * Set two environment variables from a terminal inside the keycloak folder:
 
     ```
-    $ export KC_BOOTSTRAP_ADMIN_USERNAME=admin
-    $ export KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    export KC_BOOTSTRAP_ADMIN_USERNAME=admin
+    export KC_BOOTSTRAP_ADMIN_PASSWORD=admin
     ```
 
     *Important: on Windows, if the `export` command doesn't work, ignore this step — Keycloak will ask for the admin credentials when it starts in the web interface.*
@@ -198,7 +198,7 @@ If you prefer a local setup with Keycloak, there are a few extra things to do af
 Development mode:
 
 ```
-$ zendro start
+zendro start
 ```
 
 > ***Wait until the logs indicate the app is running on the expected port before accessing Zendro's services.***
@@ -215,7 +215,7 @@ With the default configuration, Zendro's services will be on:
 Production mode:
 
 ```
-$ zendro start -p
+zendro start -p
 ```
 
 Same default ports as above.
@@ -239,13 +239,13 @@ Application logs can be found in `./logs/graphiql.log`, `./logs/graphql-server.l
 > ***➡ Using docker***
 
 ```
-$ zendro dockerize -d -v
+zendro dockerize -d -v
 ```
 
 `-v` also removes all volumes. In production mode:
 
 ```
-$ zendro dockerize -d -p -v
+zendro dockerize -d -p -v
 ```
 
 > ***➡ Without docker***
@@ -253,13 +253,13 @@ $ zendro dockerize -d -p -v
 Production mode:
 
 ```
-$ zendro stop -p
+zendro stop -p
 ```
 
 Development mode:
 
 ```
-$ zendro stop
+zendro stop
 ```
 
 ## Customize your project (optional)

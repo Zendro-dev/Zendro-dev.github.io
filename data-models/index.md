@@ -40,7 +40,7 @@ Foreign keys are also needed to establish associations to other data models; the
 
 To translate the conceptual diagram into JSON, follow the [JSON specification]({% link data-models/json-specification.md %}). Two complete examples:
 
-```
+```js
 // Taxon Model
 {
     "model": "taxon",
@@ -70,7 +70,7 @@ To translate the conceptual diagram into JSON, follow the [JSON specification]({
 }
 ```
 
-```
+```js
 // Collection Model
 {
     "model": "collection",
@@ -96,6 +96,9 @@ To translate the conceptual diagram into JSON, follow the [JSON specification]({
             "sublabel": "date"
         },
     },
+ 
+    "internalId": "collection_id"
+}
 ```
 
 Associations can get more involved than this simple example — see [Associations]({% link data-models/associations.md %}) for single-end and paired-end foreign keys, many-to-many cross tables, and generic associations.

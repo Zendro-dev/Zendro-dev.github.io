@@ -22,23 +22,15 @@ Libraries needed for this tutorial:
 library(httr)
 library(jsonlite)
 library(dplyr)
-```
-```
-## 
-## Attaching package: 'dplyr'
-```
-```
+library(stringr)
+
 ## The following objects are masked from 'package:stats':
 ## 
 ##     filter, lag
-```
-```
+
 ## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
-```
-```r
-library(stringr)
 ```
 
 This tutorial uses the library `httr` to establish the connection with the GraphiQL API, but there are also other options to interact with GraphQL from R. Please check the R packages: [ghql](https://docs.ropensci.org/ghql/), [gqlr](https://github.com/schloerke/gqlr) and [graphql](https://github.com/ropensci/graphql).
@@ -53,13 +45,13 @@ Zendro provides a GraphQL API web interface, called Graph**i**QL, which is a Web
 
 For example, try copy-pasting and executing the following query at [https://zendro.conabio.gob.mx/api/graphql](https://zendro.conabio.gob.mx/api/graphql), which is the API that we will be using in this and other tutorials.
 
-```graphql
-{
-rivers(pagination:{limit:10, offset:0}){
-      river_id
-      name
-      length
-}
+```
+query {
+  rivers(pagination: {limit: 10 offset: 0}) {
+    river_id
+    name
+    length
+  }
 }
 ```
 

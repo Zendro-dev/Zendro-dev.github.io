@@ -1,0 +1,126 @@
+// Colors sourced from _sass/theme.json (a Sublime Text color scheme).
+// "variables" section:
+$black:        hsl(0, 0%, 0%);
+$blue:         hsl(210, 50%, 60%);
+$blue-vibrant: hsl(210, 60%, 60%);
+$blue2:        hsla(210, 13%, 40%, 0.7);
+$blue3:        hsl(210, 15%, 22%);
+$blue4:        hsl(210, 13%, 45%);
+$blue5:        hsl(180, 36%, 54%);
+$blue6:        hsl(221, 12%, 69%);
+$green:        hsl(114, 31%, 68%);
+$grey:         hsl(0, 0%, 20%);
+$orange:       hsl(32, 93%, 66%);
+$orange2:      hsl(32, 85%, 55%);
+$orange3:      hsl(40, 94%, 68%);
+$pink:         hsl(300, 30%, 68%);
+$red:          hsl(357, 79%, 65%);
+$red2:         hsl(13, 93%, 66%);
+$white:        hsl(0, 0%, 100%);
+$white2:       hsl(0, 0%, 97%);
+$white3:       hsl(219, 28%, 88%);
+
+// "globals" section:
+$fg:             $white3; // foreground
+$bg:             $blue3;  // background
+$line-highlight: $blue2;  // line_highlight
+
+.highlighter-rouge { background: $bg; }
+
+.highlight, pre.highlight, pre {
+    background: #272822
+}
+.language-json, .language-js {
+    .highlight, pre.highlight, pre {
+        background: $bg;
+    }
+}
+
+.highlight {
+  color: $fg;
+
+  .hll { background-color: $line-highlight } /* line_highlight */
+  .err { color: $white2; background-color: $red } /* Error -> "Invalid" */
+  .c  { color: $blue6 } /* Comment -> "Comment" */
+  .g  { color: $fg } /* Generic */
+  .k  { color: $pink } /* Keyword -> "Keyword" */
+  .l  { color: $fg } /* Literal */
+  .n  { color: $fg } /* Name */
+  .o  { color: $red2 } /* Operator -> "Operators" */
+  .x  { color: $fg } /* Other */
+  .p  { color: $blue6 } /* Punctuation -> "Punctuation" (separator/terminator) */
+  .cm { color: $blue6 } /* Comment.Multiline -> "Comment" */
+  .cp { color: $blue6 } /* Comment.Preproc -> "Comment" */
+  .c1 { color: $blue6 } /* Comment.Single -> "Comment" */
+  .cs { color: $blue6; font-weight: bold } /* Comment.Special -> "Comment" */
+  .gd { color: $red; background-color: hsla(357, 45%, 60%, 0.15) } /* Generic.Deleted -> "diff.deleted" */
+  .ge { color: $orange } /* Generic.Emph -> "diff.changed" */
+  .gr { color: $white2; background-color: $red } /* Generic.Error -> "Invalid" */
+  .gh { color: $pink; font-weight: bold } /* Generic.Heading -> "diff.header" */
+  .gi { color: $green; background-color: hsla(180, 45%, 60%, 0.15) } /* Generic.Inserted -> "diff.inserted" */
+  span.go { color: $blue; background-color: hsl(210, 15%, 16%) } /* Generic.Output -> "message.info"
+  .gp { color: $blue6 } /* Generic.Prompt */
+  .gs { color: $fg; font-weight: bold } /* Generic.Strong -> "markup bold" */
+  .gu { color: $pink; font-weight: bold } /* Generic.Subheading -> "diff.header" */
+  .gt { color: $white2; background-color: $orange2 } /* Generic.Traceback -> "Invalid deprecated" */
+  .kc { color: $red; font-style: italic } /* Keyword.Constant -> "Built-in constant" */
+  .kd { color: $red } /* Keyword.Declaration -> "Storage" */
+  .kn { color: $pink } /* Keyword.Namespace -> "Keyword" */
+  .kp { color: $pink } /* Keyword.Pseudo -> "Keyword" */
+  .kr { color: $pink } /* Keyword.Reserved -> "Keyword" */
+  .kt { color: $pink; font-style: italic } /* Keyword.Type -> "Storage type" */
+  .ld { color: $green } /* Literal.Date -> "String" */
+  .m  { color: $orange } /* Literal.Number -> "Number" */
+  .s  { color: $green } /* Literal.String -> "String" */
+  .na { color: $pink } /* Name.Attribute -> "Tag attribute" */
+  .nb { color: $blue; font-style: italic } /* Name.Builtin -> "Library function" */
+  .nc { color: $orange } /* Name.Class -> "Entity name" */
+  .no { color: $pink; font-style: italic } /* Name.Constant -> "Library constant" */
+  .nd { color: $orange } /* Name.Decorator -> "Entity name" */
+  .ni { color: $orange } /* Name.Entity -> "Entity name" */
+  .ne { color: $red } /* Name.Exception -> "Tag name" */
+  .nf { color: $blue5 } /* Name.Function -> "Entity name" (entity.name.function) */
+  .nl { color: $blue5 } /* Name.Label */
+  .nn { color: $orange } /* Name.Namespace -> "Entity name" */
+  .nx { color: $fg } /* Name.Other */
+  .py { color: $red } /* Name.Property -> "Member Variable" */
+  .nt { color: $red } /* Name.Tag -> "Tag name" */
+  .nv { color: $fg } /* Name.Variable */
+  .ow { color: $red2 } /* Operator.Word -> "Operators" */
+  .w  { color: $fg } /* Text.Whitespace */
+  .mf { color: $orange } /* Literal.Number.Float -> "Number" */
+  .mh { color: $orange } /* Literal.Number.Hex -> "Number" */
+  .mi { color: $orange } /* Literal.Number.Integer -> "Number" */
+  .mo { color: $orange } /* Literal.Number.Oct -> "Number" */
+  .sb { color: $green } /* Literal.String.Backtick -> "String" */
+  .sc { color: $green } /* Literal.String.Char -> "String" */
+  .sd { color: $green } /* Literal.String.Doc -> "String" */
+  .s2 { color: $green } /* Literal.String.Double -> "String" */
+  .se { color: $pink } /* Literal.String.Escape -> "User-defined constant" */
+  .sh { color: $green } /* Literal.String.Heredoc -> "String" */
+  .si { color: $pink } /* Literal.String.Interpol -> "User-defined constant" */
+  .sx { color: $green } /* Literal.String.Other -> "String" */
+  .sr { color: $green } /* Literal.String.Regex -> "String" */
+  .s1 { color: $green } /* Literal.String.Single -> "String" */
+  .ss { color: $pink } /* Literal.String.Symbol -> "User-defined constant" */
+  .bp { color: $red; font-style: italic } /* Name.Builtin.Pseudo -> "Language variable" */
+  .vc { color: $fg } /* Name.Variable.Class */
+  .vg { color: $fg } /* Name.Variable.Global */
+  .vi { color: $red } /* Name.Variable.Instance -> "Member Variable" */
+  .il { color: $orange } /* Literal.Number.Integer.Long -> "Number" */
+  .bash .nv {
+    user-select: none;
+  }
+}
+
+.language-liquid {
+  .highlight {
+    .p  { color: $blue6 }
+    .kr { color: $pink }
+    .nf { color: $blue5 }
+    .nt { color: $red }
+    .nv { color: $fg }
+  }
+}
+
+.language-sh .highlight * { color: $fg }

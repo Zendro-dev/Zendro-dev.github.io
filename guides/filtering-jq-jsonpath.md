@@ -89,7 +89,7 @@ Or, to get only the variable name and its value, ignoring null values:
 
 Result:
 
-```
+```json
 {
   "data": [
     {
@@ -171,10 +171,10 @@ JSONPath's syntax is very similar to file paths or regular expressions. It navig
 
 JSONPath does not support creating new objects like `jq` does with `{ name: .observationVariable.observationVariableName, value: .value }`. To get both `name` and `value` in a combined result, you'd typically need separate queries and combine the results programmatically.
 
-```jsonpath
-$.trials[*].studiesFilter[*].observationsFilter[?(@.value != null)].observationVariable.observationVariableName
+```js
+.trials[*].studiesFilter[*].observationsFilter[?(@.value != null)].observationVariable.observationVariableName
 
-$.trials[*].studiesFilter[*].observationsFilter[?(@.value != null)].value
+.trials[*].studiesFilter[*].observationsFilter[?(@.value != null)].value
 ```
 
 #### Explanation

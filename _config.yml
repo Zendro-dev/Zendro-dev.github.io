@@ -7,3 +7,6 @@ color_scheme: dark
 
 aux_links:
   Template Repository: https://github.com/Zendro-dev/Zendro-dev.github.io
+
+sass:
+    style: compressed

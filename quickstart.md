@@ -29,13 +29,13 @@ Follow [Installation and the Zendro CLI]({% link getting-started/installation-an
 The easiest way to set up Zendro is using the `zendro` CLI tool with minimal steps and configuration. Go out from the previously created `zendro` directory:
 
 ```
-$ cd ..
+cd ..
 ```
 
 and execute:
 
 ```
-$ zendro set-up -d <name>
+zendro set-up -d <name>
 ```
 
 where `<name>` is the name of your new project.
@@ -54,7 +54,7 @@ Go inside the new project you just created, named `<name>`, and edit `NEXTAUTH_S
 An easy way to set them in Linux is by using the following command, replacing `<secret>` accordingly:
 
 ```
-$ sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
+sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
 ```
 
 If you want to know more about the environment variables, see [Environment variables]({% link getting-started/environment-variables.md %}).
@@ -64,7 +64,7 @@ If you want to know more about the environment variables, see [Environment varia
 ### Development mode
 
 ```
-$ zendro dockerize -u
+zendro dockerize -u
 ```
 
 All servers listen for live changes you make to the files. The SPA and graphiql-auth web services will be slow to use since they compile pages on demand when opening them; to avoid that either change `docker-compose-dev.yml` to compile and deploy the web services (see `docker-compose-prod.yml`) or start Zendro in production mode instead.
@@ -78,7 +78,7 @@ In development mode there is no reverse proxy mapping the docker services; ports
 ### Production mode
 
 ```
-$ zendro dockerize -u -p
+zendro dockerize -u -p
 ```
 
 This creates a docker container for each Zendro component:
@@ -116,13 +116,13 @@ With the default configuration, the running containers will be:
 For the default database, you can also install `sqlite3` to inspect the data directly:
 
 ```
-$ sudo apt install sqlite3
+sudo apt install sqlite3
 ```
 
 Then, from the `graphql-server` folder, run:
 
 ```
-$ sqlite3 data.db
+sqlite3 data.db
 ```
 
 You can list tables and run queries inside sqlite with:
@@ -137,10 +137,10 @@ sqlite> .exit
 
 ```
 # Production
-$ zendro dockerize -d -p -v
+zendro dockerize -d -p -v
 
 # Development
-$ zendro dockerize -d -v
+zendro dockerize -d -v
 ```
 
 **Note**: The `-v` flag also removes all volumes. Drop it if you want to persist your data, including user data, between restarts.

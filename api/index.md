@@ -32,8 +32,8 @@ Classical REST services suppose that all requests have a predefined form and are
 
 ```
 <GET>
-/books/:1000/name
-/books/:1000/author
+https://some.domain/books/1000/name
+https://some.domain/books/1000/author
 ```
 
 It's possible to parametrize such requests by inserting logic into them, but that's more of an *anti-pattern*, since each different service would end up with its own "programming" interface, and the style of these interfaces can strongly differ from one project to another. Basic CRUD operations are common across the web, though, and many groups have worked to parametrize and standardize the corresponding requests — the standard Zendro uses is GraphQL. It introduces a set of request body constructs aimed mainly at manipulating the response data in terms of CRUD operations. As an example, here's a GraphQL query that restricts the server response to only the fields "name" and "author" for the "book" model record with a given ID:

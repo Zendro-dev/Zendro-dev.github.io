@@ -18,14 +18,14 @@ permalink: /api/graphql-reference
 ---
 Concrete requests sent to the backend server are model-dependent. Let's assume our first data model is called `record`, described as follows:
 
-```
+```js
 //Record.json
 {
   "model": "record",
   "storageType": "Sql",
   "attributes": {
-    name: String,
-    description: String
+    "name": "String",
+    "description": "String"
   }
 }
 ```
@@ -33,8 +33,8 @@ Concrete requests sent to the backend server are model-dependent. Let's assume o
 ### GraphQL Queries
 * `records(search, order, pagination) : [Records]` - Checks user authorization and returns a number of records, specified by the pagination argument, matching the search argument, sorted as specified by the order argument. See [General filter arguments](#general-filter-arguments) below for details on `search`, `order` and `pagination`. Example:
 ```
-query{
-  records(search: {field: name, value:{ value: "%test%"}, operator: like}, order: [{field: name, order: ASC}], pagination: {limit:10}){
+query {
+  records(search: {field: name, value: { value: "%test%"}, operator: like}, order: [ {field: name, order: ASC}], pagination: {limit: 10}) {
     name
     description
   }
@@ -44,7 +44,7 @@ query{
 * `readOneRecord(id): Record` - Checks user authorization and returns the record matching the given ID. Example:
 ```
 query {
-  readOneRecord(id: 23){
+  readOneRecord(id: 23) {
     name
     description
   }
@@ -53,16 +53,16 @@ query {
 
 * `countRecords(search): Integer` - Counts the records matching the conditions specified in the search argument. Example:
 ```
-query{
-  countRecords( search: {field: name, value:{ value: "%test%"}, operator: like} )
+query {
+  countRecords( search: {field: name, value: { value: "%test%"}, operator: like} )
 }
 ```
 
 * `vueTableRecord: vueTableRecord` - Returns a table of records as needed for displaying a vuejs table. Example:
 ```
-query{
-  vueTableRecord{
-    data{
+query {
+  vueTableRecord {
+    data {
       name
       description
     }
@@ -73,25 +73,25 @@ query{
 
 * `addRecord(record): Record` - Checks user authorization and creates a new record with the data specified in the record argument. Example:
 ```
-  mutation{
-    addRecord(name: "testRecord", description: "testing record" ){
-      name
-      description
-    }
+mutation {
+  addRecord(name: "testRecord", description: "testing record" ) {
+    name
+    description
   }
+}
 ```
 
 * `deleteRecord(id): String` - Checks user authorization and deletes the record with the specified ID. Example:
 ```
-mutation{
+mutation {
   deleteRecord(id: 23)
 }
 ```
 
 * `updateRecord(record): Record` - Checks user authorization and updates the record specified in the input argument. Example:
 ```
-mutation{
-  updateRecord(id: 23 name: "updated name"){
+mutation {
+  updateRecord(id: 23 name: "updated name") {
     name
     description
   }
@@ -109,7 +109,7 @@ This argument's type depends on the data model name. Assuming our data model is 
 name | Type | Description
 ------- | ------- | --------------
 *field* | String | Any of the record's attribute names — the column by which records are filtered.
-*value* | Object | Value used to filter the records; can be type `String` or type `Array` (default type is String), and the actual value should also be specified. Example: `value:{ type: String, value: "%string_to_filter%"}`
+*value* | Object | Value used to filter the records; can be type `String` or type `Array` (default type is String), and the actual value should also be specified. Example: `value: { type: String, value: "%string_to_filter%"}`
 *valueType* | enum | One of `Array, String, Int, Float, Boolean, DateTime`
 *operator* | String | Operator used to filter the records. Example: `eq`, `like` ...
 *search* | [searchRecordInput] | Recursively, another search argument.
@@ -120,7 +120,7 @@ Although the search argument's type depends on the data model name, the argument
 
 ```
 query {
-  records(search: {field: name, value: "%test%", operator: like}, pagination: {limit: 100}){
+  records(search: {field: name, value: "%test%", operator: like}, pagination: {limit: 100}) {
     name
     description
   }
@@ -172,9 +172,9 @@ Operator | Description | Example
 
 Operator | Description | Example
 --- | --- | ---
-`or` | logical or, combining multiple searches | `{operator: or search:[{<search>}, {<search>}]}`
-`and` | logical and, combining multiple searches | `{operator: and search:[{<search>}, {<search>}]}`
-`not` | logical not; searches are combined with `and` | `{operator: not search:[{<search>}, {<search>}]}`
+`or` | logical or, combining multiple searches | ` {operator: or search:[ {<search>}, {<search>}]}`
+`and` | logical and, combining multiple searches | ` {operator: and search:[ {<search>}, {<search>}]}`
+`not` | logical not; searches are combined with `and` | ` {operator: not search:[ {<search>}, {<search>}]}`
 
 ##### StorageType compatibility
 
@@ -213,8 +213,8 @@ The order argument's type also depends on the data model name. For our `Record` 
 
 **Example**: to sort the first 100 records alphabetically by name:
 ```
-query{
-  records(order: [{field: name, order: ASC}], pagination: {limit: 100}){
+query {
+  records(order: [ {field: name, order: ASC}], pagination: {limit: 100}) {
     name
     description
   }
@@ -222,7 +222,7 @@ query{
 ```
 
 #### Pagination argument
-The pagination argument is generic across all data models, controlling the maximum number of records that can be retrieved. For efficiency — especially with big data — the pagination argument is required by the GraphQL schema. Its name is always `pagination`, an object containing the number of records to retrieve and the offset to start from. Zendro provides two types of pagination: standard limit-offset and cursor-based. See [Pagination types]({% link data-models/resolver-and-model-layers.md %}#pagination-types) for more details.
+The pagination argument is generic across all data models, controlling the maximum number of records that can be retrieved. For efficiency — especially with big data — the pagination argument is required by the GraphQL schema. Its name is always `pagination`, an object containing the number of records to retrieve and the offset to start from. Zendro provides two types of pagination: standard limit-offset and cursor-based. See [Pagination types]( {% link data-models/resolver-and-model-layers.md %}#pagination-types) for more details.
 
 **Limit-Offset**
 
@@ -235,8 +235,8 @@ offset | Integer | Starting point for retrieving records
 
 **Example**: to retrieve the second 10 records of the `Record` data model:
 ```
-query{
-  records( pagination: {offset: 11, limit: 10}){
+query {
+  records( pagination: {offset: 11, limit: 10}) {
     name
     description
   }
@@ -258,35 +258,35 @@ before | String | base64 encoded record before which to return records
 
 When a data model is related to one or more data models, extra queries are added to the default API. Let's consider another data model, `Item`, and describe the associations between `Record` and `Item`:
 
-```
+```js
 //item.json
 {
-    "model" : "Item",
-    "storageType": "sql",
-    "attributes": {
-      "name": String,
-      "length": Int,
-      "recordId":Int
-    },
-    "associations":{
-      "record":{
-        "type": "many_to_one",
-        "implementation": "foreignkeys",
-        "reverseAssociation": "items",
-        "target": "Record",
-        "targetKey": "recordId",
-        "keyIn": "Item",
-        "targetStorageType": "sql",
-      }
+  "model" : "Item",
+  "storageType": "sql",
+  "attributes": {
+    "name": "String",
+    "length": "Int",
+    "recordId": "Int"
+  },
+  "associations": {
+    "record": {
+      "type": "many_to_one",
+      "implementation": "foreignkeys",
+      "reverseAssociation": "items",
+      "target": "Record",
+      "targetKey": "recordId",
+      "keyIn": "Item",
+      "targetStorageType": "sql"
     }
+  }
 }
 ```
 
-```
+```js
 //Record.json
 {
-...
-  "associations":{
+  ...,
+  "associations": {
     "items": {
       "type": "one_to_many",
       "implementation": "foreignkeys",
@@ -310,12 +310,12 @@ When a data model is related to one or more data models, extra queries are added
 
  Example:
 ```
-query{
-  records(search: {field: name, value:{ value: "%test%"}, operator: like}, pagination: {limit: 100}){
+query {
+  records(search: {field: name, value: { value: "%test%"}, operator: like}, pagination: {limit: 100}) {
     name
     description
-    countFilteredItems(search: {field: name, value:{ value: "%test%"}, operator: like})
-    itemsFilter(pagination:{offset: 5, limit: 10}){
+    countFilteredItems(search: {field: name, value: { value: "%test%"}, operator: like})
+    itemsFilter(pagination: {offset: 5, limit: 10}) {
       length
     }
   }
@@ -328,12 +328,14 @@ query{
 
  Example:
 ```
-readOneItem(id: 23){
-  name
-  length
-  record{
+query {
+  readOneItem(id: 23) {
     name
-    description
+    length
+    record {
+      name
+      description
+    }
   }
 }
 ```
@@ -348,10 +350,10 @@ Continuing the Items-Record example, the sample mutations:
 
 ```
 //create
-mutation{
-  addItem(name: "testItem" addRecord: 14){
+mutation {
+  addItem(name: "testItem" addRecord: 14) {
     name
-    record{
+    record {
       name
       description
     }
@@ -361,10 +363,10 @@ mutation{
 
 ```
 //update
-mutation{
-  updateItem(id: 2 removeRecord: 14){
+mutation {
+  updateItem(id: 2 removeRecord: 14) {
     name
-    record{
+    record {
       name
       description
     }
@@ -378,10 +380,10 @@ From the `Record` side of our example:
 
 ```
 //create
-mutation{
-  addRecord( name: "testRecord" addItems: [3, 5, 7] ){
+mutation {
+  addRecord( name: "testRecord" addItems: [3, 5, 7] ) {
     name
-    itemsFilter{
+    itemsFilter {
       name
       length
     }
@@ -391,10 +393,10 @@ mutation{
 
 ```
 //update
-mutation{
-  updateRecord( id: 1 addItems:[2,4] removeItems: [5,7]){
+mutation {
+  updateRecord( id: 1 addItems:[2,4] removeItems: [5,7]) {
     name
-    itemsFilter{
+    itemsFilter {
       name
       length
     }
