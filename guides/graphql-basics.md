@@ -67,7 +67,7 @@ A simple query looks like this:
 ```python
 query {
   rivers(pagination: {limit: 10, offset: 0}) {
-   # fields you want from the "rivers" type go here
+    # fields you want from the "rivers" type go here
     name
   }
 }
@@ -147,11 +147,11 @@ For a *one-to-many* association, there's a `Connection` for each association the
 ```python
 query {
   rivers(pagination: {limit: 10, offset: 0}) {
-      river_id
-      name
-      length
-      country_ids
-      countriesConnection(pagination: {first: 1}) {
+    river_id
+    name
+    length
+    country_ids
+    countriesConnection(pagination: {first: 1}) {
       countries{
         name
         population

@@ -226,7 +226,7 @@ After doing this, `zendro dockerize` should not start the `zendro-keycloak` and 
 To let all Zendro web clients in the network communicate with the Keycloak endpoint, they need to be registered as clients in Keycloak. This guide uses the [Keycloak admin console](https://www.keycloak.org/docs/latest/server_admin/).
 
 Go to `http://localhost:8081/auth/admin/zendro/console` and log in with a Zendro user. The default user is:
-```
+```yml
 username: zendro-admin
 password: admin
 ```

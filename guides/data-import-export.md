@@ -49,7 +49,7 @@ If there are no errors, your data is uploaded — click the Reload button if you
 
 1. If the Zendro instance is on your local machine, go into the `graphql-server` folder and execute:
 
-   ```
+   ```bash
    zendro bulk-create -f <filename> -n <modelname> -s <sheetname>
    ```
 
@@ -57,7 +57,7 @@ If there are no errors, your data is uploaded — click the Reload button if you
 
 2. To upload a file to a remote Zendro server, configure `zendro/.env.migration` accordingly, then execute:
 
-   ```
+   ```bash
    zendro bulk-create -f <filename> -n <modelname> -s <sheetname> -r
    ```
 

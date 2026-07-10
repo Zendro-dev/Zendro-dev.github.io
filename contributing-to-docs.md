@@ -28,7 +28,7 @@ Every push to `main` triggers a GitHub Actions build (see `.github/workflows/pag
 
 Each section of the site lives in its own folder (`getting-started/`, `data-models/`, `guides/`, `authentication/`, `api/`), with an `index.md` as that section's landing page. To add a new page to an existing section, add a new `.md` file to that folder with a front matter block like this:
 
-```
+```md
 ---
 layout: default
 title: My new page
@@ -65,7 +65,7 @@ For images and other static assets, use a site-root-relative path (e.g. `/figure
 
 To show a per-page table of contents, add this where you want it to appear (usually right after the page title):
 
-```
+```md
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -75,21 +75,25 @@ To show a per-page table of contents, add this where you want it to appear (usua
 
 ## Adding codeblocks
 
-Code blocks get syntax highlighting. The default highlighting is plaintext, which highlights as console-like (black background, white foreground) block. This should only used for things that might appear in a terminal (outputs, commands). Please ***don't*** add a prepending `$` to code block lines. They make copy-pasting the code very annoying.
+Code blocks get syntax highlighting. The default highlighting is plaintext, which highlights as console-like (black background, white foreground) block. This should only used for things that might appear as terminal output For commands use `bash`. Please ***don't*** add a prepending `$` to code block lines. They make copy-pasting the code very annoying.
 
 For other syntax look [here](https://rouge-ruby.github.io/docs/file.Languages.html) for a suiting language, as the actual might not suit the needs, like `jsom` with comments works better with `js` syntax, or `graphql` with `python`
 
-~~~
+~~~md
 ```python
 query {
    ...DoSomething
 }
 ```
+
+```bash
+zendro start
+```
 ~~~
 
 ## Building and previewing locally
 
-```
+```bash
 bundle install
 bundle exec jekyll serve
 ```

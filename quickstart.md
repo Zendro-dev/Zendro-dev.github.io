@@ -20,6 +20,43 @@ If you want to know more about Zendro or a detailed explanation on how to set up
 
 ---
 
+<!-- ## Hotstart
+
+<details><summary>Linux</summary>
+
+<ul><li>With docker
+
+{% highlight plaintext %}
+npm install -g git+https://github.com/Zendro-dev/zendro.git
+zendro set-up -d zendro-example
+cd zendro-example
+zendro set-next-auth-secret --modes prod -- spa $(openssl rand -base64 32)
+zendro set-next-auth-secret --modes dev -- spa $(openssl rand -base64 32)
+zendro set-next-auth-secret --modes prod -- giql $(openssl rand -base64 32)
+zendro set-next-auth-secret --modes dev -- giql $(openssl rand -base64 32)
+zendro dockerize -u
+{% endhighlight %}
+
+</li><li>Without docker
+
+{% highlight plaintext %}
+npm install -g git+https://github.com/Zendro-dev/zendro.git
+zendro set-up zendro-example
+cd zendro-example
+zendro set-next-auth-secret spa --modes prod $(openssl rand -base64)
+zendro set-next-auth-secret spa --modes dev $(openssl rand -base64)
+zendro set-next-auth-secret giql --modes prod $(openssl rand -base64)
+zendro set-next-auth-secret giql --modes dev $(openssl rand -base64)
+wget https://github.com/keycloak/keycloak/releases/download/26.2.0/keycloak-26.2.0.zip
+unzip keycloak-26.2.0.zip
+mv keycloak.conf
+keycloak-26.2.0/config
+
+zendro start
+{% endhighlight %}
+
+</details> -->
+
 ## Step 1: Install Zendro
 
 Follow [Installation and the Zendro CLI]({% link getting-started/installation-and-cli.md %}) to install the `zendro` command line tool and its requirements.
@@ -28,13 +65,13 @@ Follow [Installation and the Zendro CLI]({% link getting-started/installation-an
 
 The easiest way to set up Zendro is using the `zendro` CLI tool with minimal steps and configuration. Go out from the previously created `zendro` directory:
 
-```
+```bash
 cd ..
 ```
 
 and execute:
 
-```
+```bash
 zendro set-up -d <name>
 ```
 
@@ -53,7 +90,7 @@ Go inside the new project you just created, named `<name>`, and edit `NEXTAUTH_S
 
 An easy way to set them in Linux is by using the following command, replacing `<secret>` accordingly:
 
-```
+```bash
 sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
 ```
 
@@ -63,7 +100,7 @@ If you want to know more about the environment variables, see [Environment varia
 
 ### Development mode
 
-```
+```bash
 zendro dockerize -u
 ```
 
@@ -77,7 +114,7 @@ In development mode there is no reverse proxy mapping the docker services; ports
 
 ### Production mode
 
-```
+```bash
 zendro dockerize -u -p
 ```
 
@@ -115,13 +152,13 @@ With the default configuration, the running containers will be:
 
 For the default database, you can also install `sqlite3` to inspect the data directly:
 
-```
+```bash
 sudo apt install sqlite3
 ```
 
 Then, from the `graphql-server` folder, run:
 
-```
+```bash
 sqlite3 data.db
 ```
 
@@ -135,7 +172,7 @@ sqlite> .exit
 
 ## Step 5: Stop your Zendro instance
 
-```
+```bash
 # Production
 zendro dockerize -d -p -v
 

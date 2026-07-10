@@ -35,7 +35,7 @@ We strongly recommend following [this guide](https://docs.docker.com/engine/inst
 
 ## Install the Zendro CLI
 
-```
+```bash
 git clone https://github.com/Zendro-dev/zendro.git
 cd zendro
 npm install
@@ -50,7 +50,7 @@ Once linked, the `zendro` command is available anywhere on your system. See the 
 
 To update the Zendro CLI itself, go to your `zendro` folder and run:
 
-```
+```bash
 git pull
 rm -r package-lock.json node_modules
 npm install
@@ -60,7 +60,7 @@ npm install
 
 ### Remove a project
 
-```
+```bash
 sudo rm -r "path/to/<name>"
 docker rmi -f $(docker images -a -q "<name>*")
 docker volume rm $(docker volume ls -q | grep "^<name>")
@@ -68,7 +68,7 @@ docker volume rm $(docker volume ls -q | grep "^<name>")
 
 ### Uninstall the Zendro CLI
 
-```
+```bash
 sudo npm unlink -g zendro
 sudo rm -r "path/to/zendro"
 ```

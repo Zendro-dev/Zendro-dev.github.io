@@ -56,45 +56,48 @@ Examples:
 
 ```js
 {
-  "model" : "book",
-  "storageType" : "sql",
-  "attributes" : {
-    "title" : {"type":"String", "description": "The book's title"},
-    "publisher_id": "Int"
-  },
-  "associations":{
-      "publisher" : {
-        "type" : "many_to_one", // association type
-        "implementation": "foreignkeys",
-        "reverseAssociation": "books",
-        "target" : "publisher", // the target model name is `publisher`
-        "targetKey" : "publisher_id", // foreign key for this association
-        "keysIn": "book", // FK to `publisher` will be stored in the `book` model
-        "targetStorageType" : "sql"
+    "model" : "book",
+    "storageType" : "sql",
+    "attributes" : {
+        "title" : {
+            "type": "String",
+            "description": "The book's title"
+        },
+        "publisher_id": "Int"
+    },
+    "associations": {
+        "publisher" : {
+            "type" : "many_to_one", // association type
+            "implementation": "foreignkeys",
+            "reverseAssociation": "books",
+            "target" : "publisher", // the target model name is `publisher`
+            "targetKey" : "publisher_id", // foreign key for this association
+            "keysIn": "book", // FK to `publisher` will be stored in the `book` model
+            "targetStorageType" : "sql"
         }
-  }
+    }
 }
 ```
 
 ```js
 {
-  "model" : "publisher",
-  "storageType" : "sql",
-  "attributes" : {
-    "publisher_id": "Int",
-    "publisher_name": "String"
-  },
-  "associations":{
-      "books" : {
-        "type" : "one_to_many", // association type
-        "implementation": "foreignkeys",
-        "reverseAssociation": "publisher",
-        "target" : "book", // the target model name is `book`
-        "targetKey" : "publisher_id", // foreign key for this association
-        "keysIn": "book", // FK to `book` will be stored in the `book` model
-        "targetStorageType" : "sql"
+    "model" : "publisher",
+    "storageType" : "sql",
+    "attributes" : {
+        "publisher_id": "Int",
+        "publisher_name": "String"
+    },
+    "associations": {
+        "books" : {
+            "type" : "one_to_many", // association type
+            "implementation": "foreignkeys",
+            "reverseAssociation": "publisher",
+            "target" : "book", // the target model name is `book`
+            "targetKey" : "publisher_id", // foreign key for this association
+            "keysIn": "book", // FK to `book` will be stored in the `book` model
+            "targetStorageType" : "sql"
         }
-  }
+    }
 }
 ```
 
@@ -129,31 +132,31 @@ Assume a many-to-many association between models `book` and `author`, and a one-
         "card_ids": "[ String ]"
     },
 
-    "associations":{
-      "books":{
-        "type": "many_to_many", // association type
-        "implementation": "foreignkeys",
-        "reverseAssociation": "authors",
-        "target": "book", // target model name
-        "targetKey": "author_ids", // foreign key array stored in target model
-        "sourceKey": "book_ids", // foreign key array stored in source model
-        "keysIn": "author", // source model name
-        "targetStorageType": "sql"
-      },
-      "cards":{
-        "type": "one_to_many", // association type
-        "implementation": "foreignkeys",
-        "reverseAssociation": "author",
-        "target": "card", // target model name
-        "targetKey": "author_id", // foreign key stored in target model
-        "sourceKey": "card_ids", // foreign key array stored in source model
-        "keysIn": "author", // source model name
-        "targetStorageType": "sql"
-      }
+    "associations": {
+        "books": {
+            "type": "many_to_many", // association type
+            "implementation": "foreignkeys",
+            "reverseAssociation": "authors",
+            "target": "book", // target model name
+            "targetKey": "author_ids", // foreign key array stored in target model
+            "sourceKey": "book_ids", // foreign key array stored in source model
+            "keysIn": "author", // source model name
+            "targetStorageType": "sql"
+        },
+        "cards": {
+            "type": "one_to_many", // association type
+            "implementation": "foreignkeys",
+            "reverseAssociation": "author",
+            "target": "card", // target model name
+            "targetKey": "author_id", // foreign key stored in target model
+            "sourceKey": "card_ids", // foreign key array stored in source model
+            "keysIn": "author", // source model name
+            "targetStorageType": "sql"
+        }
     },
 
     "internalId": "id"
-  }
+}
 ```
 
 ```js
@@ -169,21 +172,21 @@ Assume a many-to-many association between models `book` and `author`, and a one-
         "author_ids": "[ String]"
     },
 
-    "associations":{
-      "authors":{
-        "type": "many_to_many", // association type
-        "implementation": "foreignkeys",
-        "reverseAssociation": "books",
-        "target": "author", // target model name
-        "targetKey": "book_ids", // foreign key array stored in target model
-        "sourceKey": "author_ids", // foreign key array stored in source model
-        "keysIn": "book", // source model name
-        "targetStorageType": "sql"
-      }
+    "associations": {
+        "authors": {
+            "type": "many_to_many", // association type
+            "implementation": "foreignkeys",
+            "reverseAssociation": "books",
+            "target": "author", // target model name
+            "targetKey": "book_ids", // foreign key array stored in target model
+            "sourceKey": "author_ids", // foreign key array stored in source model
+            "keysIn": "book", // source model name
+            "targetStorageType": "sql"
+        }
     },
 
     "internalId": "id"
-  }
+}
 ```
 ```js
 {
@@ -196,21 +199,21 @@ Assume a many-to-many association between models `book` and `author`, and a one-
         "author_id": "String"
     },
 
-    "associations":{
-      "author":{
-        "type": "many_to_one", // association type
-        "implementation": "foreignkeys",
-        "reverseAssociation": "cards",
-        "target": "author", // target model name
-        "targetKey": "card_ids", // foreign key array stored in target model
-        "sourceKey": "author_id", // foreign key stored in source model
-        "keysIn": "card", // source model name
-        "targetStorageType": "sql"
-      }
+    "associations": {
+        "author": {
+            "type": "many_to_one", // association type
+            "implementation": "foreignkeys",
+            "reverseAssociation": "cards",
+            "target": "author", // target model name
+            "targetKey": "card_ids", // foreign key array stored in target model
+            "sourceKey": "author_id", // foreign key stored in source model
+            "keysIn": "card", // source model name
+            "targetStorageType": "sql"
+        }
     },
 
     "internalId": "id"
-  }
+}
 ```
 
 ## Many-to-many through a cross table
@@ -220,63 +223,62 @@ Example:
 ```js
 //User model
 {
-  "model" : "User",
-  "storageType" : "SQL",
-  "attributes" : {
-    "email" : "String",
-    "password" : "String"
-  },
-  "associations" :{
-    "roles" : {
-      "type" : "many_to_many", // association type
-      "implementation": "sql_cross_table",
-      "reverseAssociation": "users",
-      "target" : "Role", // target model name
-      "targetKey" : "role_Id", // foreign key stored in target model
-      "sourceKey" : "user_Id", // foreign key stored in source model
-      "keysIn" : "role_to_user", // cross table name
-      "targetStorageType" : "sql",
-      "label": "name"
+    "model" : "User",
+    "storageType" : "SQL",
+    "attributes" : {
+        "email" : "String",
+        "password" : "String"
+    },
+    "associations" : {
+        "roles" : {
+            "type" : "many_to_many", // association type
+            "implementation": "sql_cross_table",
+            "reverseAssociation": "users",
+            "target" : "Role", // target model name
+            "targetKey" : "role_Id", // foreign key stored in target model
+            "sourceKey" : "user_Id", // foreign key stored in source model
+            "keysIn" : "role_to_user", // cross table name
+            "targetStorageType" : "sql",
+            "label": "name"
+        }
     }
-  }
-
 }
 ```
 
 ```js
 //Role model
 {
-  "model" : "Role",
-  "storageType" : "SQL",
-  "attributes" : {
-    "name" : "String",
-    "description" : "String"
-  },
-  "associations" : {
-    "users" : {
-      "type" : "many_to_many", // association type
-      "implementation": "sql_cross_table",
-      "reverseAssociation": "roles",
-      "target" : "User", // target model name
-      "targetKey" : "user_Id", // foreign key stored in target model
-      "sourceKey" : "role_Id", // foreign key stored in source model
-      "keysIn" : "role_to_user", // cross table name
-      "targetStorageType" : "sql",
-      "label": "email"
+    "model" : "Role",
+    "storageType" : "SQL",
+    "attributes" : {
+        "name" : "String",
+        "description" : "String"
+    },
+    "associations" : {
+        "users" : {
+            "type" : "many_to_many", // association type
+            "implementation": "sql_cross_table",
+            "reverseAssociation": "roles",
+            "target" : "User", // target model name
+            "targetKey" : "user_Id", // foreign key stored in target model
+            "sourceKey" : "role_Id", // foreign key stored in source model
+            "keysIn" : "role_to_user", // cross table name
+            "targetStorageType" : "sql",
+            "label": "email"
+        }
     }
-  }
 }
 ```
 
 ```js
 //role_to_user model
 {
-  "model" : "role_to_user",
-  "storageType" : "SQL",
-  "attributes" : {
-    "user_Id" : "Int",
-    "role_Id" : "Int"
-  }
+    "model" : "role_to_user",
+    "storageType" : "SQL",
+    "attributes" : {
+        "user_Id" : "Int",
+        "role_Id" : "Int"
+    }
 }
 ```
 
@@ -444,19 +446,19 @@ Data model definition for table B:
     "model": "discovered_specie",
     "storageType": "mongodb",
     "attributes": {
-      "discovered_specie_id": "String",
-      "studied_specie_id": "String"
+        "discovered_specie_id": "String",
+        "studied_specie_id": "String"
     },
     "associations": {
-      "unique_studied_specie": {
-        "type": "one_to_one",
-        "implementation": "foreignkeys",
-        "reverseAssociation": "unique_discovered_specie",
-        "target": "studied_specie",
-        "targetKey": "studied_specie_id",
-        "keysIn": "discovered_specie",
-        "targetStorageType": "mongodb"
-      }
+        "unique_studied_specie": {
+            "type": "one_to_one",
+            "implementation": "foreignkeys",
+            "reverseAssociation": "unique_discovered_specie",
+            "target": "studied_specie",
+            "targetKey": "studied_specie_id",
+            "keysIn": "discovered_specie",
+            "targetStorageType": "mongodb"
+        }
     },
     "internalId": "discovered_specie_id",
     "id": {
