@@ -63,17 +63,19 @@ If you do *not* want to use Keycloak as the authorization service for your Zendr
 
 You can customize your providers in the `/src/pages/api/auth/[...nextauth]` files — either reconfigure the default `zendro` Keycloak provider, or add your custom provider to the `providers` list:
 
-```javascript
-providers: [
-  // ...add more providers here
-  {
-    id: 'zendro',
-    // ...
-  },
-  {
-	// add your custom provider
-  }
-],
+```js
+{
+  providers: [
+    // ...add more providers here
+    {
+      id: 'zendro',
+      // ...
+    },
+    {
+  	// add your custom provider
+    }
+  ]
+}
 ```
 
 ## Requesting an access token for third-party requests

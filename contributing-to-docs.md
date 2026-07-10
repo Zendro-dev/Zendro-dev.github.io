@@ -73,6 +73,20 @@ To show a per-page table of contents, add this where you want it to appear (usua
 {:toc}
 ```
 
+## Adding codeblocks
+
+Code blocks get syntax highlighting. The default highlighting is plaintext, which highlights as console-like (black background, white foreground) block. This should only used for things that might appear in a terminal (outputs, commands). Please ***don't*** add a prepending `$` to code block lines. They make copy-pasting the code very annoying.
+
+For other syntax look [here](https://rouge-ruby.github.io/docs/file.Languages.html) for a suiting language, as the actual might not suit the needs, like `jsom` with comments works better with `js` syntax, or `graphql` with `python`
+
+~~~
+```python
+query {
+   ...DoSomething
+}
+```
+~~~
+
 ## Building and previewing locally
 
 ```

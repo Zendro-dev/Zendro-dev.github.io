@@ -304,9 +304,8 @@ The client secret is in the "Credentials" tab:
 
 Copy and paste these two values into your single-page-app and graphiql-auth environment files:
 
-```
+```properties
 # single-page-app .env(.development | .production)
-...
 OAUTH2_CLIENT_ID="<my-spa-client-id>"
 OAUTH2_CLIENT_SECRET="<my-spa-client-secret>"
 
@@ -337,14 +336,13 @@ After copying the key, add it to the graphql-server .env file:
 
 **Note**: make sure to include the public key signature:
 
-```
-...
+```properties
 OAUTH2_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\n<my-public-key>\n-----END PUBLIC KEY-----"
 ```
 
 Depending on whether you created a separate client for the graphql-server, pass that Client ID via the `OAUTH2_CLIENT_ID` environment variable:
 
-```
+```properties
 OAUTH2_CLIENT_ID="<my-graphql-server-client-id>"
 ```
 

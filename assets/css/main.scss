@@ -1,4 +1,11 @@
 ---
 ---
 
-@import "code_highlighting";
+@media(prefers-color-scheme: light) {
+    {% include css/just-the-docs.scss.liquid color_scheme="light" %};
+    @import "code_highlighting_light";
+}
+@media(prefers-color-scheme: dark) {
+    {% include css/just-the-docs.scss.liquid color_scheme="dark" %};
+    @import "code_highlighting_dark";
+}

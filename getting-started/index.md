@@ -79,13 +79,13 @@ You should also configure the storage types you use, such as credentials or the 
 * **Without docker setup:** if you wish to use the default database, replace the content of `./graphql-server/config/data_models_storage_config.json` with:
 
   ```json
-  {
-    "default-sql": {
-      "storageType": "sql",
-      "dialect": "sqlite",
-      "storage": "data.db"
-    }
+{
+  "default-sql": {
+    "storageType": "sql",
+    "dialect": "sqlite",
+    "storage": "data.db"
   }
+}
   ```
 
 * **With docker setup:** edit `./config/data_models_storage_config.json`.

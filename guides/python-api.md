@@ -81,14 +81,14 @@ To check whether the query ran correctly, we use the response object's `json` me
 # we define the query to create a country
 country_query = """
     mutation {
-          addCountry(
+        addCountry(
             country_id:"JP",
             name: "Japan",
             population: 100000000,
             size: 377975
-          ) {
-                country_id
-            }
+        ) {
+            country_id
+        }
     }
 """
 
@@ -113,22 +113,22 @@ To relate a city to the previous country, we add the `addCountry` parameter with
 # using the syntax: 'name: mutation_name()' like in the example below
 city_query = """
     mutation {
-          osaka: addCity(
+        osaka: addCity(
             city_id: 6,
             name: "Osaka",
             population: 2691000,
             addCountry: "JP"
-          ) {
+        ) {
             city_id
-          }
-          suwon: addCity(
+        }
+            suwon: addCity(
             city_id: 7,
             name: "Suwon",
             population: 1241000,
             addCountry: "JP"
-          ) {
+        ) {
             city_id
-          }
+        }
     }
 """
 
@@ -148,11 +148,11 @@ We can also make a query request by changing `mutation` to `query`. This tells u
 # to make a read request and not a mutation we change mutation to query
 country_cities = """
     query {
-          readOneCountry(country_id: "JP") {
+        readOneCountry(country_id: "JP") {
             citiesFilter(pagination: { limit:10 }) {
-              name
+                name
             }
-          }
+        }
     }
 """
 
@@ -163,8 +163,7 @@ country_cities_response = session.post(
 country_cities_response.json()
 ```
 
-    {'data': {'readOneCountry': {'citiesFilter': [{'name': 'Osaka'},
-        {'name': 'Suwon'}]}}}
+    {'data': {'readOneCountry': {'citiesFilter': [{'name': 'Osaka'}, {'name': 'Suwon'}]}}}
 
 We can **update** entries in our table with mutations, specifying the ID of the entry to update. It's also helpful to retrieve the field you just updated in the response, to confirm the mutation ran correctly.
 
@@ -175,13 +174,13 @@ In the next example, we correct the population of Japan.
 # in this case we use 'updateCountry' to fix the population of Japan
 update_country = """
     mutation {
-          updateCountry(
+        updateCountry(
             country_id: "JP",
             population: 125000000
-          ) {
+        ) {
             name
             population
-          }
+        }
     }
 """
 
@@ -204,13 +203,16 @@ Delete mutations normally just return a string, instead of the fields of the tar
 # to delete an entry, first we need to disassociate the entry of its relations
 delete_city = """
     mutation {
-          updateCity(
+        updateCity(
             city_id: 7,
             removeCountry: "JP"
-          ) { city_id country_id }
-          deleteCity(
+        ) {
+            city_id
+            country_id
+        }
+        deleteCity(
             city_id: 7
-          )
+        )
     }
 """
 # the delete query returns a string
@@ -220,31 +222,46 @@ delete_response = session.post(
 
 delete_response.json()
 
-# {'data': {'updateCity': {'city_id': '7', 'country_id': None},
-#   'deleteCity': 'Item successfully deleted'}}
+# {'data': {'updateCity': {'city_id': '7', 'country_id': None}, 'deleteCity': 'Item successfully deleted'}}
 ```
 
 You can also pass [variables](https://graphql.org/learn/queries/#variables) to a given query, letting you define the query once and pass in dynamic parameters (search, order, pagination, ...) at run time.
 
 For instance, [cursor-based-pagination.js](https://github.com/Zendro-dev/graphql-server-model-codegen/blob/master/test/unit_test_misc/test-describe/cursor-based-pagination.js), from Zendro's code generator test suite, uses a query with variables:
 
-```
-    let query = `query booksConnection($search: searchBookInput $pagination: paginationCursorInput! $order: [orderBookInput]){
-        booksConnection(search:$search pagination:$pagination order:$order){ edges{cursor node{  id  title
-          genre
-          publisher_id
-         } } pageInfo{ startCursor endCursor hasPreviousPage hasNextPage } } }`
+```js
+let query = `
+    query booksConnection($search: searchBookInput $pagination: paginationCursorInput! $order: [orderBookInput]) {
+        booksConnection(search: $search pagination: $pagination order: $order) {
+            edges{
+                cursor
+                node {
+                    id
+                    title
+                    genre
+                    publisher_id
+                }
+            }
+            pageInfo {
+                startCursor
+                endCursor
+                hasPreviousPage
+                hasNextPage
+            }
+        }
+    }
+`
 ```
 
 Here the variables are `search`, `pagination` and `order`, which can be passed dynamically. Sending the query and variables via `axios`:
 
-```
-      let response = await axios.post(
-        remoteZendroURL,
-        {
-          query: query,
-          variables: {search: search, order:order, pagination: pagination},
-        },
-        opts
-      );
+```js
+let response = await axios.post(
+    remoteZendroURL,
+    {
+      query: query,
+      variables: {search: search, order:order, pagination: pagination},
+    },
+    opts
+);
 ```

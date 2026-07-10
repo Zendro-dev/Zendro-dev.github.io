@@ -6,7 +6,7 @@ To switch the access rights check on, uncomment the command line switch `acl` (`
 
 You can also whitelist certain roles to own all user permissions, using the `WHITELIST_ROLES` environment variable. For example, to whitelist reading actions, add this to `./graphql-server/.env`:
 
-```
+```properties
 WHITELIST_ROLES="reader"
 ```
 

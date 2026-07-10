@@ -12,19 +12,19 @@ permalink: /guides/graphql-basics
 {: .no_toc .text-delta }
 
 1. TOC
-{:toc}
+{: toc}
 
 ---
 
 GraphQL is a query language for Application Programming Interfaces (APIs), which documents what data is available in the API and lets you query and get exactly the data you want, and nothing more.
 
-This tutorial provides a short introduction to GraphQL, but we recommend exploring the [GraphQL documentation](https://graphql.org/learn/) and other [introductory resources like this one](https://docs.github.com/en/graphql/guides/introduction-to-graphql) to learn more.
+This tutorial provides a short introduction to GraphQL, but we recommend exploring the [GraphQL documentation](https: //graphql.org/learn/) and other [introductory resources like this one](https: //docs.github.com/en/graphql/guides/introduction-to-graphql) to learn more.
 
-In the GraphQL API, queries are written in the GraphQL language, and the result (the data) is given back in [JSON](https://www.w3schools.com/whatis/whatis_json.asp) format. JSON (JavaScript Object Notation) is a standard text-based format for representing structured data, widely used for transmitting data in web applications, and easily reformatted into tables or data frames in programming languages like R or Python.
+In the GraphQL API, queries are written in the GraphQL language, and the result (the data) is given back in [JSON](https: //www.w3schools.com/whatis/whatis_json.asp) format. JSON (JavaScript Object Notation) is a standard text-based format for representing structured data, widely used for transmitting data in web applications, and easily reformatted into tables or data frames in programming languages like R or Python.
 
 Zendro provides a GraphQL API web interface called Graph**i**QL, a web browser tool for writing, validating, and testing GraphQL queries.
 
-You can try it live here — the API used in this and other tutorials: [https://zendro.conabio.gob.mx/api/graphql](https://zendro.conabio.gob.mx/api/graphql).
+You can try it live here — the API used in this and other tutorials: [https: //zendro.conabio.gob.mx/api/graphql](https: //zendro.conabio.gob.mx/api/graphql).
 
 Zendro's GraphQL API allows not only querying data, but also creating, modifying or deleting records (`mutate`). This is only available with authentication (i.e. logging in with edit permissions) and isn't covered in this tutorial — see Zendro's other how-to guides for details on mutations.
 
@@ -39,7 +39,7 @@ The GraphiQL API web interface has the following main components:
 
 ![API_parts.png](/figures/API_parts.png)
 
-Data in GraphQL is organised in **types** and **fields** within those types. When thinking about your structured data, you can think of **types as the names of tables**, and **fields as the columns of those tables** — records are the rows of data from those tables. Learn more in the [GraphQL documentation](https://graphql.org/learn/).
+Data in GraphQL is organised in **types** and **fields** within those types. When thinking about your structured data, you can think of **types as the names of tables**, and **fields as the columns of those tables** — records are the rows of data from those tables. Learn more in the [GraphQL documentation](https: //graphql.org/learn/).
 
 A GraphQL service is created by defining types and fields on those types, and providing functions for each field on each type.
 
@@ -47,26 +47,26 @@ The documentation explorer shows what operations (e.g. query, mutation) are allo
 
 In the image above, the first type is `cities`. Types can contain elements or arguments, specified inside parentheses `()`. Some may be required arguments (marked with `!`), such as `pagination`.
 
-You can extend the bottom panel ("Query variables") to provide dynamic inputs to your query. [Learn more](https://graphql.org/learn/queries/#variables).
+You can extend the bottom panel ("Query variables") to provide dynamic inputs to your query. [Learn more](https: //graphql.org/learn/queries/#variables).
 
 ## Writing queries
 
-The [GraphQL documentation](https://graphql.org/learn/) has plenty of resources on how to build queries and make the most of GraphQL; below is a short summary, after which we recommend exploring it further. Feel free to try your queries in our [Zendro Dummy API](https://zendro.conabio.gob.mx/dummy_api), set up for tests.
+The [GraphQL documentation](https: //graphql.org/learn/) has plenty of resources on how to build queries and make the most of GraphQL; below is a short summary, after which we recommend exploring it further. Feel free to try your queries in our [Zendro Dummy API](https: //zendro.conabio.gob.mx/dummy_api), set up for tests.
 
 **GraphQL syntax tips:**
 
 * Queries and other operations are written between curly braces `{}`.
 * Types can contain elements or arguments, specified inside parentheses `()`.
-* Use a colon `:` to set parameter arguments (e.g. `pagination:{limit:10, offset:0}`).
+* Use a colon `:` to set parameter arguments (e.g. `pagination: {limit: 10, offset: 0}`).
 * Use a hashtag `#` to include comments within a query, useful for documenting what you're doing.
 * A query should provide at least one type (e.g. `rivers`), at least one field (e.g. `names`), and any mandatory arguments the type has (marked with `!` in the Docs).
-* In Zendro, `pagination` is a mandatory argument. It refers to the number of records (`limit`) the output returns, starting from a given `offset`. If you don't specify the offset, it defaults to `offset:0`.
+* In Zendro, `pagination` is a mandatory argument. It refers to the number of records (`limit`) the output returns, starting from a given `offset`. If you don't specify the offset, it defaults to `offset: 0`.
 
 A simple query looks like this:
 
-```
+```python
 query {
-  rivers(pagination:{limit:10, offset:0}){
+  rivers(pagination: {limit: 10, offset: 0}) {
    # fields you want from the "rivers" type go here
     name
   }
@@ -87,7 +87,7 @@ Click `Query`, look for the type you want (in this example `rivers`), then click
 
 **Option 2: autocomplete while you type**
 
-To see what fields are available for the `rivers` type, hold `ctrl+space` inside the curly braces `{}` after `rivers(pagination:{limit:10, offset:0})`. A menu appears showing all possible fields.
+To see what fields are available for the `rivers` type, hold `ctrl+space` inside the curly braces `{}` after `rivers(pagination: {limit: 10, offset: 0})`. A menu appears showing all possible fields.
 
 ![API_query2.png](/figures/API_query2.png)
 
@@ -95,9 +95,9 @@ Here we can get the fields `river_id`, `name` and `country_ids`. The rest of the
 
 Let's build a query that returns the fields `river_id`, `name`, `length` and `country_ids` from the `river` type:
 
-```
+```python
 query {
-  rivers(pagination:{limit:10, offset:0}){
+  rivers(pagination: {limit: 10, offset: 0}) {
     river_id
     name
     length
@@ -106,7 +106,7 @@ query {
 }
 ```
 
-For each of the first 10 rivers (`limit:10`) in the data, we get its ID, name, length, and the ID of any country it's associated with:
+For each of the first 10 rivers (`limit: 10`) in the data, we get its ID, name, length, and the ID of any country it's associated with:
 
 ![API_query3.png](/figures/API_query3.png)
 
@@ -126,7 +126,7 @@ Looking at the Docs, you'll notice it's not just another field — you need to p
 
 Here we want to look up the associated country, and we know the common field (the key) is `country_id`, so the search should look like:
 
-```
+```python
 query {
   cities(pagination: {limit: 10, offset: 0}) {
     city_id
@@ -144,9 +144,9 @@ query {
 
 For a *one-to-many* association, there's a `Connection` for each association the model has. For example, to see the countries a river is associated with, use `countriesConnection`:
 
-```
+```python
 query {
-  rivers(pagination:{limit:10, offset:0}){
+  rivers(pagination: {limit: 10, offset: 0}) {
       river_id
       name
       length
@@ -175,9 +175,9 @@ To improve run time, GraphQL can factor dynamic values out of the query and pass
 2. Declare `$variableName` as one of the variables accepted by the query.
 3. Pass `variableName: value` in the separate, transport-specific (usually JSON) variables dictionary.
 
-Check the [official documentation](https://graphql.org/learn/queries/#variables) for examples.
+Check the [official documentation](https: //graphql.org/learn/queries/#variables) for examples.
 
-You can write much more complex queries to get exactly the data you want — explore the [GraphQL documentation](https://graphql.org/learn/) or other resources to learn more. The examples above should get you going if you want to pull data into R or Python for analysis.
+You can write much more complex queries to get exactly the data you want — explore the [GraphQL documentation](https: //graphql.org/learn/) or other resources to learn more. The examples above should get you going if you want to pull data into R or Python for analysis.
 
 Before downloading data from R, Python or any other programming language via the GraphQL API, we recommend writing and testing the query in the GraphiQL web interface first, making sure it returns the desired data in the right panel, as shown above.
 

@@ -45,7 +45,7 @@ Zendro provides a GraphQL API web interface, called Graph**i**QL, which is a Web
 
 For example, try copy-pasting and executing the following query at [https://zendro.conabio.gob.mx/api/graphql](https://zendro.conabio.gob.mx/api/graphql), which is the API that we will be using in this and other tutorials.
 
-```
+```python
 query {
   rivers(pagination: {limit: 10 offset: 0}) {
     river_id
@@ -125,12 +125,13 @@ To use the `get_from_graphQL()` function, first you have to define a GraphQL que
 Once you have a GraphQL query working, you'll need to save it to an R object as a character vector:
 
 ```r
-my_query<- "{
-rivers(pagination:{limit:10, offset:0}){
-      river_id
-      name
-      length
-   }
+my_query <- "
+{
+  rivers(pagination: {limit: 10, offset: 0}) {
+    river_id
+    name
+    length
+  }
 }
 "
 ```
@@ -179,7 +180,7 @@ Similar to how we got data before, we can use this simple query in the `get_from
 
 ```r
 # query API with count function
-no_records<-get_from_graphQL(query="{countRivers}", url="https://zendro.conabio.gob.mx/api/graphql")
+no_records<-get_from_graphQL(query="{ countRivers }", url="https://zendro.conabio.gob.mx/api/graphql")
 
 # change to vector, we don't need a df
 no_records<-no_records[1,1]
@@ -226,14 +227,15 @@ for(i in c(1:length(my_offset))){
 pagination <- paste0("limit:", my_limit, ", offset:", my_offset[i])
 
 # Define query looping through desired pagination:
-my_query<- paste0("{
-  rivers(pagination:{", pagination, "}){
-      river_id
-      name
-      length
-   }
-   }
-   ")
+my_query<- paste0("
+{
+  rivers(pagination: {", pagination, "}) {
+    river_id
+    name
+    length
+  }
+}
+")
 
 # Get data and add it to the already created df
 data<-rbind(data, get_from_graphQL(query=my_query, url="https://zendro.conabio.gob.mx/api/graphql"))

@@ -1,0 +1,30 @@
+// Lightness values lowered vs. the dark theme so text colors keep
+// enough contrast against the near-white $bg below (badge-style
+// colors that are always paired with light text, like $orange2, are
+// left at their original lightness).
+$black:        hsl(0, 0%, 0%);
+$blue:         hsl(210, 55%, 38%);
+$blue-vibrant: hsl(210, 65%, 38%);
+$blue2:        hsla(210, 13%, 40%, 0.7);
+$blue3:        hsl(210, 15%, 22%);
+$blue4:        hsl(210, 13%, 45%);
+$blue5:        hsl(180, 45%, 32%);
+$blue6:        hsl(221, 15%, 40%);
+$green:        hsl(114, 40%, 32%);
+$grey:         hsl(0, 0%, 20%);
+$orange:       hsl(32, 90%, 38%);
+$orange2:      hsl(32, 85%, 55%);
+$orange3:      hsl(40, 94%, 68%);
+$pink:         hsl(300, 45%, 38%);
+$red:          hsl(357, 70%, 42%);
+$red2:         hsl(13, 85%, 40%);
+$white:        hsl(0, 0%, 100%);
+$white2:       hsl(0, 0%, 97%);
+$white3:       hsl(219, 28%, 88%);
+
+// "globals" section:
+$fg:             $blue3; // foreground for code
+$bg:             hsl(210, 11%, 93%);  // background
+$line-highlight: $blue2;  // line_highlight
+
+@import "./css/code_highlighting";

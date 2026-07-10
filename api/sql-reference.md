@@ -27,7 +27,7 @@ We'll use the model `event` from the [Breeding API](https://github.com/usadellab
 
 The following GraphQL operation is given to Zendro:
 
-```
+```python
 mutation {
   addEvent(eventType: "Test Event") {
     eventType
@@ -54,7 +54,7 @@ COMMIT;
 
 The following GraphQL operation is given to Zendro:
 
-```
+```python
 query {
   events {
     eventType
@@ -90,7 +90,7 @@ OFFSET 0;
 
 The following GraphQL operation is given to Zendro:
 
-```
+```python
 mutation {
   updateEvent(eventType: "Test Event", eventDbId: "1") {
     eventType
@@ -129,7 +129,7 @@ COMMIT;
 
 The following GraphQL operation is given to Zendro:
 
-```
+```python
 mutation {
   deleteEvent(eventType: "Test Event")
 }

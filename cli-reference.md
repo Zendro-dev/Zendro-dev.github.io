@@ -24,12 +24,10 @@ See [Installation and the Zendro CLI]({% link getting-started/installation-and-c
 ## Commands
 ### Start a new zendro application
 ```
-zendro new <your_application_name>
+Usage: zendro new [options] <your_application_name>
 
-  Usage: zendro new [options] <your_application_name>
-
-  Options:
-    -d, --dockerize: Keep Docker files (default: false).
+Options:
+  -d, --dockerize: Keep Docker files (default: false).
 ```
 Hints:
 1. If you don't have a local database, or want to dockerize the Zendro app, keep the docker files — these are examples for dockerizing a Zendro app.
@@ -46,37 +44,31 @@ Note: by default, SQLite3 is used for data storage. To use other storage types, 
 
 ### Generate code for graphql-server
 ```
-zendro generate
+Usage: zendro generate [options]
 
-  Usage: zendro generate [options]
-
-  Options:
-    -f, --data_model_definitions: Input directory or a JSON file (default: current directory path + "/data_model_definitions").
-    -o, --output_dir: Output directory (default: current directory path + "/graphql_server").
-    -m, --migrations: Generate migrations (default: false).
+Options:
+  -f, --data_model_definitions: Input directory or a JSON file (default: current directory path + "/data_model_definitions").
+  -o, --output_dir: Output directory (default: current directory path + "/graphql_server").
+  -m, --migrations: Generate migrations (default: false).
 ```
 
 ### Dockerize Zendro App with example docker files
 ```
-zendro dockerize
+Usage: zendro dockerize [options]
 
-  Usage: zendro dockerize [options]
-
-  Options:
-    -u, --up: Start docker service (default: false).
-    -d, --down: Stop docker service (default: false).
-    -p, --production: start or stop GQS and SPA with production mode (default: false).
-    -v, --volume: remove volumes (default: false).
+Options:
+  -u, --up: Start docker service (default: false).
+  -d, --down: Stop docker service (default: false).
+  -p, --production: start or stop GQS and SPA with production mode (default: false).
+  -v, --volume: remove volumes (default: false).
 ```
 
 ### Start Zendro service
 ```
-zendro start [service...]
+Usage: zendro start [options] [service...]
 
-  Usage: zendro start [options] [service...]
-
-  Options:
-    -p, --production: start GQS and SPA with production mode (default: false).
+Options:
+  -p, --production: start GQS and SPA with production mode (default: false).
 ```
 Hints:
 1. Starts all services by default.
@@ -87,11 +79,9 @@ Hints:
 
 ### Stop Zendro service
 ```
-zendro stop [service…]
+Usage: zendro stop [service…]
 
-  Usage: zendro stop [service…]
-
-  Options:
+Options:
   -p, --production: stop GQS and SPA with production mode (default: false).
 ```
 Hints:
@@ -100,11 +90,9 @@ Hints:
 
 ### Generate migration code for graphql-server
 ```
-zendro migration:generate
+Usage: zendro migration:generate [options]
 
-  Usage: zendro migration:generate [options]
-
-  Options:
+Options:
   -f, --data_model_definitions: Input directory or a JSON file (default: current directory path + "/../data_model_definitions").
   -o, --output_dir: Output directory (default: current directory path + "/migrations").
 ```
@@ -112,26 +100,20 @@ Note: all generated migrations are stored in a directory called `migrations`.
 
 ### Execute migrations
 ```
-zendro migration:up
-
-  Usage: zendro migration:up
+Usage: zendro migration:up
 ```
 Note: executes migrations generated after the last executed migration. The last executed migration is recorded in `zendro_migration_state.json`, and the migration log is in `zendro_migration_log.json`.
 
 ### Drop the last executed migration
 ```
-zendro migration:down
-
-  Usage: zendro migration:down
+Usage: zendro migration:down
 ```
 
 ### Upload a file
 ```
-zendro bulk-create
+Usage: zendro bulk-create [options]
 
-  Usage: zendro bulk-create [options]
-
-  Options:
+Options:
   -f, --file_path: File path. Supported file format: CSV, XLSX, JSON
   -n, --model_name: Model name.
   -s, --sheet_name: Sheet name for XLSX file. By default process the first sheet.
@@ -142,11 +124,9 @@ See [How to import and export data]({% link guides/data-import-export.md %}) for
 
 ### Download records
 ```
-zendro bulk-download
+Usage: zendro bulk-download [options]
 
-  Usage: zendro bulk-download [options]
-
-  Options:
+Options:
   -f, --file_path: File path.
   -n, --model_name: Model name.
   -r, --remote_server: Download from a remote server (default: false).
@@ -156,21 +136,17 @@ See [How to import and export data]({% link guides/data-import-export.md %}) for
 
 ### Set up a quick sandbox
 ```
-zendro set-up
+Usage: zendro set-up [options] <name>
 
-  Usage: zendro set-up [options] <name>
-
-  Options:
+Options:
   -d, --dockerize: Keep Docker files (default: false).
 ```
 
 ### Create empty or default plots
 ```
-zendro create-plot
+Usage: zendro create-plot [options]
 
-  Usage: zendro create-plot [options]
-
-  Options:
+Options:
   -p, --default_plots: Create default plots (default: false).
   -f, --plot_name: Customized plot name.
   -t, --type: The visualization library (options: "plotly", "d3").
@@ -194,14 +170,14 @@ If you have new data model definitions, the Zendro CLI is a convenient way to de
 3. In the `graphql-server` folder, execute `zendro migration:down` to drop the last executed migration. This updates the latest successful migration and adds the dropped operation to the migration log. If there are remaining records and associations in the table, an error is thrown by default; to forcefully drop the table anyway, set the `DOWN_MIGRATION` environment variable to `true` in `/graphql-server/.env` and re-execute the down-migration.
 
 Note: for all `up` and `down` functions, there is a default argument called `zendro`, giving access to the different APIs in Zendro's layers (resolvers, models, adapters) and enabling GraphQL queries. At the model and adapter level, `zendro` also exposes the storage handler, which interacts with the corresponding database management system. Examples for model `movie` and adapter `dist_movie_instance1`:
-```
+```js
 await zendro.models.movie.storageHandler;
 await zendro.models.movie.countRecords();
 await zendro.adapters.dist_movie_instance1.storageHandler;
 await zendro.adapters.dist_movie_instance1.countRecords();
 ```
 At the resolver level, `zendro` exposes the corresponding API functions, e.g. `readOneMovie`, `countMovies`, and so on. These functions expect a `context`, provided like in the example below, including an event emitter to collect any occurring errors. Example using `countMovies`:
-```
+```js
 const {
   BenignErrorArray,
 } = require("./graphql-server/utils/errors.js");
@@ -222,7 +198,7 @@ const res = await zendro.resolvers.countMovies(
 );
 ```
 It's also possible to execute GraphQL queries or mutations via `execute_graphql(query, variables)`, where `query` is the query string and `variables` represents dynamic values for that query. By default, queries are executed without a token; in a distributed setup with ACL rules, a token is necessary, obtained from Keycloak using the `MIGRATION_USERNAME` and `MIGRATION_PASSWORD` environment variables. Example:
-```
+```js
 await zendro.execute_graphql("{ countMovies }");
 ```
 

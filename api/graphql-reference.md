@@ -32,71 +32,71 @@ Concrete requests sent to the backend server are model-dependent. Let's assume o
 
 ### GraphQL Queries
 * `records(search, order, pagination) : [Records]` - Checks user authorization and returns a number of records, specified by the pagination argument, matching the search argument, sorted as specified by the order argument. See [General filter arguments](#general-filter-arguments) below for details on `search`, `order` and `pagination`. Example:
-```
-query {
-  records(search: {field: name, value: { value: "%test%"}, operator: like}, order: [ {field: name, order: ASC}], pagination: {limit: 10}) {
-    name
-    description
-  }
-}
-```
-
-* `readOneRecord(id): Record` - Checks user authorization and returns the record matching the given ID. Example:
-```
-query {
-  readOneRecord(id: 23) {
-    name
-    description
-  }
-}
-```
-
-* `countRecords(search): Integer` - Counts the records matching the conditions specified in the search argument. Example:
-```
-query {
-  countRecords( search: {field: name, value: { value: "%test%"}, operator: like} )
-}
-```
-
-* `vueTableRecord: vueTableRecord` - Returns a table of records as needed for displaying a vuejs table. Example:
-```
-query {
-  vueTableRecord {
-    data {
+  ```python
+  query {
+    records(search: {field: name, value: { value: "%test%"}, operator: like}, order: [ {field: name, order: ASC}], pagination: {limit: 10}) {
       name
       description
     }
   }
-}
-```
+  ```
+
+* `readOneRecord(id): Record` - Checks user authorization and returns the record matching the given ID. Example:
+  ```python
+  query {
+    readOneRecord(id: 23) {
+      name
+      description
+    }
+  }
+  ```
+
+* `countRecords(search): Integer` - Counts the records matching the conditions specified in the search argument. Example:
+  ```python
+  query {
+    countRecords( search: {field: name, value: { value: "%test%"}, operator: like} )
+  }
+  ```
+
+* `vueTableRecord: vueTableRecord` - Returns a table of records as needed for displaying a vuejs table. Example:
+  ```python
+  query {
+    vueTableRecord {
+      data {
+        name
+        description
+      }
+    }
+  }
+  ```
 ### Mutations
 
 * `addRecord(record): Record` - Checks user authorization and creates a new record with the data specified in the record argument. Example:
-```
-mutation {
-  addRecord(name: "testRecord", description: "testing record" ) {
-    name
-    description
+  ```python
+  mutation {
+    addRecord(name: "testRecord", description: "testing record" ) {
+      name
+      description
+    }
   }
-}
-```
+  ```
 
 * `deleteRecord(id): String` - Checks user authorization and deletes the record with the specified ID. Example:
-```
-mutation {
-  deleteRecord(id: 23)
-}
-```
+  ```python
+  mutation {
+    deleteRecord(id: 23)
+  }
+  ```
 
 * `updateRecord(record): Record` - Checks user authorization and updates the record specified in the input argument. Example:
-```
-mutation {
-  updateRecord(id: 23 name: "updated name") {
-    name
-    description
+  ```python
+  mutation {
+    updateRecord(id: 23 name: "updated name") {
+      name
+      description
+    }
   }
-}
-```
+  ```
 
 * `bulkAddRecordCsv: String` - Loads a csv file of records. The csv file must be attached to the request.
 
@@ -118,14 +118,13 @@ Although the search argument's type depends on the data model name, the argument
 
 **Example**: to filter the first 100 records whose name contains the substring 'test':
 
-```
+```python
 query {
   records(search: {field: name, value: "%test%", operator: like}, pagination: {limit: 100}) {
     name
     description
   }
 }
-
 ```
 
 #### Operators
@@ -212,7 +211,7 @@ Operator | Description | Example
 The order argument's type also depends on the data model name. For our `Record` data model, the order argument is called `orderRecordInput`, an object containing the name of the attribute to sort by and the order to use (`ASC` or `DESC`). When retrieving a set of records, pass an array of order arguments, one per attribute to sort by. Although the order argument's type depends on the data model name, the argument name is always `order`.
 
 **Example**: to sort the first 100 records alphabetically by name:
-```
+```python
 query {
   records(order: [ {field: name, order: ASC}], pagination: {limit: 100}) {
     name
@@ -234,7 +233,7 @@ offset | Integer | Starting point for retrieving records
 `limit` is mandatory; `offset` is optional.
 
 **Example**: to retrieve the second 10 records of the `Record` data model:
-```
+```python
 query {
   records( pagination: {offset: 11, limit: 10}) {
     name
@@ -309,7 +308,7 @@ When a data model is related to one or more data models, extra queries are added
 * `countFilteredItems(search): Int` - Returns the number of associated items matching the search argument.
 
  Example:
-```
+```python
 query {
   records(search: {field: name, value: { value: "%test%"}, operator: like}, pagination: {limit: 100}) {
     name
@@ -327,7 +326,7 @@ query {
 * `record : Record` - Given one item, accesses the data of the record associated with it.
 
  Example:
-```
+```python
 query {
   readOneItem(id: 23) {
     name
@@ -348,8 +347,8 @@ For a `to-one` association, the parameters expect only an `ID` — the associate
 
 Continuing the Items-Record example, the sample mutations:
 
-```
-//create
+```python
+# create
 mutation {
   addItem(name: "testItem" addRecord: 14) {
     name
@@ -361,8 +360,8 @@ mutation {
 }
 ```
 
-```
-//update
+```python
+# update
 mutation {
   updateItem(id: 2 removeRecord: 14) {
     name
@@ -378,8 +377,8 @@ For a `to-many` association, the parameters expect an array of `IDs` representin
 
 From the `Record` side of our example:
 
-```
-//create
+```python
+# create
 mutation {
   addRecord( name: "testRecord" addItems: [3, 5, 7] ) {
     name
@@ -391,8 +390,8 @@ mutation {
 }
 ```
 
-```
-//update
+```python
+# update
 mutation {
   updateRecord( id: 1 addItems:[2,4] removeItems: [5,7]) {
     name
