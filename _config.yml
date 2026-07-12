@@ -9,3 +9,7 @@ aux_links:
 
 sass:
     style: compressed
+
+nav_external_links:
+  - title: Zendro on GitHub
+    url: https://github.com/Zendro-dev
