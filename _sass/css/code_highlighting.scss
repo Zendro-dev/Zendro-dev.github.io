@@ -1,11 +1,15 @@
-.highlighter-rouge { background: $bg; }
+// Selectors below repeat their own class (e.g. ".highlight.highlight") purely to
+// win specificity ties against just-the-docs' own later "modules" rules, which
+// redeclare the same background/color on the same selectors after this file is
+// imported (via the color_scheme slot) but before those "modules" partials run.
+div.highlighter-rouge.highlighter-rouge { background: $bg; }
 
-.highlight, pre.highlight, pre {
+.highlight.highlight, pre.highlight.highlight, pre {
     background: $bg;
     color: $fg;
 }
 .language-plaintext {
-  .highlight, pre.highlight, pre {
+  .highlight.highlight, pre.highlight.highlight, pre {
       background: #272822;
       color: hsl(219, 28%, 88%);
   }
