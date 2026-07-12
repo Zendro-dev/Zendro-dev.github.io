@@ -27,11 +27,11 @@
         checkbox.checked = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
 
-    jtd.setTheme(checkbox.checked ? "zendro-dark" : "zendro-light");
+    document.documentElement.classList.toggle("darkmode", checkbox.checked);
 
     checkbox.addEventListener('change', () => {
         localStorage.setItem('zendro-dark-theme', checkbox.checked);
-        jtd.setTheme(checkbox.checked ? "zendro-dark" : "zendro-light");
+        document.documentElement.classList.toggle("darkmode", checkbox.checked);
     });
   })();
 </script>

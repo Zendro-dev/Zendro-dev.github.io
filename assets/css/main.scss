@@ -3,6 +3,14 @@
 
 @import "css/darkmode_toggle";
 
+html:not(.darkmode) {
+    {% include css/just-the-docs.scss.liquid color_scheme="zendro-light" %};
+}
+
+html.darkmode {
+    {% include css/just-the-docs.scss.liquid color_scheme="zendro-dark" %};
+}
+
 img[src="/figures/figure1.png"] {
     background: hsl(210, 11%, 93%);
 }
