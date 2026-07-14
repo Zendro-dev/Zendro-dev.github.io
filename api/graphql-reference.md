@@ -171,9 +171,9 @@ Operator | Description | Example
 
 Operator | Description | Example
 --- | --- | ---
-`or` | logical or, combining multiple searches | ` {operator: or search:[ {<search>}, {<search>}]}`
-`and` | logical and, combining multiple searches | ` {operator: and search:[ {<search>}, {<search>}]}`
-`not` | logical not; searches are combined with `and` | ` {operator: not search:[ {<search>}, {<search>}]}`
+`or` | logical or, combining multiple searches | `{operator: or search:[ {<search>}, {<search>}]}`
+`and` | logical and, combining multiple searches | `{operator: and search:[ {<search>}, {<search>}]}`
+`not` | logical not; searches are combined with `and` | `{operator: not search:[ {<search>}, {<search>}]}`
 
 ##### StorageType compatibility
 

@@ -22,7 +22,7 @@ Every Zendro project, whether you set it up with the [Quickstart]({% link quicks
 
 ## Requirements
 
-* [NodeJS](https://nodejs.org/en/) version 18+ is required.
+* [NodeJS](https://nodejs.org/en/) version 21+ is required.
 * [docker](https://docs.docker.com/get-docker/) and the [docker compose plugin](https://docs.docker.com/compose/install/#install-compose) (if not already included in your docker installation) are recommended for setting up Zendro.
 
 We strongly recommend following [this guide](https://docs.docker.com/engine/install/linux-postinstall/) to use docker without `sudo`.

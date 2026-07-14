@@ -4,7 +4,7 @@
 // imported (via the color_scheme slot) but before those "modules" partials run.
 div.highlighter-rouge.highlighter-rouge { background: $bg; }
 
-.highlight.highlight, pre.highlight.highlight, pre {
+.highlight.highlight, pre.highlight.highlight, pre, code.highlighter-rouge {
     background: $bg;
     color: $fg;
 }

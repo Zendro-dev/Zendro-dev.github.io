@@ -64,7 +64,7 @@ The function `get_from_graphQL()` defined below queries a GraphQL API and transf
 To start using `get_from_graphQL()`, first run the code below to load the function into your R environment (you can also keep it in a separate file and use `source()` to run it):
 
 ```r
-get_from_graphQL<-function(query, url){
+get_from_graphQL <- function(query, url) {
 ### This function queries a GraphiQL API and outputs the data into a single data.frame
 
 ## Arguments
@@ -80,40 +80,38 @@ get_from_graphQL<-function(query, url){
 ### Function
 
 ##  query the server
-result <- POST(url, body = list(query=query), encode=c("json"))
+result <- POST(url, body=list(query=query), encode=c("json"))
 
 ## check server response
-satus_code<-result$status_code
+satus_code <- result$status_code
 
-if(satus_code!=200){
+if(satus_code != 200) {
   print(paste0("Oh, oh: status code ", satus_code, ". Check your query and that the server is working"))
 }
 
-else{
+else {
+    # get data from query result
+    jsonResult <- content(result, as="text")
 
-  # get data from query result
-  jsonResult <- content(result, as = "text")
-
-  # check if data downloaded without errors
-  # graphiQL will send an error if there is a problem with the query and the data was not downloaded properly, even if the connection status was 200.
-  ### FIX this when != TRUE because result is na
-  errors<-grepl("errors*{10}", jsonResult)
-  if(errors==TRUE){
-    print("Sorry :(, your data downloaded with errors, check your query and API server for details")
-  }
-  else{
-  # transform to json
-  readableResult <- fromJSON(jsonResult,
-                           flatten = T) # this TRUE is to combine the different lists into a single data frame (because data coming from different models is nested in lists)
-
-  # get data
-  data<-as.data.frame(readableResult$data[1])
-
-  # rename colnames to original variable names
-  x<-str_match(colnames(data), "\\w*$")[,1] # matches word characters (ie not the ".") at the end of the string
-  colnames(data)<-x # assign new colnames
-  return(data)
+    # check if data downloaded without errors
+    # graphiQL will send an error if there is a problem with the query and the data was not downloaded properly, even if the connection status was 200.
+    ### FIX this when != TRUE because result is na
+    errors<-grepl("errors*{10}", jsonResult)
+    if(errors==TRUE){
+      print("Sorry :(, your data downloaded with errors, check your query and API server for details")
     }
+    else{
+    # transform to json
+    readableResult <- fromJSON(jsonResult,
+                             flatten=T) # this TRUE is to combine the different lists into a single data frame (because data coming from different models is nested in lists)
+
+    # get data
+    data <- as.data.frame(readableResult$data[1])
+
+    # rename colnames to original variable names
+    x <- str_match(colnames(data), "\\w*$")[,1] # matches word characters (ie not the ".") at the end of the string
+    colnames(data) <- x # assign new colnames
+    return(data)
   }
 }
 ```

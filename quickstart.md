@@ -20,7 +20,7 @@ If you want to know more about Zendro or a detailed explanation on how to set up
 
 ---
 
-<!-- ## Hotstart
+<!-- TODO ## Hotstart
 
 <details><summary>Linux</summary>
 
@@ -32,8 +32,6 @@ zendro set-up -d zendro-example
 cd zendro-example
 zendro set-next-auth-secret --modes prod -- spa $(openssl rand -base64 32)
 zendro set-next-auth-secret --modes dev -- spa $(openssl rand -base64 32)
-zendro set-next-auth-secret --modes prod -- giql $(openssl rand -base64 32)
-zendro set-next-auth-secret --modes dev -- giql $(openssl rand -base64 32)
 zendro dockerize -u
 {% endhighlight %}
 
