@@ -11,11 +11,21 @@
 }
 
 .zendro-theme-toggle {
+    // Fixed size, not a percentage of the parent header's height: on
+    // mobile, #main-header only gets an explicit height at the "md"
+    // breakpoint and up (see just-the-docs' layout.scss) - below that, its
+    // height is just whatever its content needs, and a percentage height on
+    // a child of an auto-height parent resolves against an ancestor's
+    // height instead of collapsing, which is what blew this up to ~300px
+    // (way oversized, overflowing the page) on mobile. align-self centers
+    // it within the flex row on desktop instead of the old position:
+    // relative; top: 20% trick, which was equally percentage-based and
+    // mobile-unsafe.
     position: relative;
     display: inline-grid;
     place-items: center;
-    top: 20%;
-    height: 60%;
+    align-self: center;
+    height: 2.25rem;
     padding: 0.5rem;
     border-radius: 50%;
     cursor: pointer;
