@@ -43,20 +43,20 @@ The easiest way to set up Zendro is using the `zendro` CLI tool. With minimal st
 
 By default, this clones the `latest-stable` tag of each of single-page-app, graphql-server and graphiql-auth. To pin a different branch or tag of one of them instead, add `--spa-ref`, `--gqs-ref` and/or `--giql-ref` — see the [CLI reference]({% link cli-reference.md %}#start-a-new-zendro-application) for details.
 
-## Step 3: Edit environment variables
+## Step 3: Edit environment variables (optional)
 
-Go inside the new project and modify the relevant environment variables in the following files. These files have a default configuration; please remember to add your own secret word to the `NEXTAUTH_SECRET` variable. An easy way to do so in Linux is by using the following command, replacing `<secret>` accordingly:
+Go inside the new project and modify the relevant environment variables as needed. Two of them, `NEXTAUTH_SECRET` (single-page-app) and `SESSION_SECRET` (graphql-server, used for GraphiQL login), ship empty. You can leave them blank — the Keycloak setup migration that runs automatically on first startup (see Step 7) fills in a secure random value for whichever one is still empty. Set them yourself now only if you want to know/control the value:
 
 ```bash
-sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
+zendro set-session-secret spa <secret>
+zendro set-session-secret gqs <secret>
 ```
 
-**With or without docker** (remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files):
+**With or without docker** (remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files). Replace `<secret>` with a strong random value, e.g. from `openssl rand -base64 32` — use a *different* value for each command:
 
-* **SPA in development mode:** `./single-page-app/.env.development`
-* **SPA in production mode:** `./single-page-app/.env.production`
-* **GraphiQL in development mode:** `./graphiql-auth/.env.development`
-* **GraphiQL in production mode:** `./graphiql-auth/.env.production`
+* The first command sets `NEXTAUTH_SECRET` in **both** `./single-page-app/.env.development` and `./single-page-app/.env.production`.
+* The second sets `SESSION_SECRET` in `./graphql-server/.env`, used by graphql-server's own login backend for GraphiQL (enabled by default).
+* graphiql-auth needs no secret of its own — it holds no Keycloak credentials, and graphql-server runs login/logout on its behalf. It only has a single `./graphiql-auth/.env` file (not split by mode).
 
 If you would like to upload a file to a remote server, use the template `.env.migration.sample` to create a new file `.env.migration` and modify the relevant environment variables.
 
@@ -157,8 +157,7 @@ If you wish to modify the default ports, adjust the environment variables in the
 * `./single-page-app/.env.production`
 * `./single-page-app/.env.development`
 * `./graphql-server/.env`
-* `./graphiql-auth/.env.development`
-* `./graphiql-auth/.env.production`
+* `./graphiql-auth/.env`
 
 If you wish to rename the docker containers or services, adjust `./docker-compose-prod.yml` and `./docker-compose-dev.yml` the same way.
 
@@ -221,8 +220,7 @@ Application logs can be found in `./logs/graphiql.log`, `./logs/graphql-server.l
 >
 > * `./single-page-app/.env.production`
 > * `./single-page-app/.env.development`
-> * `./graphiql-auth/.env.development`
-> * `./graphiql-auth/.env.production`
+> * `./graphiql-auth/.env`
 > * `./graphql-server/.env`
 
 ## Step 8: Start up Zendro with access control

@@ -9,6 +9,7 @@ Zendro itself — a tool for quickly building a data warehouse, with a generated
 * [GraphQL server](https://github.com/Zendro-dev/graphql-server)
 * [GraphQL server model generator](https://github.com/Zendro-dev/graphql-server-model-codegen)
 * [Single page application](https://github.com/Zendro-dev/single-page-app)
+* [GraphiQL](https://github.com/Zendro-dev/graphiql-auth)
 * [Zendro CLI](https://github.com/Zendro-dev/zendro)
 
 ## Contributing to the docs

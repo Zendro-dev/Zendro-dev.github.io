@@ -58,17 +58,6 @@ Concrete requests sent to the backend server are model-dependent. Let's assume o
   }
   ```
 
-* `vueTableRecord: vueTableRecord` - Returns a table of records as needed for displaying a vuejs table. Example:
-  ```python
-  query {
-    vueTableRecord {
-      data {
-        name
-        description
-      }
-    }
-  }
-  ```
 ### Mutations
 
 * `addRecord(record): Record` - Checks user authorization and creates a new record with the data specified in the record argument. Example:

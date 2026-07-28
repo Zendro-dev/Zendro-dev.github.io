@@ -8,10 +8,10 @@ permalink: /api
 
 # Zendro API
 {: .no_toc }
-Given a data scheme described using our [custom format]({% link data-models/json-specification.md %}), the Zendro backend generator implements a default CRUD API accessible through a well-known GraphQL query language, or through an *export service*. To learn about GraphQL queries and mutations in general, see the [official documentation](https://graphql.org/learn/queries/). When the back-end server is up, the regular GraphQL service is accessible at `http://<back_srv>/graphql`. The service for exporting massive joined database slices has another URL: `http://<back_srv>/export`. Both services accept POST requests with authentication information in their header; for GraphQL, the request body follows the GraphQL standard, while the data export service accepts its own request parameters.
+Given a data scheme described using our [custom format]({% link data-models/json-specification.md %}), the Zendro backend generator implements a default CRUD API accessible through a well-known GraphQL query language. To learn about GraphQL queries and mutations in general, see the [official documentation](https://graphql.org/learn/queries/). When the back-end server is up, the GraphQL service is accessible at `http://<back_srv>/graphql`, accepting POST requests with authentication information in the header, and a request body following the GraphQL standard.
 {: .fs-6 .fw-300 }
 
-Zendro's back-end server implementation follows the GraphQL convention of referring to a request that doesn't change any data as a *query*, and one that modifies data as a *mutation*. The export service never modifies data, so all its requests can be considered queries.
+Zendro's back-end server implementation follows the GraphQL convention of referring to a request that doesn't change any data as a *query*, and one that modifies data as a *mutation*.
 
 ## Table of contents
 {: .no_toc .text-delta }
@@ -22,7 +22,7 @@ Zendro's back-end server implementation follows the GraphQL convention of referr
 ---
 ### Access permissions
 
-The back-end server can work in two modes, *development* and *production*, depending on the presence of the `acl` argument on the command line that starts it. Development mode ignores all user permissions, so it's possible to omit the authentication header in requests and start exploring the server's API without configuring any permissions. For obvious reasons, it's highly recommended to only open remote access to a server running in production mode (with `acl` switched *on*).
+By default, the back-end server ignores all user permissions (access control is off), so it's possible to omit the authentication header in requests and start exploring the server's API without configuring any permissions first. Access control checks can be switched on independently of whichever mode (development or production) you run Zendro in — see [Access control (ACL)]({% link api/access-control.md %}) for how. For obvious reasons, it's highly recommended to only open remote access to a server with access control switched *on*.
 
 [ > Access control (ACL) ]({% link api/access-control.md %})
 

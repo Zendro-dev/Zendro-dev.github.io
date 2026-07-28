@@ -54,7 +54,6 @@ async function validForDeletion(id, context) | Checks if a record can be deleted
 `<models>`Connection({search, order, pagination}, context) | **Root Resolver:** Performs a search of the model entries with cursor based pagination after checking for authorization | SEARCH_CURSOR_ROOT
 readOne`<model>`({`<ModelIDAttribute>`}, context) | **Root Resolver:** Returns a single record matching the given ID after checking for authorization | SINGLE_ROOT
 count`<models>`: async function({search}, context) | **Root Resolver:** Returns the number of records matching the given search term after checking for authorization | COUNT_ROOT
-vueTable`<model>`(_, context) | **Root Resolver:** Returns a table of records as needed for displaying a vuejs table after checking for authorization (**deprecated**) |
 add`<model>`(input, context) | **Root Mutation:** Adds a record for the model after checking for authorization | ADDING_ROOT
 bulkAdd`<model>`Csv(_, context) | **Root Mutation:** Loads a csv file containing records and adds them to the model after checking for authorization | ADDING_IN_BULK_ROOT
 delete`<model>`({`<ModelIDAttribute>`}, context) | **Root Mutation:** Deletes the record given by the ID value after checking for authorization | DELETING_ROOT

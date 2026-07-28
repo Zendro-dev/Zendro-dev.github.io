@@ -8,15 +8,16 @@ nav_order: 1
 
 # Zendro
 
-Zendro is a software tool to quickly create a data warehouse tailored to your specifications. You tell Zendro what the structure of your data is, in the form of models, and where the data is or shall be stored. Zendro then automatically creates two standardized interfaces for your data models. Both interfaces provide access to the standard CRUD (create, read, update, delete) functions, available for each of the defined data models. One of the two interfaces is an intuitive graphical browser-based single page application implemented in Google's standard material design. The other is an exhaustive application programming interface built with Facebook's efficient GraphQL framework, enabling a connection to your data warehouse from any programming language or data analysis pipeline with utmost ease, simply by sending HTTP requests to your GraphQL server. Data can be distributed over several databases and servers without losing the relationships between your data records, even if they are not stored in the same place.
+Zendro is a software tool to quickly create a data warehouse tailored to your specifications. You tell Zendro what the structure of your data is, in the form of models, and where the data is or shall be stored. Zendro then automatically creates standardized interfaces for your data models, all providing access to the standard CRUD (create, read, update, delete) functions defined for each model. An intuitive, graphical, browser-based single page application (SPA) lets non-technical users browse and edit data by pointing and clicking. For direct API access, an exhaustive application programming interface is built with Facebook's efficient GraphQL framework, enabling a connection to your data warehouse from any programming language or data analysis pipeline with utmost ease, simply by sending HTTP requests to your GraphQL server — with a dedicated GraphiQL web IDE included for writing, testing and exploring GraphQL queries interactively. Data can be distributed over several databases and servers without losing the relationships between your data records, even if they are not stored in the same place.
 
-Zendro consists of two main components, backend and frontend. The backend component has its [base project](https://github.com/Zendro-dev/graphql-server) and a [code generator](https://github.com/Zendro-dev/graphql-server-model-codegen). The frontend, or SPA (Single Page Application), also has its [base project](https://github.com/Zendro-dev/single-page-app). See the guides below on how to use Zendro.
+Zendro consists of a backend and two frontends. The backend has its [base project](https://github.com/Zendro-dev/graphql-server) and a [code generator](https://github.com/Zendro-dev/graphql-server-model-codegen). The SPA (Single Page Application) has its own [base project](https://github.com/Zendro-dev/single-page-app), as does [GraphiQL](https://github.com/Zendro-dev/graphiql-auth), the interactive query IDE. See the guides below on how to use Zendro.
 
 To see or contribute to our code please visit Zendro-dev on [GitHub](https://github.com/Zendro-dev), where you can find the repositories for:
 
 * [GraphQL server](https://github.com/Zendro-dev/graphql-server)
 * [GraphQL server model generator](https://github.com/Zendro-dev/graphql-server-model-codegen)
 * [Single page application](https://github.com/Zendro-dev/single-page-app)
+* [GraphiQL](https://github.com/Zendro-dev/graphiql-auth)
 
 If you have any questions or comments, please don't hesitate to contact us via an issue [here](https://github.com/Zendro-dev/Zendro-dev.github.io/issues). Tag your issue as a question or bug and we will try to answer as quickly as possible.
 

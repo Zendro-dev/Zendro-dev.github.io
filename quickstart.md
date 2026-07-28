@@ -79,20 +79,16 @@ By default, three data models with associations will be used for this instance: 
 
 This clones the `latest-stable` tag of each of single-page-app, graphql-server and graphiql-auth by default — add `--spa-ref`, `--gqs-ref` and/or `--giql-ref` to pin a different branch or tag instead, e.g. `zendro set-up -d --gqs-ref my-branch <name>`. See the [CLI reference]({% link cli-reference.md %}#set-up-a-quick-sandbox) for details.
 
-## Step 3: Edit environment variables
+## Step 3: Edit environment variables (optional)
 
-Go inside the new project you just created, named `<name>`, and edit `NEXTAUTH_SECRET` to your expected secret word in the following files. Remember that dotfiles are usually treated as hidden files, so make sure you can view hidden files:
-
-* **SPA in development mode:** `./single-page-app/.env.development`
-* **SPA in production mode:** `./single-page-app/.env.production`
-* **GraphiQL in development mode:** `./graphiql-auth/.env.development`
-* **GraphiQL in production mode:** `./graphiql-auth/.env.production`
-
-An easy way to set them in Linux is by using the following command, replacing `<secret>` accordingly:
+`NEXTAUTH_SECRET` (single-page-app) and `SESSION_SECRET` (graphql-server, used for GraphiQL login) ship empty. You can leave them blank — the Keycloak setup migration that runs automatically on first startup (see Step 4) fills in a secure random value for whichever one is still empty. Set them yourself now only if you want to know/control the value (e.g. to keep it stable across redeployments):
 
 ```bash
-sed -i 's/^\(NEXTAUTH_SECRET\)=..$/\1="<secret>"/' graphiql-auth/.env.* single-page-app/.env.*
+zendro set-session-secret spa <secret>
+zendro set-session-secret gqs <secret>
 ```
+
+Replace `<secret>` with a strong random value, e.g. from `openssl rand -base64 32` — use a *different* value for each command. The first sets `NEXTAUTH_SECRET` in both `./single-page-app/.env.development` and `./single-page-app/.env.production`; the second sets `SESSION_SECRET` in `./graphql-server/.env`. graphiql-auth needs no secret of its own — it holds no Keycloak credentials, and graphql-server runs login/logout on its behalf.
 
 If you want to know more about the environment variables, see [Environment variables]({% link getting-started/environment-variables.md %}).
 

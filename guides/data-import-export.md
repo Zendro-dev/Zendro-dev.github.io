@@ -73,7 +73,7 @@ You can download all data for a model into CSV format, either through the SPA or
 
 ### Through the graphical interface
 
-Click the `Download data` button (the "bold down arrow" icon) to download the current table as a CSV file. You'll be prompted to select a directory and file name. To modify the default configuration for delimiters and record limit, edit `single-page-app/.env.development` or `single-page-app/.env.production`.
+Click the `Download data` button (the "bold down arrow" icon) to download the current table as a CSV file — your browser downloads it directly, or prompts you to choose a location, depending on your browser's settings. To modify the default configuration for delimiters and record limit, edit `single-page-app/.env.development` or `single-page-app/.env.production`.
 
 Be aware that if you modify the `NEXT_PUBLIC_ZENDRO_MAX_RECORD_LIMIT` environment variable, you should also update `LIMIT_RECORDS` in the backend graphql-server.
 
