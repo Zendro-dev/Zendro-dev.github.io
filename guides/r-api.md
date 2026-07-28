@@ -116,7 +116,7 @@ else {
 }
 ```
 
-`get_from_graphQL()` allows you to get data of up to 1,000 elements (results of your query) at a time, which is the maximum number allowed by GraphQL for a single batch. In the next section we explain how to use `pagination` to download larger datasets in batches.
+`get_from_graphQL()` allows you to get data of up to 1,000 elements (results of your query) at a time — this isn't an inherent GraphQL restriction, but the maximum batch size configured for the Zendro instance used in these examples (via its `LIMIT_RECORDS` [environment variable]({% link getting-started/environment-variables.md %}), which defaults to 10,000 but can be set differently per deployment). In the next section we explain how to use `pagination` to download larger datasets in batches.
 
 To use the `get_from_graphQL()` function, first you have to define a GraphQL query. If you don't know how to do this, start by checking the [GraphQL basics]({% link guides/graphql-basics.md %}) guide.
 
@@ -157,9 +157,9 @@ head(data)
 
 ## Download a dataset with more than 1,000 elements
 
-GraphQL outputs the results of a query in batches of max 1,000 elements. So if the data you want to download is larger than that, you need to **paginate**, i.e. get the data in batches. `pagination` is an argument within GraphQL queries that can be done in two ways:
+This Zendro instance returns at most 1,000 records per query (its configured `LIMIT_RECORDS`). If the data you want to download is larger than that, you need to **paginate**, i.e. get the data in batches. `pagination` is an argument within GraphQL queries that can be done in two ways:
 
-* *Limit-offset*: indicating the first element to get (`offset`, default 0) and the number of elements to get (`limit`). `limit` can't be larger than `1000`.
+* *Limit-offset*: indicating the first element to get (`offset`, default 0) and the number of elements to get (`limit`). `limit` can't be larger than the server's configured `LIMIT_RECORDS` (1,000 here).
 * *Cursor-based*: indicating the unique ID (`cursor`) of the element to get first, and a number of elements to get after it.
 
 Zendro uses limit-offset pagination with the syntax:

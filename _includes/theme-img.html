@@ -1,0 +1,8 @@
+<!--
+  Renders a screenshot that has separate light/dark captures (currently only
+  GraphiQL screenshots do - the SPA and Keycloak have no dark mode of their
+  own), switching between them to match the site's own light/dark toggle.
+  Usage: {% raw %}{% include theme-img.html light="/figures/foo.png" dark="/figures/foo-dark.png" alt="..." %}{% endraw %}
+-->
+<img src="{{ include.light }}" alt="{{ include.alt }}" class="theme-img theme-img-light">
+<img src="{{ include.dark }}" alt="{{ include.alt }}" class="theme-img theme-img-dark">

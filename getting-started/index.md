@@ -136,24 +136,23 @@ Check the running containers with `docker ps`, and their logs with `docker logs 
 
 With the default configuration, the running containers will be:
 
-* **Keycloak** — `http://localhost:8081/auth`, default user `admin` / password `admin`
+* **Keycloak** — `http://localhost:8081/auth/admin/zendro/console`, default user `zendro-admin` / password `admin`
 
-  ![Keycloak example](/figures/kc1.png)
-  ![Keycloak example](/figures/kc2.png)
+  ![Keycloak sign-in page](/figures/kc1.png)
+  ![Keycloak admin console](/figures/kc2.png)
 
 * **SPA** — `http://localhost:8080`, default user `zendro-admin` / password `admin`
 
-  ![spa example](/figures/login.png)
-  ![spa example](/figures/spa.png)
+  ![SPA landing page](/figures/login.png)
+  ![SPA models overview](/figures/spa.png)
 
 * **GraphQL API** — `http://localhost:3000/graphql`
 
-  ![api example](/figures/graphql.png)
+  {% include theme-img.html light="/figures/graphql.png" dark="/figures/graphql-dark.png" alt="Bare GraphQL API endpoint" %}
 
 * **GraphiQL interface with filter functionality** — `http://localhost:7070`, default user `zendro-admin` / password `admin`
 
-  ![api example](/figures/login.png)
-  ![api example](/figures/graphiql.png)
+  {% include theme-img.html light="/figures/graphiql.png" dark="/figures/graphiql-dark.png" alt="GraphiQL interface" %}
 
 If you wish to modify the default ports, adjust the environment variables in the following files, then [stop](#step-9-stop-zendro-instance) and start Zendro again:
 
@@ -178,7 +177,7 @@ If you prefer a local setup with Keycloak, there are a few extra things to do af
 **Requirements**
 
 * Install [Java](https://www.java.com/en/) (Java 11 or later).
-* Install [Keycloak](https://www.keycloak.org). Zendro works with [Keycloak 26.2.0](https://github.com/keycloak/keycloak/releases/tag/26.2.0); it is recommended to try the latest version and fall back to 26.2.0 in case of breaking changes.
+* Install [Keycloak](https://www.keycloak.org). Zendro works with [Keycloak 26.7.0](https://github.com/keycloak/keycloak/releases/tag/26.7.0); it is recommended to try the latest version and fall back to 26.7.0 in case of breaking changes.
   * Go to <https://www.keycloak.org/downloads> and download the *Distribution powered by Quarkus*.
   * After unzipping, copy the Keycloak configuration file from `zendro/test/env/keycloak.conf` to `keycloak/conf/keycloak.conf`.
   * Set two environment variables from a terminal inside the keycloak folder:

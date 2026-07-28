@@ -56,7 +56,7 @@ The following GraphQL operation is given to Zendro:
 
 ```python
 query {
-  events {
+  events(pagination: {limit: 10, offset: 0}) {
     eventType
   }
 }

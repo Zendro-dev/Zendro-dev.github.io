@@ -20,40 +20,48 @@ If you want to know more about Zendro or a detailed explanation on how to set up
 
 ---
 
-<!-- TODO ## Hotstart
+## Hotstart
 
-<details><summary>Linux</summary>
+For the impatient: paste one of the blocks below into a terminal (Linux, or Windows via WSL) to get a full local Zendro sandbox running with the same demo data used throughout these guides. Each step is explained in detail further down this page and in [Installation and the Zendro CLI]({% link getting-started/installation-and-cli.md %}) — come back here any time as a quick reference.
 
-<ul><li>With docker
+<details open markdown="1">
+<summary>With docker</summary>
 
-{% highlight plaintext %}
-npm install -g git+https://github.com/Zendro-dev/zendro.git
+```bash
+git clone https://github.com/Zendro-dev/zendro.git && cd zendro
+npm install && npm link
+cd ..
 zendro set-up -d zendro-example
 cd zendro-example
-zendro set-next-auth-secret --modes prod -- spa $(openssl rand -base64 32)
-zendro set-next-auth-secret --modes dev -- spa $(openssl rand -base64 32)
 zendro dockerize -u
-{% endhighlight %}
+```
 
-</li><li>Without docker
+</details>
 
-{% highlight plaintext %}
-npm install -g git+https://github.com/Zendro-dev/zendro.git
+<details markdown="1">
+<summary>Without docker</summary>
+
+```bash
+git clone https://github.com/Zendro-dev/zendro.git && cd zendro
+npm install && npm link
+cd ..
 zendro set-up zendro-example
+
+# Keycloak (requires Java 11+, https://www.java.com/en/)
+wget https://github.com/keycloak/keycloak/releases/download/26.7.0/keycloak-26.7.0.zip
+unzip keycloak-26.7.0.zip
+cp zendro/test/env/keycloak.conf keycloak-26.7.0/conf/keycloak.conf
+KC_BOOTSTRAP_ADMIN_USERNAME=admin KC_BOOTSTRAP_ADMIN_PASSWORD=admin ./keycloak-26.7.0/bin/kc.sh start-dev &
+
 cd zendro-example
-zendro set-next-auth-secret spa --modes prod $(openssl rand -base64)
-zendro set-next-auth-secret spa --modes dev $(openssl rand -base64)
-zendro set-next-auth-secret giql --modes prod $(openssl rand -base64)
-zendro set-next-auth-secret giql --modes dev $(openssl rand -base64)
-wget https://github.com/keycloak/keycloak/releases/download/26.2.0/keycloak-26.2.0.zip
-unzip keycloak-26.2.0.zip
-mv keycloak.conf
-keycloak-26.2.0/config
-
 zendro start
-{% endhighlight %}
+```
 
-</details> -->
+</details>
+
+On Mac, we recommend the "Without docker" path.
+
+Once running, jump to [Step 4](#step-4-start-up-your-zendro-instance) below to see the running services, or skip straight to [how to use the graphical interface]({% link guides/graphical-interface.md %}) or [GraphQL basics]({% link guides/graphql-basics.md %}).
 
 ## Step 1: Install Zendro
 
@@ -129,24 +137,23 @@ Check the running containers with `docker ps`, and their logs with `docker logs 
 
 With the default configuration, the running containers will be:
 
-* **Keycloak** — `http://localhost:8081/auth`, default user `admin` / password `admin`
+* **Keycloak** — `http://localhost:8081/auth/admin/zendro/console`, default user `zendro-admin` / password `admin`
 
-  ![Keycloak example](/figures/kc1.png)
-  ![Keycloak example](/figures/kc2.png)
+  ![Keycloak admin console](/figures/kc2.png)
 
 * **SPA** — `http://localhost:8080`, default user `zendro-admin` / password `admin`
 
-  ![spa example](/figures/login.png)
-  ![spa example](/figures/spa.png)
+  ![SPA models overview](/figures/spa.png)
 
 * **GraphQL API** — `http://localhost:3000/graphql`
 
-  ![api example](/figures/graphql.png)
+  {% include theme-img.html light="/figures/graphql.png" dark="/figures/graphql-dark.png" alt="Bare GraphQL API endpoint" %}
 
 * **GraphiQL interface with filter functionality** — `http://localhost:7070`, default user `zendro-admin` / password `admin`
 
-  ![api example](/figures/login.png)
-  ![api example](/figures/graphiql.png)
+  {% include theme-img.html light="/figures/graphiql.png" dark="/figures/graphiql-dark.png" alt="GraphiQL interface" %}
+
+For a full walkthrough with a screenshot of every step, see the [Getting started]({% link getting-started/index.md %}) guide, [how to use the graphical interface]({% link guides/graphical-interface.md %}), or [GraphQL basics]({% link guides/graphql-basics.md %}).
 
 For the default database, you can also install `sqlite3` to inspect the data directly:
 

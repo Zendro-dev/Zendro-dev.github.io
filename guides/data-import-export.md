@@ -96,7 +96,7 @@ To check the field names and data types expected for a model, download its templ
 2. If the Zendro instance is remote, configure `zendro/.env.migration` to point to it, then execute:
 
    ```
-   zendro bulk-create -f <filename> -n <modelname> -r
+   zendro bulk-download -f <filename> -n <modelname> -r
    ```
 
    to download the records to CSV.

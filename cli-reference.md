@@ -34,11 +34,10 @@ Hints:
 2. To modify environment variables or the database configuration, edit the corresponding docker-compose file and the following files:
 * without docker setup: `./graphql-server/config/data_models_storage_config.json`
 * with docker setup: `./config/data_models_storage_config.json`
-* `./graphql-server/.env`
+* GraphQL Server: `./graphql-server/.env`
+* GraphiQL: `./graphiql-auth/.env`
 * SPA in development mode: `./single-page-app/.env.development`
 * SPA in production mode: `./single-page-app/.env.production`
-* GraphiQL in development mode: `./graphql-server/.env.development`
-* GraphiQL in production mode: `./graphql-server/.env.production`
 
 Note: by default, SQLite3 is used for data storage. To use other storage types, reuse the two example files illustrating the configuration of all supported storage types with the docker setup: `./config/data_models_storage_config_example.json` and `./docker-compose-dev-example.yml`.
 
@@ -48,27 +47,32 @@ Usage: zendro generate [options]
 
 Options:
   -f, --data_model_definitions: Input directory or a JSON file (default: current directory path + "/data_model_definitions").
-  -o, --output_dir: Output directory (default: current directory path + "/graphql_server").
+  -o, --output_dir: Output directory (default: current directory path + "/graphql-server").
   -m, --migrations: Generate migrations (default: false).
 ```
 
 ### Dockerize Zendro App with example docker files
 ```
-Usage: zendro dockerize [options]
+Usage: zendro dockerize [options] [service...]
 
 Options:
   -u, --up: Start docker service (default: false).
   -d, --down: Stop docker service (default: false).
-  -p, --production: start or stop GQS and SPA with production mode (default: false).
-  -v, --volume: remove volumes (default: false).
+  -p, --prod: start or stop GQS and SPA with production mode (default: false).
+  -v, --volume: remove volume and migration log (default: false).
 ```
+Hints:
+1. Applies to all services by default. To target a specific one, use one of these abbreviations:
+* gqs: graphql-server
+* spa: single-page-app
+* giql: graphiql
 
 ### Start Zendro service
 ```
 Usage: zendro start [options] [service...]
 
 Options:
-  -p, --production: start GQS and SPA with production mode (default: false).
+  -p, --prod: start GQS and SPA with production mode (default: false).
 ```
 Hints:
 1. Starts all services by default.
@@ -82,7 +86,7 @@ Hints:
 Usage: zendro stop [service…]
 
 Options:
-  -p, --production: stop GQS and SPA with production mode (default: false).
+  -p, --prod: stop GQS and SPA with production mode (default: false).
 ```
 Hints:
 1. Stops all services by default.
@@ -93,10 +97,10 @@ Hints:
 Usage: zendro migration:generate [options]
 
 Options:
-  -f, --data_model_definitions: Input directory or a JSON file (default: current directory path + "/../data_model_definitions").
-  -o, --output_dir: Output directory (default: current directory path + "/migrations").
+  -f, --data_model_definitions: Input directory or a JSON file (default: current directory path + "/data_model_definitions").
+  -o, --output_dir: Output directory (default: current directory).
 ```
-Note: all generated migrations are stored in a directory called `migrations`.
+Note: all generated migrations are stored in a `migrations` subdirectory of the output directory.
 
 ### Execute migrations
 ```
@@ -141,6 +145,28 @@ Usage: zendro set-up [options] <name>
 Options:
   -d, --dockerize: Keep Docker files (default: false).
 ```
+
+### Remove a project
+```
+Usage: zendro rm [options] <name>
+
+Options:
+  -f, --force: skip the confirmation prompt (default: false).
+```
+Deletes the project's directory, along with its docker containers, images and volumes.
+
+### Set an auth secret
+```
+Usage: zendro set-session-secret [options] <service> <secret>
+
+Arguments:
+  service: "gqs" or "spa".
+  secret: the new secret value.
+
+Options:
+  -m, --modes <mode...>: which mode(s) to set it for, "prod" and/or "dev" (default: both).
+```
+Sets `NEXTAUTH_SECRET` for single-page-app (`spa`), or `SESSION_SECRET` for graphql-server (`gqs` — only required once `AUTH_ENABLED` is `"true"`). Generate a good secret with e.g. `openssl rand -base64 32`.
 
 ### Create empty or default plots
 ```

@@ -1,0 +1,16 @@
+// Pairs with _includes/theme-img.html - shows whichever of a screenshot's
+// light/dark captures matches the site's own .darkmode class on <html>
+// (same mechanism darkmode_toggle.scss / header_custom.html's toggle use).
+.theme-img-dark {
+    display: none;
+}
+
+html.darkmode {
+    .theme-img-light {
+        display: none;
+    }
+
+    .theme-img-dark {
+        display: inline;
+    }
+}

@@ -45,10 +45,15 @@
         pointer-events: none;
     }
 
-    &:hover {
-        outline-width: 6px;
-        --toggle-label-y: 14px;
-        --toggle-label-opacity: 1;
+    // (hover: hover) excludes touchscreens, which have no real pointer to
+    // hover with - without this guard, a tap leaves the label stuck open
+    // (touch's closest equivalent triggers :hover and never un-triggers it).
+    @media (hover: hover) {
+        &:hover {
+            outline-width: 6px;
+            --toggle-label-y: 14px;
+            --toggle-label-opacity: 1;
+        }
     }
 
     svg {

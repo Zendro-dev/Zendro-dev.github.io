@@ -12,7 +12,9 @@ When using Zendro in a default setup, Zendro implements authorization and authen
 
 As an OAuth2 backend, Zendro sets up a [keycloak](https://www.keycloak.org/) server to handle all authentication and user management, which also supports [OpenID Connect](https://openid.net/connect/). Zendro itself, when started with authorization rules enabled, only requires a valid `access_token` to be present in the request header.
 
-On the front-end web interfaces, Zendro uses [NextAuth.js](https://next-auth.js.org/) to communicate with the Keycloak backend, using the recommended OAuth2 [Authorization Code grant](https://oauth.net/2/grant-types/authorization-code/) flow to exchange an authorization code for an access token.
+The two web interfaces authenticate differently:
+* **single-page-app** uses [NextAuth.js](https://next-auth.js.org/) to talk to Keycloak directly, using the recommended OAuth2 [Authorization Code grant](https://oauth.net/2/grant-types/authorization-code/) flow to exchange an authorization code for an access token.
+* **GraphiQL** holds no Keycloak credentials of its own. graphql-server runs a small auth backend on its behalf (login/callback/logout, using [OIDC discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) against your identity provider) — GraphiQL just redirects the browser there.
 
 ## Table of contents
 {: .no_toc .text-delta }
@@ -47,10 +49,11 @@ To configure the Zendro interfaces to correctly connect to Keycloak (or any othe
 * `OAUTH2_TOKEN_URI` - Endpoint of the OAuth2 token service
 * `OAUTH2_PUBLIC_KEY`- OAuth2 service public key used to encrypt / verify tokens
 * `OAUTH2_CLIENT_ID`- GraphQL server OAuth2 Client ID
-* `GRAPHIQL_REDIRECT_URI`- RedirectURI of the graphiql-auth client, used to migrate the default Keycloak OAuth2 service
+* `AUTH_REDIRECT_URI`- Comma-separated redirect URIs graphql-server's own auth backend is allowed to send users back to (one per GraphiQL/SPA deployment)
 * `SPA_REDIRECT_URI`- RedirectURI of the single-page-app client, used to migrate the default Keycloak OAuth2 service
+* `AUTH_ENABLED`, `OAUTH2_GRAPHIQL_CLIENT_ID`, `OAUTH2_GRAPHIQL_CLIENT_SECRET`, `OAUTH2_GRAPHIQL_ISSUER_URI`, `SESSION_SECRET` - configure graphql-server's own auth backend, used on GraphiQL's behalf
 
-#### Web interfaces (GraphiQL & Single-page-app)
+#### Single-page-app
 * `OAUTH2_ISSUER` - OAuth2 Issuer URL
 * `OAUTH2_TOKEN_URI` - Endpoint of the OAuth2 token service
 * `OAUTH2_CLIENT_ID` - SPA OAuth2 Client ID
@@ -59,24 +62,25 @@ To configure the Zendro interfaces to correctly connect to Keycloak (or any othe
 * `NEXTAUTH_SECRET` - Used to encrypt the NextAuth.js JWT, and to hash [email verification tokens](https://next-auth.js.org/adapters/models#verification-token)
 
 ## Using a different authorization service
-If you do *not* want to use Keycloak as the authorization service for your Zendro installation, set the environment variables above to your needs. For the two web interfaces, depending on your configuration needs, you might need to [manually define your provider](https://next-auth.js.org/configuration/providers/oauth#using-a-custom-provider). NextAuth also supports a long list of [built-in providers](https://next-auth.js.org/configuration/providers/oauth#built-in-providers) ready to use.
+If you do *not* want to use Keycloak as the authorization service for your Zendro installation, set the environment variables above to your needs — the two web interfaces are customized differently, since they authenticate differently (see above):
 
-You can customize your providers in the `/src/pages/api/auth/[...nextauth]` files — either reconfigure the default `zendro` Keycloak provider, or add your custom provider to the `providers` list:
+* **GraphiQL** talks to graphql-server's own auth backend, which discovers its identity provider via [OIDC discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) — any OIDC-compliant provider works out of the box by pointing `OAUTH2_GRAPHIQL_ISSUER_URI` at it, no code changes needed.
+* **single-page-app** uses NextAuth.js, so a non-OIDC provider needs a [custom provider definition](https://next-auth.js.org/configuration/providers/oauth#using-a-custom-provider) (NextAuth also ships a long list of [built-in providers](https://next-auth.js.org/configuration/providers/oauth#built-in-providers)). Customize this in single-page-app's `src/pages/api/auth/[...nextauth].ts` — either reconfigure the default `zendro` Keycloak provider, or add your custom provider to the `providers` list:
 
-```js
-{
-  providers: [
-    // ...add more providers here
-    {
-      id: 'zendro',
-      // ...
-    },
-    {
-  	// add your custom provider
-    }
-  ]
-}
-```
+  ```js
+  {
+    providers: [
+      // ...add more providers here
+      {
+        id: 'zendro',
+        // ...
+      },
+      {
+    	// add your custom provider
+      }
+    ]
+  }
+  ```
 
 ## Requesting an access token for third-party requests
 

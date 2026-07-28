@@ -22,7 +22,7 @@ Every Zendro project, whether you set it up with the [Quickstart]({% link quicks
 
 ## Requirements
 
-* [NodeJS](https://nodejs.org/en/) version 21+ is required.
+* [NodeJS](https://nodejs.org/en/) version 18+ is required.
 * [docker](https://docs.docker.com/get-docker/) and the [docker compose plugin](https://docs.docker.com/compose/install/#install-compose) (if not already included in your docker installation) are recommended for setting up Zendro.
 
 We strongly recommend following [this guide](https://docs.docker.com/engine/install/linux-postinstall/) to use docker without `sudo`.
@@ -39,10 +39,8 @@ We strongly recommend following [this guide](https://docs.docker.com/engine/inst
 git clone https://github.com/Zendro-dev/zendro.git
 cd zendro
 npm install
-sudo npm link
+npm link
 ```
-
-In Windows Subsystem for Linux, `sudo npm` may not work; try `sudo -E env "PATH=$PATH" npm` instead. The same applies to the docker-related command `zendro dockerize`, since docker requires elevated permissions.
 
 Once linked, the `zendro` command is available anywhere on your system. See the [CLI reference]({% link cli-reference.md %}) for the full list of commands, or continue to the [Quickstart]({% link quickstart.md %}) or [Getting started]({% link getting-started/index.md %}) guide to create your first project.
 
@@ -61,14 +59,14 @@ npm install
 ### Remove a project
 
 ```bash
-sudo rm -r "path/to/<name>"
-docker rmi -f $(docker images -a -q "<name>*")
-docker volume rm $(docker volume ls -q | grep "^<name>")
+zendro rm <name>
 ```
+
+This deletes the project's directory along with its docker containers, images and volumes. Add `-f`/`--force` to skip the confirmation prompt.
 
 ### Uninstall the Zendro CLI
 
 ```bash
-sudo npm unlink -g zendro
-sudo rm -r "path/to/zendro"
+npm unlink -g zendro
+rm -r "path/to/zendro"
 ```

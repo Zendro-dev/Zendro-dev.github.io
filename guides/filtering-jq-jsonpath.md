@@ -44,7 +44,9 @@ GraphQL responses are JSON-based and can be deeply nested with numerous fields. 
 
 ## Example usage
 
-In real-world scenarios, especially with GraphQL APIs, tools like `jq` and `JSONPath` help you interact with responses more efficiently. Zendro's GraphiQL integrates these filtering techniques directly into its interface.
+In real-world scenarios, especially with GraphQL APIs, tools like `jq` and `JSONPath` help you interact with responses more efficiently. Zendro's GraphiQL integrates these filtering techniques directly into its interface — under the hood, your filter expression is sent as a `jq` or `jsonPath` HTTP header alongside the query, and graphql-server applies it to the response before sending it back.
+
+The screenshots below use the same demo dataset as the rest of the guides — three countries, nine cities and four rivers (see the [Quickstart]({% link quickstart.md %}) guide).
 
 ### Filtering in Zendro
 
@@ -54,136 +56,102 @@ In the results, you can see the JSON output, which can be further processed with
 - **Filtering specific fields**: extract only the fields that matter to you from the GraphQL response.
 - **Nested data extraction**: deal with nested data structures, and query deeper levels of the data tree with additional tools like `jq` or `JSONPath`.
 
-Once you have a query, at the top of the interface there are several buttons. Clicking `Filter` opens a section at the bottom of the screen where you can select `jq` or `JSONPath`, write your filter, and see the results.
+Once you have a query, at the top left of the interface there's a funnel icon. Clicking it opens the Filter panel, where you can select `jq` or `JSONPath`, write your filter, and click `Run` to see the filtered results in the panel below — separate from the main query result on the right.
 
-![Filter.png](/figures/jq1.png)
-![Filter_options.png](/figures/jq2.png)
+Here's the query used throughout this example — every country with the cities in it:
 
-The filters you use are applied to the query results. You can reproduce the results by accessing the [Zendro-BrAPI data warehouse](https://brapi-graphiql.zendro-dev.org/).
+```python
+{
+  countries(pagination: {limit: 2, offset: 0}) {
+    name
+    citiesConnection(pagination: {first: 10}) {
+      cities {
+        name
+      }
+    }
+  }
+}
+```
+
+{% include theme-img.html light="/figures/jq1.png" dark="/figures/jq1-dark.png" alt="GraphiQL Filter panel open, with the jq/JSONPath toggle and an empty filter" %}
 
 ### Filtering with jq
 
-For example, if we want the names of the studies in the trial example, calling only 2 (`limit:2`), we expect 2 names:
+If we just want the names of all cities across both countries, we can extract them with a `jq` filter:
 
-![Filter_example.png](/figures/jq3.png)
+```
+.countries[].citiesConnection.cities[].name
+```
+
+{% include theme-img.html light="/figures/jq3.png" dark="/figures/jq3-dark.png" alt="jq filter extracting city names, result shown as a raw string" %}
 
 #### Explanation
 
-- `.trials[]`: `.trials` accesses the `trials` property of the root object. The `[]` selects all elements of that array — in `jq`, `[]` iterates over an array to extract all its elements.
-- `.studiesFilter[]`: same idea — selects the `studiesFilter` property inside each element of `trials`, again using `[]` to access each element within `studiesFilter`.
-- `.studyName`: finally, accesses the `studyName` property inside each `studiesFilter` object.
+- `.countries[]`: accesses the `countries` property of the root object. The `[]` selects all elements of that array — in `jq`, `[]` iterates over an array to extract all its elements.
+- `.citiesConnection.cities[]`: within each country, accesses the `citiesConnection.cities` list and iterates over it.
+- `.name`: finally, accesses the `name` property of each city.
 
-Or, to get only the variable name and its value, ignoring null values:
+Notice the result is a single string with the city names separated by newlines (`\n`), not a JSON array — that's `jq`'s default *raw text* output mode, where every match becomes its own line. To get an actual JSON array instead, wrap the filter in brackets:
 
 ```
-[.trials[].studiesFilter[].observationsFilter[] | select(.value != null) | { name: .observationVariable.observationVariableName, value: .value }]
+[.countries[].citiesConnection.cities[].name]
 ```
 
-#### Explanation
+This returns `["Berlin","Hamburg","Munich","Lyon","Paris","Toulouse"]` — much easier to consume programmatically.
 
-- `.trials[]`: accesses the `trials` property of the root object, selecting all elements of the `trials` array.
-- `.studiesFilter[]`: within each `trials` element, accesses `studiesFilter` and iterates over its elements.
-- `.observationsFilter[]`: within each `studiesFilter` element, accesses `observationsFilter` and iterates over its elements.
-- `select(.value != null)`: filters the elements of `observationsFilter`, keeping only those where `value` is not null.
-- `{ name: .observationVariable.observationVariableName, value: .value }`: creates a new object for each filtered element, extracting `observationVariableName` from `observationVariable` and `value` from the current object, renamed `name` and `value`.
+`jq` can also build entirely new objects out of the query result. For example, to list only the rivers that cross more than one country, together with which countries those are:
 
-Result:
+```
+[.rivers[] | select(.countriesConnection.countries | length > 1) | {river: .name, countries: [.countriesConnection.countries[].name]}]
+```
+
+Run against a query for `rivers` with their `countriesConnection`, this returns:
 
 ```json
 {
   "data": [
     {
-      "name": "fresh root yield|CO_334:0000013",
-      "value": 5
-    },
-    {
-      "name": "germination count|CO_334:0000166",
-      "value": 93.3
-    },
-    {
-      "name": "harvest index variable|CO_334:0000015",
-      "value": 0.2
-    },
-    {
-      "name": "initial plant vigor assessment 1-5|CO_334:0000220",
-      "value": 4
-    },
-    {
-      "name": "plant height measurement in cm|CO_334:0000018",
-      "value": 240
-    },
-    {
-      "name": "plant stands harvested counting|CO_334:0000010",
-      "value": 9
-    },
-    {
-      "name": "rotten root percentage|CO_334:0000229",
-      "value": 0
-    },
-    {
-      "name": "selected variety boolean 0&1|CO_334:0000232",
-      "value": 0
-    },
-    {
-      "name": "fresh root yield|CO_334:0000013",
-      "value": 9
-    },
-    {
-      "name": "germination count|CO_334:0000166",
-      "value": 60
-    },
-    {
-      "name": "harvest index variable|CO_334:0000015",
-      "value": 0.37
-    },
-    {
-      "name": "initial plant vigor assessment 1-5|CO_334:0000220",
-      "value": 3
-    },
-    {
-      "name": "plant stands harvested counting|CO_334:0000010",
-      "value": 9
-    },
-    {
-      "name": "selected variety boolean 0&1|CO_334:0000232",
-      "value": 0
+      "river": "Rhine",
+      "countries": ["Germany", "France"]
     }
   ]
 }
 ```
 
+- `.rivers[]`: iterates over every river in the result.
+- `select(.countriesConnection.countries | length > 1)`: keeps only rivers whose associated `countries` list has more than one entry.
+- `{river: .name, countries: [...]}`: builds a new object per matching river, renaming `name` to `river` and collecting the associated country names into a `countries` array.
+
 ### Filtering with JSONPath
 
-Now, if we want the IDs of the studies in the trial example, calling only 2 (`limit:2`), we expect 2 IDs:
+The same city-listing example, but with JSONPath instead:
 
-![Filter_example.png](/figures/jp1.png)
+```
+$.countries[*].citiesConnection.cities[*].name
+```
+
+{% include theme-img.html light="/figures/jp1.png" dark="/figures/jp1-dark.png" alt="JSONPath filter extracting city names, result shown as a JSON array" %}
 
 #### Explanation
 
 JSONPath's syntax is very similar to file paths or regular expressions. It navigates through a JSON object or array and extracts specific elements.
 
 - `$`: the dollar sign represents the root object — the starting point of the query.
-- `.trials[*]`: accesses the `trials` property of the root object and selects all elements of that array. The asterisk `[*]` selects all elements.
-- `.studiesFilter[*]`: selects the `studiesFilter` property within each `trials` object, again selecting all elements.
-- `.studyDbId`: finally, after traversing all elements of `studiesFilter`, selects the `studyDbId` property within each.
+- `.countries[*]`: accesses the `countries` property of the root object and selects all elements of that array. The asterisk `[*]` selects all elements.
+- `.citiesConnection.cities[*]`: within each country, selects every element of the `cities` list.
+- `.name`: finally, selects the `name` property of each city.
+
+Unlike the plain `jq` version above, this returns `["Berlin","Hamburg","Munich","Lyon","Paris","Toulouse"]` directly as a JSON array — JSONPath matches are always collected into an array, without needing the extra `[...]` wrapping `jq` requires.
 
 #### Key differences from jq
 
-JSONPath does not support creating new objects like `jq` does with `{ name: .observationVariable.observationVariableName, value: .value }`. To get both `name` and `value` in a combined result, you'd typically need separate queries and combine the results programmatically.
+JSONPath doesn't support creating new objects the way `jq`'s `{river: .name, countries: [...]}` does — there's no equivalent way to reshape or rename fields, only to select and filter existing ones. It does support filter expressions on array elements, similar to `jq`'s `select(...)`. For example, to get the names of rivers longer than 1500 km:
 
-```js
-.trials[*].studiesFilter[*].observationsFilter[?(@.value != null)].observationVariable.observationVariableName
-
-.trials[*].studiesFilter[*].observationsFilter[?(@.value != null)].value
+```
+$.rivers[?(@.length>1500)].name
 ```
 
-#### Explanation
-
-- `$.trials[*]`: accesses the `trials` property of the root object and selects all elements.
-- `$.studiesFilter[*]`: within each `trials` element, selects the `studiesFilter` property and iterates over it.
-- `$.observationsFilter[?(@.value != null)]`: within each `studiesFilter` element, selects `observationsFilter` and filters elements where `value` is not null (similar to `select(.value != null)` in `jq`).
-- `.observationVariable.observationVariableName`: selects the `observationVariableName` property inside `observationVariable`.
-- `.value`: selects the `value` property within the filtered `observationsFilter` elements.
+This returns `["Danube","Rio Grande"]` — the `?(...)` predicate keeps only array elements matching the condition, here checking the `length` field of each river directly with `@` (the current element).
 
 ---
 

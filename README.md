@@ -6,9 +6,9 @@ This repository holds the source for the [Zendro documentation site](https://zen
 
 Zendro itself — a tool for quickly building a data warehouse, with a generated GraphQL API and graphical interface, from a set of data model definitions — lives in its own repositories under [Zendro-dev](https://github.com/Zendro-dev):
 
-* [GraphQL server](https://github.com/ScienceDb/graphql-server)
-* [GraphQL server model generator](https://github.com/ScienceDb/graphql-server-model-codegen)
-* [Single page application](https://github.com/ScienceDb/single-page-app)
+* [GraphQL server](https://github.com/Zendro-dev/graphql-server)
+* [GraphQL server model generator](https://github.com/Zendro-dev/graphql-server-model-codegen)
+* [Single page application](https://github.com/Zendro-dev/single-page-app)
 * [Zendro CLI](https://github.com/Zendro-dev/zendro)
 
 ## Contributing to the docs
