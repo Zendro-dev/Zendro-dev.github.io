@@ -30,7 +30,7 @@ We strongly recommend following [this guide](https://docs.docker.com/engine/inst
 ## Recommendations
 
 * We strongly recommend using Zendro on Linux, with or without docker.
-* On Windows, we recommend using Zendro through the Windows Subsystem for Linux (WSL).
+* On Windows, we recommend using Zendro through the Windows Subsystem for Linux (WSL). However, inside WSL consider operating on native paths, not the mounted windows. There is high IO latency otherwise.
 * On Mac, we recommend using Zendro without docker.
 
 ## Install the Zendro CLI

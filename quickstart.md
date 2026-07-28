@@ -55,6 +55,8 @@ zendro start
 
 </details>
 
+On Windows, we recommend using WSL. However, inside WSL consider operating on native paths, not the mounted windows. There is high IO latency otherwise.
+
 On Mac, we recommend the "Without docker" path. If `npm install -g` needs elevated permissions on your system, prefix it with `sudo`.
 
 Once running, jump to [Step 4](#step-4-start-up-your-zendro-instance) below to see the running services, or skip straight to [how to use the graphical interface]({% link guides/graphical-interface.md %}) or [GraphQL basics]({% link guides/graphql-basics.md %}).
