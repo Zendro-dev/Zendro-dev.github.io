@@ -28,12 +28,6 @@ Follow [Installation and the Zendro CLI]({% link getting-started/installation-an
 
 The easiest way to set up Zendro is using the `zendro` CLI tool. With minimal steps and configuration, a Zendro warehouse tailored to your data needs can be deployed.
 
-Go out from the previously created `zendro` directory:
-
-```bash
-cd ..
-```
-
 * If you prefer to use docker, execute:
 
   ```bash
@@ -46,6 +40,8 @@ cd ..
   ```bash
   zendro new <my-project-name>
   ```
+
+By default, this clones the `latest-stable` tag of each of single-page-app, graphql-server and graphiql-auth. To pin a different branch or tag of one of them instead, add `--spa-ref`, `--gqs-ref` and/or `--giql-ref` — see the [CLI reference]({% link cli-reference.md %}#start-a-new-zendro-application) for details.
 
 ## Step 3: Edit environment variables
 

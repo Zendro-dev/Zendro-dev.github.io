@@ -19,7 +19,7 @@ A CLI for ZendroStarterPack.
 ---
 ## Installation
 
-See [Installation and the Zendro CLI]({% link getting-started/installation-and-cli.md %}) for how to install and update the CLI. To customize the version of each repository, edit the `zendro_dependencies.json` file in your local Zendro CLI repository.
+See [Installation and the Zendro CLI]({% link getting-started/installation-and-cli.md %}) for how to install and update the CLI. By default, `zendro new`/`zendro set-up` clone each repository's `latest-stable` tag — pass `--spa-ref`, `--gqs-ref` and/or `--giql-ref` to pin a different branch or tag instead (see below).
 
 ## Commands
 ### Start a new zendro application
@@ -27,7 +27,10 @@ See [Installation and the Zendro CLI]({% link getting-started/installation-and-c
 Usage: zendro new [options] <your_application_name>
 
 Options:
-  -d, --dockerize: Keep Docker files (default: false).
+  -d, --dockerize:   Keep Docker files (default: false).
+  --spa-ref <ref>:   Git branch or tag of single-page-app to clone (default: "latest-stable").
+  --gqs-ref <ref>:   Git branch or tag of graphql-server to clone (default: "latest-stable").
+  --giql-ref <ref>:  Git branch or tag of graphiql-auth to clone (default: "latest-stable").
 ```
 Hints:
 1. If you don't have a local database, or want to dockerize the Zendro app, keep the docker files — these are examples for dockerizing a Zendro app.
@@ -143,7 +146,10 @@ See [How to import and export data]({% link guides/data-import-export.md %}) for
 Usage: zendro set-up [options] <name>
 
 Options:
-  -d, --dockerize: Keep Docker files (default: false).
+  -d, --dockerize:   Keep Docker files (default: false).
+  --spa-ref <ref>:   Git branch or tag of single-page-app to clone (default: "latest-stable").
+  --gqs-ref <ref>:   Git branch or tag of graphql-server to clone (default: "latest-stable").
+  --giql-ref <ref>:  Git branch or tag of graphiql-auth to clone (default: "latest-stable").
 ```
 
 ### Remove a project

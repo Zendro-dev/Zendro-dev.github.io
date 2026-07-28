@@ -28,9 +28,7 @@ For the impatient: paste one of the blocks below into a terminal (Linux, or Wind
 <summary>With docker</summary>
 
 ```bash
-git clone https://github.com/Zendro-dev/zendro.git && cd zendro
-npm install && npm link
-cd ..
+npm install -g git+https://github.com/Zendro-dev/zendro.git
 zendro set-up -d zendro-example
 cd zendro-example
 zendro dockerize -u
@@ -42,15 +40,13 @@ zendro dockerize -u
 <summary>Without docker</summary>
 
 ```bash
-git clone https://github.com/Zendro-dev/zendro.git && cd zendro
-npm install && npm link
-cd ..
+npm install -g git+https://github.com/Zendro-dev/zendro.git
 zendro set-up zendro-example
 
 # Keycloak (requires Java 11+, https://www.java.com/en/)
 wget https://github.com/keycloak/keycloak/releases/download/26.7.0/keycloak-26.7.0.zip
 unzip keycloak-26.7.0.zip
-cp zendro/test/env/keycloak.conf keycloak-26.7.0/conf/keycloak.conf
+wget -O keycloak-26.7.0/conf/keycloak.conf https://raw.githubusercontent.com/Zendro-dev/zendro/master/test/env/keycloak.conf
 KC_BOOTSTRAP_ADMIN_USERNAME=admin KC_BOOTSTRAP_ADMIN_PASSWORD=admin ./keycloak-26.7.0/bin/kc.sh start-dev &
 
 cd zendro-example
@@ -59,7 +55,7 @@ zendro start
 
 </details>
 
-On Mac, we recommend the "Without docker" path.
+On Mac, we recommend the "Without docker" path. If `npm install -g` needs elevated permissions on your system, prefix it with `sudo`.
 
 Once running, jump to [Step 4](#step-4-start-up-your-zendro-instance) below to see the running services, or skip straight to [how to use the graphical interface]({% link guides/graphical-interface.md %}) or [GraphQL basics]({% link guides/graphql-basics.md %}).
 
@@ -69,13 +65,7 @@ Follow [Installation and the Zendro CLI]({% link getting-started/installation-an
 
 ## Step 2: Set up a new Zendro project
 
-The easiest way to set up Zendro is using the `zendro` CLI tool with minimal steps and configuration. Go out from the previously created `zendro` directory:
-
-```bash
-cd ..
-```
-
-and execute:
+The easiest way to set up Zendro is using the `zendro` CLI tool with minimal steps and configuration:
 
 ```bash
 zendro set-up -d <name>
@@ -84,6 +74,8 @@ zendro set-up -d <name>
 where `<name>` is the name of your new project.
 
 By default, three data models with associations will be used for this instance: `city`, `country` and `river`. A default SQLite database will be used; you can find it in the `graphql-server` folder.
+
+This clones the `latest-stable` tag of each of single-page-app, graphql-server and graphiql-auth by default — add `--spa-ref`, `--gqs-ref` and/or `--giql-ref` to pin a different branch or tag instead, e.g. `zendro set-up -d --gqs-ref my-branch <name>`. See the [CLI reference]({% link cli-reference.md %}#set-up-a-quick-sandbox) for details.
 
 ## Step 3: Edit environment variables
 
