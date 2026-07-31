@@ -28,7 +28,8 @@ For the impatient: paste one of the blocks below into a terminal (Linux, or Wind
 <summary>With docker</summary>
 
 ```bash
-npm install -g git+https://github.com/Zendro-dev/zendro.git
+# --allow-git=all is required on npm 12+, where git installs are off by default
+npm install -g --allow-git=all git+https://github.com/Zendro-dev/zendro.git
 zendro set-up -d zendro-example
 cd zendro-example
 zendro dockerize -u
@@ -40,7 +41,8 @@ zendro dockerize -u
 <summary>Without docker</summary>
 
 ```bash
-npm install -g git+https://github.com/Zendro-dev/zendro.git
+# --allow-git=all is required on npm 12+, where git installs are off by default
+npm install -g --allow-git=all git+https://github.com/Zendro-dev/zendro.git
 zendro set-up zendro-example
 
 # Keycloak (requires Java 17+, https://www.java.com/en/)

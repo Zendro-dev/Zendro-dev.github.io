@@ -36,8 +36,10 @@ We strongly recommend following [this guide](https://docs.docker.com/engine/inst
 ## Install the Zendro CLI
 
 ```bash
-npm install -g git+https://github.com/Zendro-dev/zendro.git
+npm install -g --allow-git=all git+https://github.com/Zendro-dev/zendro.git
 ```
+
+`--allow-git=all` is needed on npm 12+, which disables installing dependencies from git by default; it's a harmless no-op on older npm.
 
 The `zendro` command is now available anywhere on your system. See the [CLI reference]({% link cli-reference.md %}) for the full list of commands, or continue to the [Quickstart]({% link quickstart.md %}) or [Getting started]({% link getting-started/index.md %}) guide to create your first project.
 
@@ -55,7 +57,7 @@ npm link
 If you installed with `npm install -g git+...`, just run that same command again — a global install has no lockfile pinning it to the commit you started with, so it always re-resolves and picks up the latest changes:
 
 ```bash
-npm install -g git+https://github.com/Zendro-dev/zendro.git
+npm install -g --allow-git=all git+https://github.com/Zendro-dev/zendro.git
 ```
 
 If you used the local `git clone` + `npm link` method instead, pull the latest changes and refresh the CLI's own git-based dependencies. Unlike the CLI's own code, these three are pinned by your local `package-lock.json`, so a plain `npm install` alone won't move them past the commit they were first resolved at — `npm update` re-resolves them properly:
