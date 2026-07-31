@@ -171,10 +171,10 @@ If you prefer a local setup with Keycloak, there are a few extra things to do af
 
 **Requirements**
 
-* Install [Java](https://www.java.com/en/) (Java 11 or later).
+* Install [Java](https://www.java.com/en/) (Java 17 or later).
 * Install [Keycloak](https://www.keycloak.org). Zendro works with [Keycloak 26.7.0](https://github.com/keycloak/keycloak/releases/tag/26.7.0); it is recommended to try the latest version and fall back to 26.7.0 in case of breaking changes.
   * Go to <https://www.keycloak.org/downloads> and download the *Distribution powered by Quarkus*.
-  * After unzipping, copy the Keycloak configuration file from `zendro/test/env/keycloak.conf` to `keycloak/conf/keycloak.conf`.
+  * After unzipping, copy Zendro's Keycloak configuration file — which `zendro new` placed at `<my-project-name>/keycloak.conf` — into your Keycloak install's `conf/` folder: `cp <my-project-name>/keycloak.conf keycloak/conf/keycloak.conf`. It sets Keycloak's port to 8081 and the `/auth` path prefix Zendro expects.
   * Set two environment variables from a terminal inside the keycloak folder:
 
     ```bash

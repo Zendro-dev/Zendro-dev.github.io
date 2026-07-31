@@ -43,10 +43,12 @@ zendro dockerize -u
 npm install -g git+https://github.com/Zendro-dev/zendro.git
 zendro set-up zendro-example
 
-# Keycloak (requires Java 11+, https://www.java.com/en/)
+# Keycloak (requires Java 17+, https://www.java.com/en/)
 wget https://github.com/keycloak/keycloak/releases/download/26.7.0/keycloak-26.7.0.zip
 unzip keycloak-26.7.0.zip
-wget -O keycloak-26.7.0/conf/keycloak.conf https://raw.githubusercontent.com/Zendro-dev/zendro/master/test/env/keycloak.conf
+# zendro set-up dropped a ready-made keycloak.conf in the project - it sets the
+# port to 8081 and the /auth path prefix Zendro expects.
+cp zendro-example/keycloak.conf keycloak-26.7.0/conf/keycloak.conf
 KC_BOOTSTRAP_ADMIN_USERNAME=admin KC_BOOTSTRAP_ADMIN_PASSWORD=admin ./keycloak-26.7.0/bin/kc.sh start-dev &
 
 cd zendro-example
