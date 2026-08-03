@@ -52,7 +52,9 @@ unzip keycloak-26.7.0.zip
 # zendro set-up dropped a ready-made keycloak.conf in the project - it sets the
 # port to 8081 and the /auth path prefix Zendro expects.
 cp keycloak.conf keycloak-26.7.0/conf/keycloak.conf
-KC_BOOTSTRAP_ADMIN_USERNAME=admin KC_BOOTSTRAP_ADMIN_PASSWORD=admin ./keycloak-26.7.0/bin/kc.sh start-dev &
+# Log Keycloak into the project's logs/ folder, alongside zendro's own server
+# logs (graphql-server.log, single-page-app.log, graphiql.log).
+KC_BOOTSTRAP_ADMIN_USERNAME=admin KC_BOOTSTRAP_ADMIN_PASSWORD=admin ./keycloak-26.7.0/bin/kc.sh start-dev > logs/keycloak.log 2>&1 &
 
 zendro start
 ```
