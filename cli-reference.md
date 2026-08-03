@@ -93,7 +93,8 @@ Options:
 ```
 Hints:
 1. Stops all services by default.
-2. Can stop a specific service.
+2. Can stop a specific service (`gqs`, `spa`, `giql`).
+3. `zendro stop` is for **non-docker** instances started with `zendro start`; it stops each server by the pid `zendro start` recorded. For a **dockerized** instance, stop the containers with `zendro dockerize -d` instead (add `-p` for production, `-v` to also remove volumes). Running `zendro stop` inside a dockerized project detects the compose file and points you to `zendro dockerize -d`.
 
 ### Generate migration code for graphql-server
 ```

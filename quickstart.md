@@ -44,16 +44,16 @@ zendro dockerize -u
 # --allow-git=all is required on npm 12+, where git installs are off by default
 npm install -g --allow-git=all git+https://github.com/Zendro-dev/zendro.git
 zendro set-up zendro-example
+cd zendro-example
 
 # Keycloak (requires Java 17+, https://www.java.com/en/)
 wget https://github.com/keycloak/keycloak/releases/download/26.7.0/keycloak-26.7.0.zip
 unzip keycloak-26.7.0.zip
 # zendro set-up dropped a ready-made keycloak.conf in the project - it sets the
 # port to 8081 and the /auth path prefix Zendro expects.
-cp zendro-example/keycloak.conf keycloak-26.7.0/conf/keycloak.conf
+cp keycloak.conf keycloak-26.7.0/conf/keycloak.conf
 KC_BOOTSTRAP_ADMIN_USERNAME=admin KC_BOOTSTRAP_ADMIN_PASSWORD=admin ./keycloak-26.7.0/bin/kc.sh start-dev &
 
-cd zendro-example
 zendro start
 ```
 
@@ -171,6 +171,8 @@ sqlite> .exit
 
 ## Step 5: Stop your Zendro instance
 
+**With docker**, stop the containers with `zendro dockerize -d`:
+
 ```bash
 # Production
 zendro dockerize -d -p -v
@@ -180,6 +182,18 @@ zendro dockerize -d -v
 ```
 
 **Note**: The `-v` flag also removes all volumes. Drop it if you want to persist your data, including user data, between restarts.
+
+**Without docker**, stop the local servers that `zendro start` launched with `zendro stop`:
+
+```bash
+# Production
+zendro stop -p
+
+# Development
+zendro stop
+```
+
+Keycloak runs separately in the non-docker setup, so also stop the `kc.sh` process you started in the Hotstart (e.g. `fuser -k 8081/tcp`).
 
 ---
 
