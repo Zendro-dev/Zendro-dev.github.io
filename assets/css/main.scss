@@ -12,6 +12,37 @@ html.darkmode {
     {% include css/just-the-docs.scss.liquid color_scheme="zendro-dark" %};
 }
 
+// Restore the live search UI. just-the-docs toggles `.search-active` on the
+// <html> element itself, but wrapping the whole theme stylesheet under
+// `html:not(.darkmode)` / `html.darkmode` above turns the theme's
+// `.search-active .search-results { display: block }` into a descendant
+// selector that can never match a class on <html> - so the results dropdown
+// stayed hidden. Re-declare the active-search rules at html level (same
+// specificity, later source order) to win over the theme's `display: none`
+// base rule.
+html.search-active {
+    .search {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+    }
+    .search-input-wrap {
+        height: 4rem;
+        border-radius: 0;
+    }
+    .search-results {
+        display: block;
+    }
+    .search-overlay {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+    }
+}
+
 img[src="/figures/figure1.png"] {
     background: hsl(210, 11%, 93%);
 }
